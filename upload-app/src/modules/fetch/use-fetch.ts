@@ -1,13 +1,25 @@
+const apiOrigin = window.location.origin.includes('localhost')
+  ? 'http://localhost:8003'
+  : window.location.origin;
+
+export const apiBaseUrl = apiOrigin + '/api';
+
 const originalFetch = fetch;
 
+type FetchFn = typeof fetch;
+
 export const useFetch = () => {
-  // const { loginState, setLoginState } = useState/useSelector(loginState);
+  // const loginState = useSelector(selectLoginState);
+  // const dispatch = useDispatch();
   // const navigate = useNavigate();
 
-  const fetch: typeof originalFetch = async (...args) => {
-    const response = await originalFetch(...args);
+  const fetch: FetchFn = async (input, init) => {
+    if (typeof input === 'string') {
+      input = apiBaseUrl + input; // TODO: do the same when input is Request or URL object
+    }
+    const response = await originalFetch(input, init);
     if (response.status === 403) {
-      // setLoginState({ loggedIn: false })
+      // dispatch({ type: 'LOG_OUT'})
       // navigate('/login')
     }
     return response;
