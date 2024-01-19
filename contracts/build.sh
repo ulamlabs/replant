@@ -1,7 +1,7 @@
 #!/bin/sh
-# run from main (replant) directory
+# run from root (replant) directory
 docker run --rm -v "$(pwd)":/code \
   --mount type=volume,source="$(basename "$(pwd)")_cache",target=/target \
   --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-  cosmwasm/workspace-optimizer:0.15.0 ./
+  cosmwasm/workspace-optimizer:0.15.0
 

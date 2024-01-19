@@ -8,16 +8,16 @@ pub use cw721_base::{
 use cw721_base::msg::QueryMsg as Cw721QueryMsg;
 use cw2;
 use msg::ExtensionMsg;
-use execute::mint_multi;
+use execute::{mint_multi, transfer_multi};
+use types::{Cw721Multi, TypeT};
 
 pub mod msg;
 pub mod execute;
+pub mod types;
 
 // version info for migration info
 const CONTRACT_NAME: &str = "cw721-multi";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
-
-pub type Cw721Multi<'a> = Cw721Contract<'a, Extension, Empty, ExtensionMsg, Empty>;
 
 #[cfg(not(feature = "library"))]
 pub mod entry {
@@ -48,16 +48,19 @@ pub mod entry {
         deps: DepsMut,
         env: Env,
         info: MessageInfo,
-        msg: ExecuteMsg<Extension, ExtensionMsg>,
+        msg: ExecuteMsg<Extension, ExtensionMsg<TypeT>>,
     ) -> Result<Response, cw721_base::ContractError> {
+        let contract = Cw721Multi::default();
         match msg {
             ExecuteMsg::Extension { msg } => match msg {
-                ExtensionMsg::MintMulti { } => {
-                    mint_multi();
-                    Ok(Response::default())
+                ExtensionMsg::MintMulti { owner, messages } => {
+                    mint_multi(contract, deps, info, owner, messages)
+                }
+                ExtensionMsg::TransferMulti { recipient, token_ids } => {
+                    transfer_multi(deps, info, recipient, token_ids)
                 }
             },
-            _ => Cw721Multi::default().execute(deps, env, info, msg),
+            _ => contract.execute(deps, env, info, msg),
         }
     }
 

@@ -1,5 +1,5 @@
 [workspace]
-members = ["blockchain/cw721-multi"]
+members = ["contracts/cw721-multi"]
 
 # Resolver has to be set explicitely in workspaces, see https://github.com/rust-lang/cargo/issues/9956
 resolver = "2"
