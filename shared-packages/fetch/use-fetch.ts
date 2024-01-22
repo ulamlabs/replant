@@ -1,10 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 
-const apiOrigin = window.location.origin.includes('localhost')
-  ? 'http://localhost:8003'
+const apiOrigin = window.location.origin.includes("localhost")
+  ? "http://localhost:8003"
   : window.location.origin;
 
-export const apiBaseUrl = apiOrigin + '/api';
+export const apiBaseUrl = apiOrigin + "/api";
 
 type FetchFn = typeof fetch;
 
@@ -16,7 +16,7 @@ const composeEnhancers = (enhancers: FetchEnhancerFn[], fetch: FetchFn) =>
   }, fetch);
 
 const provideApiBaseUrl: FetchEnhancerFn = (nextFetch) => (input, init) => {
-  if (typeof input === 'string') {
+  if (typeof input === "string") {
     input = apiBaseUrl + input; // TODO: do the same when input is Request or URL object
   }
   return nextFetch(input, init);
