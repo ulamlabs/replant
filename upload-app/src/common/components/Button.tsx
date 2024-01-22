@@ -13,8 +13,8 @@ export const Button: React.FC<Props> = ({ text, size, className, onClick }) => {
       className={clsx(
         'rounded-full cursor-pointer font-bold',
         size === 'BIG'
-          ? 'bg-brown-400 text-xl py-2.5 w-full'
-          : 'border-2 border-brown-400 text-brown-400 text-sm py-0.5',
+          ? 'bg-bisque-400 text-xl py-2.5 w-full'
+          : 'border-2 border-bisque-400 text-bisque-400 text-sm py-0.5',
         className
       )}
       onClick={onClick}
