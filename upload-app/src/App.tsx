@@ -2,6 +2,7 @@ import { IntlProvider } from 'modules/intl';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { QueryClientProvider } from './modules/query';
 import { Button } from './common/components/Button';
+import { Input } from './common/components/Input';
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,13 @@ const App: React.FC = () => {
                     text={'Test small'}
                     size={'SMALL'}
                     onClick={() => {}}
+                  />
+                  <Input
+                    header={'Header test'}
+                    placeholder={'Test'}
+                    icon={undefined}
+                    onChange={() => {}}
+                    value={'test'}
                   />
                 </>
               }
