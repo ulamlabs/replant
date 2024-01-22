@@ -692,6 +692,17 @@ files = [
 ]
 
 [[package]]
+name = "pycountry"
+version = "23.12.11"
+description = "ISO country, subdivision, language, currency and script definitions and their translations"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pycountry-23.12.11-py3-none-any.whl", hash = "sha256:2ff91cff4f40ff61086e773d61e72005fe95de4a57bfc765509db05695dc50ab"},
+    {file = "pycountry-23.12.11.tar.gz", hash = "sha256:00569d82eaefbc6a490a311bfa84a9c571cff9ddbf8b0a4f4e7b4f868b4ad925"},
+]
+
+[[package]]
 name = "pyflakes"
 version = "3.2.0"
 description = "passive checker of Python programs"
@@ -1221,4 +1232,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "0c61055ccf7d2c60b1379be0959108df263fbf0f0c92d988cd0c1f0be4d9d6af"
+content-hash = "558ab6deff3875c91cbc2b0bd2913f13121cb0e28d86fde70ab3739789cb7f90"
