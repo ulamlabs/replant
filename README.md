@@ -4,7 +4,9 @@ Replant project
 
 # Development
 
-This section is for general development notes. Development notes specific to the apps can be found in their respective README files.
+Run `npm install` in project root directory to set up monorepo. 
+
+Then follow instructions from README files of marketplace-app and upload-app. 
 
 ## Tailwind + Visual Studio Code
 
