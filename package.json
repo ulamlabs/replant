@@ -1,0 +1,6 @@
+{
+  "name": "replant.world",
+  "workspaces": [
+    "./shared-packages/*"
+  ]
+}

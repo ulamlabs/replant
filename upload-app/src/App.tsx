@@ -1,4 +1,3 @@
-import './App.css';
 import { IntlProvider } from './modules/intl';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { QueryClientProvider } from './modules/query';
