@@ -1,18 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
     colors: {
-      white: '#FFFFFF',
-      black: '#000000',
+      white: colors.white,
+      black: colors.black,
       green: {
         900: '#1B3233',
         700: '#2E5B55',
       },
       gray: {
-        800: '#808080',
-        500: '#4C4C4C',
+        500: '#808080',
+        300: '#4C4C4C',
         100: '#EAEAEA',
       },
     },
