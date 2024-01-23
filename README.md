@@ -2,11 +2,9 @@
 
 Replant project
 
-# Development
+# Frontend tips
 
-Run `npm install` in project root directory to set up monorepo. 
-
-Then follow instructions from README files of marketplace-app and upload-app. 
+Follow instructions from README files of marketplace-app and upload-app. 
 
 ## Tailwind + Visual Studio Code
 
