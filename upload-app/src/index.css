@@ -17,3 +17,14 @@
 body {
   margin: 0;
 }
+
+@layer base {
+  h2 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+
+  h5 {
+    @apply text-xs;
+  }
+}

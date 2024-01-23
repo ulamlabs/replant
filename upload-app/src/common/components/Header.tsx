@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { ArrowLeftIcon } from '../icons/ArrowLeftIcon';
-import { useFmtMsg } from '../../modules/intl';
+import { ArrowLeftIcon } from 'common/icons/ArrowLeftIcon';
+import { useFmtMsg } from 'modules/intl';
 
 type Props = {
   text: string;
@@ -8,11 +8,11 @@ type Props = {
 };
 
 export const Header: React.FC<Props> = ({ text, onBack }) => {
-  const formatMessage = useFmtMsg();
+  const fmtMsg = useFmtMsg();
 
   return (
-    <div>
-      <div
+    <header>
+      <button
         className={clsx(
           onBack &&
             'mb-5 flex gap-2 items-center text-black dark:text-white cursor-pointer',
@@ -21,15 +21,9 @@ export const Header: React.FC<Props> = ({ text, onBack }) => {
         onClick={onBack}
       >
         <ArrowLeftIcon />
-        {formatMessage('back')}
-      </div>
-      <div
-        className={clsx(
-          'text-black dark:text-white text-center text-2xl font-bold'
-        )}
-      >
-        {text}
-      </div>
-    </div>
+        {fmtMsg('back')}
+      </button>
+      <h2 className={'text-black dark:text-white text-center'}>{text}</h2>
+    </header>
   );
 };

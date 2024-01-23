@@ -19,7 +19,7 @@ const App: React.FC = () => {
                   <h1 className='text-3xl font-bold underline text-bisque-400'>
                     Hello, Fieldwork App!
                   </h1>
-                  <Button text={'Test big'} size={'BIG'} onClick={() => {}} />
+                  <Button text={'Test big'} size={'BIG'} onClick={() => {}} />{' '}
                   <Button
                     text={'Test small'}
                     size={'SMALL'}
@@ -27,10 +27,15 @@ const App: React.FC = () => {
                   />
                   <Input
                     header={'Header test'}
-                    placeholder={'Test'}
+                    placeholder={'Test placeholder'}
                     icon={<LocationIcon />}
                     onChange={() => {}}
-                    // value={'test'}
+                  />
+                  <Input
+                    placeholder={'Test placeholder'}
+                    icon={<LocationIcon />}
+                    onChange={() => {}}
+                    value='Testowa wartość'
                   />
                   <Header
                     text={'Test header'}
@@ -38,6 +43,7 @@ const App: React.FC = () => {
                       console.log('test back');
                     }}
                   />
+                  <Header text={'Test header without back'} />
                 </>
               }
             />
