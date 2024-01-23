@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 type Props = {
-  header?: string;
+  label?: string;
   placeholder: string;
   value?: string;
   icon: React.ReactNode;
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const Input: React.FC<Props> = ({
-  header,
+  label,
   placeholder,
   value,
   icon,
@@ -19,10 +19,10 @@ export const Input: React.FC<Props> = ({
 }) => {
   return (
     <div>
-      {header && (
-        <h5 className={'text-left text-black dark:text-white mb-1'}>
-          {header}
-        </h5>
+      {label && (
+        <label className={'text-left text-xs text-black dark:text-white mb-1'}>
+          {label}
+        </label>
       )}
       <div
         className={clsx(

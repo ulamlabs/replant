@@ -12,18 +12,22 @@ export const Header: React.FC<Props> = ({ text, onBack }) => {
 
   return (
     <header>
-      <button
-        className={clsx(
-          onBack &&
-            'mb-5 flex gap-2 items-center text-black dark:text-white cursor-pointer',
-          !onBack && 'hidden'
-        )}
-        onClick={onBack}
+      {onBack && (
+        <button
+          className={
+            'mb-5 flex gap-2 items-center text-black dark:text-white cursor-pointer'
+          }
+          onClick={onBack}
+        >
+          <ArrowLeftIcon />
+          {fmtMsg('back')}
+        </button>
+      )}
+      <h2
+        className={'text-black dark:text-white text-center text-2xl font-bold'}
       >
-        <ArrowLeftIcon />
-        {fmtMsg('back')}
-      </button>
-      <h2 className={'text-black dark:text-white text-center'}>{text}</h2>
+        {text}
+      </h2>
     </header>
   );
 };

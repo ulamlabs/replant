@@ -1,10 +1,8 @@
 import { IntlProvider } from 'modules/intl';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { QueryClientProvider } from './modules/query';
-import { Button } from './common/components/Button';
-import { Input } from './common/components/Input';
-import { LocationIcon } from './common/icons/LocationIcon';
-import { Header } from './common/components/Header';
+import { QueryClientProvider } from 'modules/query';
+import { LocationIcon } from 'common/icons/LocationIcon';
+import { Button, Header, Input } from 'common/components';
 
 const App: React.FC = () => {
   return (
@@ -19,14 +17,14 @@ const App: React.FC = () => {
                   <h1 className='text-3xl font-bold underline text-bisque-400'>
                     Hello, Fieldwork App!
                   </h1>
-                  <Button text={'Test big'} size={'BIG'} onClick={() => {}} />{' '}
+                  <Button text={'Test big'} size={'BIG'} onClick={() => {}} />
                   <Button
                     text={'Test small'}
                     size={'SMALL'}
                     onClick={() => {}}
                   />
                   <Input
-                    header={'Header test'}
+                    label={'Header test'}
                     placeholder={'Test placeholder'}
                     icon={<LocationIcon />}
                     onChange={() => {}}
