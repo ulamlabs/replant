@@ -19,12 +19,16 @@ export const Input: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <div className={clsx(header && 'text-xs text-left text-black')}>
+      <div
+        className={clsx(
+          header && 'text-xs text-left text-black dark:text-white'
+        )}
+      >
         {header}
       </div>
       <div
         className={clsx(
-          'rounded-md cursor-text border border-black text-xs p-2.5 w-full',
+          'border border-black dark:border-white dark:text-white text-black text-xs p-2.5 w-full flex gap-2 rounded-md cursor-text',
           className
         )}
       >
@@ -33,7 +37,7 @@ export const Input: React.FC<Props> = ({
           onChange={onChange}
           value={value}
           placeholder={placeholder}
-          className='text-xs'
+          className='text-xs text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full '
         />
       </div>
     </>

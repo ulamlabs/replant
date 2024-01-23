@@ -8,6 +8,7 @@ export default {
     colors: {
       white: colors.white,
       black: colors.black,
+      transparent: colors.transparent,
       green: {
         400: '#2DE48C',
       },
