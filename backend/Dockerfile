@@ -39,7 +39,7 @@ FROM builder AS final
 
 COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 
-WORKDIR /app
+WORKDIR /app/
 
 COPY ./ ./
 

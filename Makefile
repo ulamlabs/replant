@@ -2,9 +2,11 @@ TAG ?= $(shell git symbolic-ref --short -q HEAD | tr '/' '-' | tr '\' '-')-$(she
 
 BACKEND_IMAGE_NAME = replant-backend
 
-FRONTEND_IMAGE_NAME = replant-frontend
+UPLOAD_APP_IMAGE_NAME = replant-upload-app
 
-.PHONY: help tag backend frontend up up-backend down reset logs test-backend admin
+MARKETPLACE_APP_IMAGE_NAME = replant-marketplace-app
+
+.PHONY: help tag backend upload-app marketplace-app up up-backend down reset logs test-backend admin lint-upload-app lint-marketplace-app
 
 help:			## Display commands list with explanation
 	@grep '^\w.*:\s' Makefile | sed -e s'/: down/: /' -e 's/## //'
@@ -16,9 +18,13 @@ backend:		## Build backend Docker image
 	docker build backend \
 		--tag $(BACKEND_IMAGE_NAME)
 
-frontend:		## Build frontend Docker image
-	docker build frontend \
-		--tag $(FRONTEND_IMAGE_NAME)
+upload-app:		## Build upload app Docker image
+	docker build upload-app \
+		--tag $(UPLOAD_APP_IMAGE_NAME)
+
+marketplace-app:		## Build marketplace app Docker image
+	docker build marketplace-app \
+		--tag $(MARKETPLACE_APP_IMAGE_NAME)
 
 up: down			## Run local service containers
 	@[ -f backend/.env ] || touch backend/.env
@@ -44,3 +50,8 @@ test-backend:		## Run tests in backend container
 admin:			## Create super user
 	docker compose exec api python manage.py createsuperuser
 
+lint-upload-app:		## Lint upload app in container
+	docker run $(UPLOAD_APP_IMAGE_NAME) npm run lint
+
+lint-marketplace-app:		## Lint marketplace app in container
+	docker run $(MARKETPLACE_APP_IMAGE_NAME) npm run lint
