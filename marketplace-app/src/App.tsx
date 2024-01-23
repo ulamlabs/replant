@@ -1,6 +1,6 @@
-import { IntlProvider } from './modules/intl';
+import { IntlProvider } from 'modules/intl';
+import { QueryClientProvider } from 'modules/query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { QueryClientProvider } from './modules/query';
 
 const App: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const App: React.FC = () => {
               path='/'
               element={
                 <h1 className='text-3xl font-bold underline text-white'>
-                  Hello world!
+                  Hello, NFT Gallery!
                 </h1>
               }
             />
