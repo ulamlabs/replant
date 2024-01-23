@@ -1,4 +1,4 @@
-export const ArrowLeftIcon: React.FC<{}> = () => {
+export const ArrowLeftIcon: React.FC = () => {
   return (
     <svg
       width='19'

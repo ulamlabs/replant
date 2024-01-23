@@ -1,4 +1,4 @@
-export const LocationIcon: React.FC<{}> = () => {
+export const LocationIcon: React.FC = () => {
   return (
     <svg
       width='16'
