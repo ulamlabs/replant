@@ -2,7 +2,7 @@ import { IntlProvider } from './modules/intl';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { QueryClientProvider } from './modules/query';
 
-const App: React.FC<{}> = () => {
+const App: React.FC = () => {
   return (
     <QueryClientProvider>
       <IntlProvider>
