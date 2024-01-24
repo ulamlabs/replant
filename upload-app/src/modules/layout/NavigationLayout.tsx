@@ -11,7 +11,7 @@ export const NavigationLayout: React.FC<Props> = ({ children, actions }) => {
       <div className={'py-2.5 px-5'}>
         <ReplantWorldIcon />
       </div>
-      <div className={'py-2.5 px-5 '}>{children}</div>
+      <div className={'py-2.5 px-5'}>{children}</div>
       {actions && (
         <div
           className={
