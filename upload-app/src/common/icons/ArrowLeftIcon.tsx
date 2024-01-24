@@ -1,4 +1,4 @@
-export const ArrowLeftIcon: React.FC<{}> = () => {
+export const ArrowLeftIcon: React.FC = () => {
   return (
     <svg
       width='19'
@@ -7,7 +7,7 @@ export const ArrowLeftIcon: React.FC<{}> = () => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <g clip-path='url(#clip0_25_199)'>
+      <g clipPath='url(#clip0_25_199)'>
         <path
           d='M1.31818 6H17.6818C17.8988 6 18.1069 6.05268 18.2604 6.14645C18.4138 6.24021 18.5 6.36739 18.5 6.5C18.5 6.63261 18.4138 6.75979 18.2604 6.85355C18.1069 6.94732 17.8988 7 17.6818 7H1.31818C1.10119 7 0.893079 6.94732 0.73964 6.85355C0.586201 6.75979 0.5 6.63261 0.5 6.5C0.5 6.36739 0.586201 6.24021 0.73964 6.14645C0.893079 6.05268 1.10119 6 1.31818 6Z'
           className='dark:fill-white fill-black'

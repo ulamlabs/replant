@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 type FetchFn = typeof fetch;
 
@@ -47,12 +47,13 @@ const useHandleUnauthenticated = () => {
 export const useFetch = () => {
   const handleUnauthenticated = useHandleUnauthenticated();
 
-  const fetch = useCallback(
-    composeEnhancers(
-      [provideApiBaseUrl, handleUnauthenticated],
-      globalThis.fetch
-    ),
-    [composeEnhancers, provideApiBaseUrl, handleUnauthenticated]
+  const fetch = useMemo(
+    () =>
+      composeEnhancers(
+        [provideApiBaseUrl, handleUnauthenticated],
+        globalThis.fetch
+      ),
+    [handleUnauthenticated]
   );
 
   return fetch;

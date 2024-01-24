@@ -1,4 +1,4 @@
-export const LocationIcon: React.FC<{}> = () => {
+export const LocationIcon: React.FC = () => {
   return (
     <svg
       width='16'
@@ -7,7 +7,7 @@ export const LocationIcon: React.FC<{}> = () => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <g clip-path='url(#clip0_39_734)'>
+      <g clipPath='url(#clip0_39_734)'>
         <path
           d='M8 12C10.206 12 12 10.206 12 8C12 5.794 10.206 4 8 4C5.794 4 4 5.794 4 8C4 10.206 5.794 12 8 12ZM8 6C9.103 6 10 6.897 10 8C10 9.103 9.103 10 8 10C6.897 10 6 9.103 6 8C6 6.897 6.897 6 8 6Z'
           className='dark:fill-white fill-gray-500'

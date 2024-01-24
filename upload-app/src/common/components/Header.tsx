@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { ArrowLeftIcon } from 'common/icons/ArrowLeftIcon';
 import { useFmtMsg } from 'modules/intl';
 
