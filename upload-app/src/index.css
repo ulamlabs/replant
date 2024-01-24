@@ -17,3 +17,9 @@
 body {
   margin: 0;
 }
+
+@layer base {
+  html {
+    @apply bg-white dark:bg-teal-900;
+  }
+}
