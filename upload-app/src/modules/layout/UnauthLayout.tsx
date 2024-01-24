@@ -1,5 +1,5 @@
 import { Button } from 'common/components';
-import { ReplantWorldIcon } from 'common/icons/ReplantWorldIcon';
+import { ReplantWorldIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { useMatch, useNavigate } from 'react-router-dom';
 

@@ -1,8 +1,10 @@
-import { AparatIcon } from 'common/icons/AparatIcon';
-import { UserIcon } from 'common/icons/UserIcon';
-import { HomeIcon } from 'common/icons/HomeIcon';
-import { TreesIcon } from 'common/icons/TreesIcon';
 import { useMatch, useNavigate } from 'react-router-dom';
+import {
+  CameraButton,
+  HomeButton,
+  TreesButton,
+  UserButton,
+} from './components';
 
 export const NavigationBar: React.FC = () => {
   const navigate = useNavigate();
@@ -10,22 +12,22 @@ export const NavigationBar: React.FC = () => {
   return (
     <div
       className={
-        'w-full py-2.5 px-5 flex items-center justify-around dark:bg-teal-700 bg-teal-600 rounded-full shadow-md'
+        'w-full py-2.5 px-5 flex items-center justify-around dark:bg-teal-700 bg-teal-600 rounded-full shadow-md max-w-md'
       }
     >
-      <HomeIcon
+      <HomeButton
         isActive={!!useMatch('/home')}
         onClick={() => navigate('/home')}
       />
-      <TreesIcon
+      <TreesButton
         isActive={!!useMatch('/trees')}
         onClick={() => navigate('/trees')}
       />
-      <AparatIcon
+      <CameraButton
         isActive={!!useMatch('/add-tree')}
         onClick={() => navigate('/add-tree')}
       />
-      <UserIcon
+      <UserButton
         isActive={!!useMatch('/user')}
         onClick={() => navigate('/user')}
       />

@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from 'common/icons/ArrowLeftIcon';
+import { ArrowLeftIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {
