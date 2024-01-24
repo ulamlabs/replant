@@ -1,6 +1,6 @@
 import { IntlProvider } from 'modules/intl';
+import { ComponentTestpage, Home, Signup } from 'pages';
 import { QueryClientProvider } from 'modules/query';
-import { ComponentTestpage } from 'pages';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
@@ -9,17 +9,9 @@ const App: React.FC = () => {
       <IntlProvider>
         <BrowserRouter>
           <Routes>
-            <Route
-              path='/'
-              element={
-                <>
-                  <h1 className='text-3xl font-bold underline text-bisque-400'>
-                    Hello, Fieldwork App!
-                  </h1>
-                </>
-              }
-            />
             <Route path='/testpage' element={<ComponentTestpage />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/home' element={<Home />} />
           </Routes>
         </BrowserRouter>
       </IntlProvider>
