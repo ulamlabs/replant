@@ -32,10 +32,10 @@ DEBUG = env.DEBUG
 ALLOWED_HOSTS = ["*"]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:3001",
-    "http://127.0.0.1:3001",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
 ]
 CSRF_TRUSTED_ORIGINS = [*CORS_ALLOWED_ORIGINS]
 
@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "debug_toolbar",
+    "phonenumber_field",
+    "django_filters",
     # Project apps
     "replant",
 ]
@@ -112,15 +114,30 @@ AUTH_USER_MODEL = "replant.User"
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "OPTIONS": {
+            "user_attributes": ("username",),
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "replant.auth.SpecialCharacterValidator",
+    },
+    {
+        "NAME": "replant.auth.DigitValidator",
+    },
+    {
+        "NAME": "replant.auth.UppercaseValidator",
+    },
+    {
+        "NAME": "replant.auth.LowercaseValidator",
     },
 ]
 
@@ -131,6 +148,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "replant.auth.SessionAuthentication",
     ],
+    "DEFAULT_PAGINATION_CLASS": "replant.pagination.PageNumberPagination",
 }
 
 SPECTACULAR_SETTINGS = {

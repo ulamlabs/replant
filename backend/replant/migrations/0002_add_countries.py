@@ -22,7 +22,7 @@ def delete_countries(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("replant", "0002_country_plantingorganization"),
+        ("replant", "0001_initial"),
     ]
 
     operations = [

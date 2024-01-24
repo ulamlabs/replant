@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
+from drf_spectacular.authentication import SessionScheme
 from rest_framework import authentication
 from rest_framework.request import Request
 
@@ -15,3 +18,61 @@ class SessionAuthentication(authentication.SessionAuthentication):
 
     def authenticate_header(self, request: Request):
         return "Session"
+
+
+class OpenAPISessionScheme(SessionScheme):
+    target_class = "replant.auth.SessionAuthentication"
+
+
+class SpecialCharacterValidator:
+    SPECIAL_CHARS = ("!", "@", "#", "$", "%", "^", "&", "*")
+
+    def validate(self, password, user=None):
+        if not any(c in self.SPECIAL_CHARS for c in password):
+            raise ValidationError(
+                _(
+                    f"This password must contain at least one of {self.SPECIAL_CHARS} special characters."
+                ),
+                code="password_without_special_character",
+            )
+
+    def get_help_text(self):
+        return _(
+            f"Your password must contain at least one of {self.SPECIAL_CHARS} special characters."
+        )
+
+
+class DigitValidator:
+    def validate(self, password: str, user=None):
+        if not any(c.isdigit() for c in password):
+            raise ValidationError(
+                _("This password must contain at least 1 digit."),
+                code="password_without_digits",
+            )
+
+    def get_help_text(self):
+        return _("Your password must contain at least 1 digit.")
+
+
+class UppercaseValidator:
+    def validate(self, password: str, user=None):
+        if not any(c.isupper() for c in password):
+            raise ValidationError(
+                _("This password must contain at least 1 uppercase character."),
+                code="password_without_uppercase",
+            )
+
+    def get_help_text(self):
+        return _("Your password must contain at least 1 uppercase character.")
+
+
+class LowercaseValidator:
+    def validate(self, password: str, user=None):
+        if not any(c.islower() for c in password):
+            raise ValidationError(
+                _("This password must contain at least 1 lowercase character."),
+                code="password_without_lowercase",
+            )
+
+    def get_help_text(self):
+        return _("Your password must contain at least 1 lowercase character.")

@@ -295,6 +295,39 @@ django = ">=3.2.4"
 sqlparse = ">=0.2"
 
 [[package]]
+name = "django-filter"
+version = "23.5"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "django-filter-23.5.tar.gz", hash = "sha256:67583aa43b91fe8c49f74a832d95f4d8442be628fd4c6d65e9f811f5153a4e5c"},
+    {file = "django_filter-23.5-py3-none-any.whl", hash = "sha256:99122a201d83860aef4fe77758b69dda913e874cc5e0eaa50a86b0b18d708400"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
+name = "django-phonenumber-field"
+version = "7.3.0"
+description = "An international phone number field for django models."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-phonenumber-field-7.3.0.tar.gz", hash = "sha256:f9cdb3de085f99c249328293a3b93d4e5fa440c0c8e3b99eb0d0f54748629797"},
+    {file = "django_phonenumber_field-7.3.0-py3-none-any.whl", hash = "sha256:bc6eaa49d1f9d870944f5280258db511e3a1ba5e2fbbed255488dceacae45d06"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+phonenumberslite = {version = ">=7.0.2", optional = true, markers = "extra == \"phonenumberslite\""}
+
+[package.extras]
+phonenumbers = ["phonenumbers (>=7.0.2)"]
+phonenumberslite = ["phonenumberslite (>=7.0.2)"]
+
+[[package]]
 name = "django-stubs"
 version = "4.2.7"
 description = "Mypy stubs for Django"
@@ -628,6 +661,17 @@ python-versions = ">=3.8"
 files = [
     {file = "pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08"},
     {file = "pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712"},
+]
+
+[[package]]
+name = "phonenumberslite"
+version = "8.13.28"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+optional = false
+python-versions = "*"
+files = [
+    {file = "phonenumberslite-8.13.28-py2.py3-none-any.whl", hash = "sha256:8dff2991251ebbfd7f94f9215c5d1d80238476288d083fdc5cf4d261905d22c1"},
+    {file = "phonenumberslite-8.13.28.tar.gz", hash = "sha256:c0ba07e971424ff4d256909ac416d8f7e8f8ebbcd4d157e4bbbae9e8b146bb8b"},
 ]
 
 [[package]]
@@ -1232,4 +1276,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "558ab6deff3875c91cbc2b0bd2913f13121cb0e28d86fde70ab3739789cb7f90"
+content-hash = "b44cf035c579f2c862799f808b8e346ad651d7fd978fac4edc6176ef65d32625"
