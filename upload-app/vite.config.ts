@@ -11,6 +11,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: { enabled: true },
+      includeAssets: ['/favicon-32x32.png', '/apple-touch-icon.png'],
       manifest: {
         name: 'Replant World',
         short_name: 'Replant World',
