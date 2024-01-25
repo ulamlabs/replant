@@ -13,30 +13,32 @@ export default defineConfig({
       devOptions: { enabled: true },
       manifest: {
         name: 'Replant World',
-        short_name: 'Replant',
+        short_name: 'Replant World',
         description:
           'Mobile app for planters to capture and submit their planted trees for review.',
         theme_color: '#1b3233',
         background_color: '#ffffff',
         icons: [
           {
-            src: 'squoosh-icon-x192.png',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any',
           },
           {
-            src: 'squoosh-icon-x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: 'squoosh-icon-x512-maskable.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: 'squoosh-icon-x512-maskable.png',
+            src: '/pwa-maskable-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: '/pwa-maskable-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
