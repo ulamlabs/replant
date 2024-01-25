@@ -1,11 +1,11 @@
-from django.contrib.auth.password_validation import validate_password
-from django.core import exceptions
 from django.db import transaction
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import generics, serializers, status
 
 from replant.models import User
+
+from . import utils
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -18,14 +18,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, attrs):
-        # UserAttributeSimilarityValidator requires user object to validate password
-        user = User(**attrs)
+        username = attrs["username"]
         password = attrs["password"]
 
-        try:
-            validate_password(password, user)
-        except exceptions.ValidationError as e:
-            raise serializers.ValidationError({"password": e.messages})
+        # UserAttributeSimilarityValidator requires user object to validate password
+        user = User(username=username)
+        utils.validate_password_in_serializer(password, user)
 
         return attrs
 

@@ -18,3 +18,13 @@ def test_list_countries_ok(api_client: APIClient):
         {"id": 14, "name": "Antigua and Barbuda"},
         {"id": 9, "name": "Argentina"},
     ]
+
+
+def test_list_countries_search(api_client: APIClient):
+    response = api_client.get("/api/countries?search=pol")
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["results"] == [
+        {"id": 186, "name": "French Polynesia"},
+        {"id": 180, "name": "Poland"},
+    ]
