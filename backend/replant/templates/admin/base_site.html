@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<style>
+  html[data-theme="light"],
+  :root {
+    --primary: #1b3233;
+    --secondary: #2e5b55;
+    --breadcrumbs-bg: var(--primary);
+    --default-button-bg: var(--secondary);
+  }
+
+  html[data-theme="dark"] {
+    --primary: #1b3233;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #1b3233;
+        --breadcrumbs-bg: var(--primary);
+    }
+  }
+</style>
+{% endblock %}
+
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}" />
+{% endblock %}
+
+{% block branding %}
+<a href="{% url 'admin:index' %}">
+    <img src="{% static 'logo-replant-world-light.png' %}" height="40px"/>
+</a>
+{% endblock %}
