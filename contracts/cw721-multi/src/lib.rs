@@ -8,11 +8,10 @@ pub use cw721_base::{
 use cw721_base::msg::QueryMsg as Cw721QueryMsg;
 use cw2;
 use msg::ExtensionMsg;
-use execute::{mint_multi, transfer_multi};
 use types::{Cw721Multi, TypeT};
 
 pub mod msg;
-pub mod execute;
+pub mod multi;
 pub mod types;
 
 // version info for migration info
@@ -54,10 +53,10 @@ pub mod entry {
         match msg {
             ExecuteMsg::Extension { msg } => match msg {
                 ExtensionMsg::MintMulti { owner, messages } => {
-                    mint_multi(contract, deps, info, owner, messages)
+                    multi::mint(contract, deps, info, owner, messages)
                 }
                 ExtensionMsg::TransferMulti { recipient, token_ids } => {
-                    transfer_multi(deps, info, recipient, token_ids)
+                    multi::transfer(contract, deps, env, info, recipient, token_ids)
                 }
             },
             _ => contract.execute(deps, env, info, msg),
