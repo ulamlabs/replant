@@ -1,1 +1,13 @@
-{ "back": "Back", "login": "Log in", "signup": "Sign up" }
+{
+  "back": "Back",
+  "logIn": "Log in",
+  "login": "Login",
+  "signup": "Sign up",
+  "phoneNumber": "Phone number",
+  "countries": "Countries",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "fieldRequired": "Field required.",
+  "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",
+  "passwordsAreNotTheSame": "Passwords are not the same."
+}
