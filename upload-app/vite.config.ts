@@ -16,7 +16,7 @@ export default defineConfig({
         name: 'Replant World',
         short_name: 'Replant World',
         description:
-          'Mobile app for planters to capture and submit their planted trees for review.',
+          'Capture, monitor and verify your tree planting with Poptech, Replant World’s proof of planting technology.',
         theme_color: '#1b3233',
         background_color: '#ffffff',
         icons: [
