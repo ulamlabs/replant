@@ -1,24 +1,30 @@
 import { Button, Header, LoaderBox, Section } from 'common/components';
 import { Alert } from 'common/components/Alert';
-import { Country, useCountries } from 'modules/countries/api';
+import { Country } from 'modules/countries/api';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
 import {
-  RegisterError,
+  RegisterIntoOrganizationError,
   enterValidUsername,
   passwordIsTooSimilarToUsername,
   phoneNumberIsNotValid,
-  useRegisterMutation,
+  useRegisterIntoOrganizationMutation,
+  useRegisterOrganization,
 } from './api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { prettifyError } from 'common/utils';
 import { SignupForm } from './SignupForm';
 import { validatePassword, validatePhoneNumber } from './utils';
 
-export const Signup: React.FC = () => {
+export const SignupIntoOrganization: React.FC = () => {
   const fmtMsg = useFmtMsg();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get('code');
+
+  const { data: organization, isLoading: isOrganizationLoading } =
+    useRegisterOrganization(code);
 
   const [login, setLogin] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -32,8 +38,7 @@ export const Signup: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-  const { data: countries, isLoading: isCountriesLoading } = useCountries();
-  const registerMutation = useRegisterMutation();
+  const registerMutation = useRegisterIntoOrganizationMutation(code!);
 
   const submit = () => {
     const loginTrimmed = login.trim();
@@ -93,7 +98,7 @@ export const Signup: React.FC = () => {
     }
   };
 
-  const getErrorText = (error: AxiosError<RegisterError>) => {
+  const getErrorText = (error: AxiosError<RegisterIntoOrganizationError>) => {
     if (phoneNumberIsNotValid(error.response?.data)) {
       return fmtMsg('phoneNumberIsNotValid');
     }
@@ -109,8 +114,24 @@ export const Signup: React.FC = () => {
     return prettifyError(error);
   };
 
-  if (isCountriesLoading || !countries) {
+  if (isOrganizationLoading) {
     return <LoaderBox />;
+  }
+
+  if (!organization) {
+    return (
+      <div className='flex flex-col gap-5 mb-5'>
+        <Alert
+          text={fmtMsg('linkIsIncorrectAskManagerForNewOne')}
+          severity={'error'}
+        />
+        <Button
+          text={fmtMsg('goToSignup')}
+          size={'BIG'}
+          onClick={() => navigate('/signup')}
+        />
+      </div>
+    );
   }
 
   return (
@@ -124,17 +145,19 @@ export const Signup: React.FC = () => {
             severity={'error'}
           />
         )}
-        <Header text={fmtMsg('signup')} />
-        <label className='text-xs text-black dark:text-white text-center'>
-          {fmtMsg('ifYouBelongToPlantingOrganization')}
-        </label>
+        <div className='text-center'>
+          <Header text={fmtMsg('signup')} />
+          <label className='text-lg font-bold text-gray-500 dark:text-gray-500'>
+            {organization.planting_organization.name}
+          </label>
+        </div>
       </div>
       <SignupForm
         login={login}
         phoneNumber={phoneNumber}
         password={password}
         confirmPassword={confirmPassword}
-        countries={countries}
+        countries={organization.planting_organization.countries}
         loginError={loginError}
         phoneNumberError={phoneNumberError}
         countryError={countryError}

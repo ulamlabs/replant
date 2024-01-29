@@ -1,12 +1,10 @@
 import clsx from 'clsx';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
-import { ArrowDownIcon } from 'common/icons';
+import { ArrowDownIcon, LocationIcon } from 'common/icons';
 import { Country } from './api';
+import { useFmtMsg } from 'modules/intl';
 
 type Props = {
-  label?: string;
-  placeholder: string;
-  icon: React.ReactNode;
   options: Country[];
   value?: Country;
   onChange: (val: Country) => void;
@@ -15,15 +13,14 @@ type Props = {
 };
 
 export const CountriesAutocomplete: React.FC<Props> = ({
-  label,
-  placeholder,
-  icon,
   options,
   value,
   className,
   onChange,
   error,
 }) => {
+  const fmtMsg = useFmtMsg();
+
   const {
     getRootProps,
     getInputProps,
@@ -44,22 +41,20 @@ export const CountriesAutocomplete: React.FC<Props> = ({
 
   return (
     <div className={clsx('relative', className)}>
-      {label && (
-        <label className={'text-left text-xs text-black dark:text-white'}>
-          {label}
-        </label>
-      )}
+      <label className={'text-left text-xs text-black dark:text-white'}>
+        {fmtMsg('country')}
+      </label>
       <div
         {...getRootProps()}
         className={clsx(
-          'border border-black dark:border-white dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center',
+          'border border-black dark:border-white dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center mt-1',
           error && 'border-red-400 dark:border-red-400'
         )}
       >
-        {icon}
+        {<LocationIcon />}
         <input
           {...getInputProps()}
-          placeholder={placeholder}
+          placeholder={fmtMsg('country')}
           className='text-xs text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
         />
         <ArrowDownIcon

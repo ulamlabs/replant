@@ -30,7 +30,7 @@ export const UnauthLayout: React.FC<Props> = ({ children }) => {
           />
         )}
       </div>
-      <div className={'py-2.5 px-5'}>{children}</div>
+      <div className={'py-2.5 px-5 w-screen flex items-center'}>{children}</div>
     </div>
   );
 };

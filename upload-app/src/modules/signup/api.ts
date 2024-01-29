@@ -1,14 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { post, useFetch } from 'modules/fetch';
+import { Country } from 'modules/countries/api';
+import { get, post } from 'modules/fetch';
 
 const AUTH_REGISTER_URL = '/auth/register';
-const AUTH_REGISTER_TO_ORGANIZATION_URL = '/auth/register-to-orgnanization';
+const AUTH_REGISTER_TO_ORGANIZATION_URL =
+  '/auth/register-to-organization/{code}';
 
-export type Country = {
-  id: number;
-  name: string;
-};
+const AUTH_REGISTER_TO_ORGANIZATION_QUERY_KEY = [
+  'GET',
+  AUTH_REGISTER_TO_ORGANIZATION_URL,
+] as const;
 
 export type RegisterUser = {
   username: string;
@@ -31,21 +33,25 @@ export type RegisterResponse = {
   country: number;
 };
 
-export type FetchResponse<T> = {
-  body: T;
-  status: string;
-};
-
-export type RegisterOrganizationUser = RegisterUser & {
-  code: string;
-};
-
-export type RegisterOrganizationError = RegisterError & {
+export type RegisterIntoOrganizationError = RegisterError & {
   code?: string[];
+};
+
+export type RegisterOrganizationResponse = {
+  planting_organization: {
+    name: string;
+    countries: Country[];
+  };
 };
 
 const postRegister = (payload: RegisterUser) =>
   post<RegisterResponse, RegisterUser>(AUTH_REGISTER_URL, payload);
+
+const postRegisterIntoOrganization = (payload: RegisterUser, code: string) =>
+  post<RegisterResponse, RegisterUser>(
+    AUTH_REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`),
+    payload
+  );
 
 export const useRegisterMutation = () => {
   const mutation = useMutation<
@@ -59,25 +65,34 @@ export const useRegisterMutation = () => {
   return mutation;
 };
 
-export const useRegisterToOrganisationMutation = () => {
-  const fetch = useFetch();
+export const useRegisterIntoOrganizationMutation = (code: string) => {
   const mutation = useMutation<
-    RegisterResponse,
-    RegisterOrganizationError,
-    RegisterOrganizationUser
+    AxiosResponse<RegisterResponse>,
+    AxiosError<RegisterIntoOrganizationError>,
+    RegisterUser
   >({
-    mutationFn: (user: RegisterOrganizationUser) =>
-      fetch(AUTH_REGISTER_TO_ORGANIZATION_URL, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(user),
-      }).then((res) => res.json()),
+    mutationFn: (payload) => postRegisterIntoOrganization(payload, code),
   });
 
   return mutation;
 };
 
-export const phoneNumberIsNotValid = (errResponseData?: RegisterError) => {
+const getRegisterOrganization = async (code: string | null) => {
+  const response = await get<RegisterOrganizationResponse>(
+    AUTH_REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`)
+  );
+  return response.data;
+};
+
+export const useRegisterOrganization = (code: string | null) =>
+  useQuery<RegisterOrganizationResponse>({
+    queryKey: AUTH_REGISTER_TO_ORGANIZATION_QUERY_KEY,
+    queryFn: () => getRegisterOrganization(code),
+  });
+
+export const phoneNumberIsNotValid = (
+  errResponseData?: RegisterError | RegisterIntoOrganizationError
+) => {
   for (const err of errResponseData?.phone_number || []) {
     const match = err.match(PHONE_NUMBER_IS_NOT_VALID);
     if (match) {
@@ -87,4 +102,31 @@ export const phoneNumberIsNotValid = (errResponseData?: RegisterError) => {
   return undefined;
 };
 
+export const passwordIsTooSimilarToUsername = (
+  errResponseData?: RegisterError | RegisterIntoOrganizationError
+) => {
+  for (const err of errResponseData?.password || []) {
+    const match = err.match(PASSWORD_IS_TOO_SIMILAR_TO_USERNAME);
+    if (match) {
+      return match;
+    }
+  }
+  return undefined;
+};
+
+export const enterValidUsername = (
+  errResponseData?: RegisterError | RegisterIntoOrganizationError
+) => {
+  for (const err of errResponseData?.username || []) {
+    const match = err.match(ENTER_VALID_USERNAME);
+    if (match) {
+      return match;
+    }
+  }
+  return undefined;
+};
+
 const PHONE_NUMBER_IS_NOT_VALID = 'The phone number entered is not valid.';
+const PASSWORD_IS_TOO_SIMILAR_TO_USERNAME =
+  'The password is too similar to the username.';
+const ENTER_VALID_USERNAME = `Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters.`;
