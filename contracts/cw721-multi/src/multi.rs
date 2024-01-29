@@ -14,7 +14,7 @@ pub fn mint(
     cw_ownable::assert_owner(deps.storage, &info.sender)?;
 
     let mut response = Response::default()
-        .add_attribute("action", "mint_multi")
+        .add_attribute("action", "multi_mint")
         .add_attribute("minter", info.sender)
         .add_attribute("owner", &owner);
 
@@ -51,7 +51,7 @@ pub fn transfer(
     token_ids: Vec<String>,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new()
-        .add_attribute("action", "transfer_nft")
+        .add_attribute("action", "multi_transfer_nft")
         .add_attribute("sender", &info.sender)
         .add_attribute("recipient", &recipient);
 

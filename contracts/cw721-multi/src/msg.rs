@@ -16,11 +16,11 @@ pub struct MintMsg<T> {
 
 #[cw_serde]
 pub enum ExtensionMsg<T> {
-    MintMulti {
+    MultiMint {
         owner: String,
         messages: Vec<MintMsg<T>>,
     },
-    TransferMulti {
+    MultiTransfer {
         recipient: String,
         token_ids: Vec<String>,
     },

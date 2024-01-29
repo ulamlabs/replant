@@ -52,10 +52,10 @@ pub mod entry {
         let contract = Cw721Multi::default();
         match msg {
             ExecuteMsg::Extension { msg } => match msg {
-                ExtensionMsg::MintMulti { owner, messages } => {
+                ExtensionMsg::MultiMint { owner, messages } => {
                     multi::mint(contract, deps, info, owner, messages)
                 }
-                ExtensionMsg::TransferMulti { recipient, token_ids } => {
+                ExtensionMsg::MultiTransfer { recipient, token_ids } => {
                     multi::transfer(contract, deps, env, info, recipient, token_ids)
                 }
             },
