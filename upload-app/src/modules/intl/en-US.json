@@ -9,5 +9,6 @@
   "confirmPassword": "Confirm password",
   "fieldRequired": "Field required.",
   "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",
-  "passwordsAreNotTheSame": "Passwords are not the same."
+  "passwordsAreNotTheSame": "Passwords are not the same.",
+  "phoneNumberIsNotValid": "The phone number entered is not valid."
 }

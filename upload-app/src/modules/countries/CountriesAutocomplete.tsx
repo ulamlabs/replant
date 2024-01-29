@@ -1,22 +1,20 @@
 import clsx from 'clsx';
-import { HTMLInputTypeAttribute } from 'react';
-import * as React from 'react';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { ArrowDownIcon } from 'common/icons';
+import { Country } from './api';
 
 type Props = {
   label?: string;
   placeholder: string;
   icon: React.ReactNode;
-  options: string[];
-  value?: string;
-  className?: string;
-  onChange: (val: string) => void;
-  type?: HTMLInputTypeAttribute;
+  options: Country[];
+  value?: Country;
+  onChange: (val: Country) => void;
   error?: string;
+  className?: string;
 };
 
-export const Autocomplete: React.FC<Props> = ({
+export const CountriesAutocomplete: React.FC<Props> = ({
   label,
   placeholder,
   icon,
@@ -33,6 +31,7 @@ export const Autocomplete: React.FC<Props> = ({
     getOptionProps,
     groupedOptions,
   } = useAutocomplete({
+    getOptionLabel: (option) => option.name,
     id: 'autocomplete',
     options,
     value,
@@ -73,12 +72,13 @@ export const Autocomplete: React.FC<Props> = ({
           className='absolute box-border p-1.5 overflow-auto rounded-xl dark:bg-teal-900 bg-white w-full border border-black dark:border-white shadow-xl max-h-40'
         >
           {options &&
-            (groupedOptions as string[]).map((option, index) => (
+            (groupedOptions as typeof options).map((option, index) => (
               <li
                 {...getOptionProps({ option, index })}
                 className='text-xs m-2 text-black dark:text-white'
+                key={option.id}
               >
-                {option}
+                {option.name}
               </li>
             ))}
         </ul>

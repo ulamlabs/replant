@@ -1,7 +1,8 @@
 import { LocationIcon } from 'common/icons';
-import { Autocomplete, Button, Header, Input } from 'common/components';
+import { Button, Header, Input } from 'common/components';
 import { UnauthLayout } from 'modules/layout';
 import { Alert } from 'common/components/Alert';
+import { CountriesAutocomplete } from 'modules/countries';
 
 export const ComponentTestpage: React.FC = () => {
   return (
@@ -23,16 +24,14 @@ export const ComponentTestpage: React.FC = () => {
           onChange={() => {}}
           value='Testowa wartość'
         />
-        <Autocomplete
+        <CountriesAutocomplete
           label={'Test select'}
           placeholder={'Test select'}
           icon={<LocationIcon />}
           options={[
-            'Firefox',
-            'Google Chrome',
-            'Microsoft Edge',
-            'Safari',
-            'Opera',
+            { id: 1, name: 'Polska' },
+            { id: 1, name: 'Czechy' },
+            { id: 1, name: 'Chiny' },
           ]}
           onChange={() => {}}
         />

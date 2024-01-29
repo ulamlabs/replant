@@ -14,7 +14,7 @@ export const ArrowDownIcon: React.FC<Props> = ({ svgClassName }) => {
         d='M1 1.5L6 6.5L11 1.5'
         stroke='#808080'
         strokeWidth='2'
-        stroke-Linecap='round'
+        strokeLinecap='round'
         strokeLinejoin='round'
       />
     </svg>
