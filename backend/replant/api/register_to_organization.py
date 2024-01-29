@@ -22,10 +22,10 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
     def _validate_passcode(self, code: str) -> Passcode:
         passcode = Passcode.objects.filter(code=code).first()
         if passcode is None:
-            raise serializers.ValidationError({"code": ["Invalid code."]})
+            raise serializers.ValidationError({"code": ["The code is not valid."]})
 
         if not passcode.is_valid:
-            raise serializers.ValidationError({"code": ["Code has expired."]})
+            raise serializers.ValidationError({"code": ["The code has expired."]})
 
         return passcode
 

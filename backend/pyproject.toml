@@ -35,6 +35,7 @@ pytest-django = "^4.7.0"
 pytest-xdist = "^3.5.0"
 model-bakery = "^1.17.0"
 time-machine = "^2.13.0"
+pytest-mock = "^3.12.0"
 
 [build-system]
 requires = ["poetry-core>=1.7.0"]
