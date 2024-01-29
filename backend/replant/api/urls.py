@@ -11,7 +11,10 @@ router = routers.SimpleRouter()
 urlpatterns = [
     path("status", StatusView.as_view()),
     path("auth/register", RegisterView.as_view()),
-    path("auth/register-to-organization", RegisterToOrganizationView.as_view()),
+    path(
+        "auth/register-to-organization/<uuid:code>",
+        RegisterToOrganizationView.as_view(),
+    ),
     path("countries", CountryView.as_view()),
     *router.urls,
 ]

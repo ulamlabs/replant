@@ -8,3 +8,7 @@ def validate_password_in_serializer(password, user):
         validate_password(password, user)
     except exceptions.ValidationError as e:
         raise serializers.ValidationError({"password": e.messages})
+
+
+class Message(serializers.Serializer):
+    detail = serializers.CharField()

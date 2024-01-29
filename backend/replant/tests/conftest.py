@@ -25,7 +25,11 @@ def api_client():
 @pytest.fixture
 def planting_organization():
     countries = Country.objects.filter(id=1)
-    return baker.make(PlantingOrganization, countries=countries)
+    return baker.make(
+        PlantingOrganization,
+        name="Green World",
+        countries=countries,
+    )
 
 
 @pytest.fixture

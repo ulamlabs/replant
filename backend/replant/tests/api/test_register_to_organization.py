@@ -7,6 +7,48 @@ from time_machine import TimeMachineFixture
 from replant.models import PlantingOrganization, User
 
 
+def test_get_register_to_organization_ok(
+    api_client: APIClient,
+    planting_organization: PlantingOrganization,
+    user: User,
+):
+    passcode = planting_organization.passcodes.generate(by=user)
+
+    response = api_client.get(f"/api/auth/register-to-organization/{passcode.code}")
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == {
+        "planting_organization": {
+            "name": "Green World",
+            "countries": [{"id": 1, "name": "Aruba"}],
+        }
+    }
+
+
+def test_get_register_to_organization_invalid_passcode(api_client: APIClient):
+    response = api_client.get(
+        "/api/auth/register-to-organization/651268ff-39ac-499d-8c62-7b0dd6cc386e",
+    )
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.json() == {"detail": "Not found."}
+
+
+def test_get_register_to_organization_expired_passcode(
+    api_client: APIClient,
+    planting_organization: PlantingOrganization,
+    user: User,
+    time: TimeMachineFixture,
+):
+    passcode = planting_organization.passcodes.generate(by=user)
+    time.move_to(passcode.expires_at)
+
+    response = api_client.get(f"/api/auth/register-to-organization/{passcode.code}")
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {"non_field_errors": ["The code has expired."]}
+
+
 def test_register_to_organization_ok(
     api_client: APIClient,
     planting_organization: PlantingOrganization,
@@ -14,14 +56,15 @@ def test_register_to_organization_ok(
 ):
     passcode = planting_organization.passcodes.generate(by=user)
     data = {
-        "code": passcode.code,
         "username": "user",
         "phone_number": "+48888234567",
         "password": "DifficultPassword8*",
         "country": 1,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        f"/api/auth/register-to-organization/{passcode.code}", data=data
+    )
 
     assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == {
@@ -45,14 +88,15 @@ def test_register_to_organization_user_already_exists(
     passcode = planting_organization.passcodes.generate(by=user)
     baker.make(User, username="user", phone_number="+48888234567")
     data = {
-        "code": passcode.code,
         "username": "user",
         "phone_number": "+48888234567",
         "password": "DifficultPassword8*",
         "country": 1,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        f"/api/auth/register-to-organization/{passcode.code}", data=data
+    )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -67,14 +111,15 @@ def test_register_to_organization_invalid_phone_number(
 ):
     passcode = planting_organization.passcodes.generate(by=user)
     data = {
-        "code": passcode.code,
         "username": "user",
         "phone_number": "+488882345674",
         "password": "DifficultPassword8*",
         "country": 1,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        f"/api/auth/register-to-organization/{passcode.code}", data=data
+    )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -84,17 +129,19 @@ def test_register_to_organization_invalid_phone_number(
 
 def test_register_to_organization_invalid_passcode(api_client: APIClient):
     data = {
-        "code": "651268ff-39ac-499d-8c62-7b0dd6cc386e",
         "username": "user",
         "phone_number": "+48888234567",
         "password": "DifficultPassword8*",
         "country": 1,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        "/api/auth/register-to-organization/651268ff-39ac-499d-8c62-7b0dd6cc386e",
+        data=data,
+    )
 
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json() == {"code": ["The code is not valid."]}
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.json() == {"detail": "Not found."}
 
 
 def test_register_to_organization_expired_passcode(
@@ -106,17 +153,18 @@ def test_register_to_organization_expired_passcode(
     passcode = planting_organization.passcodes.generate(by=user)
     time.move_to(passcode.expires_at)
     data = {
-        "code": passcode.code,
         "username": "user",
         "phone_number": "+48888234567",
         "password": "DifficultPassword8*",
         "country": 1,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        f"/api/auth/register-to-organization/{passcode.code}", data=data
+    )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json() == {"code": ["The code has expired."]}
+    assert response.json() == {"non_field_errors": ["The code has expired."]}
 
 
 def test_register_to_organization_invalid_country(
@@ -126,14 +174,15 @@ def test_register_to_organization_invalid_country(
 ):
     passcode = planting_organization.passcodes.generate(by=user)
     data = {
-        "code": passcode.code,
         "username": "user",
         "phone_number": "+48888234567",
         "password": "DifficultPassword8*",
         "country": 2,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        f"/api/auth/register-to-organization/{passcode.code}", data=data
+    )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -152,14 +201,15 @@ def test_register_to_organization_assert_password_validation_called(
     )
     passcode = planting_organization.passcodes.generate(by=user)
     data = {
-        "code": passcode.code,
         "username": "user",
         "phone_number": "+48888234567",
         "password": "DifficultPassword8*",
         "country": 1,
     }
 
-    response = api_client.post("/api/auth/register-to-organization", data=data)
+    response = api_client.post(
+        f"/api/auth/register-to-organization/{passcode.code}", data=data
+    )
     assert response.status_code == status.HTTP_201_CREATED
     validate_password_mock.assert_called_once_with("DifficultPassword8*", mocker.ANY)
     assert validate_password_mock.call_args.args[1].username == "user"

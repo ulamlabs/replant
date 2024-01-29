@@ -1,33 +1,43 @@
 from django.db import transaction
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
 from rest_framework import generics, serializers, status
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 from replant.models import Country, Passcode, PlantingOrganization, User
 
 from . import utils
+from .country import CountrySerializer
+
+
+class PlantingOrganizationSerializer(serializers.ModelSerializer):
+    countries = CountrySerializer(many=True)
+
+    class Meta:
+        model = PlantingOrganization
+        fields = (
+            "name",
+            "countries",
+        )
+
+
+class PasscodeRegisterSerializer(serializers.ModelSerializer):
+    planting_organization = PlantingOrganizationSerializer()
+
+    class Meta:
+        model = Passcode
+        fields = ("planting_organization",)
 
 
 class RegisterToOrganizationSerializer(serializers.ModelSerializer):
-    code = serializers.UUIDField(write_only=True)
-
     class Meta:
         model = User
-        fields = ("code", "username", "phone_number", "country", "password")
+        fields = ("username", "phone_number", "country", "password")
         extra_kwargs = {
             "password": {"write_only": True},
             "country": {"required": True, "allow_null": False},
         }
-
-    def _validate_passcode(self, code: str) -> Passcode:
-        passcode = Passcode.objects.filter(code=code).first()
-        if passcode is None:
-            raise serializers.ValidationError({"code": ["The code is not valid."]})
-
-        if not passcode.is_valid:
-            raise serializers.ValidationError({"code": ["The code has expired."]})
-
-        return passcode
 
     def _validate_country(
         self, planting_organization: PlantingOrganization, country: Country
@@ -38,12 +48,11 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
             )
 
     def validate(self, attrs):
-        code = attrs["code"]
+        passcode: Passcode = self.context["passcode"]
         username = attrs["username"]
         password = attrs["password"]
         country = attrs["country"]
 
-        passcode = self._validate_passcode(code)
         planting_organization = passcode.planting_organization
         self._validate_country(planting_organization, country)
 
@@ -66,12 +75,54 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
 
 
 @extend_schema_view(
+    get=extend_schema(
+        responses={
+            status.HTTP_200_OK: PasscodeRegisterSerializer,
+            status.HTTP_404_NOT_FOUND: OpenApiResponse(
+                utils.Message, description="Code is invalid."
+            ),
+        }
+    ),
     post=extend_schema(
         responses={
             status.HTTP_201_CREATED: RegisterToOrganizationSerializer,
             status.HTTP_400_BAD_REQUEST: OpenApiTypes.OBJECT,
+            status.HTTP_404_NOT_FOUND: OpenApiResponse(
+                utils.Message, description="Code is invalid."
+            ),
         }
-    )
+    ),
 )
-class RegisterToOrganizationView(generics.CreateAPIView):
-    serializer_class = RegisterToOrganizationSerializer
+class RegisterToOrganizationView(generics.GenericAPIView):
+    queryset = Passcode.objects.all()
+    lookup_field = "code"
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PasscodeRegisterSerializer
+        return RegisterToOrganizationSerializer
+
+    def get_object(self) -> Passcode:
+        passcode: Passcode = super().get_object()
+
+        if not passcode.is_valid:
+            raise serializers.ValidationError(
+                {"non_field_errors": ["The code has expired."]}
+            )
+
+        return passcode
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        passcode = self.get_object()
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.context["passcode"] = passcode
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
