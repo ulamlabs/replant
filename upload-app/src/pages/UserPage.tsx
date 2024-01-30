@@ -1,10 +1,10 @@
 import { NavigationLayout } from 'modules/layout';
 import { NavigationBar } from 'modules/navigation';
 
-export const Home: React.FC = () => {
+export const UserPage: React.FC = () => {
   return (
     <NavigationLayout actions={<NavigationBar />}>
-      <>test home</>
+      <>user data and settings</>
     </NavigationLayout>
   );
 };
