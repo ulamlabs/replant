@@ -19,14 +19,14 @@ export const UnauthLayout: React.FC<Props> = ({ children }) => {
           <Button
             onClick={() => navigate('/login')}
             text={fmtMsg('logIn')}
-            size={'SMALL'}
+            size={'small'}
           />
         )}
         {useMatch('/login') && (
           <Button
             onClick={() => navigate('/signup')}
             text={fmtMsg('signup')}
-            size={'SMALL'}
+            size={'small'}
           />
         )}
       </div>

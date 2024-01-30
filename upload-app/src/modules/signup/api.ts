@@ -1,16 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
+import { get, post } from 'modules/api';
 import { Country } from 'modules/countries/api';
-import { get, post } from 'modules/fetch';
 
 const AUTH_REGISTER_URL = '/auth/register';
 const AUTH_REGISTER_TO_ORGANIZATION_URL =
   '/auth/register-to-organization/{code}';
 
-const AUTH_REGISTER_TO_ORGANIZATION_QUERY_KEY = [
+const buildAuthRegisterToOrgKey = (code: string | null) => [
   'GET',
   AUTH_REGISTER_TO_ORGANIZATION_URL,
-] as const;
+  code,
+];
 
 export type RegisterUser = {
   username: string;
@@ -42,6 +43,10 @@ export type RegisterOrganizationResponse = {
     name: string;
     countries: Country[];
   };
+};
+
+export type RegisterOrganizationError = {
+  non_field_errors?: string[];
 };
 
 const postRegister = (payload: RegisterUser) =>
@@ -85,10 +90,12 @@ const getRegisterOrganization = async (code: string | null) => {
 };
 
 export const useRegisterOrganization = (code: string | null) =>
-  useQuery<RegisterOrganizationResponse>({
-    queryKey: AUTH_REGISTER_TO_ORGANIZATION_QUERY_KEY,
-    queryFn: () => getRegisterOrganization(code),
-  });
+  useQuery<RegisterOrganizationResponse, AxiosError<RegisterOrganizationError>>(
+    {
+      queryKey: buildAuthRegisterToOrgKey(code),
+      queryFn: () => getRegisterOrganization(code),
+    }
+  );
 
 export const phoneNumberIsNotValid = (
   errResponseData?: RegisterError | RegisterIntoOrganizationError
@@ -126,7 +133,20 @@ export const enterValidUsername = (
   return undefined;
 };
 
+export const registrationLinkExpired = (
+  errResponseData?: RegisterOrganizationError
+) => {
+  for (const err of errResponseData?.non_field_errors || []) {
+    const match = err.match(CODE_HAS_EXPIRED);
+    if (match) {
+      return match;
+    }
+  }
+  return undefined;
+};
+
 const PHONE_NUMBER_IS_NOT_VALID = 'The phone number entered is not valid.';
 const PASSWORD_IS_TOO_SIMILAR_TO_USERNAME =
   'The password is too similar to the username.';
 const ENTER_VALID_USERNAME = `Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters.`;
+const CODE_HAS_EXPIRED = 'The code has expired.';

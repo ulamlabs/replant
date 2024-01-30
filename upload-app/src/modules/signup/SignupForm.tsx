@@ -44,7 +44,7 @@ export const SignupForm: React.FC<Props> = ({
   const fmtMsg = useFmtMsg();
 
   return (
-    <div className='flex flex-col gap-5'>
+    <form className='flex flex-col gap-5'>
       <Input
         label={fmtMsg('login')}
         placeholder={fmtMsg('login')}
@@ -86,6 +86,6 @@ export const SignupForm: React.FC<Props> = ({
         error={confirmPasswordError}
         onChange={onConfirmPasswordChange}
       />
-    </div>
+    </form>
   );
 };

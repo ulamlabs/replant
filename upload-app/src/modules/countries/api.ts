@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { get } from 'modules/fetch';
+import { get } from 'modules/api';
 
 const COUNTRIES_URL = '/countries';
 const COUNTRIES_QUERY_KEY = ['GET', COUNTRIES_URL] as const;

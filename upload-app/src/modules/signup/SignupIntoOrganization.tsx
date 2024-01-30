@@ -5,9 +5,11 @@ import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
 import {
   RegisterIntoOrganizationError,
+  RegisterOrganizationError,
   enterValidUsername,
   passwordIsTooSimilarToUsername,
   phoneNumberIsNotValid,
+  registrationLinkExpired,
   useRegisterIntoOrganizationMutation,
   useRegisterOrganization,
 } from './api';
@@ -23,8 +25,11 @@ export const SignupIntoOrganization: React.FC = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
 
-  const { data: organization, isLoading: isOrganizationLoading } =
-    useRegisterOrganization(code);
+  const {
+    data: organization,
+    error: organizationError,
+    isLoading: isOrganizationLoading,
+  } = useRegisterOrganization(code);
 
   const [login, setLogin] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -118,16 +123,26 @@ export const SignupIntoOrganization: React.FC = () => {
     return <LoaderBox />;
   }
 
-  if (!organization) {
+  const getWrongCodeErrorText = (
+    error: AxiosError<RegisterOrganizationError> | null
+  ) => {
+    if (error && registrationLinkExpired(error.response?.data)) {
+      return fmtMsg('registrationLinkExpired');
+    }
+
+    return fmtMsg('registrationLinkIsInvalid');
+  };
+
+  if (!organization || organizationError) {
     return (
-      <div className='flex flex-col gap-5 mb-5'>
+      <div className='flex flex-col gap-5 mb-5 w-full'>
         <Alert
-          text={fmtMsg('linkIsIncorrectAskManagerForNewOne')}
+          text={getWrongCodeErrorText(organizationError)}
           severity={'error'}
         />
         <Button
           text={fmtMsg('goToSignup')}
-          size={'BIG'}
+          size={'big'}
           onClick={() => navigate('/signup')}
         />
       </div>
@@ -136,7 +151,7 @@ export const SignupIntoOrganization: React.FC = () => {
 
   return (
     <Section
-      actions={<Button text={fmtMsg('signup')} size={'BIG'} onClick={submit} />}
+      actions={<Button text={fmtMsg('signup')} size={'big'} onClick={submit} />}
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (

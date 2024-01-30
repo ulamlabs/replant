@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { CrossedEyeIcon } from 'common/icons/CrossedEyeIcon';
-import { EyeIcon } from 'common/icons/EyeIcon';
+import { CrossedEyeIcon, EyeIcon } from 'common/icons';
 import { HTMLInputTypeAttribute, useState } from 'react';
 
 type Props = {
@@ -26,8 +25,6 @@ export const Input: React.FC<Props> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const newType = type !== 'password' ? type : showPassword ? 'text' : type;
-
   return (
     <div className='flex flex-col gap-1.5'>
       {label && (
@@ -48,7 +45,7 @@ export const Input: React.FC<Props> = ({
           value={value}
           placeholder={placeholder}
           className='text-xs text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
-          type={newType}
+          type={showPassword ? 'text' : type}
         />
         {type === 'password' && (
           <div onClick={() => setShowPassword((prev) => !prev)}>

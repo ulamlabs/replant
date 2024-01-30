@@ -13,7 +13,8 @@
   "passwordIsTooSimilarToUsername": "The password is too similar to the username.",
   "phoneNumberIsNotValid": "The phone number entered is not valid.",
   "ifYouBelongToPlantingOrganization": "If you belong to the planting organisation that already uses this platform, ask your coordinator for a unique link to create an account.",
-  "linkIsIncorrectAskManagerForNewOne": "Link is incorrect, ask manager for a new one or log in as an individual user",
+  "registrationLinkIsInvalid": "The registration link is invalid.",
   "goToSignup": "Go to signup",
+  "registrationLinkExpired": "The registration link is expired. Contact your coordinator or other organization member and ask for a new link.",
   "enterValidUsername": "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters."
 }
