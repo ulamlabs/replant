@@ -1,7 +1,13 @@
+from typing import TYPE_CHECKING
+
 from django.db import models
 
-from .country import Country
+import env
+
 from .utils import TrackableModel
+
+if TYPE_CHECKING:
+    from .passcode import PasscodeManager
 
 
 class PlantingOrganization(TrackableModel):
@@ -9,7 +15,15 @@ class PlantingOrganization(TrackableModel):
     contact_person_full_name = models.CharField(max_length=50)
     contact_person_email = models.EmailField()
 
-    countries = models.ManyToManyField(Country)
+    countries = models.ManyToManyField("replant.Country")
+    passcodes: "PasscodeManager"
 
     def __str__(self):
         return self.name
+
+    @property
+    def valid_signup_link(self):
+        passcode = self.passcodes.get_latest_valid()
+        if passcode:
+            return f"{env.UPLOAD_APP_URL}/signup-org?code={passcode.code}"
+        return None
