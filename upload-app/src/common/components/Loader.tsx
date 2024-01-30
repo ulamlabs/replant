@@ -1,4 +1,5 @@
 import { BeatLoader } from 'react-spinners';
+
 export type LoaderProps = { size?: number; color?: string };
 
 // base for more complex loader components
