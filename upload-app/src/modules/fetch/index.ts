@@ -1,1 +1,1 @@
-export * from "./use-fetch.ts";
+export * from './use-fetch.ts';

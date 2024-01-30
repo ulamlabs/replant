@@ -1,7 +1,7 @@
 import { UnauthLayout } from 'modules/layout';
-import { Signup as SignupFeature } from 'modules/signup';
+import { SignupIntoOrganization as SignupFeature } from 'modules/signup';
 
-export const Signup: React.FC = () => {
+export const SignupIntoOrganization: React.FC = () => {
   return (
     <UnauthLayout>
       <SignupFeature />
