@@ -1,17 +1,28 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { Country } from 'modules/countries/api';
+import { Country } from 'modules/countries';
 
-const AUTH_REGISTER_URL = '/auth/register';
-const AUTH_REGISTER_TO_ORGANIZATION_URL =
-  '/auth/register-to-organization/{code}';
+const LOGIN_URL = '/auth/login';
+const REGISTER_URL = '/auth/register';
+const REGISTER_TO_ORGANIZATION_URL = '/auth/register-to-organization/{code}';
 
-const buildAuthRegisterToOrgKey = (code: string | null) => [
+const registerToOrganizationQueryKey = (code: string | null) => [
   'GET',
-  AUTH_REGISTER_TO_ORGANIZATION_URL,
+  REGISTER_TO_ORGANIZATION_URL,
   code,
 ];
+
+export type LoginPayload = {
+  password: string;
+  username: string;
+};
+
+export type LoginError = {
+  non_field_errors?: string[];
+};
+
+export type LoginResponse = { username: string };
 
 export type RegisterUser = {
   username: string;
@@ -49,14 +60,34 @@ export type RegisterOrganizationError = {
   non_field_errors?: string[];
 };
 
+const getRegisterOrganization = async (code: string | null) => {
+  const response = await get<RegisterOrganizationResponse>(
+    REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`)
+  );
+  return response.data;
+};
+
+const postLogin = (payload: LoginPayload) =>
+  post<LoginResponse, LoginPayload>(LOGIN_URL, payload);
+
 const postRegister = (payload: RegisterUser) =>
-  post<RegisterResponse, RegisterUser>(AUTH_REGISTER_URL, payload);
+  post<RegisterResponse, RegisterUser>(REGISTER_URL, payload);
 
 const postRegisterIntoOrganization = (payload: RegisterUser, code: string) =>
   post<RegisterResponse, RegisterUser>(
-    AUTH_REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`),
+    REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`),
     payload
   );
+
+export const useLoginMutation = () =>
+  useMutation<
+    AxiosResponse<LoginResponse>,
+    AxiosError<LoginError>,
+    LoginPayload
+  >({
+    mutationKey: ['POST', LOGIN_URL],
+    mutationFn: postLogin,
+  });
 
 export const useRegisterMutation = () => {
   const mutation = useMutation<
@@ -82,17 +113,10 @@ export const useRegisterIntoOrganizationMutation = (code: string) => {
   return mutation;
 };
 
-const getRegisterOrganization = async (code: string | null) => {
-  const response = await get<RegisterOrganizationResponse>(
-    AUTH_REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`)
-  );
-  return response.data;
-};
-
 export const useRegisterOrganization = (code: string | null) =>
   useQuery<RegisterOrganizationResponse, AxiosError<RegisterOrganizationError>>(
     {
-      queryKey: buildAuthRegisterToOrgKey(code),
+      queryKey: registerToOrganizationQueryKey(code),
       queryFn: () => getRegisterOrganization(code),
     }
   );

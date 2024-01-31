@@ -1,6 +1,6 @@
 import { Button, Header, LoaderBox, Section } from 'common/components';
 import { Alert } from 'common/components/Alert';
-import { Country } from 'modules/countries/api';
+import { Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
 import {

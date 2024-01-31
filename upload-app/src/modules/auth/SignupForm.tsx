@@ -1,7 +1,6 @@
 import { Input } from 'common/components';
 import { PadlockIcon, PhoneIcon, UserIcon } from 'common/icons';
-import { CountriesAutocomplete } from 'modules/countries';
-import { Country } from 'modules/countries/api';
+import { Country, CountriesAutocomplete } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {
