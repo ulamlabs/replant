@@ -1,7 +1,11 @@
+import { AxiosError } from 'axios';
 import { Alert, Button, Header, LoaderBox, Section } from 'common/components';
+import { prettifyError } from 'common/utils';
 import { Country, useCountries } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SignupForm } from './SignupForm';
 import {
   RegisterError,
   enterValidUsername,
@@ -9,10 +13,6 @@ import {
   phoneNumberIsNotValid,
   useRegisterMutation,
 } from './api';
-import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { prettifyError } from 'common/utils';
-import { SignupForm } from './SignupForm';
 import { validatePassword, validatePhoneNumber } from './utils';
 
 export const Signup: React.FC = () => {
