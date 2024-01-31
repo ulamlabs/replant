@@ -46,6 +46,7 @@ class AssignedSpeciesAdmin(TrackableModelAdmin):
         "species",
         "planting_organization",
         "country",
+        "is_native",
         "planting_cost_usd",
     )
     list_filter = ("planting_organization",)
