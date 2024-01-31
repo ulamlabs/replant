@@ -11,6 +11,9 @@ class CountryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
 
+    def has_module_permission(self, request: HttpRequest):
+        return False
+
     def has_add_permission(self, request: HttpRequest) -> bool:
         return False
 
