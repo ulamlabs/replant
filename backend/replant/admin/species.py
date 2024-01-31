@@ -15,9 +15,13 @@ class SpeciesAdmin(TrackableModelAdmin):
     ordering = ("common_name",)
 
     search_fields = ("common_name", "botanical_name")
+    fields = (
+        "common_name",
+        "botanical_name",
+        "created_at",
+        "updated_at",
+    )
     readonly_fields = (
         "created_at",
-        "created_by",
         "updated_at",
-        "updated_by",
     )
