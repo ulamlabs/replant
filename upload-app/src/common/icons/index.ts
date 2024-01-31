@@ -5,3 +5,8 @@ export * from './LocationIcon';
 export * from './ReplantWorldIcon';
 export * from './TreesIcon';
 export * from './UserIcon';
+export * from './PhoneIcon';
+export * from './PadlockeIcon';
+export * from './ArrowDownIcon';
+export * from './EyeIcon';
+export * from './CrossedEyeIcon';

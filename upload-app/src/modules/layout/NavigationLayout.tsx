@@ -7,9 +7,9 @@ type Props = {
 
 export const NavigationLayout: React.FC<Props> = ({ children, actions }) => {
   return (
-    <div className={'w-screen h-full pb-20'}>
+    <div className={'w-screen h-full'}>
       <div className={'py-2.5 px-5'}>
-        <ReplantWorldIcon />
+        <ReplantWorldIcon className='dark:fill-white fill-black' />
       </div>
       <div className={'py-2.5 px-5'}>{children}</div>
       {actions && (

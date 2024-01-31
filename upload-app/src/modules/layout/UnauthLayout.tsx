@@ -11,26 +11,32 @@ export const UnauthLayout: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate();
   const fmtMsg = useFmtMsg();
 
+  const matchLogin = useMatch('/login');
+  const matchSignup = useMatch('/signup');
+  const matchSignupOrg = useMatch('/signup-org');
+
   return (
     <div className={'w-screen h-screen'}>
       <div className={'py-2.5 px-5 flex items-center justify-between'}>
-        <ReplantWorldIcon />
-        {useMatch('/signup') && (
+        <ReplantWorldIcon className='dark:fill-white fill-black' />
+        {(matchSignup || matchSignupOrg) && (
           <Button
             onClick={() => navigate('/login')}
-            text={fmtMsg('login')}
-            size={'SMALL'}
+            text={fmtMsg('logIn')}
+            size={'small'}
           />
         )}
-        {useMatch('/login') && (
+        {matchLogin && (
           <Button
             onClick={() => navigate('/signup')}
             text={fmtMsg('signup')}
-            size={'SMALL'}
+            size={'small'}
           />
         )}
       </div>
-      <div className={'py-2.5 px-5'}>{children}</div>
+      <div className={'py-2.5 px-5 w-screen flex items-center justify-center'}>
+        {children}
+      </div>
     </div>
   );
 };

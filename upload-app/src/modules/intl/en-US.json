@@ -1,1 +1,20 @@
-{ "back": "Back", "login": "Log in", "signup": "Sign up" }
+{
+  "back": "Back",
+  "logIn": "Log in",
+  "login": "Login",
+  "signup": "Sign up",
+  "phoneNumber": "Phone number",
+  "country": "Country",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "fieldRequired": "Field required.",
+  "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",
+  "passwordsAreNotTheSame": "Passwords are not the same.",
+  "passwordIsTooSimilarToUsername": "The password is too similar to the username.",
+  "phoneNumberIsNotValid": "The phone number entered is not valid.",
+  "ifYouBelongToPlantingOrganization": "If you belong to the planting organisation that already uses this platform, ask your coordinator for a unique link to create an account.",
+  "registrationLinkIsInvalid": "The registration link is invalid.",
+  "goToSignup": "Go to signup",
+  "registrationLinkExpired": "The registration link is expired. Contact your coordinator or other organization member and ask for a new link.",
+  "enterValidUsername": "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters."
+}

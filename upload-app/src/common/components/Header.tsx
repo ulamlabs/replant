@@ -18,7 +18,7 @@ export const Header: React.FC<Props> = ({ text, onBack }) => {
           }
           onClick={onBack}
         >
-          <ArrowLeftIcon />
+          <ArrowLeftIcon className='dark:fill-white fill-black' />
           {fmtMsg('back')}
         </button>
       )}
