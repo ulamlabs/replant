@@ -25,9 +25,6 @@ export const ComponentTestpage: React.FC = () => {
           value='Testowa wartość'
         />
         <CountriesAutocomplete
-          label={'Test select'}
-          placeholder={'Test select'}
-          icon={<LocationIcon />}
           options={[
             { id: 1, name: 'Polska' },
             { id: 1, name: 'Czechy' },

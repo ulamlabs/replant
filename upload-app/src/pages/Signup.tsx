@@ -1,5 +1,5 @@
 import { UnauthLayout } from 'modules/layout';
-import { Signup as SignupFeature } from 'modules/signup';
+import { Signup as SignupFeature } from 'modules/auth';
 
 export const Signup: React.FC = () => {
   return (

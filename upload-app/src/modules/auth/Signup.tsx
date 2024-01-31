@@ -125,9 +125,9 @@ export const Signup: React.FC = () => {
           />
         )}
         <Header text={fmtMsg('signup')} />
-        <label className='text-xs text-black dark:text-white text-center'>
+        <span className='text-xs text-black dark:text-white text-center'>
           {fmtMsg('ifYouBelongToPlantingOrganization')}
-        </label>
+        </span>
       </div>
       <SignupForm
         login={login}

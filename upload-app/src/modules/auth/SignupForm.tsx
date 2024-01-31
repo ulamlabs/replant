@@ -1,5 +1,5 @@
 import { Input } from 'common/components';
-import { PadlockeIcon, PhoneIcon, UserIcon } from 'common/icons';
+import { PadlockIcon, PhoneIcon, UserIcon } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
 import { Country } from 'modules/countries/api';
 import { useFmtMsg } from 'modules/intl';
@@ -71,7 +71,7 @@ export const SignupForm: React.FC<Props> = ({
       <Input
         label={fmtMsg('password')}
         placeholder={fmtMsg('password')}
-        icon={<PadlockeIcon />}
+        icon={<PadlockIcon />}
         value={password}
         type='password'
         error={passwordError}
@@ -80,7 +80,7 @@ export const SignupForm: React.FC<Props> = ({
       <Input
         label={fmtMsg('confirmPassword')}
         placeholder={fmtMsg('confirmPassword')}
-        icon={<PadlockeIcon />}
+        icon={<PadlockIcon />}
         value={confirmPassword}
         type='password'
         error={confirmPasswordError}

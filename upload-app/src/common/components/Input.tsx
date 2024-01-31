@@ -26,7 +26,7 @@ export const Input: React.FC<Props> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className='flex flex-col gap-1.5'>
+    <div className='flex flex-col gap-1.5 w-full'>
       {label && (
         <label className={'text-left text-xs text-black dark:text-white'}>
           {label}

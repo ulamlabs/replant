@@ -79,9 +79,9 @@ export const CountriesAutocomplete: React.FC<Props> = ({
         </ul>
       )}
       {error && (
-        <label className={'text-left text-xs text-red-400 dark:text-red-400'}>
+        <span className={'text-left text-xs text-red-400 dark:text-red-400'}>
           {error}
-        </label>
+        </span>
       )}
     </div>
   );
