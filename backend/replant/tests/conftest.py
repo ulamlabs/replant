@@ -23,15 +23,30 @@ def api_client():
 
 
 @pytest.fixture
-def planting_organization():
-    countries = Country.objects.filter(id=1)
+def country():
+    return Country.objects.filter(id=1, name="Aruba").first()
+
+
+@pytest.fixture
+def planting_organization(country: Country):
     return baker.make(
         PlantingOrganization,
         name="Green World",
-        countries=countries,
+        countries=[country],
     )
 
 
 @pytest.fixture
-def user():
-    return baker.make(User, phone_number="+48888234567")
+def user(country: Country, planting_organization: PlantingOrganization):
+    return baker.make(
+        User,
+        planting_organization=planting_organization,
+        country=country,
+        phone_number="+48888234567",
+    )
+
+
+@pytest.fixture
+def user_client(user: User, api_client: APIClient):
+    api_client.force_login(user)
+    return api_client

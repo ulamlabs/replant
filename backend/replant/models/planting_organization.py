@@ -15,7 +15,9 @@ class PlantingOrganization(TrackableModel):
     contact_person_full_name = models.CharField(max_length=50)
     contact_person_email = models.EmailField()
 
-    countries = models.ManyToManyField("replant.Country")
+    countries = models.ManyToManyField(
+        "replant.Country", related_name="planting_organizations"
+    )
     passcodes: "PasscodeManager"
 
     def __str__(self):
