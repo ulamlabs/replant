@@ -20,6 +20,10 @@ class PlantingOrganization(TrackableModel):
     )
     passcodes: "PasscodeManager"
 
+    class Meta:
+        verbose_name = "planting organization / community"
+        verbose_name_plural = "planting organizations / communities"
+
     def __str__(self):
         return self.name
 

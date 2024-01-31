@@ -7,5 +7,9 @@ class User(AbstractUser):
     phone_number = PhoneNumberField()
     country = models.ForeignKey("replant.Country", null=True, on_delete=models.PROTECT)
     planting_organization = models.ForeignKey(
-        "replant.PlantingOrganization", null=True, blank=True, on_delete=models.PROTECT
+        "replant.PlantingOrganization",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name="planting organization / community",
     )

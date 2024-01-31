@@ -6,7 +6,9 @@ from .utils import TrackableModel
 
 class AssignedSpecies(TrackableModel):
     planting_organization = models.ForeignKey(
-        "replant.PlantingOrganization", on_delete=models.PROTECT
+        "replant.PlantingOrganization",
+        on_delete=models.PROTECT,
+        verbose_name="planting organization / community",
     )
     country = models.ForeignKey("replant.Country", on_delete=models.PROTECT)
     species = models.ForeignKey("replant.Species", on_delete=models.PROTECT)
