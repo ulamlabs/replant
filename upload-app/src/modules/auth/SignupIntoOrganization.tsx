@@ -1,8 +1,11 @@
-import { Button, Header, LoaderBox, Section } from 'common/components';
-import { Alert } from 'common/components/Alert';
+import { AxiosError } from 'axios';
+import { Alert, Button, Header, LoaderBox, Section } from 'common/components';
+import { prettifyError } from 'common/utils';
 import { Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { SignupForm } from './SignupForm';
 import {
   RegisterIntoOrganizationError,
   RegisterOrganizationError,
@@ -13,10 +16,6 @@ import {
   useRegisterIntoOrganizationMutation,
   useRegisterOrganization,
 } from './api';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { prettifyError } from 'common/utils';
-import { SignupForm } from './SignupForm';
 import { validatePassword, validatePhoneNumber } from './utils';
 
 export const SignupIntoOrganization: React.FC = () => {

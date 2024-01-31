@@ -55,7 +55,7 @@ export const Signup: React.FC = () => {
       return;
     }
 
-    if (!validatePhoneNumber(phoneNumber)) {
+    if (!validatePhoneNumber(phoneNumberTrimmed)) {
       setPhoneNumberError(fmtMsg('phoneNumberIsNotValid'));
       return;
     }
@@ -75,11 +75,11 @@ export const Signup: React.FC = () => {
       return;
     }
 
-    if (country && phoneNumber && loginTrimmed && password) {
+    if (country && phoneNumberTrimmed && loginTrimmed && password) {
       registerMutation.mutate(
         {
           username: loginTrimmed,
-          phone_number: phoneNumber,
+          phone_number: phoneNumberTrimmed,
           country: country?.id,
           password: password,
         },
