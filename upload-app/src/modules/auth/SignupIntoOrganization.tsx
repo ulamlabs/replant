@@ -150,7 +150,7 @@ export const SignupIntoOrganization: React.FC = () => {
 
   return (
     <Section
-      actions={<Button text={fmtMsg('signup')} size={'big'} onClick={submit} />}
+      actions={<Button text={fmtMsg('signUp')} size={'big'} onClick={submit} />}
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (
@@ -160,7 +160,7 @@ export const SignupIntoOrganization: React.FC = () => {
           />
         )}
         <div className='text-center'>
-          <Header text={fmtMsg('signup')} />
+          <Header text={fmtMsg('signUp')} />
           <span className='text-lg font-bold text-gray-500 dark:text-gray-500'>
             {organization.planting_organization.name}
           </span>
