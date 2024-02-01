@@ -29,11 +29,11 @@ export const Login: React.FC = () => {
     let passwordError = '';
 
     if (!login.trim()) {
-      loginError = fmtMsg('loginIsRequired');
+      loginError = fmtMsg('fieldRequired');
     }
 
     if (!password.trim()) {
-      passwordError = fmtMsg('passwordIsRequired');
+      passwordError = fmtMsg('fieldRequired');
     }
 
     setLoginError(loginError);

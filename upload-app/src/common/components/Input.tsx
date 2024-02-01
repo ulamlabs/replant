@@ -34,8 +34,10 @@ export const Input: React.FC<Props> = ({
       )}
       <div
         className={clsx(
-          'border border-black dark:border-white dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text',
-          error && ' dark:border-red-400 border-red-400',
+          'border dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text',
+          error
+            ? 'dark:border-red-400 border-red-400'
+            : 'border-black dark:border-white',
           className
         )}
       >
