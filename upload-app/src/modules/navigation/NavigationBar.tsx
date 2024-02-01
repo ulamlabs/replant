@@ -16,8 +16,8 @@ export const NavigationBar: React.FC = () => {
       }
     >
       <HomeButton
-        isActive={!!useMatch('/home')}
-        onClick={() => navigate('/home')}
+        isActive={!!useMatch('/dashboard')}
+        onClick={() => navigate('/dashboard')}
       />
       <TreesButton
         isActive={!!useMatch('/submissions')}

@@ -158,6 +158,7 @@ export const SignupIntoOrganization: React.FC = () => {
           onClick={submit}
         />
       }
+      className='max-w-xl'
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (

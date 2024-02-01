@@ -10,3 +10,7 @@ export * from './PadlockeIcon';
 export * from './ArrowDownIcon';
 export * from './EyeIcon';
 export * from './CrossedEyeIcon';
+export * from './TreeIcon';
+export * from './CheckIcon';
+export * from './CrossIcon';
+export * from './DocumentIcon';

@@ -1,7 +1,7 @@
 import { IntlProvider } from 'modules/intl';
 import {
   ComponentTestpage,
-  Home,
+  DashboardPage,
   LoginPage,
   NewSubmissionPage,
   Signup,
@@ -18,8 +18,8 @@ const App: React.FC = () => {
       <IntlProvider>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Navigate replace to='/home' />} />
-            <Route path='/home' element={<Home />} />
+            <Route path='/' element={<Navigate replace to='/dashboard' />} />
+            <Route path='/dashboard' element={<DashboardPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/new-submission' element={<NewSubmissionPage />} />
             <Route path='/testpage' element={<ComponentTestpage />} />

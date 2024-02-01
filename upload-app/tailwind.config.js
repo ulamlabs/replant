@@ -4,7 +4,17 @@ import colors from 'tailwindcss/colors';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        18: '74px',
+      },
+      aspectRatio: {
+        '3/4': '3 / 4',
+      },
+      fontSize: {
+        xxs: '0.625rem',
+      },
+    },
     colors: {
       white: colors.white,
       black: colors.black,

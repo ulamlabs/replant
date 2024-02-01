@@ -1,5 +1,5 @@
 export * from './ComponentTestpage';
-export * from './Home';
+export * from './DashboardPage';
 export * from './LoginPage';
 export * from './NewSubmissionPage';
 export * from './Signup';
