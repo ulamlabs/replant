@@ -18,6 +18,13 @@ export const ComponentTestpage: React.FC = () => {
         <Alert text={'Test success alert'} severity={'success'} />
         <Button text={'Test big'} size={'big'} onClick={() => {}} />
         <Button text={'Test small'} size={'small'} onClick={() => {}} />
+        <Button isLoading text={'Test big'} size={'big'} onClick={() => {}} />
+        <Button
+          isLoading
+          text={'Test small'}
+          size={'small'}
+          onClick={() => {}}
+        />
         <Input
           label={'Header test'}
           placeholder={'Test placeholder'}

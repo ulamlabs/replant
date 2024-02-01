@@ -63,7 +63,14 @@ export const Login: React.FC = () => {
 
   return (
     <Section
-      actions={<Button text={fmtMsg('logIn')} size={'big'} onClick={logIn} />}
+      actions={
+        <Button
+          isLoading={loginMutation.isPending}
+          size={'big'}
+          text={fmtMsg('logIn')}
+          onClick={logIn}
+        />
+      }
     >
       <form className='flex flex-col gap-5 h-full items-center justify-end'>
         <img src={poptechImg} className='h-8' />

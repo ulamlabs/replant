@@ -114,7 +114,14 @@ export const Signup: React.FC = () => {
 
   return (
     <Section
-      actions={<Button text={fmtMsg('signUp')} size={'big'} onClick={submit} />}
+      actions={
+        <Button
+          isLoading={registerMutation.isPending}
+          size={'big'}
+          text={fmtMsg('signUp')}
+          onClick={submit}
+        />
+      }
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (
