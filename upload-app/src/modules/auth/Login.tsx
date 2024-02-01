@@ -1,12 +1,12 @@
 import poptechImg from 'assets/poptech.png';
+import { AxiosError } from 'axios';
 import { Alert, Button, Input, Section } from 'common/components';
 import { PadlockIcon, UserIcon } from 'common/icons';
+import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
-import { LoginError, useLoginMutation } from './api';
 import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { prettifyError } from 'common/utils';
+import { LoginError, useLoginMutation } from './api';
 
 export const Login: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -73,7 +73,7 @@ export const Login: React.FC = () => {
       }
     >
       <form className='flex flex-col gap-5 h-full items-center justify-end'>
-        <img src={poptechImg} className='h-8' />
+        <img src={poptechImg} className='h-8 invert dark:invert-0' />
         {loginMutation.isError && (
           <Alert severity='error' text={getErrorText(loginMutation.error)} />
         )}
