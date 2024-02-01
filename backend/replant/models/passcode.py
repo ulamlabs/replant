@@ -34,6 +34,7 @@ class Passcode(models.Model):
         "replant.PlantingOrganization",
         on_delete=models.CASCADE,
         related_name="passcodes",
+        verbose_name="planting organization / community",
     )
     created_by = models.ForeignKey(
         get_user_model(),
