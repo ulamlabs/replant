@@ -8,13 +8,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SignupForm } from './SignupForm';
 import {
   RegisterIntoOrganizationError,
-  RegisterOrganizationError,
+  RegisteredOrganizationError,
   enterValidUsername,
   passwordIsTooSimilarToUsername,
   phoneNumberIsNotValid,
   registrationLinkExpired,
   useRegisterIntoOrganizationMutation,
-  useRegisterOrganization,
+  useRegisteredOrganization,
 } from './api';
 import { validatePassword, validatePhoneNumber } from './utils';
 
@@ -28,7 +28,7 @@ export const SignupIntoOrganization: React.FC = () => {
     data: organization,
     error: organizationError,
     isLoading: isOrganizationLoading,
-  } = useRegisterOrganization(code);
+  } = useRegisteredOrganization(code);
 
   const [login, setLogin] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -123,7 +123,7 @@ export const SignupIntoOrganization: React.FC = () => {
   }
 
   const getWrongCodeErrorText = (
-    error: AxiosError<RegisterOrganizationError> | null
+    error: AxiosError<RegisteredOrganizationError> | null
   ) => {
     if (error && registrationLinkExpired(error.response?.data)) {
       return fmtMsg('registrationLinkExpired');

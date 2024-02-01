@@ -7,7 +7,7 @@ const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/register';
 const REGISTER_TO_ORGANIZATION_URL = '/auth/register-to-organization/{code}';
 
-const registerToOrganizationQueryKey = (code: string | null) => [
+const registeredOrganizationQueryKey = (code: string | null) => [
   'GET',
   REGISTER_TO_ORGANIZATION_URL,
   code,
@@ -24,7 +24,7 @@ export type LoginError = {
 
 export type LoginResponse = { username: string };
 
-export type RegisterUser = {
+export type RegisterPayload = {
   username: string;
   phone_number: string;
   country: number;
@@ -49,19 +49,19 @@ export type RegisterIntoOrganizationError = RegisterError & {
   code?: string[];
 };
 
-export type RegisterOrganizationResponse = {
+export type RegisteredOrganizationResponse = {
   planting_organization: {
     name: string;
     countries: Country[];
   };
 };
 
-export type RegisterOrganizationError = {
+export type RegisteredOrganizationError = {
   non_field_errors?: string[];
 };
 
-const getRegisterOrganization = async (code: string | null) => {
-  const response = await get<RegisterOrganizationResponse>(
+const getRegisteredOrganization = async (code: string) => {
+  const response = await get<RegisteredOrganizationResponse>(
     REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`)
   );
   return response.data;
@@ -70,11 +70,11 @@ const getRegisterOrganization = async (code: string | null) => {
 const postLogin = (payload: LoginPayload) =>
   post<LoginResponse, LoginPayload>(LOGIN_URL, payload);
 
-const postRegister = (payload: RegisterUser) =>
-  post<RegisterResponse, RegisterUser>(REGISTER_URL, payload);
+const postRegister = (payload: RegisterPayload) =>
+  post<RegisterResponse, RegisterPayload>(REGISTER_URL, payload);
 
-const postRegisterIntoOrganization = (payload: RegisterUser, code: string) =>
-  post<RegisterResponse, RegisterUser>(
+const postRegisterIntoOrganization = (payload: RegisterPayload, code: string) =>
+  post<RegisterResponse, RegisterPayload>(
     REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`),
     payload
   );
@@ -93,7 +93,7 @@ export const useRegisterMutation = () => {
   const mutation = useMutation<
     AxiosResponse<RegisterResponse>,
     AxiosError<RegisterError>,
-    RegisterUser
+    RegisterPayload
   >({
     mutationFn: postRegister,
   });
@@ -105,7 +105,7 @@ export const useRegisterIntoOrganizationMutation = (code: string) => {
   const mutation = useMutation<
     AxiosResponse<RegisterResponse>,
     AxiosError<RegisterIntoOrganizationError>,
-    RegisterUser
+    RegisterPayload
   >({
     mutationFn: (payload) => postRegisterIntoOrganization(payload, code),
   });
@@ -113,13 +113,15 @@ export const useRegisterIntoOrganizationMutation = (code: string) => {
   return mutation;
 };
 
-export const useRegisterOrganization = (code: string | null) =>
-  useQuery<RegisterOrganizationResponse, AxiosError<RegisterOrganizationError>>(
-    {
-      queryKey: registerToOrganizationQueryKey(code),
-      queryFn: () => getRegisterOrganization(code),
-    }
-  );
+export const useRegisteredOrganization = (code: string | null) =>
+  useQuery<
+    RegisteredOrganizationResponse,
+    AxiosError<RegisteredOrganizationError>
+  >({
+    queryKey: registeredOrganizationQueryKey(code),
+    queryFn: () => getRegisteredOrganization(code!),
+    enabled: !!code,
+  });
 
 export const phoneNumberIsNotValid = (
   errResponseData?: RegisterError | RegisterIntoOrganizationError
@@ -158,7 +160,7 @@ export const enterValidUsername = (
 };
 
 export const registrationLinkExpired = (
-  errResponseData?: RegisterOrganizationError
+  errResponseData?: RegisteredOrganizationError
 ) => {
   for (const err of errResponseData?.non_field_errors || []) {
     const match = err.match(CODE_HAS_EXPIRED);
