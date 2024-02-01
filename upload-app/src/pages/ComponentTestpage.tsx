@@ -1,13 +1,19 @@
 import { LocationIcon } from 'common/icons';
-import { Button, Header, Input } from 'common/components';
+import {
+  Alert,
+  Button,
+  Header,
+  Input,
+  Loader,
+  LoaderBox,
+} from 'common/components';
 import { UnauthLayout } from 'modules/layout';
-import { Alert } from 'common/components/Alert';
 import { CountriesAutocomplete } from 'modules/countries';
 
 export const ComponentTestpage: React.FC = () => {
   return (
     <UnauthLayout>
-      <div>
+      <div className='flex flex-col gap-3'>
         <Alert text={'Test error alert'} severity={'error'} />
         <Alert text={'Test success alert'} severity={'success'} />
         <Button text={'Test big'} size={'big'} onClick={() => {}} />
@@ -39,6 +45,8 @@ export const ComponentTestpage: React.FC = () => {
           }}
         />
         <Header text={'Test header without back'} />
+        <Loader />
+        <LoaderBox />
       </div>
     </UnauthLayout>
   );
