@@ -4,6 +4,7 @@ import { get, post } from 'modules/api';
 import { Country } from 'modules/countries';
 
 const LOGIN_URL = '/auth/login';
+const LOGOUT_URL = '/auth/logout';
 const REGISTER_URL = '/auth/register';
 const REGISTER_TO_ORGANIZATION_URL = '/auth/register-to-organization/{code}';
 
@@ -70,6 +71,9 @@ const getRegisteredOrganization = async (code: string) => {
 const postLogin = (payload: LoginPayload) =>
   post<LoginResponse, LoginPayload>(LOGIN_URL, payload);
 
+const postLogout = () =>
+  post<Record<string, never>, Record<string, never>>(LOGOUT_URL);
+
 const postRegister = (payload: RegisterPayload) =>
   post<RegisterResponse, RegisterPayload>(REGISTER_URL, payload);
 
@@ -87,6 +91,16 @@ export const useLoginMutation = () =>
   >({
     mutationKey: ['POST', LOGIN_URL],
     mutationFn: postLogin,
+  });
+
+export const useLogoutMutation = () =>
+  useMutation<
+    AxiosResponse<Record<string, never>>,
+    AxiosError<{ detail: string }>,
+    Record<string, never>
+  >({
+    mutationKey: ['POST', LOGOUT_URL],
+    mutationFn: postLogout,
   });
 
 export const useRegisterMutation = () => {

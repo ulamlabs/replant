@@ -22,6 +22,10 @@ export const Login: React.FC = () => {
   const loginMutation = useLoginMutation();
 
   const logIn = async () => {
+    if (loginMutation.isPending) {
+      return;
+    }
+
     const loginTrimmed = login.trim();
     const passwordTrimmed = password.trim();
 
