@@ -20,7 +20,9 @@ import { validatePassword, validatePhoneNumber } from './utils';
 
 export const SignupIntoOrganization: React.FC = () => {
   const fmtMsg = useFmtMsg();
+
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
 
@@ -158,6 +160,7 @@ export const SignupIntoOrganization: React.FC = () => {
           onClick={submit}
         />
       }
+      className='max-w-xl'
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (
