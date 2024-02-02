@@ -14,3 +14,4 @@ export * from './TreeIcon';
 export * from './CheckIcon';
 export * from './CrossIcon';
 export * from './DocumentIcon';
+export * from './types';

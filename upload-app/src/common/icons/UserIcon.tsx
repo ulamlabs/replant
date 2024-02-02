@@ -1,6 +1,9 @@
-type Props = { pathClassName?: string; svgClassName?: string };
+import { IconProps } from './types';
 
-export const UserIcon: React.FC<Props> = ({ pathClassName, svgClassName }) => {
+export const UserIcon: React.FC<IconProps> = ({
+  pathClassName,
+  svgClassName,
+}) => {
   return (
     <svg
       width='28'
