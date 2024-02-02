@@ -1,1 +1,1 @@
-export * from './components/PlantBox';
+export * from './Plant';

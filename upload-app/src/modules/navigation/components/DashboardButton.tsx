@@ -6,7 +6,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const HomeButton: React.FC<Props> = ({ isActive, onClick }) => {
+export const DashboardButton: React.FC<Props> = ({ isActive, onClick }) => {
   return (
     <button onClick={onClick}>
       <HomeIcon

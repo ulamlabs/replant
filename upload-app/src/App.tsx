@@ -4,8 +4,8 @@ import {
   DashboardPage,
   LoginPage,
   NewSubmissionPage,
-  Signup,
-  SignupIntoOrganization,
+  SignupPage,
+  SignupIntoOrganizationPage,
   SubmissionsPage,
   UserPage,
 } from 'pages';
@@ -23,8 +23,11 @@ const App: React.FC = () => {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/new-submission' element={<NewSubmissionPage />} />
             <Route path='/testpage' element={<ComponentTestpage />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/signup-org' element={<SignupIntoOrganization />} />
+            <Route path='/signup' element={<SignupPage />} />
+            <Route
+              path='/signup-org'
+              element={<SignupIntoOrganizationPage />}
+            />
             <Route path='/submissions' element={<SubmissionsPage />} />
             <Route path='/user' element={<UserPage />} />
           </Routes>

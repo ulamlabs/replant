@@ -17,6 +17,7 @@ import { validatePassword, validatePhoneNumber } from './utils';
 
 export const Signup: React.FC = () => {
   const fmtMsg = useFmtMsg();
+
   const navigate = useNavigate();
 
   const [login, setLogin] = useState('');
@@ -32,6 +33,7 @@ export const Signup: React.FC = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const { data: countries, isLoading: isCountriesLoading } = useCountries();
+
   const registerMutation = useRegisterMutation();
 
   const submit = () => {

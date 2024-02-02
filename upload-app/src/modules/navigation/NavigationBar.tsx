@@ -1,8 +1,8 @@
 import { useMatch, useNavigate } from 'react-router-dom';
 import {
   CameraButton,
-  HomeButton,
-  TreesButton,
+  DashboardButton,
+  SubmissionsButton,
   UserButton,
 } from './components';
 
@@ -15,11 +15,11 @@ export const NavigationBar: React.FC = () => {
         'w-full py-2.5 px-5 flex items-center justify-around dark:bg-teal-700 bg-teal-600 rounded-full shadow-md max-w-md'
       }
     >
-      <HomeButton
+      <DashboardButton
         isActive={!!useMatch('/dashboard')}
         onClick={() => navigate('/dashboard')}
       />
-      <TreesButton
+      <SubmissionsButton
         isActive={!!useMatch('/submissions')}
         onClick={() => navigate('/submissions')}
       />

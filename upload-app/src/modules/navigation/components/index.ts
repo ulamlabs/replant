@@ -1,4 +1,4 @@
 export * from './CameraButton';
-export * from './HomeButton';
-export * from './TreesButton';
+export * from './DashboardButton';
+export * from './SubmissionsButton';
 export * from './UserButton';

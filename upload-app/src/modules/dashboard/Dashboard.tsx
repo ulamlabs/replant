@@ -1,9 +1,9 @@
 import { Section } from 'common/components';
-import { useFmtMsg } from 'modules/intl';
-import { InfoBox } from './components/InfoBox';
 import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
-import { PlantBox } from 'modules/plants';
-import image from './tree-planting.png';
+import { useFmtMsg } from 'modules/intl';
+import { Plant } from 'modules/plants';
+import image from './assets/tree-planting.png';
+import { InfoBox } from './components';
 
 export const Dashboard: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -26,28 +26,28 @@ export const Dashboard: React.FC = () => {
           className={'bg-bisque-400'}
         />
         <InfoBox
-          title={fmtMsg('rejectedTrees')}
+          title={fmtMsg('approvedTrees')}
           icon={<CheckIcon />}
           isLoading={false}
-          value={'9'}
+          value={'112'}
           className={'bg-green-400'}
         />
         <InfoBox
-          title={fmtMsg('approvedTrees')}
+          title={fmtMsg('rejectedTrees')}
           icon={<CrossIcon />}
           isLoading={false}
-          value={'112'}
+          value={'7'}
           className={'bg-red-400'}
         />
       </div>
       <div>
-        <PlantBox
-          image={image}
+        <Plant
           botanicalName={'Quercoxylon E. Hofmann'}
           commonName={'dąb liściasty'}
-          location={'51°06′36″N 17°01′20″E'}
           date={'2024-02-01T20:12:00'}
           id={2}
+          image={image}
+          location={'51°06′36″N 17°01′20″E'}
         />
       </div>
     </Section>

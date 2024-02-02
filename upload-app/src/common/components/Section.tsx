@@ -10,7 +10,7 @@ export const Section: React.FC<Props> = ({ children, actions, className }) => {
   return (
     <div
       className={clsx(
-        'w-full h-[calc(100vh-80px)]relative overflow-hidden',
+        'w-full h-[calc(100vh-80px)] relative overflow-hidden',
         className
       )}
     >

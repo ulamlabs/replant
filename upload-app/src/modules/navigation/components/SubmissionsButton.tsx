@@ -1,4 +1,4 @@
-import { TreesIcon } from 'common/icons';
+import { ForestIcon } from 'common/icons';
 import clsx from 'clsx';
 
 type Props = {
@@ -6,10 +6,10 @@ type Props = {
   onClick: () => void;
 };
 
-export const TreesButton: React.FC<Props> = ({ isActive, onClick }) => {
+export const SubmissionsButton: React.FC<Props> = ({ isActive, onClick }) => {
   return (
     <button onClick={onClick}>
-      <TreesIcon
+      <ForestIcon
         className={clsx('cursor-pointer', isActive && 'stroke-bisque-400')}
       />
     </button>

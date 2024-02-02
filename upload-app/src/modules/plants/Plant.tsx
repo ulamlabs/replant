@@ -1,23 +1,23 @@
-import { useFmtMsg } from 'modules/intl';
-import { StatusPill } from './StatusPill';
 import { formatDatetimeWithoutSec } from 'common/utils/date-format';
+import { useFmtMsg } from 'modules/intl';
+import { StatusPill } from './components';
 
 type Props = {
-  image: string;
   botanicalName: string;
   commonName: string;
-  location: string;
   date: string;
   id: number;
+  image: string;
+  location: string;
 };
 
-export const PlantBox: React.FC<Props> = ({
-  image,
+export const Plant: React.FC<Props> = ({
   botanicalName,
   commonName,
-  location,
   date,
   id,
+  image,
+  location,
 }) => {
   const fmtMsg = useFmtMsg();
 

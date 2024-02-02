@@ -1,6 +1,6 @@
 type Props = { className?: string };
 
-export const TreesIcon: React.FC<Props> = ({ className }) => {
+export const ForestIcon: React.FC<Props> = ({ className }) => {
   return (
     <svg
       width='30'

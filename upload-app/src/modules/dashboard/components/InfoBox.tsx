@@ -2,19 +2,19 @@ import clsx from 'clsx';
 import { Loader } from 'common/components';
 
 type Props = {
-  title: string;
-  icon: React.ReactNode;
-  value?: string;
-  isLoading: boolean;
   className: string;
+  icon: React.ReactNode;
+  isLoading: boolean;
+  title: string;
+  value?: string;
 };
 
 export const InfoBox: React.FC<Props> = ({
+  className,
   icon,
+  isLoading,
   title,
   value,
-  isLoading,
-  className,
 }) => {
   return (
     <div
