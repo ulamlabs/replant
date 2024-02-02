@@ -10,7 +10,10 @@ export const SubmissionsButton: React.FC<Props> = ({ isActive, onClick }) => {
   return (
     <button onClick={onClick}>
       <ForestIcon
-        className={clsx('cursor-pointer', isActive && 'stroke-bisque-400')}
+        className={clsx(
+          'cursor-pointer',
+          isActive && 'fill-teal-900 dark:fill-bisque-400'
+        )}
       />
     </button>
   );

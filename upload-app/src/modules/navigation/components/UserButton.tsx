@@ -10,7 +10,10 @@ export const UserButton: React.FC<Props> = ({ isActive, onClick }) => {
   return (
     <button onClick={onClick}>
       <UserIcon
-        pathClassName={clsx('cursor-pointer', isActive && 'fill-bisque-400')}
+        pathClassName={clsx(
+          'cursor-pointer',
+          isActive && 'fill-teal-900 dark:fill-bisque-400'
+        )}
       />
     </button>
   );
