@@ -1,8 +1,11 @@
-import { Button, Header, LoaderBox, Section } from 'common/components';
-import { Alert } from 'common/components/Alert';
-import { Country, useCountries } from 'modules/countries/api';
+import { AxiosError } from 'axios';
+import { Alert, Button, Header, LoaderBox, Section } from 'common/components';
+import { prettifyError } from 'common/utils';
+import { Country, useCountries } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SignupForm } from './SignupForm';
 import {
   RegisterError,
   enterValidUsername,
@@ -10,10 +13,6 @@ import {
   phoneNumberIsNotValid,
   useRegisterMutation,
 } from './api';
-import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { prettifyError } from 'common/utils';
-import { SignupForm } from './SignupForm';
 import { validatePassword, validatePhoneNumber } from './utils';
 
 export const Signup: React.FC = () => {
@@ -56,7 +55,7 @@ export const Signup: React.FC = () => {
       return;
     }
 
-    if (!validatePhoneNumber(phoneNumber)) {
+    if (!validatePhoneNumber(phoneNumberTrimmed)) {
       setPhoneNumberError(fmtMsg('phoneNumberIsNotValid'));
       return;
     }
@@ -76,11 +75,11 @@ export const Signup: React.FC = () => {
       return;
     }
 
-    if (country && phoneNumber && loginTrimmed && password) {
+    if (country && phoneNumberTrimmed && loginTrimmed && password) {
       registerMutation.mutate(
         {
           username: loginTrimmed,
-          phone_number: phoneNumber,
+          phone_number: phoneNumberTrimmed,
           country: country?.id,
           password: password,
         },
@@ -115,7 +114,14 @@ export const Signup: React.FC = () => {
 
   return (
     <Section
-      actions={<Button text={fmtMsg('signup')} size={'big'} onClick={submit} />}
+      actions={
+        <Button
+          isLoading={registerMutation.isPending}
+          size={'big'}
+          text={fmtMsg('signUp')}
+          onClick={submit}
+        />
+      }
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (
@@ -124,10 +130,10 @@ export const Signup: React.FC = () => {
             severity={'error'}
           />
         )}
-        <Header text={fmtMsg('signup')} />
-        <label className='text-xs text-black dark:text-white text-center'>
+        <Header text={fmtMsg('signUp')} />
+        <span className='text-xs text-black dark:text-white text-center'>
           {fmtMsg('ifYouBelongToPlantingOrganization')}
-        </label>
+        </span>
       </div>
       <SignupForm
         login={login}

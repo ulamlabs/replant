@@ -1,22 +1,21 @@
-import { Button, Header, LoaderBox, Section } from 'common/components';
-import { Alert } from 'common/components/Alert';
-import { Country } from 'modules/countries/api';
+import { AxiosError } from 'axios';
+import { Alert, Button, Header, LoaderBox, Section } from 'common/components';
+import { prettifyError } from 'common/utils';
+import { Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { SignupForm } from './SignupForm';
 import {
   RegisterIntoOrganizationError,
-  RegisterOrganizationError,
+  RegisteredOrganizationError,
   enterValidUsername,
   passwordIsTooSimilarToUsername,
   phoneNumberIsNotValid,
   registrationLinkExpired,
   useRegisterIntoOrganizationMutation,
-  useRegisterOrganization,
+  useRegisteredOrganization,
 } from './api';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { prettifyError } from 'common/utils';
-import { SignupForm } from './SignupForm';
 import { validatePassword, validatePhoneNumber } from './utils';
 
 export const SignupIntoOrganization: React.FC = () => {
@@ -29,7 +28,7 @@ export const SignupIntoOrganization: React.FC = () => {
     data: organization,
     error: organizationError,
     isLoading: isOrganizationLoading,
-  } = useRegisterOrganization(code);
+  } = useRegisteredOrganization(code);
 
   const [login, setLogin] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -124,7 +123,7 @@ export const SignupIntoOrganization: React.FC = () => {
   }
 
   const getWrongCodeErrorText = (
-    error: AxiosError<RegisterOrganizationError> | null
+    error: AxiosError<RegisteredOrganizationError> | null
   ) => {
     if (error && registrationLinkExpired(error.response?.data)) {
       return fmtMsg('registrationLinkExpired');
@@ -151,7 +150,14 @@ export const SignupIntoOrganization: React.FC = () => {
 
   return (
     <Section
-      actions={<Button text={fmtMsg('signup')} size={'big'} onClick={submit} />}
+      actions={
+        <Button
+          isLoading={registerMutation.isPending}
+          size={'big'}
+          text={fmtMsg('signUp')}
+          onClick={submit}
+        />
+      }
     >
       <div className='flex flex-col gap-5 mb-5'>
         {registerMutation.isError && (
@@ -161,10 +167,10 @@ export const SignupIntoOrganization: React.FC = () => {
           />
         )}
         <div className='text-center'>
-          <Header text={fmtMsg('signup')} />
-          <label className='text-lg font-bold text-gray-500 dark:text-gray-500'>
+          <Header text={fmtMsg('signUp')} />
+          <span className='text-lg font-bold text-gray-500 dark:text-gray-500'>
             {organization.planting_organization.name}
-          </label>
+          </span>
         </div>
       </div>
       <SignupForm

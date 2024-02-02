@@ -20,12 +20,12 @@ export const NavigationBar: React.FC = () => {
         onClick={() => navigate('/home')}
       />
       <TreesButton
-        isActive={!!useMatch('/trees')}
-        onClick={() => navigate('/trees')}
+        isActive={!!useMatch('/submissions')}
+        onClick={() => navigate('/submissions')}
       />
       <CameraButton
-        isActive={!!useMatch('/add-tree')}
-        onClick={() => navigate('/add-tree')}
+        isActive={!!useMatch('/new-submission')}
+        onClick={() => navigate('/new-submission')}
       />
       <UserButton
         isActive={!!useMatch('/user')}
