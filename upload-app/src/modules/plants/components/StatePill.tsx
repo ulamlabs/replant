@@ -6,13 +6,13 @@ type Props = {
   state: 'PENDING' | 'APPROVED' | 'REJECTED';
 };
 
-export const StatusPill: React.FC<Props> = ({ state }) => {
+export const StatePill: React.FC<Props> = ({ state }) => {
   const fmtMsg = useFmtMsg();
 
   return (
     <div
       className={clsx(
-        'rounded-xl py-1 px-1.5 flex items-center gap-1 w-18 justify-center text-xxs font-semibold leading-none text-white dark:text-white opacity-80',
+        'rounded-xl py-1 px-1.5 flex items-center gap-1 text-xxs font-semibold leading-none text-white dark:text-white opacity-80',
         state === 'PENDING' && 'bg-bisque-400',
         state === 'APPROVED' && 'bg-green-400',
         state === 'REJECTED' && 'bg-red-400'
