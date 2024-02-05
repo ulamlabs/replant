@@ -11,14 +11,22 @@ export default {
     colors: {
       white: colors.white,
       black: colors.black,
+      transparent: colors.transparent,
+      teal: {
+        900: '#1b3233',
+        700: '#2a4546',
+        650: '#6E8683',
+        600: '#7B9C93',
+        300: '#daece6',
+        200: '#eaeee8',
+        100: '#f4f3f2',
+      },
       green: {
-        900: '#1B3233',
-        700: '#2E5B55',
+        400: '#4C5E41',
+        300: '#C5D8D9',
       },
       gray: {
-        500: '#808080',
-        300: '#4C4C4C',
-        100: '#EAEAEA',
+        200: '#EFEFEF',
       },
     },
   },

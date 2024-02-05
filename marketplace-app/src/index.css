@@ -18,5 +18,10 @@
   }
   body {
     margin: 0;
+    height: 100vh;
+  }
+
+  html {
+    @apply dark:text-white dark:bg-teal-900 bg-white
   }
 }
