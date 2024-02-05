@@ -47,8 +47,10 @@ export const CountriesAutocomplete: React.FC<Props> = ({
       <div
         {...getRootProps()}
         className={clsx(
-          'border border-black dark:border-white dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center mt-1',
-          error && 'border-red-400 dark:border-red-400'
+          'border dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center mt-1',
+          error
+            ? 'border-red-400 dark:border-red-400'
+            : 'border-black dark:border-white'
         )}
       >
         {<LocationIcon />}
