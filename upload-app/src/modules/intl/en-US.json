@@ -7,6 +7,7 @@
   "country": "Country",
   "date": "Date: {date}",
   "enterValidUsername": "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters.",
+  "errorWhileFetchingCoutries": "Error while fetching countries. Please try again later.",
   "fieldRequired": "This field is required.",
   "goToSignup": "Go to signup",
   "id": "ID: {id}",

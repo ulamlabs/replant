@@ -4,14 +4,17 @@ import { prettifyError } from 'common/utils';
 import { Country, useCountries } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SignupForm } from './SignupForm';
 import {
   RegisterError,
+  RegisteredOrganizationError,
   enterValidUsername,
   passwordIsTooSimilarToUsername,
   phoneNumberIsNotValid,
+  registrationLinkExpired,
   useRegisterMutation,
+  useRegisteredOrganization,
 } from './api';
 import { validatePassword, validatePhoneNumber } from './utils';
 
@@ -19,6 +22,26 @@ export const Signup: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get('code');
+
+  // if organization code is given, sign the user up into the organization, else sign them up as a regular user
+  const signupIntoOrganization = !!code;
+
+  const {
+    data: countries,
+    error: countriesError,
+    isLoading: isCountriesLoading,
+  } = useCountries({
+    enabled: !signupIntoOrganization,
+  });
+
+  const {
+    data: organization,
+    error: organizationError,
+    isLoading: isOrganizationLoading,
+  } = useRegisteredOrganization(code);
 
   const [login, setLogin] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -31,8 +54,6 @@ export const Signup: React.FC = () => {
   const [countryError, setCountryError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-  const { data: countries, isLoading: isCountriesLoading } = useCountries();
 
   const registerMutation = useRegisterMutation();
 
@@ -110,7 +131,40 @@ export const Signup: React.FC = () => {
     return prettifyError(error);
   };
 
-  if (isCountriesLoading || !countries) {
+  const getWrongCodeErrorText = (
+    error: AxiosError<RegisteredOrganizationError> | null
+  ) => {
+    if (registrationLinkExpired(error?.response?.data)) {
+      return fmtMsg('registrationLinkExpired');
+    }
+
+    return fmtMsg('registrationLinkIsInvalid');
+  };
+
+  if (organizationError || countriesError) {
+    return (
+      <div className='flex flex-col gap-5 mb-5 w-full'>
+        {countriesError && (
+          <Alert severity='error' text={fmtMsg('errorWhileFetchingCoutries')} />
+        )}
+        {organizationError && (
+          <>
+            <Alert
+              text={getWrongCodeErrorText(organizationError)}
+              severity={'error'}
+            />
+            <Button
+              text={fmtMsg('goToSignup')}
+              size={'big'}
+              onClick={() => navigate('/signup')}
+            />
+          </>
+        )}
+      </div>
+    );
+  }
+
+  if (signupIntoOrganization ? isOrganizationLoading : isCountriesLoading) {
     return <LoaderBox />;
   }
 
@@ -134,16 +188,26 @@ export const Signup: React.FC = () => {
           />
         )}
         <Header text={fmtMsg('signUp')} />
-        <span className='text-xs text-black dark:text-white text-center'>
-          {fmtMsg('ifYouBelongToPlantingOrganization')}
-        </span>
+        {signupIntoOrganization ? (
+          <span className='text-lg font-bold text-gray-500 dark:text-gray-500 text-center'>
+            {organization!.planting_organization.name}
+          </span>
+        ) : (
+          <span className='text-xs text-black dark:text-white text-center'>
+            {fmtMsg('ifYouBelongToPlantingOrganization')}
+          </span>
+        )}
       </div>
       <SignupForm
         login={login}
         phoneNumber={phoneNumber}
         password={password}
         confirmPassword={confirmPassword}
-        countries={countries}
+        countries={
+          signupIntoOrganization
+            ? organization!.planting_organization.countries!
+            : countries!
+        }
         loginError={loginError}
         phoneNumberError={phoneNumberError}
         countryError={countryError}
