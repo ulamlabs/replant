@@ -15,7 +15,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             "country": {"required": True, "allow_null": False},
         }
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict):
         username = attrs["username"]
         password = attrs["password"]
 
@@ -26,7 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     @transaction.atomic
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         return User.objects.create_user(
             username=validated_data["username"],
             phone_number=validated_data["phone_number"],

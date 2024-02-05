@@ -43,7 +43,7 @@ class PlantSerializer(serializers.ModelSerializer):
             )
         return assigned_species
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict):
         assigned_species_id = attrs["assigned_species_id"]
         user = cast(User, self.context["request"].user)
 
@@ -53,7 +53,7 @@ class PlantSerializer(serializers.ModelSerializer):
         attrs["user"] = user
         return attrs
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         assigned_species: AssignedSpecies = validated_data["assigned_species"]
 
         return Plant.objects.create(

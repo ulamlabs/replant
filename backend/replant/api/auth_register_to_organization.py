@@ -46,7 +46,7 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
                 {"country": ["Only organization's countries can be selected."]}
             )
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict):
         passcode: Passcode = self.context["passcode"]
         username = attrs["username"]
         password = attrs["password"]
@@ -63,7 +63,7 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
         return attrs
 
     @transaction.atomic
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         return User.objects.create_user(
             planting_organization=validated_data["planting_organization"],
             username=validated_data["username"],
