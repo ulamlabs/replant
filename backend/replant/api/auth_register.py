@@ -1,7 +1,5 @@
 from django.db import transaction
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import generics, serializers, status
+from rest_framework import generics, serializers
 
 from replant.models import User
 
@@ -37,13 +35,5 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
 
-@extend_schema_view(
-    post=extend_schema(
-        responses={
-            status.HTTP_201_CREATED: RegisterSerializer,
-            status.HTTP_400_BAD_REQUEST: OpenApiTypes.OBJECT,
-        }
-    )
-)
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer

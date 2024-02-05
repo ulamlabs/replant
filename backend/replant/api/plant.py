@@ -1,14 +1,11 @@
 from typing import cast
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import generics, serializers, status
+from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from replant.models import AssignedSpecies, Plant, User
 
 from .assigned_species import SpeciesSerializer
-from .utils import AUTH_REQUIRED_RESPONSES
 
 
 class PlantSerializer(serializers.ModelSerializer):
@@ -72,18 +69,6 @@ class PlantSerializer(serializers.ModelSerializer):
         )
 
 
-@extend_schema_view(
-    get=extend_schema(
-        responses={status.HTTP_200_OK: PlantSerializer, **AUTH_REQUIRED_RESPONSES}
-    ),
-    post=extend_schema(
-        responses={
-            status.HTTP_201_CREATED: PlantSerializer,
-            status.HTTP_400_BAD_REQUEST: OpenApiTypes.OBJECT,
-            **AUTH_REQUIRED_RESPONSES,
-        }
-    ),
-)
 class PlantView(generics.ListCreateAPIView):
     serializer_class = PlantSerializer
     permission_classes = [IsAuthenticated]

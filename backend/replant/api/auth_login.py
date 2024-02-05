@@ -1,7 +1,5 @@
 from django.contrib import auth
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import generics, serializers, status
+from rest_framework import generics, serializers
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -24,14 +22,6 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 
-@extend_schema_view(
-    post=extend_schema(
-        responses={
-            status.HTTP_200_OK: LoginSerializer,
-            status.HTTP_400_BAD_REQUEST: OpenApiTypes.OBJECT,
-        }
-    )
-)
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
 
