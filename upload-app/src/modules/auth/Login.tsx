@@ -75,6 +75,7 @@ export const Login: React.FC = () => {
           onClick={logIn}
         />
       }
+      className='max-w-xl'
     >
       <form className='flex flex-col gap-5 h-full items-center justify-end'>
         <img src={poptechImg} className='h-8 invert dark:invert-0' />
