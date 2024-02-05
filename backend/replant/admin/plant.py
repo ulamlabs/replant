@@ -4,11 +4,10 @@ from django.utils.html import format_html
 
 from replant.models import Plant
 
-from .admin_site import custom_admin_site
 from .utils import TrackableModelAdmin
 
 
-@admin.register(Plant, site=custom_admin_site)
+@admin.register(Plant)
 class PlantAdmin(TrackableModelAdmin):
     list_display = (
         "id",

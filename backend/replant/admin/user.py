@@ -3,10 +3,8 @@ from django.http.request import HttpRequest
 
 from replant.models import User
 
-from .admin_site import custom_admin_site
 
-
-@admin.register(User, site=custom_admin_site)
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         "username",

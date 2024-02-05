@@ -2,11 +2,10 @@ from django.contrib import admin
 
 from replant.models import Species
 
-from .admin_site import custom_admin_site
 from .utils import TrackableModelAdmin
 
 
-@admin.register(Species, site=custom_admin_site)
+@admin.register(Species)
 class SpeciesAdmin(TrackableModelAdmin):
     list_display = (
         "common_name",
