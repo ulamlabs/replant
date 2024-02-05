@@ -20,7 +20,7 @@ class AssignedSpeciesForm(forms.ModelForm):
         )
 
     def clean(self):
-        cleaned_data: dict = super().clean()  # type: ignore
+        cleaned_data: dict = super().clean()
 
         if self.errors:
             return

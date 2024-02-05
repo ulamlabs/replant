@@ -1,9 +1,12 @@
 from typing import cast
 
-from rest_framework import generics, serializers
+from drf_spectacular.utils import extend_schema, extend_schema_view
+from rest_framework import generics, serializers, status
 from rest_framework.permissions import IsAuthenticated
 
 from replant.models import AssignedSpecies, Species, User
+
+from .utils import AUTH_REQUIRED_RESPONSES
 
 
 class SpeciesSerializer(serializers.ModelSerializer):
@@ -20,9 +23,20 @@ class AssignedSpeciesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AssignedSpecies
-        fields = ("species",)
+        fields = (
+            "id",
+            "species",
+        )
 
 
+@extend_schema_view(
+    get=extend_schema(
+        responses={
+            status.HTTP_200_OK: AssignedSpeciesSerializer,
+            **AUTH_REQUIRED_RESPONSES,
+        }
+    )
+)
 class AssignedSpeciesView(generics.ListAPIView):
     serializer_class = AssignedSpeciesSerializer
     permission_classes = [IsAuthenticated]
