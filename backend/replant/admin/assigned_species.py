@@ -4,7 +4,6 @@ from django.contrib import admin
 from replant.models import AssignedSpecies
 from replant.models.planting_organization import PlantingOrganization
 
-from .admin_site import custom_admin_site
 from .utils import TrackableModelAdmin
 
 
@@ -20,7 +19,7 @@ class AssignedSpeciesForm(forms.ModelForm):
         )
 
     def clean(self):
-        cleaned_data: dict = super().clean()  # type: ignore
+        cleaned_data: dict = super().clean()
 
         if self.errors:
             return
@@ -40,7 +39,7 @@ class AssignedSpeciesForm(forms.ModelForm):
             )
 
 
-@admin.register(AssignedSpecies, site=custom_admin_site)
+@admin.register(AssignedSpecies)
 class AssignedSpeciesAdmin(TrackableModelAdmin):
     list_display = (
         "species",

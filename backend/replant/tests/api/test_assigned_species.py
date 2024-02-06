@@ -32,27 +32,29 @@ def test_list_species_ok(
         species=guava,
     )
 
-    response = user_client.get("/api/species")
+    response = user_client.get("/api/assigned-species")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == [
         {
+            "id": 2,
             "species": {
                 "common_name": "Guava",
                 "botanical_name": "Psidium guajava",
-            }
+            },
         },
         {
+            "id": 1,
             "species": {
                 "common_name": "Jackfruit",
                 "botanical_name": "Artocarpus heterophyllus",
-            }
+            },
         },
     ]
 
 
 def test_list_species_empty(user_client: APIClient):
-    response = user_client.get("/api/species")
+    response = user_client.get("/api/assigned-species")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == []
@@ -64,13 +66,13 @@ def test_list_species_skip(user_client: APIClient, user: User):
     # Species from other countries
     baker.make(AssignedSpecies, 5, planting_organization=user.planting_organization)
 
-    response = user_client.get("/api/species")
+    response = user_client.get("/api/assigned-species")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == []
 
 
 def test_list_species_unauthorized(api_client: APIClient):
-    response = api_client.get("/api/species")
+    response = api_client.get("/api/assigned-species")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

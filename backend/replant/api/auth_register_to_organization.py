@@ -1,6 +1,5 @@
 from django.db import transaction
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import generics, serializers, status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -47,7 +46,7 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
                 {"country": ["Only organization's countries can be selected."]}
             )
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict):
         passcode: Passcode = self.context["passcode"]
         username = attrs["username"]
         password = attrs["password"]
@@ -64,7 +63,7 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
         return attrs
 
     @transaction.atomic
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         return User.objects.create_user(
             planting_organization=validated_data["planting_organization"],
             username=validated_data["username"],
@@ -75,21 +74,9 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
 
 
 @extend_schema_view(
-    get=extend_schema(
-        responses={
-            status.HTTP_200_OK: PasscodeRegisterSerializer,
-            status.HTTP_404_NOT_FOUND: OpenApiResponse(
-                utils.Message, description="Code is invalid."
-            ),
-        }
-    ),
     post=extend_schema(
         responses={
             status.HTTP_201_CREATED: RegisterToOrganizationSerializer,
-            status.HTTP_400_BAD_REQUEST: OpenApiTypes.OBJECT,
-            status.HTTP_404_NOT_FOUND: OpenApiResponse(
-                utils.Message, description="Code is invalid."
-            ),
         }
     ),
 )

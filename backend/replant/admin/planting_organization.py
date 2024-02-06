@@ -8,11 +8,10 @@ from django.utils.html import format_html
 
 from replant.models import PlantingOrganization, User
 
-from .admin_site import custom_admin_site
 from .utils import TrackableModelAdmin
 
 
-@admin.register(PlantingOrganization, site=custom_admin_site)
+@admin.register(PlantingOrganization)
 class PLantingOrganizationAdmin(TrackableModelAdmin):
     list_display = (
         "name",

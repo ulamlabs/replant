@@ -3,10 +3,8 @@ from django.http.request import HttpRequest
 
 from replant.models import Country
 
-from .admin_site import custom_admin_site
 
-
-@admin.register(Country, site=custom_admin_site)
+@admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)

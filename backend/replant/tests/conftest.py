@@ -1,14 +1,31 @@
+from io import BytesIO
+
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
 from model_bakery import baker
+from PIL import Image
 from rest_framework.test import APIClient
 from time_machine import travel
 
 from replant.models import Country, PlantingOrganization, User
 
+baker.generators.add(
+    "phonenumber_field.modelfields.PhoneNumberField", lambda: "+48888234567"
+)
+
 
 @pytest.fixture(autouse=True)
 def _always_use_db(db):
     """To avoid having to use the db fixture in every test."""
+
+
+@pytest.fixture(autouse=True)
+def _use_in_memory_storage_backend(settings):
+    settings.STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.InMemoryStorage",
+        },
+    }
 
 
 @pytest.fixture(autouse=True)
@@ -42,7 +59,6 @@ def user(country: Country, planting_organization: PlantingOrganization):
         User,
         planting_organization=planting_organization,
         country=country,
-        phone_number="+48888234567",
     )
 
 
@@ -50,3 +66,12 @@ def user(country: Country, planting_organization: PlantingOrganization):
 def user_client(user: User, api_client: APIClient):
     api_client.force_login(user)
     return api_client
+
+
+@pytest.fixture
+def image():
+    in_memory_file = BytesIO()
+    image = Image.new("1", size=(1, 1), color=0)
+    image.save(in_memory_file, "png")
+    in_memory_file.seek(0)
+    return SimpleUploadedFile(name="img.png", content=in_memory_file.read())

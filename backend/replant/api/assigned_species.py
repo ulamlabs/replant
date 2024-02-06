@@ -20,7 +20,10 @@ class AssignedSpeciesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AssignedSpecies
-        fields = ("species",)
+        fields = (
+            "id",
+            "species",
+        )
 
 
 class AssignedSpeciesView(generics.ListAPIView):
