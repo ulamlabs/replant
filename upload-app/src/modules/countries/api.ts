@@ -15,5 +15,9 @@ const getCountries = async () => {
   return response.data;
 };
 
-export const useCountries = () =>
-  useQuery<Country[]>({ queryKey: COUNTRIES_QUERY_KEY, queryFn: getCountries });
+export const useCountries = ({ enabled }: { enabled?: boolean }) =>
+  useQuery<Country[]>({
+    queryKey: COUNTRIES_QUERY_KEY,
+    queryFn: getCountries,
+    enabled,
+  });
