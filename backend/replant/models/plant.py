@@ -1,11 +1,26 @@
 import uuid
 from enum import auto
+from typing import TYPE_CHECKING
 
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Count
 from django_fsm import FSMField
 
 from .utils import TrackableModel
+
+if TYPE_CHECKING:
+    from .user import User
+
+
+class PlantManager(models.Manager):
+    def get_review_state_count(self, user: "User"):
+        return (
+            self.get_queryset()
+            .filter(created_by=user)
+            .values("review_state")
+            .annotate(review_state_count=Count("review_state"))
+        )
 
 
 class Plant(TrackableModel):
@@ -37,6 +52,8 @@ class Plant(TrackableModel):
         verbose_name="planting cost USD",
         validators=[MinValueValidator(0)],
     )
+
+    objects: PlantManager = PlantManager()
 
     def __str__(self):
         return str(self.pk)
