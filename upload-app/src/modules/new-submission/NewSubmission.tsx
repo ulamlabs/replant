@@ -1,19 +1,41 @@
 import { Button, Header, Section } from 'common/components';
-import { CameraIcon, ImageIcon, LoupeIcon } from 'common/icons';
+import { CameraIcon, ImageIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { useNavigate } from 'react-router-dom';
 import { Summary, SummaryItem } from './components';
+import { SpeciesAutocomplete } from './SpeciesAutocomplete';
+import { useState } from 'react';
+import { Species } from './api';
 
 export const NewSubmission: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   const navigate = useNavigate();
 
+  const [species, setSpecies] = useState<Species>();
+  const [speciesError, setSpeciesError] = useState('');
+
+  const submit = () => {
+    let speciesError = '';
+
+    if (!species) {
+      speciesError = fmtMsg('fieldRequired');
+    }
+
+    setSpeciesError(speciesError);
+
+    if (speciesError) {
+      return;
+    }
+
+    // else submit
+  };
+
   return (
     <Section
-      actions={<Button size='big' text={fmtMsg('submit')} onClick={() => {}} />}
+      actions={<Button size='big' text={fmtMsg('submit')} onClick={submit} />}
     >
-      <div className='space-y-5'>
+      <form className='space-y-5'>
         <Header
           text={fmtMsg('addTree')}
           onBack={() => {
@@ -34,13 +56,13 @@ export const NewSubmission: React.FC = () => {
             </span>
           </div>
         </div>
-        <div>
-          <span className='text-xs'>{fmtMsg('species')}</span>
-          <div className='border border-black dark:border-white py-2.5 px-5 rounded-full flex gap-2 justify-between items-center'>
-            {fmtMsg('search')}
-            <LoupeIcon pathClassName='fill-black dark:fill-white' />
-          </div>
-        </div>
+        <SpeciesAutocomplete
+          value={species}
+          error={speciesError}
+          onChange={(value) => {
+            setSpecies(value);
+          }}
+        />
         <Summary>
           <SummaryItem>
             <span>{fmtMsg('photo')}</span>
@@ -53,18 +75,18 @@ export const NewSubmission: React.FC = () => {
           </SummaryItem>
           <SummaryItem>
             <span>{fmtMsg('botanicalName')}</span>
-            <span>-</span>
+            <span>{species?.botanical_name ?? '-'}</span>
           </SummaryItem>
           <SummaryItem>
             <span>{fmtMsg('commonName')}</span>
-            <span>-</span>
+            <span>{species?.common_name ?? '-'}</span>
           </SummaryItem>
           <SummaryItem>
             <span>{fmtMsg('location')}</span>
             <span>-</span>
           </SummaryItem>
         </Summary>
-      </div>
+      </form>
     </Section>
   );
 };
