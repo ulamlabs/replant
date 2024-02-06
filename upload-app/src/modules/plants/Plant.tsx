@@ -34,13 +34,9 @@ export const Plant: React.FC<Props> = ({
           <span className='text-sm '>{commonName}</span>
         </div>
         <div className='flex flex-col text-xs font-light'>
-          <span>{fmtMsg('location', { location })}</span>
-          <span>
-            {fmtMsg('date', {
-              date: formatDatetimeWithoutSec(date),
-            })}
-          </span>
-          <span>{fmtMsg('id', { id })}</span>
+          <span>{`${fmtMsg('location')}: ${location}`}</span>
+          <span>{`${fmtMsg('date')}: ${formatDatetimeWithoutSec(date)}`}</span>
+          <span>{`${fmtMsg('id')}: ${id}`}</span>
         </div>
       </div>
       <div className='absolute bottom-2 right-2'>

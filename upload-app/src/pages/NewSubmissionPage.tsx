@@ -1,10 +1,10 @@
-import { NavigationLayout } from 'modules/layout';
-import { NavigationBar } from 'modules/navigation';
+import { FeatureLayout } from 'modules/layout';
+import { NewSubmission } from 'modules/new-submission';
 
 export const NewSubmissionPage: React.FC = () => {
   return (
-    <NavigationLayout actions={<NavigationBar />}>
-      <>take a picture</>
-    </NavigationLayout>
+    <FeatureLayout>
+      <NewSubmission />
+    </FeatureLayout>
   );
 };
