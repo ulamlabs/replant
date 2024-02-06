@@ -10,7 +10,9 @@ export const FeatureLayout: React.FC<Props> = ({ children }) => {
       <div className={'py-2.5 px-5'}>
         <ReplantWorldIcon className=' fill-black dark:fill-white' />
       </div>
-      <div className={'py-2.5 px-5 w-screen'}>{children}</div>
+      <div className={'py-2.5 px-5 flex justify-center'}>
+        {children}
+      </div>
     </div>
   );
 };

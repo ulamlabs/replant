@@ -34,6 +34,7 @@ export const NewSubmission: React.FC = () => {
   return (
     <Section
       actions={<Button size='big' text={fmtMsg('submit')} onClick={submit} />}
+      className='max-w-xl'
     >
       <form className='space-y-5'>
         <Header
