@@ -7,6 +7,7 @@ import { SpeciesAutocomplete } from './SpeciesAutocomplete';
 import { useState } from 'react';
 import { AssignedSpecies } from './api';
 import { Capture } from './Capture';
+import clsx from 'clsx';
 
 export const NewSubmission: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -14,6 +15,7 @@ export const NewSubmission: React.FC = () => {
   const navigate = useNavigate();
 
   const [image, setImage] = useState<Blob>();
+  const [imageError, setImageError] = useState('');
 
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
@@ -22,14 +24,19 @@ export const NewSubmission: React.FC = () => {
 
   const submit = () => {
     let speciesError = '';
+    let imageError = '';
 
+    if (!image) {
+      imageError = fmtMsg('fieldRequired');
+    }
     if (!species) {
       speciesError = fmtMsg('fieldRequired');
     }
 
+    setImageError(imageError);
     setSpeciesError(speciesError);
 
-    if (speciesError) {
+    if (imageError || speciesError) {
       return;
     }
 
@@ -51,7 +58,12 @@ export const NewSubmission: React.FC = () => {
         <div>
           <span className='text-xs'>{fmtMsg('photo')}</span>
           <div
-            className='border border-black dark:border-white py-4 px-5 rounded-full flex justify-center items-center gap-2'
+            className={clsx(
+              'border py-4 px-5 rounded-full flex justify-center items-center gap-2',
+              imageError
+                ? 'border-red-400 dark:border-red-400'
+                : 'border-black dark:border-white'
+            )}
             onClick={() => {
               setIsCameraOpen(true);
             }}
@@ -64,6 +76,13 @@ export const NewSubmission: React.FC = () => {
               {image ? fmtMsg('changePhoto') : fmtMsg('capturePhoto')}
             </span>
           </div>
+          {imageError && (
+            <span
+              className={'text-left text-xs text-red-400 dark:text-red-400'}
+            >
+              {imageError}
+            </span>
+          )}
           {isCameraOpen && (
             <Capture
               onCancel={() => {
