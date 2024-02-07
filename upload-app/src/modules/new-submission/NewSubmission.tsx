@@ -13,6 +13,8 @@ export const NewSubmission: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const [image, setImage] = useState<Blob>();
+
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const [species, setSpecies] = useState<AssignedSpecies>();
@@ -59,21 +61,23 @@ export const NewSubmission: React.FC = () => {
               pathClassName='fill-black dark:fill-white'
             />
             <span className='font-bold'>
-              {Math.random() >= 0.5
-                ? fmtMsg('changePhoto')
-                : fmtMsg('capturePhoto')}
+              {image ? fmtMsg('changePhoto') : fmtMsg('capturePhoto')}
             </span>
           </div>
           {isCameraOpen && (
             <Capture
-              onClose={() => {
+              onCancel={() => {
+                setIsCameraOpen(false);
+              }}
+              onCapture={(image) => {
+                setImage(image);
                 setIsCameraOpen(false);
               }}
             />
           )}
         </div>
         <SpeciesAutocomplete
-          value={species}
+          value={species ?? null}
           error={speciesError}
           onChange={(value) => {
             setSpecies(value);
@@ -82,11 +86,18 @@ export const NewSubmission: React.FC = () => {
         <Summary>
           <SummaryItem>
             <span>{fmtMsg('photo')}</span>
-            <div className='rounded border border-black dark:border-white h-16 w-12 flex items-center justify-center'>
-              <ImageIcon
-                svgClassName='size-4.5'
-                pathClassName='fill-black dark:fill-white'
-              />
+            <div className='rounded border border-black dark:border-white h-16 w-12 flex items-center justify-center box-content'>
+              {image ? (
+                <img
+                  className='h-16 w-12 rounded'
+                  src={URL.createObjectURL(image)}
+                />
+              ) : (
+                <ImageIcon
+                  svgClassName='size-4.5'
+                  pathClassName='fill-black dark:fill-white'
+                />
+              )}
             </div>
           </SummaryItem>
           <SummaryItem>

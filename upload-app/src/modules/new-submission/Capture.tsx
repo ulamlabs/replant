@@ -2,10 +2,11 @@ import { Button } from 'common/components';
 import { useEffect, useRef } from 'react';
 
 type Props = {
-  onClose: () => void;
+  onCancel: () => void;
+  onCapture: (image: Blob) => void;
 };
 
-export const Capture: React.FC<Props> = ({ onClose }) => {
+export const Capture: React.FC<Props> = ({ onCancel, onCapture }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const playerRef = useRef<HTMLVideoElement>(null);
 
@@ -35,23 +36,26 @@ export const Capture: React.FC<Props> = ({ onClose }) => {
   };
 
   const capture = () => {
-    if (
-      !window.navigator.mediaDevices ||
-      !playerRef.current ||
-      !canvasRef.current
-    ) {
+    const canvas = canvasRef.current;
+    const player = playerRef.current;
+
+    if (!window.navigator.mediaDevices || !canvas || !player) {
       return;
     }
 
-    const canvas = canvasRef.current;
     const context = canvasRef.current.getContext('2d');
-    const player = playerRef.current;
 
     if (!context) {
       return;
     }
+
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    console.log(canvas.toDataURL());
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        return;
+      }
+      onCapture(blob);
+    }, 'image/png');
   };
 
   useEffect(() => {
@@ -63,10 +67,10 @@ export const Capture: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div>
-      <video autoPlay ref={playerRef}></video>
-      <canvas ref={canvasRef} width='320' height='240'></canvas>
+      <video autoPlay ref={playerRef} />
+      <canvas className='hidden' ref={canvasRef} width='800' height='600' />
       <Button size='small' text='Capture' onClick={capture} />
-      <Button size='small' text='Close' onClick={onClose} />
+      <Button size='small' text='Close' onClick={onCancel} />
     </div>
   );
 };

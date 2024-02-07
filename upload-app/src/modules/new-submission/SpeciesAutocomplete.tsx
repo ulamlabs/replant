@@ -6,7 +6,7 @@ import { useFmtMsg } from 'modules/intl';
 
 type Props = {
   error?: string;
-  value?: AssignedSpecies;
+  value: AssignedSpecies | null;
   onChange: (value: AssignedSpecies) => void;
 };
 
