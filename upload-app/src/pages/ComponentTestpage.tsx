@@ -1,4 +1,3 @@
-import { LocationIcon } from 'common/icons';
 import {
   Alert,
   Button,
@@ -6,9 +5,12 @@ import {
   Input,
   Loader,
   LoaderBox,
+  Summary,
+  SummaryItem,
 } from 'common/components';
-import { UnauthLayout } from 'modules/layout';
+import { LocationIcon } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
+import { UnauthLayout } from 'modules/layout';
 
 export const ComponentTestpage: React.FC = () => {
   return (
@@ -54,6 +56,20 @@ export const ComponentTestpage: React.FC = () => {
         <Header text={'Test header without back'} />
         <Loader />
         <LoaderBox />
+        <Summary>
+          <SummaryItem>
+            <span>label 1</span>
+            <span>value 1</span>
+          </SummaryItem>
+          <SummaryItem>
+            <span>label 2</span>
+            <span>value 2</span>
+          </SummaryItem>
+          <SummaryItem>
+            <span>label 3</span>
+            <span>value 3</span>
+          </SummaryItem>
+        </Summary>
       </div>
     </UnauthLayout>
   );
