@@ -27,7 +27,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
     groupedOptions,
   } = useAutocomplete({
     getOptionLabel: (option) => option.species.common_name,
-    id: 'autocomplete',
+    id: 'species',
     options: data || [],
     value,
     onChange: (_, newValue) => {

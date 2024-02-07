@@ -2,11 +2,10 @@ import clsx from 'clsx';
 import { Button, Header, Section } from 'common/components';
 import { CameraIcon, ImageIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
-import { AssignedSpecies } from 'modules/species';
+import { AssignedSpecies, SpeciesAutocomplete } from 'modules/species';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capture } from './Capture';
-import { SpeciesAutocomplete } from './SpeciesAutocomplete';
 import { Summary, SummaryItem } from './components';
 
 export const NewSubmission: React.FC = () => {
