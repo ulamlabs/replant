@@ -6,11 +6,14 @@ import { Summary, SummaryItem } from './components';
 import { SpeciesAutocomplete } from './SpeciesAutocomplete';
 import { useState } from 'react';
 import { Species } from './api';
+import { Capture } from './Capture';
 
 export const NewSubmission: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   const navigate = useNavigate();
+
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const [species, setSpecies] = useState<Species>();
   const [speciesError, setSpeciesError] = useState('');
@@ -36,7 +39,7 @@ export const NewSubmission: React.FC = () => {
       actions={<Button size='big' text={fmtMsg('submit')} onClick={submit} />}
       className='max-w-xl'
     >
-      <form className='space-y-5'>
+      <div className='space-y-5'>
         <Header
           text={fmtMsg('addTree')}
           onBack={() => {
@@ -45,7 +48,12 @@ export const NewSubmission: React.FC = () => {
         />
         <div>
           <span className='text-xs'>{fmtMsg('photo')}</span>
-          <div className='border border-black dark:border-white py-4 px-5 rounded-full flex justify-center items-center gap-2'>
+          <div
+            className='border border-black dark:border-white py-4 px-5 rounded-full flex justify-center items-center gap-2'
+            onClick={() => {
+              setIsCameraOpen(true);
+            }}
+          >
             <CameraIcon
               svgClassName='size-6'
               pathClassName='fill-black dark:fill-white'
@@ -56,6 +64,13 @@ export const NewSubmission: React.FC = () => {
                 : fmtMsg('capturePhoto')}
             </span>
           </div>
+          {isCameraOpen && (
+            <Capture
+              onClose={() => {
+                setIsCameraOpen(false);
+              }}
+            />
+          )}
         </div>
         <SpeciesAutocomplete
           value={species}
@@ -87,7 +102,7 @@ export const NewSubmission: React.FC = () => {
             <span>-</span>
           </SummaryItem>
         </Summary>
-      </form>
+      </div>
     </Section>
   );
 };
