@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useNewPlantStore } from '../store';
 import { Capture } from './Capture';
 
-export const CaputureInput: React.FC = () => {
+export const CaptureInput: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   const store = useNewPlantStore();

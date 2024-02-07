@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { post } from 'modules/api';
 import { NewPlantType, PlantType } from './types';
-import { AxiosError, AxiosResponse } from 'axios';
 
-const plantUrl = '/plant';
+const plantsUrl = '/plants';
 
-const postPlantQueryKey = ['POST', plantUrl] as const;
+const postPlantsQueryKey = ['POST', plantsUrl] as const;
 
-const postPlant = (payload: NewPlantType) =>
-  post<PlantType, NewPlantType>(plantUrl, payload);
+const postPlants = (payload: NewPlantType) =>
+  post<PlantType, NewPlantType>(plantsUrl, payload);
 
-export const usePlantMutation = () =>
+export const usePlantsMutation = () =>
   useMutation<AxiosResponse<PlantType>, AxiosError<any>, NewPlantType>({
-    mutationKey: postPlantQueryKey,
-    mutationFn: (payload) => postPlant(payload),
+    mutationKey: postPlantsQueryKey,
+    mutationFn: (payload) => postPlants(payload),
   });

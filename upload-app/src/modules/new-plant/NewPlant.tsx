@@ -1,8 +1,9 @@
 import { Button, Header, Section } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
+import { usePlantsMutation } from 'modules/plants';
 import { SpeciesAutocomplete } from 'modules/species';
 import { useNavigate } from 'react-router-dom';
-import { CaputureInput, NewPlantSummary } from './components';
+import { CaptureInput, NewPlantSummary } from './components';
 import { useNewPlantStore } from './store';
 
 export const NewPlant: React.FC = () => {
@@ -11,6 +12,8 @@ export const NewPlant: React.FC = () => {
   const navigate = useNavigate();
 
   const store = useNewPlantStore();
+
+  const plantsMutation = usePlantsMutation();
 
   const submit = () => {
     let speciesError: typeof store.speciesError;
@@ -45,7 +48,7 @@ export const NewPlant: React.FC = () => {
             navigate('/');
           }}
         />
-        <CaputureInput />
+        <CaptureInput />
         <SpeciesAutocomplete
           value={store.species ?? null}
           error={store.speciesError}
