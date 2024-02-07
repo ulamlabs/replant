@@ -35,8 +35,12 @@ export const NewPlantSummary: React.FC = () => {
         <span>{store.species?.species.common_name ?? '-'}</span>
       </SummaryItem>
       <SummaryItem>
-        <span>{fmtMsg('location')}</span>
-        <span>-</span>
+        <span>{fmtMsg('latitude')}</span>
+        <span>{store.latitude ?? ' -'}</span>
+      </SummaryItem>
+      <SummaryItem>
+        <span>{fmtMsg('longitude')}</span>
+        <span>{store.longitude ?? ' -'}</span>
       </SummaryItem>
     </Summary>
   );

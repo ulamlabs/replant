@@ -44,8 +44,8 @@ export const CaputureInput: React.FC = () => {
           onCancel={() => {
             setIsCameraOpen(false);
           }}
-          onCapture={(image) => {
-            store.setImage(image);
+          onCapture={(image, position) => {
+            store.setImage(image, position);
             setIsCameraOpen(false);
           }}
         />

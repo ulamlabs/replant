@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 type Props = {
   onCancel: () => void;
-  onCapture: (image: Blob) => void;
+  onCapture: (image: Blob, position: GeolocationPosition) => void;
 };
 
 export const Capture: React.FC<Props> = ({ onCancel, onCapture }) => {
@@ -50,11 +50,19 @@ export const Capture: React.FC<Props> = ({ onCancel, onCapture }) => {
     }
 
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
+
     canvas.toBlob((blob) => {
       if (!blob) {
         return;
       }
-      onCapture(blob);
+      window.navigator.geolocation.getCurrentPosition(
+        (position) => {
+          onCapture(blob, position);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }, 'image/png');
   };
 
