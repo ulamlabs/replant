@@ -1,12 +1,13 @@
 import clsx from 'clsx';
 import { CheckIcon, CrossIcon, DocumentIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
+import { ReviewState } from '../types';
 
 type Props = {
-  state: 'PENDING' | 'APPROVED' | 'REJECTED';
+  state: ReviewState;
 };
 
-export const StatePill: React.FC<Props> = ({ state }) => {
+export const ReviewStatePill: React.FC<Props> = ({ state }) => {
   const fmtMsg = useFmtMsg();
 
   return (

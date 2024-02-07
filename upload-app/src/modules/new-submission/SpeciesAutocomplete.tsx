@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
+import clsx from 'clsx';
 import { LoupeIcon } from 'common/icons';
-import { AssignedSpecies, useSpecies } from './api';
+import { AssignedSpecies, useSpecies } from 'modules/species';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {

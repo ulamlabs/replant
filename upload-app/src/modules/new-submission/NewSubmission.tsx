@@ -1,13 +1,13 @@
+import clsx from 'clsx';
 import { Button, Header, Section } from 'common/components';
 import { CameraIcon, ImageIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
-import { useNavigate } from 'react-router-dom';
-import { Summary, SummaryItem } from './components';
-import { SpeciesAutocomplete } from './SpeciesAutocomplete';
+import { AssignedSpecies } from 'modules/species';
 import { useState } from 'react';
-import { AssignedSpecies } from './api';
+import { useNavigate } from 'react-router-dom';
 import { Capture } from './Capture';
-import clsx from 'clsx';
+import { SpeciesAutocomplete } from './SpeciesAutocomplete';
+import { Summary, SummaryItem } from './components';
 
 export const NewSubmission: React.FC = () => {
   const fmtMsg = useFmtMsg();

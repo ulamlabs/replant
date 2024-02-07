@@ -1,15 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'modules/api';
-
-export type Species = {
-  botanical_name: string;
-  common_name: string;
-};
-
-export type AssignedSpecies = {
-  id: number;
-  species: Species;
-};
+import { AssignedSpecies } from './types';
 
 type AssignedSpeciesResponseData = AssignedSpecies[];
 

@@ -1,1 +1,1 @@
-export * from './StatePill';
+export * from './ReviewStatePill';

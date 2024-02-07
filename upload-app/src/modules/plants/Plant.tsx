@@ -1,6 +1,6 @@
 import { formatDatetimeWithoutSec } from 'common/utils/date-format';
 import { useFmtMsg } from 'modules/intl';
-import { StatePill } from './components';
+import { ReviewStatePill } from './components';
 
 type Props = {
   botanicalName: string;
@@ -40,7 +40,7 @@ export const Plant: React.FC<Props> = ({
         </div>
       </div>
       <div className='absolute bottom-2 right-2'>
-        <StatePill state={'APPROVED'} />
+        <ReviewStatePill state={'APPROVED'} />
       </div>
     </div>
   );
