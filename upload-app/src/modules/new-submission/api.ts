@@ -6,20 +6,24 @@ export type Species = {
   common_name: string;
 };
 
-type AssignedSpecies = {
+export type AssignedSpecies = {
+  id: number;
   species: Species;
 };
 
-type SpeciesResponseData = AssignedSpecies[];
+type AssignedSpeciesResponseData = AssignedSpecies[];
 
-const SPECIES_URL = '/species';
+const assignedSpeciesUrl = '/assigned-species';
 
-export const SPECIES_QUERY_KEY = ['GET', SPECIES_URL] as const;
+export const assignedSpeciesQueryKey = ['GET', assignedSpeciesUrl] as const;
 
-const getSpecies = async () => {
-  const response = await get<SpeciesResponseData>(SPECIES_URL);
-  return response.data.map((item) => item.species);
+const getAssignedSpecies = async () => {
+  const response = await get<AssignedSpeciesResponseData>(assignedSpeciesUrl);
+  return response.data;
 };
 
 export const useSpecies = () =>
-  useQuery({ queryFn: getSpecies, queryKey: SPECIES_QUERY_KEY });
+  useQuery({
+    queryFn: getAssignedSpecies,
+    queryKey: assignedSpeciesQueryKey,
+  });

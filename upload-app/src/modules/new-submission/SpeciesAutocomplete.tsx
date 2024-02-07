@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import { LoupeIcon } from 'common/icons';
-import { Species, useSpecies } from './api';
+import { AssignedSpecies, useSpecies } from './api';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {
   error?: string;
-  value?: Species;
-  onChange: (value: Species) => void;
+  value?: AssignedSpecies;
+  onChange: (value: AssignedSpecies) => void;
 };
 
 export const SpeciesAutocomplete: React.FC<Props> = ({
@@ -26,7 +26,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
     getOptionProps,
     groupedOptions,
   } = useAutocomplete({
-    getOptionLabel: (option) => option.common_name,
+    getOptionLabel: (option) => option.species.common_name,
     id: 'autocomplete',
     options: data || [],
     value,
@@ -72,9 +72,9 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
               <li
                 {...getOptionProps({ option, index })}
                 className='text-xs m-2 text-black dark:text-white'
-                key={option.botanical_name}
+                key={option.species.botanical_name}
               >
-                {option.common_name}
+                {option.species.common_name}
               </li>
             ))}
         </ul>

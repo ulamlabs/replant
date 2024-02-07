@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Summary, SummaryItem } from './components';
 import { SpeciesAutocomplete } from './SpeciesAutocomplete';
 import { useState } from 'react';
-import { Species } from './api';
+import { AssignedSpecies } from './api';
 import { Capture } from './Capture';
 
 export const NewSubmission: React.FC = () => {
@@ -15,7 +15,7 @@ export const NewSubmission: React.FC = () => {
 
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
-  const [species, setSpecies] = useState<Species>();
+  const [species, setSpecies] = useState<AssignedSpecies>();
   const [speciesError, setSpeciesError] = useState('');
 
   const submit = () => {
@@ -91,11 +91,11 @@ export const NewSubmission: React.FC = () => {
           </SummaryItem>
           <SummaryItem>
             <span>{fmtMsg('botanicalName')}</span>
-            <span>{species?.botanical_name ?? '-'}</span>
+            <span>{species?.species.botanical_name ?? '-'}</span>
           </SummaryItem>
           <SummaryItem>
             <span>{fmtMsg('commonName')}</span>
-            <span>{species?.common_name ?? '-'}</span>
+            <span>{species?.species.common_name ?? '-'}</span>
           </SummaryItem>
           <SummaryItem>
             <span>{fmtMsg('location')}</span>
