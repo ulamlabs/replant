@@ -36,11 +36,11 @@ export const NewPlantSummary: React.FC = () => {
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('latitude')}</span>
-        <span>{store.latitude ?? ' -'}</span>
+        <span>{store.latitude?.toFixed(6) ?? ' -'}</span>
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('longitude')}</span>
-        <span>{store.longitude ?? ' -'}</span>
+        <span>{store.longitude?.toFixed(6) ?? ' -'}</span>
       </SummaryItem>
     </Summary>
   );

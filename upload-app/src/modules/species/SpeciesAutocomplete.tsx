@@ -38,7 +38,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
   });
 
   return (
-    <div className={'relative'}>
+    <div>
       <label
         className={'text-left text-xs text-black dark:text-white'}
         htmlFor='species'

@@ -1,5 +1,4 @@
-import { ArrowLeftIcon } from 'common/icons';
-import { useFmtMsg } from 'modules/intl';
+import { BackButton } from '.';
 
 type Props = {
   text: string;
@@ -7,21 +6,9 @@ type Props = {
 };
 
 export const Header: React.FC<Props> = ({ text, onBack }) => {
-  const fmtMsg = useFmtMsg();
-
   return (
-    <header>
-      {onBack && (
-        <button
-          className={
-            'mb-5 flex gap-2 items-center text-black dark:text-white cursor-pointer'
-          }
-          onClick={onBack}
-        >
-          <ArrowLeftIcon className='dark:fill-white fill-black' />
-          {fmtMsg('back')}
-        </button>
-      )}
+    <header className='flex flex-col gap-5'>
+      {onBack && <BackButton onClick={onBack} />}
       <h2
         className={'text-black dark:text-white text-center text-2xl font-bold'}
       >

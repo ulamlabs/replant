@@ -1,4 +1,5 @@
-import { Button } from 'common/components';
+import { BackButton, Button } from 'common/components';
+import { useFmtMsg } from 'modules/intl';
 import { useEffect, useRef } from 'react';
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export const Capture: React.FC<Props> = ({ onCancel, onCapture }) => {
+  const fmtMsg = useFmtMsg();
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const playerRef = useRef<HTMLVideoElement>(null);
 
@@ -74,11 +77,15 @@ export const Capture: React.FC<Props> = ({ onCancel, onCapture }) => {
   }, [canvasRef.current, playerRef.current]);
 
   return (
-    <div>
-      <video autoPlay ref={playerRef} />
-      <canvas className='hidden' ref={canvasRef} width='800' height='600' />
-      <Button size='small' text='Capture' onClick={capture} />
-      <Button size='small' text='Close' onClick={onCancel} />
+    <div className='fixed left-0 right-0 top-14 bottom-0 flex justify-center bg-white dark:bg-teal-900 z-10'>
+      <div className='max-w-xl py-2.5 px-5 flex flex-col gap-5 justify-between'>
+        <div className='flex flex-col gap-5'>
+          <BackButton onClick={onCancel} />
+          <video className='rounded-lg' autoPlay ref={playerRef} />
+          <canvas className='hidden' ref={canvasRef} width='800' height='600' />
+        </div>
+        <Button size='big' text={fmtMsg('capture')} onClick={capture} />
+      </div>
     </div>
   );
 };
