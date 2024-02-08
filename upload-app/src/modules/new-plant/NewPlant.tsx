@@ -1,5 +1,6 @@
 import { Button, Header, Section } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
+import { usePlantsMutation } from 'modules/plants';
 import { SpeciesAutocomplete } from 'modules/species';
 import { useNavigate } from 'react-router-dom';
 import { CaptureInput, NewPlantSummary } from './components';
@@ -12,7 +13,7 @@ export const NewPlant: React.FC = () => {
 
   const store = useNewPlantStore();
 
-  // const plantsMutation = usePlantsMutation();
+  const plantsMutation = usePlantsMutation();
 
   const submit = () => {
     let speciesError: typeof store.speciesError;
@@ -32,7 +33,17 @@ export const NewPlant: React.FC = () => {
       return;
     }
 
-    // else submit
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const imageBinaryString = reader.result as string;
+      plantsMutation.mutate({
+        assigned_species_id: store.species!.id,
+        image: window.btoa(imageBinaryString),
+        latitude: store.latitude!.toFixed(6),
+        longitude: store.longitude!.toFixed(6),
+      });
+    };
+    reader.readAsBinaryString(store.image!);
   };
 
   return (

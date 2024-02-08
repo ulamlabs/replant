@@ -50,13 +50,13 @@ export const CaptureModal: React.FC = () => {
     <div
       className={clsx(
         !store.isCaptureModalOpen && 'hidden',
-        'fixed left-0 right-0 top-14 bottom-0 py-2.5 px-5 flex justify-center bg-white dark:bg-teal-900 z-10'
+        'fixed left-0 right-0 top-14 bottom-0 pb-5 pt-2.5 px-5 flex justify-center bg-white dark:bg-teal-900 z-10'
       )}
     >
       <div className='w-full max-w-xl flex flex-col gap-5 justify-between'>
         <div className='flex flex-col gap-5'>
           <BackButton onClick={store.closeCapture} />
-          {/* <video className='rounded-lg' autoPlay ref={playerRef} /> */}
+          <video className='rounded-lg' autoPlay ref={playerRef} />
           <canvas className='hidden' ref={canvasRef} width='800' height='600' />
         </div>
         <div>
