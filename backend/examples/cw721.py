@@ -1,4 +1,4 @@
-# run from backend dir: "python examples/cw721.py"
+# run from backend dir: "python -m examples.cw721"
 
 import sys
 
