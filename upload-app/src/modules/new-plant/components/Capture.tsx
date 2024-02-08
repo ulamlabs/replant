@@ -23,7 +23,7 @@ export const Capture: React.FC<Props> = ({ onCancel, onCapture }) => {
     }
 
     const stream = await window.navigator.mediaDevices.getUserMedia({
-      video: true,
+      video: { facingMode: { ideal: 'environment' } },
     });
 
     playerRef.current.srcObject = stream;
