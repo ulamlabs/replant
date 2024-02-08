@@ -20,6 +20,7 @@ class PlantAdmin(TrackableModelAdmin):
     fields = (
         "id",
         "review_state",
+        "rejection_reason",
         "image_tag",
         "image",
         "latitude",

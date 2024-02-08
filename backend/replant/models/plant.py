@@ -34,6 +34,7 @@ class Plant(TrackableModel):
         return f"{uuid.uuid4().hex}.{ext}"
 
     review_state = FSMField(choices=ReviewState.choices, default=ReviewState.PENDING)
+    rejection_reason = models.CharField(max_length=100, default="", blank=True)
     image = models.ImageField(upload_to=image_upload_to)  # type: ignore
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)

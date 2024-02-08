@@ -1,0 +1,35 @@
+.image-tag {
+    max-height: 400px;
+    max-width: 300px;
+    object-fit: contain;
+}
+
+.column-review_state {
+    display: none;
+}
+
+.field-review_state {
+    display: none;
+}
+
+.action-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.action-box .warning {
+    background: var(--delete-button-bg);
+}
+
+.action-box .warning:hover {
+    background: var(--delete-button-hover-bg);
+}
+
+input[name="_save"] {
+    display: none;
+}
+
+#changelist table thead th {
+    white-space: wrap;
+}
