@@ -1,16 +1,13 @@
 import clsx from 'clsx';
 import { CameraIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
-import { useState } from 'react';
 import { useNewPlantStore } from '../store';
-import { Capture } from './Capture';
+import { CaptureModal } from './CaptureModal';
 
 export const CaptureInput: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   const store = useNewPlantStore();
-
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   return (
     <div>
@@ -22,9 +19,7 @@ export const CaptureInput: React.FC = () => {
             ? 'border-red-400 dark:border-red-400'
             : 'border-black dark:border-white'
         )}
-        onClick={() => {
-          setIsCameraOpen(true);
-        }}
+        onClick={store.openCapture}
       >
         <CameraIcon
           svgClassName='size-6'
@@ -39,17 +34,7 @@ export const CaptureInput: React.FC = () => {
           {store.imageError}
         </span>
       )}
-      {isCameraOpen && (
-        <Capture
-          onCancel={() => {
-            setIsCameraOpen(false);
-          }}
-          onCapture={(image, position) => {
-            store.setImage(image, position);
-            setIsCameraOpen(false);
-          }}
-        />
-      )}
+      <CaptureModal />
     </div>
   );
 };
