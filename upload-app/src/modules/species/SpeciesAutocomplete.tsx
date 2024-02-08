@@ -19,6 +19,9 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
 
   const { data } = useSpecies();
 
+  const formatOptionLabel = (option: AssignedSpecies) =>
+    `${option.species.common_name} (${option.species.botanical_name})`;
+
   const {
     getRootProps,
     getInputProps,
@@ -26,7 +29,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
     getOptionProps,
     groupedOptions,
   } = useAutocomplete({
-    getOptionLabel: (option) => option.species.common_name,
+    getOptionLabel: formatOptionLabel,
     id: 'species',
     options: data || [],
     value,
@@ -74,7 +77,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
                 className='text-xs m-2 text-black dark:text-white'
                 key={option.species.botanical_name}
               >
-                {option.species.common_name}
+                {formatOptionLabel(option)}
               </li>
             ))}
         </ul>
