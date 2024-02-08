@@ -2,6 +2,7 @@ import { Button, Header, Section } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { usePlantsMutation } from 'modules/plants';
 import { SpeciesAutocomplete } from 'modules/species';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CaptureInput, NewPlantSummary } from './components';
 import { useNewPlantStore } from './store';
@@ -14,6 +15,10 @@ export const NewPlant: React.FC = () => {
   const store = useNewPlantStore();
 
   const plantsMutation = usePlantsMutation();
+
+  useEffect(() => {
+    store.reset();
+  }, []);
 
   const submit = () => {
     let speciesError: typeof store.speciesError;
