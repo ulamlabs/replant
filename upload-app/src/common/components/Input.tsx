@@ -26,7 +26,7 @@ export const Input: React.FC<Props> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className='flex flex-col gap-1.5'>
+    <div className='flex flex-col gap-1.5 w-full'>
       {label && (
         <label className={'text-left text-xs text-black dark:text-white'}>
           {label}
@@ -34,8 +34,10 @@ export const Input: React.FC<Props> = ({
       )}
       <div
         className={clsx(
-          'border border-black dark:border-white dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text',
-          error && ' dark:border-red-400 border-red-400',
+          'border dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text',
+          error
+            ? 'dark:border-red-400 border-red-400'
+            : 'border-black dark:border-white',
           className
         )}
       >

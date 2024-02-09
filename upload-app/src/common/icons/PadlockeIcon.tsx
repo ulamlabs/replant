@@ -1,6 +1,6 @@
 type Props = { className?: string };
 
-export const PadlockeIcon: React.FC<Props> = ({ className }) => {
+export const PadlockIcon: React.FC<Props> = ({ className }) => {
   return (
     <svg
       width='12'

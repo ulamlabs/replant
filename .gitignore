@@ -171,3 +171,6 @@ cython_debug/
 
 # JS
 node_modules
+
+# Images
+backend/media/

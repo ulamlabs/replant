@@ -14,16 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 import env
 
-from .admin import custom_admin_site
 from .api.urls import urlpatterns as api
 
 urlpatterns = [
-    path("admin/", custom_admin_site.urls),
+    path("admin/", admin.site.urls),
     path("api/", include(api)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Hack: I wanted a link to the API docs page in the admin panel.
@@ -39,3 +41,6 @@ urlpatterns = [
 
 if env.DEBUG:
     urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]
+
+if env.ENV == "local":
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

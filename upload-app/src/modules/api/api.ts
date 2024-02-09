@@ -10,10 +10,18 @@ export const apiBaseURL = baseURL + '/api';
 // and can be used when the aforementioned behaviour is not desired.
 export const apiRaw = axios.create({
   baseURL: apiBaseURL,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
+  withXSRFToken: true,
+  withCredentials: true,
 });
 
 export const api = axios.create({
   baseURL: apiBaseURL,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
+  withXSRFToken: true,
+  withCredentials: true,
 });
 
 api.interceptors.response.use(undefined, errorsHandler);

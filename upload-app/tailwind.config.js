@@ -1,10 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        '3/4': '3 / 4',
+      },
+      fontFamily: { sans: ['Inter', ...defaultTheme.fontFamily.sans] },
+      fontSize: {
+        xxs: '0.625rem',
+      },
+    },
     colors: {
       white: colors.white,
       black: colors.black,

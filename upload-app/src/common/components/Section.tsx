@@ -3,13 +3,15 @@ import clsx from 'clsx';
 type Props = {
   children?: React.ReactNode;
   actions?: React.ReactNode;
+  className?: string;
 };
 
-export const Section: React.FC<Props> = ({ children, actions }) => {
+export const Section: React.FC<Props> = ({ children, actions, className }) => {
   return (
     <div
       className={clsx(
-        'w-full h-[calc(100vh-80px)] max-w-xl relative overflow-hidden'
+        'w-full h-[calc(100vh-80px)] relative overflow-hidden',
+        className
       )}
     >
       <div className='h-full overflow-y-auto pb-20'>{children}</div>

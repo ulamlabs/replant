@@ -8,11 +8,11 @@ from django.utils.html import format_html
 
 from replant.models import PlantingOrganization, User
 
-from .admin_site import custom_admin_site
+from .utils import TrackableModelAdmin
 
 
-@admin.register(PlantingOrganization, site=custom_admin_site)
-class PLantingOrganizationAdmin(admin.ModelAdmin):
+@admin.register(PlantingOrganization)
+class PLantingOrganizationAdmin(TrackableModelAdmin):
     list_display = (
         "name",
         "contact_person_email",
@@ -22,6 +22,8 @@ class PLantingOrganizationAdmin(admin.ModelAdmin):
         "name",
         "contact_person_email",
     )
+    ordering = ("name",)
+
     filter_horizontal = ("countries",)
     fields = (
         "name",
@@ -30,30 +32,18 @@ class PLantingOrganizationAdmin(admin.ModelAdmin):
         "countries",
         "get_signup_link",
         "created_at",
-        "created_by",
         "updated_at",
-        "updated_by",
     )
     readonly_fields = (
         "get_signup_link",
         "created_at",
-        "created_by",
         "updated_at",
-        "updated_by",
     )
-    exclude = ("get_signup_link",)
 
     def has_delete_permission(
         self, request: HttpRequest, obj: PlantingOrganization | None = None
     ) -> bool:
         return False
-
-    def save_model(self, request: HttpRequest, obj: PlantingOrganization, form, change):
-        user = cast(User, request.user)
-        if obj.pk is None:
-            obj.created_by = user
-        obj.updated_by = user
-        obj.save()
 
     @admin.display(description="Signup link")
     def get_signup_link(self, obj: PlantingOrganization) -> str:
