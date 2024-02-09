@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from .assigned_species import AssignedSpecies
 from .country import CountryAdmin
 from .plant import PlantAdmin
+from .plant_to_review import PlantToReviewAdmin
 from .planting_organization import PLantingOrganizationAdmin
 from .species import SpeciesAdmin
 from .user import UserAdmin
