@@ -9,3 +9,4 @@ from .plant import Plant
 from .plant_to_review import PlantToReview
 from .planting_organization import PlantingOrganization
 from .species import Species
+from .sponsor import Sponsor

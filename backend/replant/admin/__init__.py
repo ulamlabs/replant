@@ -8,6 +8,7 @@ from .plant import PlantAdmin
 from .plant_to_review import PlantToReviewAdmin
 from .planting_organization import PLantingOrganizationAdmin
 from .species import SpeciesAdmin
+from .sponsor import SponsorAdmin
 from .user import UserAdmin
 
 admin.site.unregister(Group)
