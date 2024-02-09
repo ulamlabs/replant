@@ -1,7 +1,6 @@
 'use strict'
 
 function search(obj) {
-    console.log("here")
     obj.form.elements[obj.dataset.name].options.length = 0;
     if (obj.form.elements[obj.dataset.name]) {
         patch_url(obj.form.elements[obj.dataset.name], {[obj.name]: obj.value})

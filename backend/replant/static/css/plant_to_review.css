@@ -1,0 +1,13 @@
+.image-tag {
+    max-height: 400px;
+    max-width: 300px;
+    object-fit: contain;
+}
+
+#changelist table thead th {
+    white-space: wrap;
+}
+
+.field-review_state {
+    white-space: nowrap;
+}
