@@ -4,7 +4,7 @@ import { usePlantsMutation } from 'modules/plants';
 import { SpeciesAutocomplete } from 'modules/species';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CaptureInput, NewPlantSummary } from './components';
+import { Capture, NewPlantSummary } from './components';
 import { useNewPlantStore } from './store';
 
 export const NewPlant: React.FC = () => {
@@ -56,7 +56,7 @@ export const NewPlant: React.FC = () => {
             navigate('/');
           }}
         />
-        <CaptureInput />
+        <Capture />
         <SpeciesAutocomplete
           value={store.species ?? null}
           error={store.speciesError}

@@ -28,14 +28,12 @@ type NewPlantState = {
 
 export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
   closeCapture: () => {
+    set({ isCaptureModalOpen: false });
     const stream = get().stream;
     if (!stream) {
       return;
     }
-    stream.getVideoTracks().forEach((track) => {
-      track.stop();
-    });
-    set({ isCaptureModalOpen: false });
+    stopStream(stream);
   },
   openCapture: async () => {
     if (!window.navigator.mediaDevices) {
@@ -49,7 +47,13 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     const stream = await window.navigator.mediaDevices.getUserMedia({
       video: { aspectRatio: 3 / 4, facingMode: { ideal: 'environment' } },
     });
-    set({ isCameraLoading: false, stream });
+    set({ isCameraLoading: false });
+    // if capture modal has been closed before camera fully started, then close the camera
+    if (!get().isCaptureModalOpen) {
+      stopStream(stream);
+      return;
+    }
+    set({ stream });
   },
   reset: () =>
     set({
@@ -68,3 +72,8 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
   setSpeciesError: (speciesError) => set({ speciesError }),
   setTmpImage: (tmpImage) => set({ tmpImage }),
 }));
+
+const stopStream = (stream: MediaStream) =>
+  stream.getVideoTracks().forEach((track) => {
+    track.stop();
+  });

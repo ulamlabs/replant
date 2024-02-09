@@ -4,7 +4,7 @@ import { useFmtMsg } from 'modules/intl';
 import { useNewPlantStore } from '../store';
 import { CaptureModal } from './CaptureModal';
 
-export const CaptureInput: React.FC = () => {
+export const Capture: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   const store = useNewPlantStore();
