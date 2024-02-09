@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { BackButton, Button } from 'common/components';
+import { BackButton, Button, LoaderBox } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
@@ -50,13 +50,20 @@ export const CaptureModal: React.FC = () => {
       <div className='w-full max-w-xl flex flex-col gap-5 justify-between'>
         <div className='flex flex-col gap-5'>
           <BackButton onClick={store.closeCapture} />
+          <LoaderBox visible={store.isCameraLoading} />
           <video
-            className={clsx('rounded-lg', store.tmpImage && 'hidden')}
+            className={clsx(
+              'rounded-lg',
+              (store.isCameraLoading || store.tmpImage) && 'hidden'
+            )}
             autoPlay
             ref={playerRef}
           />
           <canvas
-            className={clsx('rounded-lg', !store.tmpImage && 'hidden')}
+            className={clsx(
+              'rounded-lg',
+              (store.isCameraLoading || !store.tmpImage) && 'hidden'
+            )}
             ref={canvasRef}
             width='600'
             height='800'
@@ -80,7 +87,11 @@ export const CaptureModal: React.FC = () => {
               />
             </>
           ) : (
-            <Button text={fmtMsg('capture')} onClick={capture} />
+            <Button
+              disabled={store.isCameraLoading}
+              text={fmtMsg('capture')}
+              onClick={capture}
+            />
           )}
         </div>
       </div>

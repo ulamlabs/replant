@@ -3,6 +3,7 @@ import { Loader } from '.';
 
 type Props = {
   className?: string;
+  disabled?: boolean;
   isLoading?: boolean;
   size?: 'lg' | 'sm';
   text: string;
@@ -12,6 +13,7 @@ type Props = {
 
 export const Button: React.FC<Props> = ({
   className,
+  disabled = false,
   isLoading = false,
   size = 'lg',
   text,
@@ -25,9 +27,10 @@ export const Button: React.FC<Props> = ({
         size === 'lg' ? 'text-xl py-2.5 w-full ' : 'text-sm px-2 py-0.5',
         type === 'primary'
           ? 'bg-bisque-400 text-white'
-          : 'border-2 border-bisque-400 text-bisque-400 ',
+          : 'border-2 border-bisque-400 text-bisque-400',
         className
       )}
+      disabled={disabled}
       onClick={onClick}
     >
       {isLoading && <Loader size={size === 'lg' ? 8 : 4} />}
