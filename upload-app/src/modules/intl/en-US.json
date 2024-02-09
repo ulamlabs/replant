@@ -43,5 +43,6 @@
   "species": "Species",
   "signUp": "Sign up",
   "submit": "Submit",
+  "successYouCanNowAddNextTree": "Succes. You can now add next tree.",
   "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number."
 }

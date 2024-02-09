@@ -1,8 +1,10 @@
-import { Button, Header, Section } from 'common/components';
+import { Snackbar } from '@mui/base';
+import { Alert, Button, Header, Section } from 'common/components';
+import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { usePlantsMutation } from 'modules/plants';
 import { SpeciesAutocomplete } from 'modules/species';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capture, NewPlantSummary } from './components';
 import { useNewPlantStore } from './store';
@@ -16,11 +18,13 @@ export const NewPlant: React.FC = () => {
 
   const plantsMutation = usePlantsMutation();
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
   useEffect(() => {
     store.reset();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const submit = () => {
+  const submit = async () => {
     let speciesError: typeof store.speciesError;
     let imageError: typeof store.imageError;
 
@@ -38,15 +42,24 @@ export const NewPlant: React.FC = () => {
       return;
     }
 
-    plantsMutation.mutate({
+    await plantsMutation.mutateAsync({
       assigned_species_id: store.species!.id,
       ...store.image!,
     });
+    setSnackbarOpen(true);
+    store.setImage(undefined);
   };
 
   return (
     <Section
-      actions={<Button text={fmtMsg('submit')} onClick={submit} />}
+      actions={
+        <Button
+          disabled={plantsMutation.isPending}
+          isLoading={plantsMutation.isPending}
+          text={fmtMsg('submit')}
+          onClick={submit}
+        />
+      }
       className='max-w-xl'
     >
       <div className='space-y-5'>
@@ -56,6 +69,9 @@ export const NewPlant: React.FC = () => {
             navigate('/');
           }}
         />
+        {plantsMutation.isError && (
+          <Alert severity='error' text={prettifyError(plantsMutation.error)} />
+        )}
         <Capture />
         <SpeciesAutocomplete
           value={store.species ?? null}
@@ -64,6 +80,14 @@ export const NewPlant: React.FC = () => {
         />
         <NewPlantSummary />
       </div>
+      <Snackbar
+        className='bg-green-400 fixed rounded-lg top-5 right-5 px-5 py-2.5 text-base'
+        autoHideDuration={5000}
+        open={snackbarOpen}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        {fmtMsg('successYouCanNowAddNextTree')}
+      </Snackbar>
     </Section>
   );
 };
