@@ -14,7 +14,7 @@ export const NewPlantSummary: React.FC = () => {
         <span>{fmtMsg('photo')}</span>
         <div className='rounded border border-black dark:border-white h-20 aspect-3/4 flex items-center justify-center box-content'>
           {store.image ? (
-            <img className='h-20 rounded' src={store.image} />
+            <img className='h-20 rounded' src={store.image?.image ?? ''} />
           ) : (
             <ImageIcon
               svgClassName='size-4.5'
@@ -33,11 +33,11 @@ export const NewPlantSummary: React.FC = () => {
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('latitude')}</span>
-        <span>{store.latitude ?? ' -'}</span>
+        <span>{store.image?.latitude ?? ' -'}</span>
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('longitude')}</span>
-        <span>{store.longitude ?? ' -'}</span>
+        <span>{store.image?.longitude ?? ' -'}</span>
       </SummaryItem>
     </Summary>
   );

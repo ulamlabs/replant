@@ -40,9 +40,7 @@ export const NewPlant: React.FC = () => {
 
     plantsMutation.mutate({
       assigned_species_id: store.species!.id,
-      image: store.image!,
-      latitude: store.latitude!,
-      longitude: store.longitude!,
+      ...store.image!,
     });
   };
 

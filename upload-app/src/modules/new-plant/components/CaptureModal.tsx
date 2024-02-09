@@ -29,7 +29,7 @@ export const CaptureModal: React.FC = () => {
       (position) => {
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
-        store.setImage(imgData, { latitude, longitude });
+        store.setImage({ image: imgData, latitude, longitude });
       },
       (error) => {
         console.log(error);
@@ -73,7 +73,7 @@ export const CaptureModal: React.FC = () => {
                 size='lg'
                 type='secondary'
                 text={fmtMsg('retake')}
-                onClick={store.clearImage}
+                onClick={() => store.setImage(undefined)}
               />
               <Button text={fmtMsg('keep')} onClick={store.closeCapture} />
             </>

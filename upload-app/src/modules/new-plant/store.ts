@@ -1,33 +1,30 @@
 import { AssignedSpecies } from 'modules/species';
 import { create } from 'zustand';
 
+export type CapturedImage = {
+  image: string; // as data URL
+  latitude: string;
+  longitude: string;
+};
+
 type NewPlantState = {
-  image?: string; // as data URL
+  image?: CapturedImage;
   imageError?: string;
-  latitude?: string;
-  longitude?: string;
   stream?: MediaStream;
   species?: AssignedSpecies;
   speciesError?: string;
   isCameraLoading?: boolean;
   isCaptureModalOpen?: boolean;
-  clearImage: () => void;
   closeCapture: () => void;
   openCapture: () => void;
   reset: () => void;
-  setImage: (
-    image: string,
-    coords: { latitude: string; longitude: string }
-  ) => void;
+  setImage: (value?: CapturedImage) => void;
   setImageError: (value?: string) => void;
   setSpecies: (value?: AssignedSpecies) => void;
   setSpeciesError: (value?: string) => void;
 };
 
 export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
-  clearImage: () => {
-    set({ image: undefined, latitude: undefined, longitude: undefined });
-  },
   closeCapture: () => {
     const stream = get().stream;
     if (!stream) {
@@ -52,20 +49,16 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     set({
       image: undefined,
       imageError: undefined,
-      latitude: undefined,
-      longitude: undefined,
       stream: undefined,
       species: undefined,
       speciesError: undefined,
       isCameraLoading: undefined,
       isCaptureModalOpen: undefined,
     }),
-  setImage: (image, { latitude, longitude }) =>
+  setImage: (image) =>
     set({
       image,
       imageError: undefined,
-      latitude,
-      longitude,
     }),
   setImageError: (imageError) => set({ imageError }),
   setSpecies: (species) => set({ species, speciesError: undefined }),
