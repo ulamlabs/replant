@@ -57,7 +57,7 @@ export const CaptureModal: React.FC = () => {
         <div className='flex flex-col gap-5'>
           <BackButton onClick={store.closeCapture} />
           <video className='rounded-lg' autoPlay ref={playerRef} />
-          <canvas className='hidden' ref={canvasRef} width='800' height='600' />
+          <canvas className='hidden' ref={canvasRef} width='600' height='800' />
         </div>
         <div>
           <Button size='big' text={fmtMsg('capture')} onClick={capture} />

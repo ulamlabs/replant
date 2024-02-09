@@ -39,7 +39,7 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     }
     set({ isCameraLoading: true, isCaptureModalOpen: true });
     const stream = await window.navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' } },
+      video: { aspectRatio: 3 / 4, facingMode: { ideal: 'environment' } },
     });
     set({ isCameraLoading: false, stream });
   },

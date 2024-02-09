@@ -12,7 +12,7 @@ export const NewPlantSummary: React.FC = () => {
     <Summary>
       <SummaryItem>
         <span>{fmtMsg('photo')}</span>
-        <div className='rounded border border-black dark:border-white h-20 aspect-4/3 flex items-center justify-center box-content'>
+        <div className='rounded border border-black dark:border-white h-20 aspect-3/4 flex items-center justify-center box-content'>
           {store.image ? (
             <img
               className='h-20 rounded'
