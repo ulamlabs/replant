@@ -29,7 +29,7 @@ export const CaptureModal: React.FC = () => {
       (position) => {
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
-        store.setImage({ image: imgData, latitude, longitude });
+        store.setTmpImage({ image: imgData, latitude, longitude });
       },
       (error) => {
         console.log(error);
@@ -55,27 +55,33 @@ export const CaptureModal: React.FC = () => {
         <div className='flex flex-col gap-5'>
           <BackButton onClick={store.closeCapture} />
           <video
-            className={clsx('rounded-lg', store.image && 'hidden')}
+            className={clsx('rounded-lg', store.tmpImage && 'hidden')}
             autoPlay
             ref={playerRef}
           />
           <canvas
-            className={clsx('rounded-lg', !store.image && 'hidden')}
+            className={clsx('rounded-lg', !store.tmpImage && 'hidden')}
             ref={canvasRef}
             width='600'
             height='800'
           />
         </div>
         <div className='flex flex-col gap-5'>
-          {store.image ? (
+          {store.tmpImage ? (
             <>
               <Button
                 size='lg'
                 type='secondary'
                 text={fmtMsg('retake')}
-                onClick={() => store.setImage(undefined)}
+                onClick={() => store.setTmpImage(undefined)}
               />
-              <Button text={fmtMsg('keep')} onClick={store.closeCapture} />
+              <Button
+                text={fmtMsg('keep')}
+                onClick={() => {
+                  store.setImage(store.tmpImage);
+                  store.closeCapture();
+                }}
+              />
             </>
           ) : (
             <Button text={fmtMsg('capture')} onClick={capture} />

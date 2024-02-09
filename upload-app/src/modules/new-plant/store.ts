@@ -10,11 +10,12 @@ export type CapturedImage = {
 type NewPlantState = {
   image?: CapturedImage;
   imageError?: string;
+  isCameraLoading?: boolean;
+  isCaptureModalOpen?: boolean;
   stream?: MediaStream;
   species?: AssignedSpecies;
   speciesError?: string;
-  isCameraLoading?: boolean;
-  isCaptureModalOpen?: boolean;
+  tmpImage?: CapturedImage;
   closeCapture: () => void;
   openCapture: () => void;
   reset: () => void;
@@ -22,6 +23,7 @@ type NewPlantState = {
   setImageError: (value?: string) => void;
   setSpecies: (value?: AssignedSpecies) => void;
   setSpeciesError: (value?: string) => void;
+  setTmpImage: (value?: CapturedImage) => void;
 };
 
 export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
@@ -39,7 +41,11 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     if (!window.navigator.mediaDevices) {
       return;
     }
-    set({ isCameraLoading: true, isCaptureModalOpen: true });
+    set({
+      isCameraLoading: true,
+      isCaptureModalOpen: true,
+      tmpImage: undefined,
+    });
     const stream = await window.navigator.mediaDevices.getUserMedia({
       video: { aspectRatio: 3 / 4, facingMode: { ideal: 'environment' } },
     });
@@ -49,18 +55,16 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     set({
       image: undefined,
       imageError: undefined,
+      isCameraLoading: undefined,
+      isCaptureModalOpen: undefined,
       stream: undefined,
       species: undefined,
       speciesError: undefined,
-      isCameraLoading: undefined,
-      isCaptureModalOpen: undefined,
+      tmpImage: undefined,
     }),
-  setImage: (image) =>
-    set({
-      image,
-      imageError: undefined,
-    }),
+  setImage: (image) => set({ image, imageError: undefined }),
   setImageError: (imageError) => set({ imageError }),
   setSpecies: (species) => set({ species, speciesError: undefined }),
   setSpeciesError: (speciesError) => set({ speciesError }),
+  setTmpImage: (tmpImage) => set({ tmpImage }),
 }));

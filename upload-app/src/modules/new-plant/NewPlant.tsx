@@ -60,9 +60,7 @@ export const NewPlant: React.FC = () => {
         <SpeciesAutocomplete
           value={store.species ?? null}
           error={store.speciesError}
-          onChange={(value) => {
-            store.setSpecies(value);
-          }}
+          onChange={store.setSpecies}
         />
         <NewPlantSummary />
       </div>
