@@ -4,8 +4,8 @@ import { create } from 'zustand';
 type NewPlantState = {
   image?: Blob;
   imageError?: string;
-  latitude?: number;
-  longitude?: number;
+  latitude?: string;
+  longitude?: string;
   stream?: MediaStream;
   species?: AssignedSpecies;
   speciesError?: string;
@@ -14,10 +14,11 @@ type NewPlantState = {
   closeCapture: () => void;
   openCapture: () => void;
   reset: () => void;
-  setImage: (image: Blob, position: GeolocationPosition) => void;
+  setImage: (
+    image: Blob,
+    coords: { latitude: string; longitude: string }
+  ) => void;
   setImageError: (value?: string) => void;
-  setLatitude: (value?: number) => void;
-  setLongitude: (value?: number) => void;
   setSpecies: (value?: AssignedSpecies) => void;
   setSpeciesError: (value?: string) => void;
 };
@@ -55,16 +56,14 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       isCameraLoading: undefined,
       isCaptureModalOpen: undefined,
     }),
-  setImage: (image, position) =>
+  setImage: (image, { latitude, longitude }) =>
     set({
       image,
       imageError: undefined,
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
+      latitude,
+      longitude,
     }),
   setImageError: (imageError) => set({ imageError }),
-  setLatitude: (latitude) => set({ latitude }),
-  setLongitude: (longitude) => set({ longitude }),
   setSpecies: (species) => set({ species, speciesError: undefined }),
   setSpeciesError: (speciesError) => set({ speciesError }),
 }));

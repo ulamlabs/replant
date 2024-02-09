@@ -44,8 +44,8 @@ export const NewPlant: React.FC = () => {
       plantsMutation.mutate({
         assigned_species_id: store.species!.id,
         image: window.btoa(imageBinaryString),
-        latitude: store.latitude!.toFixed(6),
-        longitude: store.longitude!.toFixed(6),
+        latitude: store.latitude!,
+        longitude: store.longitude!,
       });
     };
     reader.readAsBinaryString(store.image!);

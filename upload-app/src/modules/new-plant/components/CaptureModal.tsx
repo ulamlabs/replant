@@ -29,7 +29,9 @@ export const CaptureModal: React.FC = () => {
       }
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
-          store.setImage(blob, position);
+          const latitude = position.coords.latitude.toFixed(6);
+          const longitude = position.coords.longitude.toFixed(6);
+          store.setImage(blob, { latitude, longitude });
           store.closeCapture();
         },
         (error) => {
