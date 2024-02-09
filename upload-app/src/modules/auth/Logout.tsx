@@ -26,7 +26,6 @@ export const Logout: React.FC = () => {
     <Button
       isLoading={logoutMutation.isPending}
       text={fmtMsg('logOut')}
-      size='big'
       onClick={logOut}
     />
   );

@@ -70,7 +70,6 @@ export const Login: React.FC = () => {
       actions={
         <Button
           isLoading={loginMutation.isPending}
-          size={'big'}
           text={fmtMsg('logIn')}
           onClick={logIn}
         />

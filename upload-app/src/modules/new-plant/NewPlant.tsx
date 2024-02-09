@@ -48,7 +48,7 @@ export const NewPlant: React.FC = () => {
 
   return (
     <Section
-      actions={<Button size='big' text={fmtMsg('submit')} onClick={submit} />}
+      actions={<Button text={fmtMsg('submit')} onClick={submit} />}
       className='max-w-xl'
     >
       <div className='space-y-5'>

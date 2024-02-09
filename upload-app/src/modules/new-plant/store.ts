@@ -11,6 +11,7 @@ type NewPlantState = {
   speciesError?: string;
   isCameraLoading?: boolean;
   isCaptureModalOpen?: boolean;
+  clearImage: () => void;
   closeCapture: () => void;
   openCapture: () => void;
   reset: () => void;
@@ -24,6 +25,9 @@ type NewPlantState = {
 };
 
 export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
+  clearImage: () => {
+    set({ image: undefined, latitude: undefined, longitude: undefined });
+  },
   closeCapture: () => {
     const stream = get().stream;
     if (!stream) {
