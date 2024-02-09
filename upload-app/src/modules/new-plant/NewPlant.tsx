@@ -38,17 +38,12 @@ export const NewPlant: React.FC = () => {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const imageBinaryString = reader.result as string;
-      plantsMutation.mutate({
-        assigned_species_id: store.species!.id,
-        image: window.btoa(imageBinaryString),
-        latitude: store.latitude!,
-        longitude: store.longitude!,
-      });
-    };
-    reader.readAsBinaryString(store.image!);
+    plantsMutation.mutate({
+      assigned_species_id: store.species!.id,
+      image: store.image!,
+      latitude: store.latitude!,
+      longitude: store.longitude!,
+    });
   };
 
   return (

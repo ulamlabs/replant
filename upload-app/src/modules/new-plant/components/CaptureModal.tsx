@@ -23,22 +23,19 @@ export const CaptureModal: React.FC = () => {
 
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
 
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        return;
+    const imgData = canvas.toDataURL('image/png');
+
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude.toFixed(6);
+        const longitude = position.coords.longitude.toFixed(6);
+        store.setImage(imgData, { latitude, longitude });
+        store.closeCapture();
+      },
+      (error) => {
+        console.log(error);
       }
-      window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const latitude = position.coords.latitude.toFixed(6);
-          const longitude = position.coords.longitude.toFixed(6);
-          store.setImage(blob, { latitude, longitude });
-          store.closeCapture();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }, 'image/png');
+    );
   };
 
   useEffect(() => {

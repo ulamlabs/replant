@@ -2,7 +2,7 @@ import { AssignedSpecies } from 'modules/species';
 import { create } from 'zustand';
 
 type NewPlantState = {
-  image?: Blob;
+  image?: string; // as data URL
   imageError?: string;
   latitude?: string;
   longitude?: string;
@@ -15,7 +15,7 @@ type NewPlantState = {
   openCapture: () => void;
   reset: () => void;
   setImage: (
-    image: Blob,
+    image: string,
     coords: { latitude: string; longitude: string }
   ) => void;
   setImageError: (value?: string) => void;

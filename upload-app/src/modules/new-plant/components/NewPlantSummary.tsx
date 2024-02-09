@@ -14,10 +14,7 @@ export const NewPlantSummary: React.FC = () => {
         <span>{fmtMsg('photo')}</span>
         <div className='rounded border border-black dark:border-white h-20 aspect-3/4 flex items-center justify-center box-content'>
           {store.image ? (
-            <img
-              className='h-20 rounded'
-              src={URL.createObjectURL(store.image)}
-            />
+            <img className='h-20 rounded' src={store.image} />
           ) : (
             <ImageIcon
               svgClassName='size-4.5'
