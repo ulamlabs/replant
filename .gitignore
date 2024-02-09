@@ -1,3 +1,6 @@
+# WASM build directory
+artifacts/
+
 # Editor directories and files
 .vscode/*
 .DS_Store
