@@ -4,10 +4,10 @@ import sys
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 
-from cosmpy.aerial.wallet import LocalWallet
+from cosmpy.aerial.wallet import LocalWallet  # noqa: E402
 
-import env
-from replant.sdk import CW721Client, get_sei_client
+import env  # noqa: E402
+from replant.sdk import CW721Client, get_sei_client  # noqa: E402
 
 client = get_sei_client(env.SEI_CHAIN_ID, env.SEI_RPC)
 

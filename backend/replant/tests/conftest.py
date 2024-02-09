@@ -1,7 +1,7 @@
+import base64
 from io import BytesIO
 
 import pytest
-from django.core.files.uploadedfile import SimpleUploadedFile
 from model_bakery import baker
 from PIL import Image
 from rest_framework.test import APIClient
@@ -70,8 +70,9 @@ def user_client(user: User, api_client: APIClient):
 
 @pytest.fixture
 def image():
-    in_memory_file = BytesIO()
     image = Image.new("1", size=(1, 1), color=0)
-    image.save(in_memory_file, "png")
-    in_memory_file.seek(0)
-    return SimpleUploadedFile(name="img.png", content=in_memory_file.read())
+
+    in_memory_file = BytesIO()
+    image.save(in_memory_file, format="png")
+
+    return base64.b64encode(in_memory_file.getvalue()).decode()
