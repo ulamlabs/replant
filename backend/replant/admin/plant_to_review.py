@@ -13,7 +13,7 @@ CHOICES = (
 )
 
 
-class PlanToReviewForm(forms.ModelForm):
+class PlantToReviewForm(forms.ModelForm):
     rejection_reason = forms.CharField(
         widget=forms.Textarea({"cols": "20"}), required=False
     )
@@ -101,5 +101,5 @@ class PlantToReviewAdmin(TrackableModelAdmin):
         return False
 
     def get_changelist_form(self, request, **kwargs):
-        kwargs.setdefault("form", PlanToReviewForm)
+        kwargs.setdefault("form", PlantToReviewForm)
         return super().get_changelist_form(request, **kwargs)
