@@ -1,14 +1,14 @@
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as ReactQuery from '@tanstack/react-query';
-import { GC_TIME, SHORT_STALE_TIME } from './consts';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AxiosError } from 'axios';
+import { GC_TIME, SHORT_STALE_TIME } from './consts';
 
 const queryClient = new ReactQuery.QueryClient({
   defaultOptions: {
     queries: {
       gcTime: GC_TIME,
       refetchOnWindowFocus: false,
-      // @ts-ignore err: unknown -> error: AxiosError
+      // @ts-expect-error error: Error -> error: AxiosError
       retry: (failureCount, error: AxiosError) => {
         if (error.response?.status === 401) {
           return false; // do not retry, trigger error
@@ -27,8 +27,8 @@ const queryClient = new ReactQuery.QueryClient({
     },
   },
   queryCache: new ReactQuery.QueryCache({
-    // @ts-ignore err: unknown -> error: AxiosError
-    onError: (error: AxiosError, xssd) => {
+    // @ts-expect-error error: Error -> error: AxiosError
+    onError: (error: AxiosError) => {
       if (error.response?.status === 401) {
         globalThis.location.href = '/login';
       }

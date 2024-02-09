@@ -18,7 +18,7 @@ export const NewPlant: React.FC = () => {
 
   useEffect(() => {
     store.reset();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const submit = () => {
     let speciesError: typeof store.speciesError;

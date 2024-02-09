@@ -11,7 +11,7 @@ const postPlants = (payload: NewPlantType) =>
   post<PlantType, NewPlantType>(plantsUrl, payload);
 
 export const usePlantsMutation = () =>
-  useMutation<AxiosResponse<PlantType>, AxiosError<any>, NewPlantType>({
+  useMutation<AxiosResponse<PlantType>, AxiosError, NewPlantType>({
     mutationKey: postPlantsQueryKey,
     mutationFn: (payload) => postPlants(payload),
   });

@@ -16,15 +16,11 @@ export const CaptureModal: React.FC = () => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
     const player = playerRef.current;
-
     if (!canvas || !player || !context) {
       return;
     }
-
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-
     const imgData = canvas.toDataURL('image/png');
-
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
         const latitude = position.coords.latitude.toFixed(6);
@@ -42,7 +38,7 @@ export const CaptureModal: React.FC = () => {
       return;
     }
     playerRef.current.srcObject = store.stream;
-  }, [store.stream, playerRef.current]);
+  }, [store.stream]);
 
   return (
     <div
