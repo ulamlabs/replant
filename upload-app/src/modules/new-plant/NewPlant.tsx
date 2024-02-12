@@ -20,7 +20,7 @@ export const NewPlant: React.FC = () => {
 
   const { data: species } = useSpecies();
 
-  const noPlantSpecies = species && !species.length; // species loaded, but no items
+  const noSpecies = species && !species.length; // species loaded, but no items
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -54,11 +54,32 @@ export const NewPlant: React.FC = () => {
     store.setImage(undefined);
   };
 
+  const header = (
+    <Header
+      text={fmtMsg('addTree')}
+      onBack={() => {
+        navigate('/');
+      }}
+    />
+  );
+
+  if (noSpecies) {
+    return (
+      <div className='space-y-5'>
+        {header}
+        <Alert
+          severity='error'
+          text={fmtMsg('thereAreNoPlantSpeciesAssignedToYourCommunity')}
+        />
+      </div>
+    );
+  }
+
   return (
     <Section
       actions={
         <Button
-          disabled={noPlantSpecies || plantsMutation.isPending}
+          disabled={plantsMutation.isPending || !species?.length}
           isLoading={plantsMutation.isPending}
           text={fmtMsg('submit')}
           onClick={submit}
@@ -67,13 +88,8 @@ export const NewPlant: React.FC = () => {
       className='max-w-xl'
     >
       <div className='space-y-5'>
-        <Header
-          text={fmtMsg('addTree')}
-          onBack={() => {
-            navigate('/');
-          }}
-        />
-        {noPlantSpecies && (
+        {header}
+        {noSpecies && (
           <Alert
             severity='error'
             text={fmtMsg('thereAreNoPlantSpeciesAssignedToYourCommunity')}
