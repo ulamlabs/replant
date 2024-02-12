@@ -45,7 +45,10 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       tmpImage: undefined,
     });
     const stream = await window.navigator.mediaDevices.getUserMedia({
-      video: { aspectRatio: 3 / 4, facingMode: { ideal: 'environment' } },
+      video: {
+        aspectRatio: { ideal: 4 / 3 },
+        facingMode: { ideal: 'environment' },
+      },
     });
     set({ isCameraLoading: false });
     // if capture modal has been closed before camera fully started, then close the camera

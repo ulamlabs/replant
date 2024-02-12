@@ -3,7 +3,7 @@ import { Alert, Button, Header, Section } from 'common/components';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { usePlantsMutation } from 'modules/plants';
-import { SpeciesAutocomplete } from 'modules/species';
+import { SpeciesAutocomplete, useSpecies } from 'modules/species';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capture, NewPlantSummary } from './components';
@@ -17,6 +17,10 @@ export const NewPlant: React.FC = () => {
   const store = useNewPlantStore();
 
   const plantsMutation = usePlantsMutation();
+
+  const { data: species } = useSpecies();
+
+  const noPlantSpecies = species && !species.length; // species loaded, but no items
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -54,7 +58,7 @@ export const NewPlant: React.FC = () => {
     <Section
       actions={
         <Button
-          disabled={plantsMutation.isPending}
+          disabled={noPlantSpecies || plantsMutation.isPending}
           isLoading={plantsMutation.isPending}
           text={fmtMsg('submit')}
           onClick={submit}
@@ -69,6 +73,12 @@ export const NewPlant: React.FC = () => {
             navigate('/');
           }}
         />
+        {noPlantSpecies && (
+          <Alert
+            severity='error'
+            text={fmtMsg('thereAreNoPlantSpeciesAssignedToYourCommunity')}
+          />
+        )}
         {plantsMutation.isError && (
           <Alert severity='error' text={prettifyError(plantsMutation.error)} />
         )}
