@@ -1,1 +1,18 @@
-{}
+{
+  "botanicalName": "Botanical name",
+  "captureDate": "Capture date",
+  "commonName": "Common name",
+  "country": "Country",
+  "location": "Location",
+  "nftCollection": "NFT Collection",
+  "nftId": "NFT ID",
+  "planter": "Planter",
+  "plantingCost": "Planting cost",
+  "plantingOrganizationCommunity": "Planing organization/community",
+  "replantWorldsProofOfPlantingNftGallery": "Replant World’s proof of planting NFT gallery",
+  "search": "Search",
+  "speciesOfTrees": "Species of trees",
+  "sponsoredBy": "Sponsored by",
+  "sponsoredTrees": "Sponsored trees",
+  "sponsoredTreesValues": "Sponsored trees value"
+}

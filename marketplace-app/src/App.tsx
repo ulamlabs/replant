@@ -1,23 +1,21 @@
+import { Footer } from 'common/components/Footer';
 import { IntlProvider } from 'modules/intl';
 import { QueryClientProvider } from 'modules/query';
+import { Gallery } from 'pages/Gallery';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
   return (
     <QueryClientProvider>
       <IntlProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path='/'
-              element={
-                <h1 className='text-3xl font-bold underline text-white'>
-                  Hello, NFT Gallery!
-                </h1>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <div className='w-screen h-screen overflow-y-auto'>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Gallery />} />
+            </Routes>
+          </BrowserRouter>
+          <Footer />
+        </div>
       </IntlProvider>
     </QueryClientProvider>
   );
