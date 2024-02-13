@@ -21,12 +21,13 @@ class PlantSerializer(serializers.ModelSerializer):
             "assigned_species_id",
             "species",
             "review_state",
+            "rejection_reason",
             "image",
             "latitude",
             "longitude",
             "created_at",
         )
-        read_only_fields = ("id", "review_state", "created_at")
+        read_only_fields = ("id", "review_state", "rejection_reason", "created_at")
 
     def _validate_assigned_species(self, assigned_species_id: int, user: User):
         assigned_species = AssignedSpecies.objects.filter(
