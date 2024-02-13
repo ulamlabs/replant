@@ -13,6 +13,7 @@ import {
   passwordIsTooSimilarToUsername,
   phoneNumberIsNotValid,
   registrationLinkExpired,
+  useRegisterIntoOrganizationMutation,
   useRegisterMutation,
   useRegisteredOrganization,
 } from './api';
@@ -57,6 +58,10 @@ export const Signup: React.FC = () => {
 
   const registerMutation = useRegisterMutation();
 
+  const registerIntoOrganizationMutation = useRegisterIntoOrganizationMutation(
+    code!
+  );
+
   const submit = () => {
     const loginTrimmed = login.trim();
     const phoneNumberTrimmed = phoneNumber.trim();
@@ -98,8 +103,12 @@ export const Signup: React.FC = () => {
       return;
     }
 
+    const mutation = signupIntoOrganization
+      ? registerIntoOrganizationMutation
+      : registerMutation;
+
     if (country && phoneNumberTrimmed && loginTrimmed && password) {
-      registerMutation.mutate(
+      mutation.mutate(
         {
           username: loginTrimmed,
           phone_number: phoneNumberTrimmed,
