@@ -6,7 +6,7 @@ type Props = {
   icon: React.ReactNode;
   isLoading: boolean;
   title: string;
-  value?: string;
+  value?: number;
 };
 
 export const InfoBox: React.FC<Props> = ({

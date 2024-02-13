@@ -1,12 +1,15 @@
-import { Section } from 'common/components';
+import { LoaderBox, Section } from 'common/components';
 import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
-import { Plant } from 'modules/plants';
-import image from './assets/tree-planting.png';
+import { Plant, usePlants, usePlantsSummary } from 'modules/plants';
 import { InfoBox } from './components';
 
 export const Dashboard: React.FC = () => {
   const fmtMsg = useFmtMsg();
+
+  const { data: summary, isLoading: isLoadingSummary } = usePlantsSummary();
+
+  const { data: plants, isLoading: isLoadingPlants } = usePlants(1);
 
   return (
     <Section>
@@ -14,41 +17,37 @@ export const Dashboard: React.FC = () => {
         <InfoBox
           title={fmtMsg('addedTrees')}
           icon={<TreeIcon />}
-          isLoading={false}
-          value={'10'}
+          isLoading={isLoadingSummary}
+          value={summary?.added_count}
           className={'bg-blue-400'}
         />
         <InfoBox
           title={fmtMsg('pendingTrees')}
           icon={<DocumentIcon />}
-          isLoading={false}
-          value={'0'}
+          isLoading={isLoadingSummary}
+          value={summary?.pending_review_count}
           className={'bg-bisque-400'}
         />
         <InfoBox
           title={fmtMsg('approvedTrees')}
           icon={<CheckIcon />}
-          isLoading={false}
-          value={'112'}
+          isLoading={isLoadingSummary}
+          value={summary?.approved_count}
           className={'bg-green-400'}
         />
         <InfoBox
           title={fmtMsg('rejectedTrees')}
           icon={<CrossIcon />}
-          isLoading={false}
-          value={'7'}
+          isLoading={isLoadingSummary}
+          value={summary?.rejected_count}
           className={'bg-red-400'}
         />
       </div>
-      <div>
-        <Plant
-          botanicalName={'Quercoxylon E. Hofmann'}
-          commonName={'dąb liściasty'}
-          date={'2024-02-01T20:12:00'}
-          id={2}
-          image={image}
-          location={'51°06′36″N 17°01′20″E'}
-        />
+      <div className='space-y-2.5'>
+        <LoaderBox visible={isLoadingPlants} />
+        {plants?.results.slice(0, 5).map((plant) => (
+          <Plant plant={plant} key={plant.id} />
+        ))}
       </div>
     </Section>
   );
