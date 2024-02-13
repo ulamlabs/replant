@@ -1,5 +1,6 @@
 from typing import cast
 
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
@@ -11,6 +12,7 @@ from .assigned_species import SpeciesSerializer
 class PlantSerializer(serializers.ModelSerializer):
     assigned_species_id = serializers.IntegerField(write_only=True)
     species = SpeciesSerializer(read_only=True)
+    image = Base64ImageField()
 
     class Meta:
         model = Plant
