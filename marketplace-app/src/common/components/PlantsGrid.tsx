@@ -20,7 +20,7 @@ export function PlantsGrid({ plants }: PlantsGridProps) {
         {plants.map((plant) => (
           <PlantTile
             plant={plant}
-            onClick={setSelectedPlant}
+            onClick={() => setSelectedPlant(plant)}
             key={plant.nftId}
           />
         ))}

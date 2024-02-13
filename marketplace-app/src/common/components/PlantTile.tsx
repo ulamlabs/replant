@@ -2,14 +2,14 @@ import { Plant } from 'types';
 
 type PlantDetailsProps = {
   plant: Plant;
-  onClick: (plant: Plant) => void;
+  onClick: () => void;
 };
 
 export function PlantTile(props: PlantDetailsProps) {
   return (
     <div
       className='flex flex-col bg-teal-200 dark:bg-teal-700 rounded-xl overflow-hidden cursor-pointer max-w-[320px] w-full'
-      onClick={() => props.onClick(props.plant)}
+      onClick={props.onClick}
     >
       <div
         style={{ backgroundImage: `url(${props.plant.imageUrl})` }}

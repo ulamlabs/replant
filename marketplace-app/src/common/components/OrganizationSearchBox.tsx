@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { IconSearch } from './icons/IconSearch';
 import { useQuery } from '@tanstack/react-query';
-import { searchOrganization } from 'fixtures';
 import { useClickAway, useDebounce } from '@uidotdev/usehooks';
+import { searchOrganization } from 'fixtures';
+import { useFmtMsg } from 'modules/intl';
+import { useState } from 'react';
 import { Menu } from './Menu';
 import { MenuItem } from './MenuItem';
+import { IconSearch } from './icons/IconSearch';
 import { IconX } from './icons/IconX';
 
 type OrganizationSearchBoxProps = {
@@ -12,10 +13,11 @@ type OrganizationSearchBoxProps = {
 };
 
 export function OrganizationSearchBox(props: OrganizationSearchBoxProps) {
+  const fmtMsg = useFmtMsg();
   const [searchTerm, setSearchTerm] = useState('');
   const [focused, setFocused] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const ref = useClickAway(() => setFocused(false));
+  const ref = useClickAway<HTMLDivElement>(() => setFocused(false));
 
   const { data: organizations } = useQuery({
     queryKey: ['organizations', debouncedSearchTerm],
@@ -41,7 +43,7 @@ export function OrganizationSearchBox(props: OrganizationSearchBoxProps) {
     >
       <input
         type='text'
-        placeholder='Search'
+        placeholder={fmtMsg('search')}
         className='px-6 py-2 absolute left-0 top-0 w-full h-full bg-transparent rounded-xl pr-10'
         value={searchTerm}
         onChange={(e) => onChange(e.target.value)}
@@ -54,7 +56,7 @@ export function OrganizationSearchBox(props: OrganizationSearchBoxProps) {
       {focused && organizations?.length ? (
         <Menu>
           {organizations.map((org) => (
-            <MenuItem value={org} onSelect={() => select(org)} key={org}>
+            <MenuItem onSelect={() => select(org)} key={org}>
               {org}
             </MenuItem>
           ))}

@@ -1,13 +1,15 @@
-import { PlantsGrid } from 'common/components/PlantsGrid';
+import { useQuery } from '@tanstack/react-query';
 import { OrganizationSearchBox } from 'common/components/OrganizationSearchBox';
+import { OrganizationSummary } from 'common/components/OrganizationSummary';
+import { Pagination } from 'common/components/Pagination';
+import { PlantsGrid } from 'common/components/PlantsGrid';
 import { ReplantLogo } from 'common/components/ReplantLogo';
 import { listPlants } from 'fixtures';
-import { useQuery } from '@tanstack/react-query';
-import { Pagination } from 'common/components/Pagination';
+import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
-import { OrganizationSummary } from 'common/components/OrganizationSummary';
 
 export function Gallery() {
+  const fmtMsg = useFmtMsg();
   const [offset, setOffset] = useState(0);
   const [organization, setOrganization] = useState<string>('');
 
@@ -29,7 +31,7 @@ export function Gallery() {
       </div>
 
       <div className='text-3xl text-center font-light'>
-        Replant World’s proof of planting NFT gallery
+        {fmtMsg('replantWorldsProofOfPlantingNftGallery')}
       </div>
 
       {organization && <OrganizationSummary organization={organization} />}
@@ -38,7 +40,9 @@ export function Gallery() {
         <>
           <div>
             {organization && (
-              <h3 className='text-xl font-bold mb-4'>Sponsored trees</h3>
+              <h3 className='text-xl font-bold mb-4'>
+                {fmtMsg('sponsoredTrees')}
+              </h3>
             )}
             <PlantsGrid plants={plants?.results} />
           </div>

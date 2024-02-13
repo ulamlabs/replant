@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getOrganizationSummary } from 'fixtures';
+import { useFmtMsg } from 'modules/intl';
 import { OrganizationSummaryBox } from './OrganizationSummaryBox';
+import { IconCoin } from './icons/IconCoin';
+import { IconLeaf } from './icons/IconLeaf';
 import { IconOrganization } from './icons/IconOrganization';
 import { IconTree } from './icons/IconTree';
-import { IconLeaf } from './icons/IconLeaf';
-import { IconCoin } from './icons/IconCoin';
 
 type OrganizationSummaryProps = {
   organization: string;
@@ -13,6 +14,8 @@ type OrganizationSummaryProps = {
 export function OrganizationSummary({
   organization,
 }: OrganizationSummaryProps) {
+  const fmtMsg = useFmtMsg();
+
   const { data } = useQuery({
     queryKey: ['organizationSummary', organization],
     queryFn: () => getOrganizationSummary(organization),
@@ -33,7 +36,7 @@ export function OrganizationSummary({
                 overrideColors={true}
               />
             }
-            label='Trees sponsored'
+            label={fmtMsg('sponsoredTrees')}
             value={data?.plants}
           />
           <OrganizationSummaryBox
@@ -43,7 +46,7 @@ export function OrganizationSummary({
                 overrideColors={true}
               />
             }
-            label='Species of trees'
+            label={fmtMsg('speciesOfTrees')}
             value={data?.species}
           />
           <OrganizationSummaryBox
@@ -53,7 +56,7 @@ export function OrganizationSummary({
                 overrideColors={true}
               />
             }
-            label='Sponsored trees value'
+            label={fmtMsg('sponsoredTreesValues')}
             value={`${data.totalPlantsCostUsd.toLocaleString()} USD`}
           />
         </div>

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Paginate, Paginated } from 'types';
 
@@ -66,9 +67,10 @@ export function Pagination({ paginated, onPaginated }: PaginationProps) {
           <div key={index}>⋯</div>
         ) : (
           <div
-            className={`flex items-center bg-teal-200 dark:bg-teal-700 rounded-lg px-3 py-1 cursor-pointer hover:bg-teal-300 dark:hover:bg-teal-600 border-green-400 dark:border-white ${
+            className={clsx(
+              'flex items-center bg-teal-200 dark:bg-teal-700 rounded-lg px-3 py-1 cursor-pointer hover:bg-teal-300 dark:hover:bg-teal-600 border-green-400 dark:border-white',
               currentPage === page ? 'bg-teal-300 border-4' : ''
-            }`}
+            )}
             onClick={() => paginate(page)}
             key={index}
           >

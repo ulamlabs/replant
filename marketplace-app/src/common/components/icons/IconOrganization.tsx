@@ -1,11 +1,13 @@
+import clsx from 'clsx';
 import { IconProps } from './types';
 
 export function IconOrganization({ className, overrideColors }: IconProps) {
   return (
     <svg
-      className={`${
-        !overrideColors && 'fill-black dark:fill-white'
-      } ${className}`}
+      className={clsx(
+        !overrideColors && 'fill-black dark:fill-white',
+        className
+      )}
       xmlns='http://www.w3.org/2000/svg'
       width='100'
       height='100'
