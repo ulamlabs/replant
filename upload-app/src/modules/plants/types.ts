@@ -17,4 +17,12 @@ export type PlantType = {
   latitude: string;
   longitude: string;
   created_at: string;
+  rejection_reason?: string;
+};
+
+export type PlantsSummary = {
+  added_count: number;
+  pending_review_count: number;
+  approved_count: number;
+  rejected_count: number;
 };
