@@ -43,8 +43,8 @@ export const Dashboard: React.FC = () => {
           className={'bg-red-400'}
         />
       </div>
+      <LoaderBox visible={isLoadingPlants} />
       <div className='space-y-2.5'>
-        <LoaderBox visible={isLoadingPlants} />
         {plants?.results.slice(0, 3).map((plant) => (
           <Plant plant={plant} key={plant.id} />
         ))}

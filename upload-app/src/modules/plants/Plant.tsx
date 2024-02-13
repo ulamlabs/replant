@@ -11,20 +11,18 @@ export const Plant: React.FC<Props> = ({ plant }) => {
   const fmtMsg = useFmtMsg();
 
   return (
-    <div className='p-2.5 pb-3.5 rounded-xl flex gap-5 dark:bg-teal-700 border dark:border-0 border-teal-600 relative text-black dark:text-white'>
-      <img
-        src={plant.image}
-        alt='Tree'
-        className='aspect-3/4 object-cover rounded-xl w-24 h-full'
-      />
-      <div className='flex flex-col gap-5'>
-        <div className='flex flex-col'>
+    <div className='p-2.5 rounded-xl dark:bg-teal-700 border dark:border-0 border-teal-600  text-black dark:text-white space-y-2'>
+      <div className='flex gap-4 relative'>
+        <img
+          src={plant.image}
+          alt='Tree'
+          className='aspect-3/4 object-cover rounded-xl w-24 h-full'
+        />
+        <div className='flex flex-col text-xs font-light'>
           <span className='text-base font-bold'>
             {plant.species.botanical_name}
           </span>
-          <span className='text-sm'>{plant.species.common_name}</span>
-        </div>
-        <div className='flex flex-col text-xs font-light'>
+          <span className='text-sm mb-3'>{plant.species.common_name}</span>
           <span>{`${fmtMsg('latitude')}: ${plant.latitude}`}</span>
           <span>{`${fmtMsg('longitude')}: ${plant.longitude}`}</span>
           <span>{`${fmtMsg('date')}: ${formatDatetimeWithoutSec(
@@ -32,10 +30,15 @@ export const Plant: React.FC<Props> = ({ plant }) => {
           )}`}</span>
           <span>{`${fmtMsg('id')}: ${plant.id}`}</span>
         </div>
+        <div className='absolute bottom-0 right-0'>
+          <ReviewStatePill state={plant.review_state} />
+        </div>
       </div>
-      <div className='absolute bottom-2 right-2'>
-        <ReviewStatePill state={plant.review_state} />
-      </div>
+      {plant.rejection_reason && (
+        <div className='text-red-400 text-xs'>
+          {fmtMsg('rejectionReason') + ': ' + plant.rejection_reason}
+        </div>
+      )}
     </div>
   );
 };
