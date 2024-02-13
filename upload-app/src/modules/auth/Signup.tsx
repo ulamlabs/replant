@@ -155,7 +155,6 @@ export const Signup: React.FC = () => {
             />
             <Button
               text={fmtMsg('goToSignup')}
-              size={'big'}
               onClick={() => navigate('/signup')}
             />
           </>
@@ -173,7 +172,6 @@ export const Signup: React.FC = () => {
       actions={
         <Button
           isLoading={registerMutation.isPending}
-          size={'big'}
           text={fmtMsg('signUp')}
           onClick={submit}
         />

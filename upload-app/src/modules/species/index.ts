@@ -1,3 +1,3 @@
-export * from './Plant';
+export * from './SpeciesAutocomplete';
 export * from './api';
 export * from './types';

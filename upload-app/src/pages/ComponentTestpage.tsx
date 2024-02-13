@@ -1,4 +1,3 @@
-import { LocationIcon } from 'common/icons';
 import {
   Alert,
   Button,
@@ -6,9 +5,12 @@ import {
   Input,
   Loader,
   LoaderBox,
+  Summary,
+  SummaryItem,
 } from 'common/components';
-import { UnauthLayout } from 'modules/layout';
+import { LocationIcon } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
+import { UnauthLayout } from 'modules/layout';
 
 export const ComponentTestpage: React.FC = () => {
   return (
@@ -16,13 +18,18 @@ export const ComponentTestpage: React.FC = () => {
       <div className='flex flex-col gap-3'>
         <Alert text={'Test error alert'} severity={'error'} />
         <Alert text={'Test success alert'} severity={'success'} />
-        <Button text={'Test big'} size={'big'} onClick={() => {}} />
-        <Button text={'Test small'} size={'small'} onClick={() => {}} />
-        <Button isLoading text={'Test big'} size={'big'} onClick={() => {}} />
+        <Button text={'Test xl primary'} onClick={() => {}} />
+        <Button isLoading text={'Test xl primary load'} onClick={() => {}} />
         <Button
-          isLoading
-          text={'Test small'}
-          size={'small'}
+          text={'Test xl secondary'}
+          type='secondary'
+          onClick={() => {}}
+        />
+        <Button size={'sm'} text={'Test sm primary'} onClick={() => {}} />
+        <Button
+          size={'sm'}
+          text={'Test sm secondary'}
+          type='secondary'
           onClick={() => {}}
         />
         <Input
@@ -54,6 +61,20 @@ export const ComponentTestpage: React.FC = () => {
         <Header text={'Test header without back'} />
         <Loader />
         <LoaderBox />
+        <Summary>
+          <SummaryItem>
+            <span>label 1</span>
+            <span>value 1</span>
+          </SummaryItem>
+          <SummaryItem>
+            <span>label 2</span>
+            <span>value 2</span>
+          </SummaryItem>
+          <SummaryItem>
+            <span>label 3</span>
+            <span>value 3</span>
+          </SummaryItem>
+        </Summary>
       </div>
     </UnauthLayout>
   );

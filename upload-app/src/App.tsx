@@ -1,14 +1,14 @@
 import { IntlProvider } from 'modules/intl';
+import { QueryClientProvider } from 'modules/query';
 import {
   ComponentTestpage,
   DashboardPage,
   LoginPage,
-  NewSubmissionPage,
+  NewPlantPage,
   SignupPage,
   SubmissionsPage,
   UserPage,
 } from 'pages';
-import { QueryClientProvider } from 'modules/query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
@@ -20,7 +20,7 @@ const App: React.FC = () => {
             <Route path='/' element={<Navigate replace to='/dashboard' />} />
             <Route path='/dashboard' element={<DashboardPage />} />
             <Route path='/login' element={<LoginPage />} />
-            <Route path='/new-submission' element={<NewSubmissionPage />} />
+            <Route path='/new-plant' element={<NewPlantPage />} />
             <Route path='/testpage' element={<ComponentTestpage />} />
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/signup-org' element={<SignupPage />} />

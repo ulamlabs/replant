@@ -19,18 +19,12 @@ export const UnauthLayout: React.FC<Props> = ({ children }) => {
     <div className={'w-screen h-screen'}>
       <div className={'py-2.5 px-5 flex items-center justify-between'}>
         <ReplantWorldIcon className='dark:fill-white fill-black' />
-        {(matchSignup || matchSignupOrg) && (
+        {(matchLogin || matchSignup || matchSignupOrg) && (
           <Button
-            onClick={() => navigate('/login')}
-            text={fmtMsg('logIn')}
-            size={'small'}
-          />
-        )}
-        {matchLogin && (
-          <Button
-            onClick={() => navigate('/signup')}
-            text={fmtMsg('signUp')}
-            size={'small'}
+            onClick={() => navigate(matchLogin ? '/signup' : '/login')}
+            size={'sm'}
+            text={fmtMsg(matchLogin ? 'signUp' : 'logIn')}
+            type={'secondary'}
           />
         )}
       </div>

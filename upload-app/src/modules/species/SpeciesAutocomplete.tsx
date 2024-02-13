@@ -1,25 +1,26 @@
-import clsx from 'clsx';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
-import { ArrowDownIcon, LocationIcon } from 'common/icons';
-import { Country } from './api';
+import clsx from 'clsx';
+import { LoupeIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
+import { AssignedSpecies, useSpecies } from 'modules/species';
 
 type Props = {
-  options: Country[];
-  value?: Country;
-  onChange: (val: Country) => void;
   error?: string;
-  className?: string;
+  value: AssignedSpecies | null;
+  onChange: (value: AssignedSpecies) => void;
 };
 
-export const CountriesAutocomplete: React.FC<Props> = ({
-  options,
-  value,
-  className,
-  onChange,
+export const SpeciesAutocomplete: React.FC<Props> = ({
   error,
+  value,
+  onChange,
 }) => {
   const fmtMsg = useFmtMsg();
+
+  const { data } = useSpecies();
+
+  const formatOptionLabel = (option: AssignedSpecies) =>
+    `${option.species.common_name} (${option.species.botanical_name})`;
 
   const {
     getRootProps,
@@ -28,9 +29,9 @@ export const CountriesAutocomplete: React.FC<Props> = ({
     getOptionProps,
     groupedOptions,
   } = useAutocomplete({
-    getOptionLabel: (option) => option.name,
-    id: 'autocomplete',
-    options,
+    getOptionLabel: formatOptionLabel,
+    id: 'species',
+    options: data || [],
     value,
     onChange: (_, newValue) => {
       if (newValue) {
@@ -40,42 +41,43 @@ export const CountriesAutocomplete: React.FC<Props> = ({
   });
 
   return (
-    <div className={clsx('relative', className)}>
-      <label className={'text-left text-xs text-black dark:text-white'}>
-        {fmtMsg('country')}
+    <div>
+      <label
+        className={'text-left text-xs text-black dark:text-white'}
+        htmlFor='species'
+      >
+        {fmtMsg('species')}
       </label>
       <div
         {...getRootProps()}
         className={clsx(
-          'border dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center mt-1',
+          'border dark:text-white text-black text-xs py-4 px-5 w-full flex gap-2 rounded-full cursor-text items-center',
           error
             ? 'border-red-400 dark:border-red-400'
             : 'border-black dark:border-white'
         )}
       >
-        <LocationIcon />
         <input
           {...getInputProps()}
-          placeholder={fmtMsg('country')}
-          className='text-xs text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
+          name='species'
+          placeholder={fmtMsg('search')}
+          className='text-xs text-black dark:text-white placeholder-black dark:placeholder-white border-0 bg-transparent focus:outline-none w-full'
         />
-        <ArrowDownIcon
-          svgClassName={clsx(!!groupedOptions.length && 'rotate-180')}
-        />
+        <LoupeIcon pathClassName='fill-black dark:fill-white' />
       </div>
       {groupedOptions.length > 0 && (
         <ul
           {...getListboxProps()}
           className='absolute box-border p-1.5 overflow-auto rounded-xl dark:bg-teal-900 bg-white w-full border border-black dark:border-white shadow-xl max-h-40'
         >
-          {options &&
-            (groupedOptions as typeof options).map((option, index) => (
+          {data &&
+            (groupedOptions as typeof data).map((option, index) => (
               <li
                 {...getOptionProps({ option, index })}
                 className='text-xs m-2 text-black dark:text-white'
-                key={option.id}
+                key={option.species.botanical_name}
               >
-                {option.name}
+                {formatOptionLabel(option)}
               </li>
             ))}
         </ul>

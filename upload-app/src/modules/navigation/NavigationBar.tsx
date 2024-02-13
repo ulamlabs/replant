@@ -10,7 +10,7 @@ export const NavigationBar: React.FC = () => {
     >
       <NavigationButton Icon={HomeIcon} path='/dashboard' />
       <NavigationButton Icon={ForestIcon} path='/submissions' />
-      <NavigationButton Icon={CameraIcon} path='/new-submission' />
+      <NavigationButton Icon={CameraIcon} path='/new-plant' />
       <NavigationButton Icon={UserIcon} path='/user' />
     </div>
   );
