@@ -1,18 +1,22 @@
 import logging
+import time
 from pathlib import Path
-from time import sleep
 
 from django.core.management.base import BaseCommand
 
 import env
+from replant import nft
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        logger = logging.getLogger(__name__)
-
         while True:
-            logger.info("Minting NFT's...")
-
-            Path(env.MINT_FOREVER_HEALTHCHECK_FILE_PATH).touch()
-            sleep(env.MINT_FOREVER_SLEEP_TIME_SECONDS)
+            try:
+                nft.mint_scheduled_nfts()
+            except Exception as err:
+                logger.exception(err)
+            finally:
+                Path(env.MINT_FOREVER_HEALTHCHECK_FILE_PATH).touch()
+                time.sleep(env.MINT_FOREVER_SLEEP_TIME_SECONDS)
