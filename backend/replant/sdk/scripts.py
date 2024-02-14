@@ -1,5 +1,6 @@
 from cosmpy.aerial.client import LedgerClient, NetworkConfig
 from cosmpy.aerial.contract import LedgerContract, Wallet
+import bech32
 
 
 def get_sei_client(chain_id: str, rpc: str) -> LedgerClient:
@@ -48,3 +49,23 @@ def deploy_nft_contract(
     )
 
     return contract
+
+
+def validate_sei_address(address: str) -> None:
+    """Validate SEI address.
+    
+    Raises:
+        ValueError: if address is invalid
+    """
+    
+    prefix, data_base5 = bech32.bech32_decode(address)
+    if prefix != "sei":
+        raise ValueError("Address must start with 'sei' prefix")
+    
+    data_base8 = bech32.convertbits(data_base5, 5, 8, False)
+
+    if data_base8 is None:
+        raise ValueError("Unable to parse address")
+    
+    if len(data_base8) != 20 and len(data_base8) != 32:
+        raise ValueError("Decoded address must be 20 bytes long (account) or 32 bytes long (contract)")
