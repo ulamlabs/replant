@@ -178,3 +178,6 @@ backend/media/
 # Helm
 helm/envs/dev/secrets.yaml
 helm/envs/prod/secrets.yaml
+
+# Static files
+backend/static/

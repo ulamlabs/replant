@@ -22,12 +22,23 @@ class PlantManager(models.Manager):
             .annotate(review_state_count=Count("review_state"))
         )
 
+    def only_awaiting_sponsor(self):
+        return self.filter(
+            review_state=Plant.ReviewState.APPROVED,
+            sponsor__isnull=True,
+        )
+
 
 class Plant(TrackableModel):
     class ReviewState(models.TextChoices):
         PENDING = auto()
         APPROVED = auto()
         REJECTED = auto()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["review_state"]),
+        ]
 
     def image_upload_to(self, filename: str) -> str:
         _, ext = filename.rsplit(".", 1)
@@ -52,6 +63,9 @@ class Plant(TrackableModel):
         decimal_places=2,
         verbose_name="planting cost USD",
         validators=[MinValueValidator(0)],
+    )
+    sponsor = models.ForeignKey(
+        "replant.Sponsor", null=True, blank=True, on_delete=models.PROTECT
     )
 
     objects: PlantManager = PlantManager()
