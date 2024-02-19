@@ -97,7 +97,7 @@ export const Signup: React.FC = () => {
         },
         {
           onSuccess: () => {
-            navigate('/login');
+            navigate('/login', { state: { signupSuccess: true } });
           },
         }
       );

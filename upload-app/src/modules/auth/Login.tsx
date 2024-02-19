@@ -1,12 +1,13 @@
 import poptechImg from 'assets/poptech.png';
 import { AxiosError } from 'axios';
-import { Alert, Button, Input, Section } from 'common/components';
+import { Alert, Button, Input, Section, Snackbar } from 'common/components';
 import { PadlockIcon, UserIcon } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginError, useLoginMutation } from './api';
+import { useLoginSnackbar } from './hooks';
 
 export const Login: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -20,6 +21,8 @@ export const Login: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
 
   const loginMutation = useLoginMutation();
+
+  const [open, setOpen] = useLoginSnackbar();
 
   const logIn = async () => {
     if (loginMutation.isPending) {
@@ -107,6 +110,9 @@ export const Login: React.FC = () => {
           }}
         />
       </form>
+      <Snackbar open={open} onClose={() => setOpen(false)}>
+        {fmtMsg('youHaveSuccessfullySignedUp')}
+      </Snackbar>
     </Section>
   );
 };
