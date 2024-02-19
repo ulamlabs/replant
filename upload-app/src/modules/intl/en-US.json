@@ -15,7 +15,6 @@
   "enterValidUsername": "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters.",
   "fieldRequired": "This field is required.",
   "goToDashboard": "Go to dashboard",
-  "goToSignup": "Go to signup",
   "id": "ID",
   "incorrectLoginOrPassword": "Incorrect login or password.",
   "latitude": "Latitude",
