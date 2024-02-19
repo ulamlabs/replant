@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { Alert, Button, Header, LoaderBox, Section } from 'common/components';
 import { prettifyError } from 'common/utils';
-import { Country } from 'modules/countries';
+import { Country, useCountries } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -14,6 +14,7 @@ import {
   phoneNumberIsNotValid,
   registrationLinkExpired,
   useRegisterIntoOrganizationMutation,
+  useRegisterMutation,
   useRegisteredOrganization,
 } from './api';
 import { validatePassword, validatePhoneNumber } from './utils';
@@ -25,6 +26,17 @@ export const Signup: React.FC = () => {
 
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
+
+  // if organization code is given, sign the user up into the organization, else sign them up as a regular user
+  const signupIntoOrganization = !!code;
+
+  const {
+    data: countries,
+    error: countriesError,
+    isLoading: isCountriesLoading,
+  } = useCountries({
+    enabled: !signupIntoOrganization,
+  });
 
   const {
     data: organization,
@@ -44,7 +56,11 @@ export const Signup: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-  const registerMutation = useRegisterIntoOrganizationMutation(code!);
+  const registerMutation = useRegisterMutation();
+
+  const registerIntoOrganizationMutation = useRegisterIntoOrganizationMutation(
+    code!
+  );
 
   const submit = () => {
     const loginTrimmed = login.trim();
@@ -87,8 +103,12 @@ export const Signup: React.FC = () => {
       return;
     }
 
+    const mutation = signupIntoOrganization
+      ? registerIntoOrganizationMutation
+      : registerMutation;
+
     if (country && phoneNumberTrimmed && loginTrimmed && password) {
-      registerMutation.mutate(
+      mutation.mutate(
         {
           username: loginTrimmed,
           phone_number: phoneNumberTrimmed,
@@ -130,26 +150,29 @@ export const Signup: React.FC = () => {
     return fmtMsg('registrationLinkIsInvalid');
   };
 
-  if (!code || organizationError) {
+  if (organizationError || countriesError) {
     return (
       <div className='flex flex-col gap-5 mb-5 w-full'>
-        {!code && (
-          <Alert
-            text={fmtMsg('signupCodeIsMissingFromTheUrl')}
-            severity={'error'}
-          />
+        {countriesError && (
+          <Alert severity='error' text={fmtMsg('errorWhileFetchingCoutries')} />
         )}
         {organizationError && (
-          <Alert
-            text={getWrongCodeErrorText(organizationError)}
-            severity={'error'}
-          />
+          <>
+            <Alert
+              text={getWrongCodeErrorText(organizationError)}
+              severity={'error'}
+            />
+            <Button
+              text={fmtMsg('goToSignup')}
+              onClick={() => navigate('/signup')}
+            />
+          </>
         )}
       </div>
     );
   }
 
-  if (isOrganizationLoading) {
+  if (signupIntoOrganization ? isOrganizationLoading : isCountriesLoading) {
     return <LoaderBox />;
   }
 
@@ -172,16 +195,26 @@ export const Signup: React.FC = () => {
           />
         )}
         <Header text={fmtMsg('signUp')} />
-        <span className='text-lg font-bold text-gray-500 dark:text-gray-500 text-center'>
-          {organization?.planting_organization.name}
-        </span>
+        {signupIntoOrganization ? (
+          <span className='text-lg font-bold text-gray-500 dark:text-gray-500 text-center'>
+            {organization!.planting_organization.name}
+          </span>
+        ) : (
+          <span className='text-xs text-black dark:text-white text-center'>
+            {fmtMsg('ifYouBelongToPlantingOrganization')}
+          </span>
+        )}
       </div>
       <SignupForm
         login={login}
         phoneNumber={phoneNumber}
         password={password}
         confirmPassword={confirmPassword}
-        countries={organization?.planting_organization.countries || []}
+        countries={
+          signupIntoOrganization
+            ? organization!.planting_organization.countries!
+            : countries!
+        }
         loginError={loginError}
         phoneNumberError={phoneNumberError}
         countryError={countryError}

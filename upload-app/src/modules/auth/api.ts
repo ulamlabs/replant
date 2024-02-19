@@ -5,6 +5,7 @@ import { Country } from 'modules/countries';
 
 const LOGIN_URL = '/auth/login';
 const LOGOUT_URL = '/auth/logout';
+const REGISTER_URL = '/auth/register';
 const REGISTER_TO_ORGANIZATION_URL = '/auth/register-to-organization/{code}';
 
 const registeredOrganizationQueryKey = (code: string | null) => [
@@ -73,6 +74,9 @@ const postLogin = (payload: LoginPayload) =>
 const postLogout = () =>
   post<Record<string, never>, Record<string, never>>(LOGOUT_URL);
 
+const postRegister = (payload: RegisterPayload) =>
+  post<RegisterResponse, RegisterPayload>(REGISTER_URL, payload);
+
 const postRegisterIntoOrganization = (payload: RegisterPayload, code: string) =>
   post<RegisterResponse, RegisterPayload>(
     REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`),
@@ -98,6 +102,18 @@ export const useLogoutMutation = () =>
     mutationKey: ['POST', LOGOUT_URL],
     mutationFn: postLogout,
   });
+
+export const useRegisterMutation = () => {
+  const mutation = useMutation<
+    AxiosResponse<RegisterResponse>,
+    AxiosError<RegisterError>,
+    RegisterPayload
+  >({
+    mutationFn: postRegister,
+  });
+
+  return mutation;
+};
 
 export const useRegisterIntoOrganizationMutation = (code: string) => {
   const mutation = useMutation<
