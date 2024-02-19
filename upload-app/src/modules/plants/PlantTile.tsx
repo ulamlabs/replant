@@ -1,17 +1,21 @@
-import { formatDatetimeWithoutSec } from 'common/utils/date-format';
+import { formatDatetime } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
+import { forwardRef } from 'react';
+import { Plant } from '.';
 import { ReviewStatePill } from './components';
-import { PlantType } from './types';
 
 type Props = {
-  plant: PlantType;
+  plant: Plant;
 };
 
-export const Plant: React.FC<Props> = ({ plant }) => {
+export const PlantTile = forwardRef<HTMLDivElement, Props>(({ plant }, ref) => {
   const fmtMsg = useFmtMsg();
 
   return (
-    <div className='p-2.5 rounded-xl dark:bg-teal-700 border dark:border-0 border-teal-600  text-black dark:text-white space-y-2'>
+    <div
+      className='p-2.5 rounded-xl dark:bg-teal-700 border dark:border-0 border-teal-600  text-black dark:text-white space-y-2'
+      ref={ref}
+    >
       <div className='flex gap-4 relative'>
         <img
           src={plant.image}
@@ -25,7 +29,7 @@ export const Plant: React.FC<Props> = ({ plant }) => {
           <span className='text-sm mb-3'>{plant.species.common_name}</span>
           <span>{`${fmtMsg('latitude')}: ${plant.latitude}`}</span>
           <span>{`${fmtMsg('longitude')}: ${plant.longitude}`}</span>
-          <span>{`${fmtMsg('date')}: ${formatDatetimeWithoutSec(
+          <span>{`${fmtMsg('date')}: ${formatDatetime(
             plant.created_at
           )}`}</span>
           <span>{`${fmtMsg('id')}: ${plant.id}`}</span>
@@ -41,4 +45,4 @@ export const Plant: React.FC<Props> = ({ plant }) => {
       )}
     </div>
   );
-};
+});

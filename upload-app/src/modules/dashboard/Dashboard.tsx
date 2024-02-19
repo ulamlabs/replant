@@ -1,7 +1,7 @@
 import { LoaderBox, Section } from 'common/components';
 import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
-import { Plant, usePlants, usePlantsSummary } from 'modules/plants';
+import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
 import { InfoBox } from './components';
 
 export const Dashboard: React.FC = () => {
@@ -46,7 +46,7 @@ export const Dashboard: React.FC = () => {
       <LoaderBox visible={isLoadingPlants} />
       <div className='space-y-2.5'>
         {plants?.results.slice(0, 3).map((plant) => (
-          <Plant plant={plant} key={plant.id} />
+          <PlantTile plant={plant} key={plant.id} />
         ))}
       </div>
     </Section>
