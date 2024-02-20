@@ -10,6 +10,7 @@ from .country import CountryView
 from .plant import PlantView
 from .plant_summary import PlantSummaryView
 from .status import StatusView
+from .user import UserView
 
 router = routers.SimpleRouter()
 
@@ -26,5 +27,6 @@ urlpatterns = [
     path("plants", PlantView.as_view()),
     path("plants/summary", PlantSummaryView.as_view()),
     path("status", StatusView.as_view()),
+    path("user", UserView.as_view()),
     *router.urls,
 ]
