@@ -5,6 +5,7 @@ import {
   DashboardPage,
   LoginPage,
   NewPlantPage,
+  NotFoundPage,
   PlantSubmissionsPage,
   SignupPage,
   UserPage,
@@ -25,6 +26,7 @@ const App: React.FC = () => {
             <Route path='/signup-org' element={<SignupPage />} />
             <Route path='/submissions' element={<PlantSubmissionsPage />} />
             <Route path='/user' element={<UserPage />} />
+            <Route path='/*' element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </IntlProvider>
