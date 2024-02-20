@@ -1,4 +1,4 @@
-import { ReplantWorldIcon } from 'common/icons';
+import replantWorldImg from 'assets/replant.png';
 
 type Props = {
   children?: React.ReactNode;
@@ -9,7 +9,7 @@ export const NavigationLayout: React.FC<Props> = ({ children, actions }) => {
   return (
     <div className={'w-screen h-full'}>
       <div className={'py-2.5 px-5'}>
-        <ReplantWorldIcon className='dark:fill-white fill-black' />
+        <img className='h-9 invert dark:invert-0' src={replantWorldImg} />
       </div>
       <div className={'py-2.5 px-5'}>{children}</div>
       {actions && (
