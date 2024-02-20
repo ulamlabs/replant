@@ -6,6 +6,6 @@ export * from './Input';
 export * from './Loader';
 export * from './LoaderBox';
 export * from './Section';
+export * from './Snackbar';
 export * from './Summary';
 export * from './SummaryItem';
-

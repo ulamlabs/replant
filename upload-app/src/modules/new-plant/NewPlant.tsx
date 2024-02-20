@@ -1,5 +1,4 @@
-import { Snackbar } from '@mui/base';
-import { Alert, Button, Header, Section } from 'common/components';
+import { Alert, Button, Header, Section, Snackbar } from 'common/components';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { usePlantsMutation } from 'modules/plants';
@@ -106,12 +105,7 @@ export const NewPlant: React.FC = () => {
         />
         <NewPlantSummary />
       </div>
-      <Snackbar
-        className='bg-green-400 fixed rounded-lg top-5 right-5 px-5 py-2.5 text-base'
-        autoHideDuration={5000}
-        open={snackbarOpen}
-        onClose={() => setSnackbarOpen(false)}
-      >
+      <Snackbar open={snackbarOpen} onClose={() => setSnackbarOpen(false)}>
         {fmtMsg('successYouCanNowAddNextTree')}
       </Snackbar>
     </Section>
