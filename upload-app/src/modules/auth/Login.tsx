@@ -110,7 +110,16 @@ export const Login: React.FC = () => {
           }}
         />
       </form>
-      <Snackbar open={open} onClose={() => setOpen(false)}>
+      <Snackbar
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          navigate('/login', {
+            replace: true,
+            state: { signupSuccess: undefined }, // clear location state so that there is no snackbar after page reload
+          });
+        }}
+      >
         {fmtMsg('youHaveSuccessfullySignedUp')}
       </Snackbar>
     </Section>
