@@ -1,0 +1,7 @@
+vars:
+  DEBUG: false
+  ENV: prod
+  UPLOAD_APP_URL: https://app.replantworld.io
+  AWS_STORAGE_BUCKET_NAME: replant-world
+  AWS_S3_ENDPOINT_URL: https://syd1.digitaloceanspaces.com
+  AWS_S3_CUSTOM_DOMAIN: images.replantworld.io

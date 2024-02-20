@@ -1,5 +1,5 @@
 # Base
-FROM node:20.11-alpine AS base
+FROM --platform=linux/amd64 node:20.11-alpine AS base
 
 WORKDIR /app/
 
@@ -15,9 +15,9 @@ FROM base as builder
 RUN npm run build
 
 # Final
-FROM nginx:1.25.3-alpine as final
+FROM --platform=linux/amd64 nginx:1.25.3-alpine as final
 
-COPY --from=builder /app/build/ /usr/share/nginx/html/
+COPY --from=builder /app/dist/ /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
