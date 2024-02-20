@@ -1,0 +1,17 @@
+# Default values for replant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+env: dev
+contactEmail: katarzyna@ulam.io
+appDomain: dev.app.replantworld.ulam.pro
+marketplaceDomain: dev.marketplace.replantworld.ulam.pro
+
+image:
+  registry: registry.digitalocean.com/ulam-replant-dev
+  backend: replant-backend
+  uploadApp: replant-upload-app
+  marketplaceApp: replant-marketplace-app
+  pullPolicy: Always
+  tag: latest

@@ -1,0 +1,7 @@
+vars:
+  DEBUG: false
+  ENV: dev
+  UPLOAD_APP_URL: https://dev.app.replantworld.ulam.pro
+  AWS_STORAGE_BUCKET_NAME: ulam-replant-test-2
+  AWS_S3_ENDPOINT_URL: https://fra1.digitaloceanspaces.com
+  AWS_S3_CUSTOM_DOMAIN: dev.images.replantworld.ulam.pro

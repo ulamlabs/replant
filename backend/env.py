@@ -24,3 +24,11 @@ SEI_ADMIN_MNEMONIC: Final[str] = os.getenv(
 SEI_NFT_ADDRESS: Final[str] = os.getenv(
     "SEI_NFT_ADDRESS", "sei13hxtue98v4vzs25r8j5l0n3wukj6h05k73syguy8gs49jexhx2hqxslrx6"
 )
+
+# Storages
+
+AWS_ACCESS_KEY_ID: Final[str] = os.getenv("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY: Final[str] = os.getenv("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME: Final[str] = os.getenv("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_ENDPOINT_URL: Final[str] = os.getenv("AWS_S3_ENDPOINT_URL", "")
+AWS_S3_CUSTOM_DOMAIN: Final[str] = os.getenv("AWS_S3_CUSTOM_DOMAIN", "")

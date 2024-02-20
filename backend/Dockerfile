@@ -1,7 +1,7 @@
 # Based on poetry recommendation https://github.com/orgs/python-poetry/discussions/1879
 
 # Base
-FROM python:3.12-slim AS base
+FROM --platform=linux/amd64 python:3.12-slim AS base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \

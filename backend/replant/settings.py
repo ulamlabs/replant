@@ -31,12 +31,16 @@ DEBUG = env.DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
-]
+if env.ENV == "local":
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174",
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [env.UPLOAD_APP_URL]
+
 CSRF_TRUSTED_ORIGINS = [*CORS_ALLOWED_ORIGINS]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -187,6 +191,25 @@ STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "/django-files/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+if env.ENV != "local":
+    AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
+    AWS_STORAGE_BUCKET_NAME = env.AWS_STORAGE_BUCKET_NAME
+    AWS_S3_ENDPOINT_URL = env.AWS_S3_ENDPOINT_URL
+    AWS_S3_CUSTOM_DOMAIN = env.AWS_S3_CUSTOM_DOMAIN
+    AWS_DEFAULT_ACL = "public-read"
+    AWS_QUERYSTRING_AUTH = False
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
