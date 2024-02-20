@@ -18,7 +18,7 @@ export default defineConfig({
         description:
           'Capture, monitor and verify your tree planting with Poptech, Replant World’s proof of planting technology.',
         theme_color: '#1b3233',
-        background_color: '#ffffff',
+        background_color: '#1b3233',
         icons: [
           {
             src: '/pwa-192x192.png',
