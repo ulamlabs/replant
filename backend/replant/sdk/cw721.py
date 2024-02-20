@@ -1,7 +1,8 @@
-from typing import NotRequired, TypedDict
+from typing import NotRequired, Self, TypedDict
 
 from cosmpy.aerial.client import LedgerClient, SubmittedTx, Wallet
 from cosmpy.aerial.contract import LedgerContract
+from cosmpy.crypto.address import Address
 
 
 class MintInfo(TypedDict):
@@ -14,9 +15,41 @@ class MintInfo(TypedDict):
 class CW721Client:
     """CW721-multi client"""
 
-    def __init__(self, client: LedgerClient, address: str):
+    def __init__(self, client: LedgerClient, address: str | Address):
+        if not isinstance(address, Address):
+            address = Address(address)
+
         self.contract = LedgerContract(path=None, client=client, address=address)
         self.client = client
+
+    @staticmethod
+    def instantate(
+        client: LedgerClient,
+        sender: Wallet,
+        code_id: int,
+        name: str,
+        symbol: str,
+        minter: str,
+        label: str = "Replant World",
+    ) -> Self:
+        """
+        Args:
+            client: Ledger client
+            sender: Wallet to instantiate the contract
+            code_id: CW721-multi code ID
+            name: NFT collection name
+            symbol: NFT collection symbol
+            minter: Minter address
+            label: Label for the contract to display in explorer
+        """
+        c = LedgerContract(None, client, code_id=code_id)
+        addr = c.instantiate(
+            {"name": name, "symbol": symbol, "minter": minter},
+            sender,
+            label,
+            admin_address=sender.address(),
+        )
+        return CW721Client(client, addr)
 
     def multi_mint(
         self, admin: Wallet, owner: str, tokens: list[MintInfo]

@@ -24,6 +24,7 @@ SEI_ADMIN_MNEMONIC: Final[str] = os.getenv(
 SEI_NFT_ADDRESS: Final[str] = os.getenv(
     "SEI_NFT_ADDRESS", "sei13hxtue98v4vzs25r8j5l0n3wukj6h05k73syguy8gs49jexhx2hqxslrx6"
 )
+NFT_MULTI_CODE_ID: Final[int] = int(os.getenv("NFT_MULTI_CODE_ID", "5649"))
 
 # Storages
 
