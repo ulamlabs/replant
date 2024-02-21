@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "phonenumber_field",
     "django_filters",
+    "admin_auto_filters",
     # Project apps
     "replant",
 ]
@@ -249,11 +250,13 @@ LOGGING = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "formatter": "json"
-            if env.KUBERNETES_SERVICE_HOST
-            else "simple"
-            if env.NO_COLOR
-            else "colored",
+            "formatter": (
+                "json"
+                if env.KUBERNETES_SERVICE_HOST
+                else "simple"
+                if env.NO_COLOR
+                else "colored"
+            ),
         },
     },
     "root": {

@@ -1,3 +1,4 @@
+from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 from django.http.request import HttpRequest
 from django.utils.html import format_html
@@ -13,6 +14,7 @@ class PlantAdmin(TrackableModelAdmin):
         "id",
         "species",
         "review_state",
+        "sponsor",
         "created_by",
         "created_at",
     )
@@ -30,9 +32,15 @@ class PlantAdmin(TrackableModelAdmin):
         "species",
         "is_native",
         "planting_cost_usd",
+        "sponsor",
         "created_by",
         "created_at",
     )
+
+    list_filter = [
+        AutocompleteFilterFactory(title="Sponsor", base_parameter_name="sponsor"),
+        "review_state",
+    ]
 
     def image_tag(self, obj: Plant):
         return format_html(

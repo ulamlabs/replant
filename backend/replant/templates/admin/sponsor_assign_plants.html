@@ -1,0 +1,83 @@
+{% extends 'admin/base_site.html' %} {% load static %} {% block extrastyle %}
+{{block.super}}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'admin/css/forms.css' %}"
+/>
+
+<style>
+  form .aligned ul {
+    margin-left: 0;
+  }
+  .green {
+    color: green;
+  }
+  .red {
+    color: red;
+  }
+</style>
+{{ form.media }} {% endblock %} {% block content %}
+<div id="content-main">
+  <form method="post" novalidate>
+    {% csrf_token %} {% if form.errors %}
+    <p class="errornote">Please correct the errors below.</p>
+    {% endif %}
+
+    <fieldset class="module aligned">
+      <div class="form-row">
+        <label>Selected sponsores:</label>
+        <div class="readonly">
+          <ul>
+            {% for sponsor in sponsors %}
+            <li>
+              <a href="{% url 'admin:replant_sponsor_change' sponsor.id %}">
+                {{ sponsor.name }}
+              </a>
+              <div>
+                Assigned plants {{sponsor.assigned_plants}} /
+                {{sponsor.nft_ordered}} {% if sponsor.plants_given %}<span
+                  class="green"
+                >
+                  <b>+{{sponsor.plants_given}}</b>
+                </span>
+                {% endif %}
+              </div>
+              <div><b>Plants left {{sponsor.plants_to_assign}}</b></div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% if organization %}
+      <div class="form-row">
+        <label>Organization:</label>
+        <div class="readonly">
+          <a
+            href="{% url 'admin:replant_plantingorganization_change' organization.id %}"
+          >
+            {{ organization }}
+          </a>
+          have <b>{{plants_count}} plants unassigned</b>
+          {% if total_assigned_plants %}
+          <span class="red"><b>-{{total_assigned_plants}}</b></span>
+          {% endif %}
+        </div>
+      </div>
+      {% else %} {{ form }} {% endif %}
+    </fieldset>
+
+    {% if total_assigned_plants %}
+    <input type="hidden" name="step2" value="1" />
+    <input type="hidden" name="organization" value="{{organization.id}}" />
+    {% endif %}
+
+    <div class="submit-row">
+      <input type="submit" class="default" value="{{action_label}}" />
+      <a href="{% url 'admin:replant_sponsor_changelist' %}" class="closelink">
+        Close
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}
