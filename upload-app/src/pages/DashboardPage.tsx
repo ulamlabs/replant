@@ -1,14 +1,13 @@
 import { useAuthRequired } from 'modules/auth';
 import { Dashboard } from 'modules/dashboard';
-import { NavigationLayout } from 'modules/layout';
-import { NavigationBar } from 'modules/navigation';
+import { Layout } from 'modules/layout';
 
 export const DashboardPage: React.FC = () => {
   useAuthRequired();
 
   return (
-    <NavigationLayout actions={<NavigationBar />}>
+    <Layout navigation>
       <Dashboard />
-    </NavigationLayout>
+    </Layout>
   );
 };

@@ -10,12 +10,11 @@ import {
 } from 'common/components';
 import { LocationIcon } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
-import { NavigationLayout } from 'modules/layout';
-import { NavigationBar } from 'modules/navigation';
+import { Layout } from 'modules/layout';
 
 export const ComponentTestpage: React.FC = () => {
   return (
-    <NavigationLayout actions={<NavigationBar />}>
+    <Layout navigation>
       <div className='flex flex-col gap-3'>
         <Alert text={'Test error alert'} severity={'error'} />
         <Alert text={'Test success alert'} severity={'success'} />
@@ -77,6 +76,6 @@ export const ComponentTestpage: React.FC = () => {
           </SummaryItem>
         </Summary>
       </div>
-    </NavigationLayout>
+    </Layout>
   );
 };
