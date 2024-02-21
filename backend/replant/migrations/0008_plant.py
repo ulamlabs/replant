@@ -3,7 +3,7 @@
 import django.core.validators
 import django.db.models.deletion
 import django_fsm
-import replant.models.plant
+import replant.models.tree
 from django.conf import settings
 from django.db import migrations, models
 
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                 (
                     "image",
                     models.ImageField(
-                        upload_to=replant.models.plant.Plant.image_upload_to
+                        upload_to=replant.models.tree.Tree.image_upload_to
                     ),
                 ),
                 ("latitude", models.DecimalField(decimal_places=6, max_digits=9)),

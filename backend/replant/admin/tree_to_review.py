@@ -3,17 +3,17 @@ from django.contrib import admin
 from django.http.request import HttpRequest
 from django.utils.html import format_html
 
-from replant.models import Plant, PlantToReview
+from replant.models import Tree, TreeToReview
 
 from .utils import TrackableModelAdmin
 
 CHOICES = (
-    (Plant.ReviewState.APPROVED, "Approve"),
-    (Plant.ReviewState.REJECTED, "Reject"),
+    (Tree.ReviewState.APPROVED, "Approve"),
+    (Tree.ReviewState.REJECTED, "Reject"),
 )
 
 
-class PlantToReviewForm(forms.ModelForm):
+class TreeToReviewForm(forms.ModelForm):
     rejection_reason = forms.CharField(
         widget=forms.Textarea({"cols": "20"}), required=False
     )
@@ -28,12 +28,12 @@ class PlantToReviewForm(forms.ModelForm):
         review_state = cleaned_data["review_state"]
         rejection_reason = cleaned_data.get("rejection_reason")
 
-        if review_state == Plant.ReviewState.REJECTED and not rejection_reason:
+        if review_state == Tree.ReviewState.REJECTED and not rejection_reason:
             raise forms.ValidationError(
                 {"rejection_reason": ["This field is required."]}
             )
 
-        if review_state != Plant.ReviewState.REJECTED and rejection_reason:
+        if review_state != Tree.ReviewState.REJECTED and rejection_reason:
             raise forms.ValidationError(
                 {
                     "rejection_reason": [
@@ -43,8 +43,8 @@ class PlantToReviewForm(forms.ModelForm):
             )
 
 
-@admin.register(PlantToReview)
-class PlantToReviewAdmin(TrackableModelAdmin):
+@admin.register(TreeToReview)
+class TreeToReviewAdmin(TrackableModelAdmin):
     list_display_links = ("id", "image_tag")
     list_display = (
         "image_tag",
@@ -82,24 +82,24 @@ class PlantToReviewAdmin(TrackableModelAdmin):
     readonly_fields = fields
 
     class Media:
-        css = {"all": ("css/plant_to_review.css",)}
+        css = {"all": ("css/tree_to_review.css",)}
 
-    def image_tag(self, obj: PlantToReview):
+    def image_tag(self, obj: TreeToReview):
         return format_html('<img class="image-tag" src="{}" />', obj.image.url)
 
     def has_add_permission(self, request: HttpRequest) -> bool:
         return False
 
     def has_change_permission(
-        self, request: HttpRequest, obj: PlantToReview | None = None
+        self, request: HttpRequest, obj: TreeToReview | None = None
     ) -> bool:
         return True
 
     def has_delete_permission(
-        self, request: HttpRequest, obj: PlantToReview | None = None
+        self, request: HttpRequest, obj: TreeToReview | None = None
     ) -> bool:
         return False
 
     def get_changelist_form(self, request, **kwargs):
-        kwargs.setdefault("form", PlantToReviewForm)
+        kwargs.setdefault("form", TreeToReviewForm)
         return super().get_changelist_form(request, **kwargs)

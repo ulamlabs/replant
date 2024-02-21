@@ -9,10 +9,10 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from time_machine import TimeMachineFixture
 
-from replant.models import AssignedSpecies, Plant, Species, User
+from replant.models import AssignedSpecies, Species, Tree, User
 
 
-def test_list_plants_ok(
+def test_list_trees_ok(
     user_client: APIClient,
     user: User,
     time: TimeMachineFixture,
@@ -23,7 +23,7 @@ def test_list_plants_ok(
         botanical_name="Artocarpus heterophyllus",
     )
     baker.make(
-        Plant,
+        Tree,
         image="c8302c9252744cdc831c45fea17ce36b.jpeg",
         latitude="-1.422354",
         longitude="120.237897",
@@ -34,7 +34,7 @@ def test_list_plants_ok(
     )
     time.shift(timedelta(seconds=1))
     baker.make(
-        Plant,
+        Tree,
         image="bf5435a8b61946d78fbf8e5ef2f24859.jpeg",
         latitude="-2.422354",
         longitude="121.237897",
@@ -44,7 +44,7 @@ def test_list_plants_ok(
         created_by=user,
     )
 
-    response = user_client.get("/api/plants")
+    response = user_client.get("/api/trees")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
@@ -82,8 +82,8 @@ def test_list_plants_ok(
     }
 
 
-def test_list_plants_empty(user_client: APIClient):
-    response = user_client.get("/api/plants")
+def test_list_trees_empty(user_client: APIClient):
+    response = user_client.get("/api/trees")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
@@ -94,11 +94,11 @@ def test_list_plants_empty(user_client: APIClient):
     }
 
 
-def test_list_plants_skip(user_client: APIClient, user: User):
-    # Plants created by other users
-    baker.make(Plant, 5)
+def test_list_trees_skip(user_client: APIClient, user: User):
+    # Trees created by other users
+    baker.make(Tree, 5)
 
-    response = user_client.get("/api/plants")
+    response = user_client.get("/api/trees")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
@@ -109,13 +109,13 @@ def test_list_plants_skip(user_client: APIClient, user: User):
     }
 
 
-def test_list_plants_unauthorized(api_client: APIClient):
-    response = api_client.get("/api/plants")
+def test_list_trees_unauthorized(api_client: APIClient):
+    response = api_client.get("/api/trees")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_create_plant_ok(
+def test_create_tree_ok(
     user_client: APIClient,
     user: User,
     image: SimpleUploadedFile,
@@ -144,7 +144,7 @@ def test_create_plant_ok(
         "longitude": "120.237897",
     }
 
-    response = user_client.post("/api/plants", data=data)
+    response = user_client.post("/api/trees", data=data)
 
     assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == {
@@ -161,19 +161,19 @@ def test_create_plant_ok(
         "created_at": "2024-01-01T00:00:00Z",
     }
 
-    new_plant = Plant.objects.get()
-    assert new_plant.review_state == Plant.ReviewState.PENDING
-    assert new_plant.image.name == "bf5435a8b61946d78fbf8e5ef2f24859.png"
-    assert new_plant.latitude == D("-1.422354")
-    assert new_plant.longitude == D("120.237897")
-    assert new_plant.planting_organization == user.planting_organization
-    assert new_plant.country == user.country
-    assert new_plant.species == jackfruit
-    assert new_plant.is_native
-    assert new_plant.planting_cost_usd == D("1")
+    new_tree = Tree.objects.get()
+    assert new_tree.review_state == Tree.ReviewState.PENDING
+    assert new_tree.image.name == "bf5435a8b61946d78fbf8e5ef2f24859.png"
+    assert new_tree.latitude == D("-1.422354")
+    assert new_tree.longitude == D("120.237897")
+    assert new_tree.planting_organization == user.planting_organization
+    assert new_tree.country == user.country
+    assert new_tree.species == jackfruit
+    assert new_tree.is_native
+    assert new_tree.planting_cost_usd == D("1")
 
 
-def test_create_plant_assigned_species_doesnt_exists(
+def test_create_tree_assigned_species_doesnt_exists(
     user_client: APIClient,
     image: SimpleUploadedFile,
 ):
@@ -184,7 +184,7 @@ def test_create_plant_assigned_species_doesnt_exists(
         "longitude": "120.237897",
     }
 
-    response = user_client.post("/api/plants", data=data)
+    response = user_client.post("/api/trees", data=data)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -192,7 +192,7 @@ def test_create_plant_assigned_species_doesnt_exists(
     }
 
 
-def test_create_plant_different_planting_organization(
+def test_create_tree_different_planting_organization(
     user_client: APIClient,
     user: User,
     image: SimpleUploadedFile,
@@ -214,7 +214,7 @@ def test_create_plant_different_planting_organization(
         "longitude": "120.237897",
     }
 
-    response = user_client.post("/api/plants", data=data)
+    response = user_client.post("/api/trees", data=data)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -222,7 +222,7 @@ def test_create_plant_different_planting_organization(
     }
 
 
-def test_create_plant_different_country(
+def test_create_tree_different_country(
     user_client: APIClient,
     user: User,
     image: SimpleUploadedFile,
@@ -245,7 +245,7 @@ def test_create_plant_different_country(
         "longitude": "120.237897",
     }
 
-    response = user_client.post("/api/plants", data=data)
+    response = user_client.post("/api/trees", data=data)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -253,7 +253,7 @@ def test_create_plant_different_country(
     }
 
 
-def test_create_plant_unauthorized(api_client: APIClient):
-    response = api_client.post("/api/plants")
+def test_create_tree_unauthorized(api_client: APIClient):
+    response = api_client.post("/api/trees")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

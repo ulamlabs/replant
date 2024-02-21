@@ -2,18 +2,18 @@ from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from replant.models import Plant, User
+from replant.models import Tree, User
 
 
-def test_plants_summary_ok(
+def test_trees_summary_ok(
     user_client: APIClient,
     user: User,
 ):
-    baker.make(Plant, 2, review_state=Plant.ReviewState.PENDING, created_by=user)
-    baker.make(Plant, 4, review_state=Plant.ReviewState.APPROVED, created_by=user)
-    baker.make(Plant, 3, review_state=Plant.ReviewState.REJECTED, created_by=user)
+    baker.make(Tree, 2, review_state=Tree.ReviewState.PENDING, created_by=user)
+    baker.make(Tree, 4, review_state=Tree.ReviewState.APPROVED, created_by=user)
+    baker.make(Tree, 3, review_state=Tree.ReviewState.REJECTED, created_by=user)
 
-    response = user_client.get("/api/plants/summary")
+    response = user_client.get("/api/trees/summary")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
@@ -24,8 +24,8 @@ def test_plants_summary_ok(
     }
 
 
-def test_plants_summary_empty(user_client: APIClient):
-    response = user_client.get("/api/plants/summary")
+def test_trees_summary_empty(user_client: APIClient):
+    response = user_client.get("/api/trees/summary")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
@@ -36,11 +36,11 @@ def test_plants_summary_empty(user_client: APIClient):
     }
 
 
-def test_plants_summary_skip(user_client: APIClient):
-    # Plants created by other users
-    baker.make(Plant, 5)
+def test_trees_summary_skip(user_client: APIClient):
+    # Trees created by other users
+    baker.make(Tree, 5)
 
-    response = user_client.get("/api/plants/summary")
+    response = user_client.get("/api/trees/summary")
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
@@ -51,7 +51,7 @@ def test_plants_summary_skip(user_client: APIClient):
     }
 
 
-def test_plants_summary_unauthorized(api_client: APIClient):
-    response = api_client.get("/api/plants/summary")
+def test_trees_summary_unauthorized(api_client: APIClient):
+    response = api_client.get("/api/trees/summary")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

@@ -4,18 +4,18 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
-from replant.models import AssignedSpecies, Plant, User
+from replant.models import AssignedSpecies, Tree, User
 
 from .assigned_species import SpeciesSerializer
 
 
-class PlantSerializer(serializers.ModelSerializer):
+class TreeSerializer(serializers.ModelSerializer):
     assigned_species_id = serializers.IntegerField(write_only=True)
     species = SpeciesSerializer(read_only=True)
     image = Base64ImageField()
 
     class Meta:
-        model = Plant
+        model = Tree
         fields = (
             "id",
             "assigned_species_id",
@@ -59,7 +59,7 @@ class PlantSerializer(serializers.ModelSerializer):
     def create(self, validated_data: dict):
         assigned_species: AssignedSpecies = validated_data["assigned_species"]
 
-        return Plant.objects.create(
+        return Tree.objects.create(
             image=validated_data["image"],
             latitude=validated_data["latitude"],
             longitude=validated_data["longitude"],
@@ -72,14 +72,14 @@ class PlantSerializer(serializers.ModelSerializer):
         )
 
 
-class PlantView(generics.ListCreateAPIView):
-    serializer_class = PlantSerializer
+class TreeView(generics.ListCreateAPIView):
+    serializer_class = TreeSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = cast(User, self.request.user)
         return (
-            Plant.objects.filter(
+            Tree.objects.filter(
                 created_by=user,
             )
             .select_related("species")
