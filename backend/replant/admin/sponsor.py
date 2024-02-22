@@ -107,7 +107,7 @@ class SponsorAdmin(TrackableModelAdmin):
     @admin.action(description="Assign trees")
     def assign_trees(self, request: HttpRequest, queryset: models.QuerySet[Sponsor]):
         sponsor_ids = queryset.values_list("pk", flat=True)
-        url = reverse("admin:retree_sponsor_assign_trees")
+        url = reverse("admin:replant_sponsor_assign_trees")
         return redirect(
             f"{url}?sponsor_ids={", ".join(str(_id) for _id in sponsor_ids)}"
         )
@@ -137,7 +137,7 @@ class SponsorAdmin(TrackableModelAdmin):
                     messages.success(
                         request, "Trees successfully assigned to sponsores."
                     )
-                    return redirect("admin:retree_sponsor_changelist")
+                    return redirect("admin:replant_sponsor_changelist")
         else:
             form = AssignTreesForm()
 

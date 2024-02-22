@@ -35,15 +35,15 @@
                 {{ sponsor.name }}
               </a>
               <div>
-                Assigned plants {{sponsor.assigned_plants}} /
-                {{sponsor.nft_ordered}} {% if sponsor.plants_given %}<span
+                Assigned trees {{sponsor.assigned_trees}} /
+                {{sponsor.nft_ordered}} {% if sponsor.trees_given %}<span
                   class="green"
                 >
-                  <b>+{{sponsor.plants_given}}</b>
+                  <b>+{{sponsor.trees_given}}</b>
                 </span>
                 {% endif %}
               </div>
-              <div><b>Plants left {{sponsor.plants_to_assign}}</b></div>
+              <div><b>Trees left {{sponsor.trees_to_assign}}</b></div>
             </li>
             {% endfor %}
           </ul>
@@ -58,16 +58,16 @@
           >
             {{ organization }}
           </a>
-          have <b>{{plants_count}} plants unassigned</b>
-          {% if total_assigned_plants %}
-          <span class="red"><b>-{{total_assigned_plants}}</b></span>
+          have <b>{{trees_count}} trees unassigned</b>
+          {% if total_assigned_trees %}
+          <span class="red"><b>-{{total_assigned_trees}}</b></span>
           {% endif %}
         </div>
       </div>
       {% else %} {{ form }} {% endif %}
     </fieldset>
 
-    {% if total_assigned_plants %}
+    {% if total_assigned_trees %}
     <input type="hidden" name="step2" value="1" />
     <input type="hidden" name="organization" value="{{organization.id}}" />
     {% endif %}
