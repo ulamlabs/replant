@@ -7,4 +7,3 @@ export * from './NotFoundPage';
 export * from './PlantSubmissionsPage';
 export * from './SignupPage';
 export * from './UserPage';
-
