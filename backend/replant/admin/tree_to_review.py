@@ -1,7 +1,9 @@
+from admin_auto_filters.filters import AutocompleteFilterFactory
 from django import forms
 from django.contrib import admin
 from django.http.request import HttpRequest
 from django.utils.html import format_html
+from rangefilter.filters import DateRangeFilterBuilder
 
 from replant.models import Tree, TreeToReview
 
@@ -63,6 +65,16 @@ class TreeToReviewAdmin(TrackableModelAdmin):
     )
     list_per_page = 10
     list_max_show_all = 0
+    list_filter = (
+        AutocompleteFilterFactory(title="Species", base_parameter_name="species"),
+        AutocompleteFilterFactory(
+            title="Planting organization / community",
+            base_parameter_name="planting_organization",
+        ),
+        AutocompleteFilterFactory(title="Country", base_parameter_name="country"),
+        AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
+        ("created_at", DateRangeFilterBuilder(title="By Created at")),
+    )
 
     fields = (
         "id",
