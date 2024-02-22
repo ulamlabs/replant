@@ -15,18 +15,19 @@ export const Layout: React.FC<Props> = ({ children, navigation = false }) => {
       </div>
       <div
         className={clsx(
-          navigation ? `h-[calc(100vh-148px)]` : `h-[calc(100vh-68px)]`,
-          navigation ? `max-h-[calc(100vh-148px)]` : `max-h-[calc(100vh-68px)]`,
-          'overflow-y-auto',
-          !navigation && 'pb-4'
+          navigation ? `h-[calc(100vh-148px)]` : `h-[calc(100vh-86px)]`,
+          navigation ? `max-h-[calc(100vh-148px)]` : `max-h-[calc(100vh-86px)]`,
+          'overflow-y-auto'
         )}
       >
-        <div className='px-4'>{children}</div>
+        <div className='px-4 h-full min-h-full max-h-full'>{children}</div>
       </div>
-      {navigation && (
+      {navigation ? (
         <div className='h-20 p-4'>
           <NavigationBar />
         </div>
+      ) : (
+        <div className='h-4' />
       )}
     </div>
   );
