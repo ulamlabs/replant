@@ -11,8 +11,8 @@ import { NewPlant, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;
 
-const plantsSummaryUrl = '/plants/summary';
-const plantsUrl = '/plants';
+const plantsSummaryUrl = '/trees/summary';
+const plantsUrl = '/trees';
 
 const plantsInfiniteQueryKey = ['GET', plantsUrl, 'infinite'];
 const plantsQueryKey = (page: number) => ['GET', plantsUrl, page];

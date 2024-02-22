@@ -6,10 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from replant.models import Plant, User
+from replant.models import Tree, User
 
 
-class PlantSummarySeralizer(serializers.Serializer):
+class TreeSummarySeralizer(serializers.Serializer):
     added_count = serializers.IntegerField()
     pending_review_count = serializers.IntegerField()
     approved_count = serializers.IntegerField()
@@ -17,14 +17,14 @@ class PlantSummarySeralizer(serializers.Serializer):
 
 
 @extend_schema_view(
-    get=extend_schema(responses={status.HTTP_200_OK: PlantSummarySeralizer}),
+    get=extend_schema(responses={status.HTTP_200_OK: TreeSummarySeralizer}),
 )
-class PlantSummaryView(views.APIView):
+class TreeSummaryView(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, *args, **kwargs) -> Response:
         user = cast(User, request.user)
-        queryset = Plant.objects.get_review_state_count(user=user)
+        queryset = Tree.objects.get_review_state_count(user=user)
 
         data = {
             "added_count": 0,
@@ -40,12 +40,12 @@ class PlantSummaryView(views.APIView):
             data["added_count"] += review_state_count
 
             match review_state:
-                case Plant.ReviewState.PENDING:
+                case Tree.ReviewState.PENDING:
                     data["pending_review_count"] += review_state_count
-                case Plant.ReviewState.APPROVED:
+                case Tree.ReviewState.APPROVED:
                     data["approved_count"] += review_state_count
-                case Plant.ReviewState.REJECTED:
+                case Tree.ReviewState.REJECTED:
                     data["rejected_count"] += review_state_count
 
-        serializer = PlantSummarySeralizer(data)
+        serializer = TreeSummarySeralizer(data)
         return Response(serializer.data)

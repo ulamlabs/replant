@@ -7,9 +7,9 @@ from .auth_logout import LogoutView
 from .auth_register import RegisterView
 from .auth_register_to_organization import RegisterToOrganizationView
 from .country import CountryView
-from .plant import PlantView
-from .plant_summary import PlantSummaryView
 from .status import StatusView
+from .tree import TreeView
+from .tree_summary import TreeSummaryView
 from .user import UserView
 
 router = routers.SimpleRouter()
@@ -24,8 +24,8 @@ urlpatterns = [
         RegisterToOrganizationView.as_view(),
     ),
     path("countries", CountryView.as_view()),
-    path("plants", PlantView.as_view()),
-    path("plants/summary", PlantSummaryView.as_view()),
+    path("trees", TreeView.as_view()),
+    path("trees/summary", TreeSummaryView.as_view()),
     path("status", StatusView.as_view()),
     path("user", UserView.as_view()),
     *router.urls,

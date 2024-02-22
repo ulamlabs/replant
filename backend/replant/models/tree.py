@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from .user import User
 
 
-class PlantManager(models.Manager):
+class TreeManager(models.Manager):
     def get_review_state_count(self, user: "User"):
         return (
             self.get_queryset()
@@ -24,12 +24,12 @@ class PlantManager(models.Manager):
 
     def only_awaiting_sponsor(self):
         return self.filter(
-            review_state=Plant.ReviewState.APPROVED,
+            review_state=Tree.ReviewState.APPROVED,
             sponsor__isnull=True,
         )
 
 
-class Plant(TrackableModel):
+class Tree(TrackableModel):
     class ReviewState(models.TextChoices):
         PENDING = auto()
         APPROVED = auto()
@@ -68,7 +68,7 @@ class Plant(TrackableModel):
         "replant.Sponsor", null=True, blank=True, on_delete=models.PROTECT
     )
 
-    objects: PlantManager = PlantManager()
+    objects: TreeManager = TreeManager()
 
     def __str__(self):
         return str(self.pk)

@@ -1,4 +1,4 @@
-from typing import NotRequired, Self, TypedDict
+from typing import NotRequired, TypedDict
 
 from cosmpy.aerial.client import LedgerClient, SubmittedTx, Wallet
 from cosmpy.aerial.contract import LedgerContract
@@ -31,7 +31,7 @@ class CW721Client:
         symbol: str,
         minter: str,
         label: str = "Replant World",
-    ) -> Self:
+    ) -> "CW721Client":
         """
         Args:
             client: Ledger client

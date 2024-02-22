@@ -3,13 +3,13 @@ from django.contrib import admin
 from django.http.request import HttpRequest
 from django.utils.html import format_html
 
-from replant.models import Plant
+from replant.models import Tree
 
 from .utils import TrackableModelAdmin
 
 
-@admin.register(Plant)
-class PlantAdmin(TrackableModelAdmin):
+@admin.register(Tree)
+class TreeAdmin(TrackableModelAdmin):
     list_display = (
         "id",
         "species",
@@ -42,7 +42,7 @@ class PlantAdmin(TrackableModelAdmin):
         "review_state",
     ]
 
-    def image_tag(self, obj: Plant):
+    def image_tag(self, obj: Tree):
         return format_html(
             '<img style="max-height: 600px; max-width: 100vw; object-fit: contain;" src="{}" />'.format(
                 obj.image.url
@@ -53,11 +53,11 @@ class PlantAdmin(TrackableModelAdmin):
         return False
 
     def has_change_permission(
-        self, request: HttpRequest, obj: Plant | None = None
+        self, request: HttpRequest, obj: Tree | None = None
     ) -> bool:
         return False
 
     def has_delete_permission(
-        self, request: HttpRequest, obj: Plant | None = None
+        self, request: HttpRequest, obj: Tree | None = None
     ) -> bool:
         return False

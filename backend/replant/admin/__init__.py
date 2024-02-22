@@ -4,11 +4,11 @@ from django.contrib.auth.models import Group
 
 from .assigned_species import AssignedSpecies
 from .country import CountryAdmin
-from .plant import PlantAdmin
-from .plant_to_review import PlantToReviewAdmin
 from .planting_organization import PLantingOrganizationAdmin
 from .species import SpeciesAdmin
 from .sponsor import SponsorAdmin
+from .tree import TreeAdmin
+from .tree_to_review import TreeToReviewAdmin
 from .user import UserAdmin
 
 admin.site.unregister(Group)

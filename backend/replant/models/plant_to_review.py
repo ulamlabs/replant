@@ -1,16 +1,16 @@
 from django.db import models
 
-from .plant import Plant
+from .tree import Tree
 
 
-class PlantToReviewManager(models.Manager):
+class TreeToReviewManager(models.Manager):
     def get_queryset(self):
-        return Plant.objects.filter(review_state=Plant.ReviewState.PENDING)
+        return Tree.objects.filter(review_state=Tree.ReviewState.PENDING)
 
 
-class PlantToReview(Plant):
+class TreeToReview(Tree):
     class Meta:
         proxy = True
-        verbose_name_plural = "plants to review"
+        verbose_name_plural = "trees to review"
 
-    objects: PlantToReviewManager = PlantToReviewManager()  # type: ignore
+    objects: TreeToReviewManager = TreeToReviewManager()  # type: ignore

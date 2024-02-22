@@ -1,27 +1,27 @@
 import djclick as click
 from django.conf import settings
 
-from replant.models import Country, Plant, PlantingOrganization, Species, User
+from replant.models import Country, PlantingOrganization, Species, Tree, User
 
 
 @click.command()
 @click.option(
     "--organization-id",
     type=int,
-    help="Id of PlantingOrganization to generate the plants for",
+    help="Id of PlantingOrganization to generate the trees for",
 )
 @click.option(
     "--quantity",
     type=int,
-    help="Quantity of plants to generate",
+    help="Quantity of trees to generate",
 )
 @click.option(
     "--review-state",
-    type=click.Choice([v.name for v in Plant.ReviewState]),
-    default=Plant.ReviewState.APPROVED,
-    help="Review state of the plants",
+    type=click.Choice([v.name for v in Tree.ReviewState]),
+    default=Tree.ReviewState.APPROVED,
+    help="Review state of the trees",
 )
-def generate_fake_plants(organization_id: int, quantity: int, review_state: str):
+def generate_fake_trees(organization_id: int, quantity: int, review_state: str):
     assert settings.DEBUG
 
     organization = PlantingOrganization.objects.get(pk=organization_id)
@@ -35,8 +35,8 @@ def generate_fake_plants(organization_id: int, quantity: int, review_state: str)
     user = User.objects.first()
     assert user
 
-    plants = [
-        Plant(
+    trees = [
+        Tree(
             planting_organization=organization,
             review_state=review_state,
             image="",
@@ -51,4 +51,4 @@ def generate_fake_plants(organization_id: int, quantity: int, review_state: str)
         for i in range(quantity)
     ]
 
-    Plant.objects.bulk_create(plants)
+    Tree.objects.bulk_create(trees)
