@@ -14,6 +14,14 @@ NO_COLOR: Final[bool] = os.getenv("NO_COLOR", "false") == "true"
 
 PASSCODE_VALID_DAYS: Final[int] = int(os.getenv("PASSCODE_VALID_DAYS", "7"))
 
+MINT_FOREVER_HEALTHCHECK_FILE_PATH: Final[str] = os.getenv(
+    "HEALTHCHECK_FILE_PATH", "/tmp/healthy"
+)
+MINT_FOREVER_SLEEP_TIME_SECONDS: Final[int] = int(
+    os.getenv("MINT_FOREVER_SLEEP_TIME_SECONDS", "60")
+)
+
+
 # SEI configuration (testnet defaults)
 SEI_CHAIN_ID: Final[str] = os.getenv("SEI_CHAIN_ID", "atlantic-2")
 SEI_RPC: Final[str] = os.getenv("SEI_RPC", "rest+https://rest.atlantic-2.seinetwork.io")
