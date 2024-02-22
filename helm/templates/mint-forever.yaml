@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.env }}-mint-forever
+  labels:
+    app: {{ .Values.env }}-mint-forever
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.env }}-mint-forever
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.env }}-mint-forever
+        release: {{ .Release.Name }}
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: main
+          image: {{ .Values.image.registry }}/{{ .Values.image.backend }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["python", "manage.py", "mint_forever"]
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.env }}
+            - secretRef:
+                name: {{ .Values.env }}
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - '[ $(find /tmp/healthy -mmin -5 | wc -l) = 1 ]'
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
