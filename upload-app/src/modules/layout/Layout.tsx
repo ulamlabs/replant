@@ -15,8 +15,8 @@ export const Layout: React.FC<Props> = ({ children, navigation = false }) => {
       </div>
       <div
         className={clsx(
-          `h-[calc(100vh-${navigation ? 148 : 68}px)]`,
-          `max-h-[calc(100vh-${navigation ? 148 : 68}px)]`,
+          navigation ? `h-[calc(100vh-148px)]` : `h-[calc(100vh-68px)]`,
+          navigation ? `max-h-[calc(100vh-148px)]` : `max-h-[calc(100vh-68px)]`,
           'overflow-y-auto',
           !navigation && 'pb-4'
         )}
