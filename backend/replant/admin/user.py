@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
         "planting_organization",
         "date_joined",
     )
-    search_fields = ("username", "planting_organization")
+    search_fields = ("username", "planting_organization__name")
     fields = (
         "username",
         "phone_number",
