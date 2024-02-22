@@ -17,7 +17,6 @@ export const NotFoundPage: React.FC = () => {
             onClick={() => navigate('/')}
           />
         }
-        className='max-w-xl'
       >
         <div className='space-y-5'>
           <Header text={fmtMsg('pageNotFound')} />
