@@ -1,4 +1,4 @@
-import { LoaderBox, Section } from 'common/components';
+import { LoaderBox } from 'common/components';
 import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
@@ -12,8 +12,8 @@ export const Dashboard: React.FC = () => {
   const { data: plants, isLoading: isLoadingPlants } = usePlants(1);
 
   return (
-    <Section>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3 mb-5'>
+    <div>
+      <div className='grid grid-cols-2 gap-3 mb-5'>
         <InfoBox
           title={fmtMsg('addedTrees')}
           icon={<TreeIcon />}
@@ -49,6 +49,6 @@ export const Dashboard: React.FC = () => {
           <PlantTile plant={plant} key={plant.id} />
         ))}
       </div>
-    </Section>
+    </div>
   );
 };
