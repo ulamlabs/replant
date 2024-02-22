@@ -49,5 +49,6 @@
   "submit": "Submit",
   "successYouCanNowAddNextTree": "Succes. You can now add next tree.",
   "thereAreNoPlantSpeciesAssignedToYourCommunity": "There are no plant species assigned to your community.",
-  "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number."
+  "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",
+  "yourAccount": "Your account"
 }

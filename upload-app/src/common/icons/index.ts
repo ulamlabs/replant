@@ -11,6 +11,7 @@ export * from './HomeIcon';
 export * from './ImageIcon';
 export * from './LocationIcon';
 export * from './LoupeIcon';
+export * from './OrganizationIcon';
 export * from './PadlockeIcon';
 export * from './PhoneIcon';
 export * from './TreeIcon';
