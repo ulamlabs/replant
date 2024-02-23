@@ -77,7 +77,8 @@ def mint_scheduled_nfts():
 
     # Mint tokens.
     logger.info(f"{len(trees)} NFTs need minting")
-    trees_by_sponsor = itertools.groupby(trees, lambda tree: tree.sponsor)
+    sorted_trees = sorted(trees, key=lambda tree: tree.sponsor.id)
+    trees_by_sponsor = itertools.groupby(sorted_trees, lambda tree: tree.sponsor)
     for sponsor, sponsor_trees in trees_by_sponsor:
         logger.info(f"Minting for sponsor {sponsor.name}...")
         _batch_operation(
