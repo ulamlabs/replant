@@ -137,12 +137,12 @@ def _upload_images(trees: Sequence[Tree]):
         image.thumbnail(THUMBNAIL_SIZE)
 
         stream = io.BytesIO()
-        image.save(stream, "JPEG")
+        image.save(stream, "PNG")
         stream.seek(0)
 
-        streams[f"{tree.nft_id}.jpeg"] = stream
+        streams[f"{tree.nft_id}.png"] = stream
 
-    cid = nft_storage.upload(streams, content_type="image/jpeg")
+    cid = nft_storage.upload(streams, content_type="image/png")
 
     for tree in trees:
         tree.image_cid = cid

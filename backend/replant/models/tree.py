@@ -92,7 +92,7 @@ class Tree(TrackableModel):
 
     @property
     def ipfs_image_url(self):
-        return ipfs_url(self.image_cid, self.nft_id, "jpeg")
+        return ipfs_url(self.image_cid, self.nft_id, "png")
 
     @property
     def ipfs_metadata_url(self):
