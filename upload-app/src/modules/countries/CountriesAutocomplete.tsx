@@ -1,8 +1,8 @@
-import clsx from 'clsx';
 import { useAutocomplete } from '@mui/base/useAutocomplete';
+import clsx from 'clsx';
 import { ArrowDownIcon, LocationIcon } from 'common/icons';
-import { Country } from './api';
 import { useFmtMsg } from 'modules/intl';
+import { Country } from './api';
 
 type Props = {
   options: Country[];
