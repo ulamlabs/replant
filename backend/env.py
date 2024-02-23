@@ -46,4 +46,7 @@ AWS_STORAGE_BUCKET_NAME: Final[str] = os.getenv("AWS_STORAGE_BUCKET_NAME", "")
 AWS_S3_ENDPOINT_URL: Final[str] = os.getenv("AWS_S3_ENDPOINT_URL", "")
 AWS_S3_CUSTOM_DOMAIN: Final[str] = os.getenv("AWS_S3_CUSTOM_DOMAIN", "")
 
+NFT_STORAGE_API_URL: Final[str] = os.getenv(
+    "NFT_STORAGE_API_URL", "https://api.nft.storage"
+)
 NFT_STORAGE_API_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")

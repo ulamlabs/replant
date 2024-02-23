@@ -3,7 +3,6 @@ import itertools
 import json
 import logging
 import time
-from functools import lru_cache
 from typing import Callable, Sequence
 
 from cosmpy.aerial.wallet import LocalWallet
@@ -12,7 +11,7 @@ from PIL import Image
 
 import env
 from replant.integrations import nft_storage
-from replant.models import AssignedSpecies, Tree
+from replant.models import Tree
 from replant.sdk import CW721Client, MintInfo, get_sei_client
 
 logger = logging.getLogger(__name__)
@@ -48,8 +47,6 @@ def mint_scheduled_nfts():
         return
 
     logger.info(f"Found {len(trees)} NFTs to be minted")
-
-    _get_assigned_species.cache_clear()
 
     logger.info("Generating NFT ids...")
     _batch_operation(
@@ -150,8 +147,7 @@ def _upload_images(trees: Sequence[Tree]):
     for tree in trees:
         tree.image_cid = cid
 
-    tree_ids = [tree.pk for tree in trees]
-    Tree.objects.filter(id__in=tree_ids).update(image_cid=cid)
+    Tree.objects.bulk_update(trees, ["image_cid"])
 
 
 def _upload_metadatas(trees: Sequence[Tree]):
@@ -168,20 +164,16 @@ def _upload_metadatas(trees: Sequence[Tree]):
     for tree in trees:
         tree.metadata_cid = cid
 
-    tree_ids = [tree.pk for tree in trees]
-    Tree.objects.filter(id__in=tree_ids).update(metadata_cid=cid)
+    Tree.objects.bulk_update(trees, ["metadata_cid"])
 
 
 def _get_nft_metadata(tree: Tree):
-    assigned_species = _get_assigned_species(
-        tree.planting_organization_id, tree.species_id
-    )
     return {
         "edition": 1,
         "symbol": "RPLNT",
         "collection": "Replant World",
         "name": tree.species.common_name,
-        "description": "https://www.replant.world",
+        "description": "https://replantworld.io",
         "image": tree.ipfs_image_url,
         "attributes": [
             {"trait_type": "Botanical Name", "value": tree.species.botanical_name},
@@ -190,9 +182,7 @@ def _get_nft_metadata(tree: Tree):
             {"trait_type": "Latitude", "value": str(tree.latitude)},
             {
                 "trait_type": "Is Native",
-                "value": (
-                    "Yes" if assigned_species and assigned_species.is_native else "No"
-                ),
+                "value": "Yes" if tree.is_native else "No",
             },
             {
                 "trait_type": "Org/Community",
@@ -203,21 +193,10 @@ def _get_nft_metadata(tree: Tree):
             {"trait_type": "Sponsor", "value": tree.sponsor.name},
             {
                 "trait_type": "planting Cost",
-                "value": (
-                    f"${assigned_species.planting_cost_usd}" if assigned_species else ""
-                ),
+                "value": f"${tree.planting_cost_usd}",
             },
         ],
     }
-
-
-@lru_cache(maxsize=128)
-def _get_assigned_species(
-    organization_id: int, species_id: int
-) -> AssignedSpecies | None:
-    return AssignedSpecies.objects.filter(
-        planting_organization_id=organization_id, species_id=species_id
-    ).first()
 
 
 def _mint_nfts(trees: Sequence[Tree]):

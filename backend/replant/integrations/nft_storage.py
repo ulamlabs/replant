@@ -6,8 +6,6 @@ from retry import retry
 
 import env
 
-URL = "https://api.nft.storage"
-
 
 @retry(delay=1, backoff=2, tries=3)
 def upload(files: dict[str, io.StringIO | io.BytesIO], content_type: str):
@@ -35,7 +33,9 @@ def upload(files: dict[str, io.StringIO | io.BytesIO], content_type: str):
     lines.append(f"--{boundary}--".encode())
     data = b"\n".join(lines)
 
-    response = requests.post(f"{URL}/upload", headers=headers, data=data)
+    response = requests.post(
+        f"{env.NFT_STORAGE_API_URL}/upload", headers=headers, data=data
+    )
 
     if response.status_code != 200:
         raise ValueError(f"Upload failed - {response.status_code} {response.text}")
