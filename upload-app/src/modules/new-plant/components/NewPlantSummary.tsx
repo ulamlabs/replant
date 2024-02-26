@@ -25,15 +25,19 @@ export const NewPlantSummary: React.FC = () => {
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('botanicalName')}</span>
-        <span>{store.species?.species.botanical_name ?? '-'}</span>
+        <span className='text-right'>
+          {store.species?.species.botanical_name ?? '-'}
+        </span>
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('commonName')}</span>
-        <span>{store.species?.species.common_name ?? '-'}</span>
+        <span className='text-right'>
+          {store.species?.species.common_name ?? '-'}
+        </span>
       </SummaryItem>
       <SummaryItem>
         <span>{fmtMsg('location')}</span>
-        <span>
+        <span className='text-right'>
           {store.image
             ? `${store.image.latitude}, ${store.image.longitude}`
             : ' -'}
