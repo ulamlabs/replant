@@ -20,13 +20,13 @@ export const PlantTile = forwardRef<HTMLDivElement, Props>(({ plant }, ref) => {
         <img
           src={plant.image}
           alt='Tree'
-          className='aspect-3/4 object-cover rounded-xl w-24 h-full'
+          className='aspect-3/4 object-cover rounded-xl w-28 h-full'
         />
-        <div className='flex flex-col text-xs font-light'>
+        <div className='flex flex-col text-sm font-light'>
           <span className='text-base font-bold'>
             {plant.species.botanical_name}
           </span>
-          <span className='text-sm mb-3'>{plant.species.common_name}</span>
+          <span className='mb-3'>{plant.species.common_name}</span>
           <span>{`${fmtMsg('latitude')}: ${plant.latitude}`}</span>
           <span>{`${fmtMsg('longitude')}: ${plant.longitude}`}</span>
           <span>{`${fmtMsg('date')}: ${formatDatetime(

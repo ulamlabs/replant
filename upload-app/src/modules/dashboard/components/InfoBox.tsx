@@ -24,7 +24,7 @@ export const InfoBox: React.FC<Props> = ({
       )}
     >
       <div className='flex flex-col'>
-        <span className='text-xs font-semibold text-white dark:text-white'>
+        <span className='text-sm font-semibold text-white dark:text-white'>
           {title}
         </span>
         <span className='text-3xl font-medium text-white dark:text-white'>

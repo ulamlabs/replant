@@ -13,7 +13,7 @@ export const ReviewStatePill: React.FC<Props> = ({ state }) => {
   return (
     <div
       className={clsx(
-        'rounded-xl py-1 px-1.5 flex items-center gap-1 text-xxs font-semibold leading-none text-white dark:text-white opacity-80',
+        'rounded-xl py-1 px-1.5 flex items-center gap-1 text-xs font-semibold leading-none text-white dark:text-white opacity-80',
         state === 'PENDING' && 'bg-bisque-400',
         state === 'APPROVED' && 'bg-green-400',
         state === 'REJECTED' && 'bg-red-400'
