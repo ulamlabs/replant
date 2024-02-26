@@ -1,8 +1,7 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const baseURL = window.location.origin.includes('localhost')
-  ? 'http://localhost:8001'
-  : window.location.origin;
+// if port is given in origin, assume it's local dev env, and replace app port with api port
+const baseURL = window.location.origin.replace(/\:\d+/, ':8001');
 
 export const apiBaseURL = baseURL + '/api';
 

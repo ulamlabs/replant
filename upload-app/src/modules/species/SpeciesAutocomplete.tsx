@@ -41,9 +41,9 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
   });
 
   return (
-    <div className='relative'>
+    <div className='relative text-base'>
       <label
-        className={'text-left text-xs text-black dark:text-white'}
+        className={'text-left text-black dark:text-white'}
         htmlFor='species'
       >
         {fmtMsg('species')}
@@ -51,7 +51,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
       <div
         {...getRootProps()}
         className={clsx(
-          'border dark:text-white text-black text-xs py-4 px-5 w-full flex gap-2 rounded-full cursor-text items-center',
+          'border dark:text-white text-black py-4 px-5 w-full flex gap-2 rounded-full cursor-text items-center',
           error
             ? 'border-red-400 dark:border-red-400'
             : 'border-black dark:border-white'
@@ -61,7 +61,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
           {...getInputProps()}
           name='species'
           placeholder={fmtMsg('search')}
-          className='text-xs text-black dark:text-white placeholder-black dark:placeholder-white border-0 bg-transparent focus:outline-none w-full'
+          className='text-black dark:text-white placeholder-black dark:placeholder-white border-0 bg-transparent focus:outline-none w-full'
         />
         <LoupeIcon pathClassName='fill-black dark:fill-white' />
       </div>
@@ -74,7 +74,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
             (groupedOptions as typeof data).map((option, index) => (
               <li
                 {...getOptionProps({ option, index })}
-                className='text-xs m-2 text-black dark:text-white'
+                className='m-2 text-black dark:text-white'
                 key={option.species.botanical_name}
               >
                 {formatOptionLabel(option)}
@@ -83,7 +83,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
         </ul>
       )}
       {error && (
-        <span className={'text-left text-xs text-red-400 dark:text-red-400'}>
+        <span className={'text-left text-red-400 dark:text-red-400'}>
           {error}
         </span>
       )}

@@ -11,7 +11,7 @@ export const Capture: React.FC = () => {
 
   return (
     <div>
-      <span className='text-xs'>{fmtMsg('photo')}</span>
+      <span>{fmtMsg('photo')}</span>
       <div
         className={clsx(
           'border py-4 px-5 rounded-full flex justify-center items-center gap-2',
@@ -30,7 +30,7 @@ export const Capture: React.FC = () => {
         </span>
       </div>
       {store.imageError && (
-        <span className={'text-left text-xs text-red-400 dark:text-red-400'}>
+        <span className={'text-left text-red-400 dark:text-red-400'}>
           {store.imageError}
         </span>
       )}

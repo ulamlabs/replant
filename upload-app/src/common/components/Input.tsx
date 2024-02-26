@@ -26,15 +26,15 @@ export const Input: React.FC<Props> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className='flex flex-col gap-1.5 w-full'>
+    <div className='flex flex-col gap-1.5 text-base w-full'>
       {label && (
-        <label className={'text-left text-xs text-black dark:text-white'}>
+        <label className={'text-left text-black dark:text-white'}>
           {label}
         </label>
       )}
       <div
         className={clsx(
-          'border dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text',
+          'border dark:text-white text-black py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center',
           error
             ? 'dark:border-red-400 border-red-400'
             : 'border-black dark:border-white',
@@ -46,7 +46,7 @@ export const Input: React.FC<Props> = ({
           onChange={(e) => onChange(e.target.value)}
           value={value}
           placeholder={placeholder}
-          className='text-xs text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
+          className='text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
           type={showPassword ? 'text' : type}
         />
         {type === 'password' && (
@@ -56,7 +56,7 @@ export const Input: React.FC<Props> = ({
         )}
       </div>
       {error && (
-        <label className={'text-left text-xs text-red-400 dark:text-red-400'}>
+        <label className={'text-left text-red-400 dark:text-red-400'}>
           {error}
         </label>
       )}
