@@ -27,19 +27,16 @@ export const PlantTile = forwardRef<HTMLDivElement, Props>(({ plant }, ref) => {
             {plant.species.botanical_name}
           </span>
           <span className='mb-3'>{plant.species.common_name}</span>
-          <span>{`${fmtMsg('latitude')}: ${plant.latitude}`}</span>
-          <span>{`${fmtMsg('longitude')}: ${plant.longitude}`}</span>
-          <span>{`${fmtMsg('date')}: ${formatDatetime(
-            plant.created_at
-          )}`}</span>
-          <span>{`${fmtMsg('id')}: ${plant.id}`}</span>
+          <span>{`${plant.latitude}, ${plant.longitude}`}</span>
+          <span>{formatDatetime(plant.created_at)}</span>
+          <span>{`#${plant.id}`}</span>
         </div>
         <div className='absolute bottom-0 right-0'>
           <ReviewStatePill state={plant.review_state} />
         </div>
       </div>
       {plant.rejection_reason && (
-        <div className='text-red-400 text-xs'>
+        <div className='text-red-400 text-sm'>
           {fmtMsg('rejectionReason') + ': ' + plant.rejection_reason}
         </div>
       )}

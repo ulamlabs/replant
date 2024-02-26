@@ -35,8 +35,10 @@ if env.ENV == "local":
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "http://169.254.120.14:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
+        "http://169.254.120.14:5174",
     ]
 else:
     CORS_ALLOWED_ORIGINS = [env.UPLOAD_APP_URL]

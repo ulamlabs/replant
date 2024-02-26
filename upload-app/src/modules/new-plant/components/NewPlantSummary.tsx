@@ -32,12 +32,12 @@ export const NewPlantSummary: React.FC = () => {
         <span>{store.species?.species.common_name ?? '-'}</span>
       </SummaryItem>
       <SummaryItem>
-        <span>{fmtMsg('latitude')}</span>
-        <span>{store.image?.latitude ?? ' -'}</span>
-      </SummaryItem>
-      <SummaryItem>
-        <span>{fmtMsg('longitude')}</span>
-        <span>{store.image?.longitude ?? ' -'}</span>
+        <span>{fmtMsg('location')}</span>
+        <span>
+          {store.image
+            ? `${store.image.latitude}, ${store.image.longitude}`
+            : ' -'}
+        </span>
       </SummaryItem>
     </Summary>
   );
