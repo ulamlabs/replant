@@ -10,11 +10,11 @@ import {
 } from 'common/components';
 import { LocationIcon } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
-import { UnauthLayout } from 'modules/layout';
+import { Layout } from 'modules/layout';
 
 export const ComponentTestpage: React.FC = () => {
   return (
-    <UnauthLayout>
+    <Layout navigation>
       <div className='flex flex-col gap-3'>
         <Alert text={'Test error alert'} severity={'error'} />
         <Alert text={'Test success alert'} severity={'success'} />
@@ -76,6 +76,6 @@ export const ComponentTestpage: React.FC = () => {
           </SummaryItem>
         </Summary>
       </div>
-    </UnauthLayout>
+    </Layout>
   );
 };

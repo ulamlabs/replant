@@ -1,10 +1,10 @@
 import { Login } from 'modules/auth';
-import { UnauthLayout } from 'modules/layout';
+import { Layout } from 'modules/layout';
 
 export const LoginPage: React.FC = () => {
   return (
-    <UnauthLayout>
+    <Layout>
       <Login />
-    </UnauthLayout>
+    </Layout>
   );
 };

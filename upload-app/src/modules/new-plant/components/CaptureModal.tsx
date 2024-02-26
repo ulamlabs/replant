@@ -44,10 +44,10 @@ export const CaptureModal: React.FC = () => {
     <div
       className={clsx(
         !store.isCaptureModalOpen && 'hidden',
-        'fixed left-0 right-0 top-14 bottom-0 pb-5 pt-2.5 px-5 flex justify-center bg-white dark:bg-teal-900 z-10'
+        'fixed left-0 right-0 top-[68px] bottom-0 flex justify-center bg-white dark:bg-teal-900 z-10'
       )}
     >
-      <div className='w-full max-w-xl flex flex-col gap-5 justify-between'>
+      <div className='w-full max-w-xl max-h-full h-full overflow-y-auto px-4 flex flex-col gap-5 justify-between'>
         <div className='flex flex-col gap-5'>
           <BackButton onClick={store.closeCapture} />
           <LoaderBox visible={store.isCameraLoading} />
@@ -69,7 +69,7 @@ export const CaptureModal: React.FC = () => {
             height='800'
           />
         </div>
-        <div className='flex flex-col gap-5'>
+        <div className='flex flex-col gap-5 pb-4'>
           {store.tmpImage ? (
             <>
               <Button

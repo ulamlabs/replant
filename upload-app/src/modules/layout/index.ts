@@ -1,3 +1,1 @@
-export * from './FeatureLayout';
-export * from './NavigationLayout';
-export * from './UnauthLayout';
+export * from './Layout';

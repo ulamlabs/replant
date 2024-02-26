@@ -1,14 +1,13 @@
 import { useAuthRequired } from 'modules/auth';
-import { NavigationLayout } from 'modules/layout';
-import { NavigationBar } from 'modules/navigation';
+import { Layout } from 'modules/layout';
 import { PlantSubmissions } from 'modules/plants';
 
 export const PlantSubmissionsPage: React.FC = () => {
   useAuthRequired();
 
   return (
-    <NavigationLayout actions={<NavigationBar />}>
+    <Layout navigation>
       <PlantSubmissions />
-    </NavigationLayout>
+    </Layout>
   );
 };

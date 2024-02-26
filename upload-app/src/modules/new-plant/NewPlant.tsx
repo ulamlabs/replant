@@ -84,7 +84,6 @@ export const NewPlant: React.FC = () => {
           onClick={submit}
         />
       }
-      className='max-w-xl'
     >
       <div className='space-y-5'>
         {header}

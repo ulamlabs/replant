@@ -1,6 +1,6 @@
 import { Button, Header, Section } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
-import { UnauthLayout } from 'modules/layout';
+import { Layout } from 'modules/layout';
 import { useNavigate } from 'react-router-dom';
 
 export const NotFoundPage: React.FC = () => {
@@ -9,7 +9,7 @@ export const NotFoundPage: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
   return (
-    <UnauthLayout>
+    <Layout>
       <Section
         actions={
           <Button
@@ -17,7 +17,6 @@ export const NotFoundPage: React.FC = () => {
             onClick={() => navigate('/')}
           />
         }
-        className='max-w-xl'
       >
         <div className='space-y-5'>
           <Header text={fmtMsg('pageNotFound')} />
@@ -26,6 +25,6 @@ export const NotFoundPage: React.FC = () => {
           </p>
         </div>
       </Section>
-    </UnauthLayout>
+    </Layout>
   );
 };
