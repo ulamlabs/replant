@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { BackButton, Button, LoaderBox } from 'common/components';
+import { CameraIcon, CheckIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
@@ -75,11 +76,21 @@ export const CaptureModal: React.FC = () => {
               <Button
                 size='lg'
                 type='secondary'
-                text={fmtMsg('retake')}
+                text={
+                  <>
+                    <RepeatIcon pathClassName='fill-bisque-400' />
+                    {fmtMsg('retake')}
+                  </>
+                }
                 onClick={() => store.setTmpImage(undefined)}
               />
               <Button
-                text={fmtMsg('keep')}
+                text={
+                  <>
+                    <CheckIcon svgClassName='h-5 w-5' />
+                    {fmtMsg('keep')}
+                  </>
+                }
                 onClick={() => {
                   store.setImage(store.tmpImage);
                   store.closeCapture();
@@ -89,7 +100,12 @@ export const CaptureModal: React.FC = () => {
           ) : (
             <Button
               disabled={store.isCameraLoading}
-              text={fmtMsg('capture')}
+              text={
+                <>
+                  <CameraIcon svgClassName='h-5 w-5' />
+                  {fmtMsg('capture')}
+                </>
+              }
               onClick={capture}
             />
           )}

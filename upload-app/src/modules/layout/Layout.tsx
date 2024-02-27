@@ -9,14 +9,16 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ children, navigation = false }) => {
   return (
-    <div className='max-w-xl mx-auto h-screen'>
+    <div className='max-w-xl mx-auto h-dvh'>
       <div className='p-4'>
         <img className='h-9 invert dark:invert-0' src={replantWorldImg} />
       </div>
       <div
         className={clsx(
-          navigation ? `h-[calc(100vh-148px)]` : `h-[calc(100vh-84px)]`,
-          navigation ? `max-h-[calc(100vh-148px)]` : `max-h-[calc(100vh-84px)]`,
+          navigation ? `h-[calc(100dvh-148px)]` : `h-[calc(100dvh-84px)]`,
+          navigation
+            ? `max-h-[calc(100dvh-148px)]`
+            : `max-h-[calc(100dvh-84px)]`,
           'overflow-y-auto'
         )}
       >

@@ -6,7 +6,7 @@ type Props = {
   disabled?: boolean;
   isLoading?: boolean;
   size?: 'lg' | 'sm';
-  text: string;
+  text: React.ReactNode;
   type?: 'primary' | 'secondary';
   onClick: () => void;
 };

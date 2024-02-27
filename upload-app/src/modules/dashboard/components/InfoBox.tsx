@@ -19,12 +19,12 @@ export const InfoBox: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'px-5 py-2.5 rounded-xl flex justify-between opacity-80',
+        'p-2.5 rounded-xl flex gap-2 justify-between opacity-80',
         className
       )}
     >
-      <div className='flex flex-col'>
-        <span className='text-xs font-semibold text-white dark:text-white'>
+      <div className='flex flex-col justify-between'>
+        <span className='text-sm font-semibold text-white dark:text-white'>
           {title}
         </span>
         <span className='text-3xl font-medium text-white dark:text-white'>

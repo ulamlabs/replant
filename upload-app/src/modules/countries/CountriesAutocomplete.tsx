@@ -40,14 +40,14 @@ export const CountriesAutocomplete: React.FC<Props> = ({
   });
 
   return (
-    <div className={clsx('relative', className)}>
-      <label className={'text-left text-xs text-black dark:text-white'}>
+    <div className={clsx('relative text-base', className)}>
+      <label className={'text-left text-black dark:text-white'}>
         {fmtMsg('country')}
       </label>
       <div
         {...getRootProps()}
         className={clsx(
-          'border dark:text-white text-black text-xs py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center mt-1',
+          'border dark:text-white text-black py-2.5 px-5 w-full flex gap-2 rounded-full cursor-text items-center mt-1',
           error
             ? 'border-red-400 dark:border-red-400'
             : 'border-black dark:border-white'
@@ -57,7 +57,7 @@ export const CountriesAutocomplete: React.FC<Props> = ({
         <input
           {...getInputProps()}
           placeholder={fmtMsg('country')}
-          className='text-xs text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
+          className=' text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
         />
         <ArrowDownIcon
           svgClassName={clsx(!!groupedOptions.length && 'rotate-180')}
@@ -72,7 +72,7 @@ export const CountriesAutocomplete: React.FC<Props> = ({
             (groupedOptions as typeof options).map((option, index) => (
               <li
                 {...getOptionProps({ option, index })}
-                className='text-xs m-2 text-black dark:text-white'
+                className='m-2 text-black dark:text-white'
                 key={option.id}
               >
                 {option.name}
@@ -81,7 +81,7 @@ export const CountriesAutocomplete: React.FC<Props> = ({
         </ul>
       )}
       {error && (
-        <span className={'text-left text-xs text-red-400 dark:text-red-400'}>
+        <span className={'text-left text-red-400 dark:text-red-400'}>
           {error}
         </span>
       )}
