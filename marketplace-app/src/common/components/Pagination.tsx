@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Paginate, Paginated } from 'types';
 
 type PaginationProps = {
-  paginated: Paginated<any>;
+  paginated: Paginated;
   onPaginated: (paginate: Paginate) => void;
 };
 
@@ -12,16 +12,16 @@ const LINKS_THRESHOLD = 1;
 export function Pagination({ paginated, onPaginated }: PaginationProps) {
   const [pages, setPages] = useState<(number | null)[]>([]);
 
-  useEffect(calculatePages, [paginated]);
-
   const currentPage = useMemo(
-    () => Math.ceil(paginated.offset / paginated.pageSize),
+    () => Math.ceil(paginated.offset / paginated.limit),
     [paginated]
   );
   const pageCount = useMemo(
-    () => Math.ceil(paginated.total / paginated.pageSize),
+    () => Math.ceil(paginated.count / paginated.limit),
     [paginated]
   );
+
+  useEffect(calculatePages, [paginated, currentPage, pageCount]);
 
   function calculatePages() {
     if (pageCount <= 1) {
@@ -55,8 +55,8 @@ export function Pagination({ paginated, onPaginated }: PaginationProps) {
 
   function paginate(page: number) {
     onPaginated({
-      offset: paginated.pageSize * page,
-      pageSize: paginated.pageSize,
+      offset: paginated.limit * page,
+      limit: paginated.limit,
     });
   }
 

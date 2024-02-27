@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { IconProps } from './types';
 
-export function IconOrganization({ className, overrideColors }: IconProps) {
+export function IconSponsor({ className, overrideColors }: IconProps) {
   return (
     <svg
       className={clsx(

@@ -1,25 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
-import { OrganizationSearchBox } from 'common/components/OrganizationSearchBox';
-import { OrganizationSummary } from 'common/components/OrganizationSummary';
 import { Pagination } from 'common/components/Pagination';
-import { PlantsGrid } from 'common/components/PlantsGrid';
+import { TreesGrid } from 'common/components/TreesGrid';
 import { ReplantLogo } from 'common/components/ReplantLogo';
-import { listPlants } from 'fixtures';
+import { getTrees } from 'modules/api/api';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
+import { SponsorSimple } from 'types';
+import { SponsorSummary } from 'common/components/SponsorSummary';
+import { SponsorSearchBox } from 'common/components/SponsorSearchBox';
 
 export function Gallery() {
   const fmtMsg = useFmtMsg();
   const [offset, setOffset] = useState(0);
-  const [organization, setOrganization] = useState<string>('');
+  const [sponsor, setSponsor] = useState<SponsorSimple | null>(null);
 
-  const { data: plants } = useQuery({
-    queryKey: ['plants', offset, organization],
-    queryFn: () => listPlants({ offset, organization }),
+  const { data: trees } = useQuery({
+    queryKey: ['trees', offset, sponsor],
+    queryFn: () => getTrees({ offset, sponsor: sponsor?.id }),
   });
 
-  function onSearch(organization: string) {
-    setOrganization(organization);
+  function onSearch(sponsor: SponsorSimple | null) {
+    setSponsor(sponsor);
     setOffset(0);
   }
 
@@ -27,28 +28,29 @@ export function Gallery() {
     <div className='p-2 pb-12 lg:px-20 lg:py-12 flex flex-col gap-10'>
       <div className='flex justify-between gap-10'>
         <ReplantLogo />
-        <OrganizationSearchBox onSearch={onSearch} />
+        <SponsorSearchBox onSearch={onSearch} />
       </div>
 
       <div className='text-3xl text-center font-light'>
         {fmtMsg('replantWorldsProofOfPlantingNftGallery')}
       </div>
 
-      {organization && <OrganizationSummary organization={organization} />}
+      {sponsor && <SponsorSummary sponsor={sponsor} />}
 
-      {plants && (
+      {trees && (
         <>
           <div>
-            {organization && (
+            {sponsor && (
               <h3 className='text-xl font-bold mb-4'>
                 {fmtMsg('sponsoredTrees')}
               </h3>
             )}
-            <PlantsGrid plants={plants?.results} />
+            <TreesGrid trees={trees?.results} />
+            {trees?.count === 0 && <p>No trees</p>}
           </div>
           <div className='flex justify-center'>
             <Pagination
-              paginated={plants}
+              paginated={trees}
               onPaginated={(paginate) => setOffset(paginate.offset)}
             />
           </div>

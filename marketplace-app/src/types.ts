@@ -1,25 +1,36 @@
-export type Plant = {
-  latinName: string;
-  commonName: string;
-  imageUrl: string;
+export type SponsorSimple = {
+  id: number;
+  name: string;
+};
+
+export type SponsorDetails = SponsorSimple & {
+  trees: number;
+  species: number;
+  total_trees_cost_usd: string;
+};
+
+export type Tree = {
+  common_name: string;
+  botanical_name: string;
+  image: string;
   country: string;
-  date: string;
-  plantingCostUsd: string;
+  created_at: string;
+  planting_cost_usd: string;
   planter: string;
-  organization: string;
-  lat: string;
-  lon: string;
-  sponsoredBy: string;
-  nftCollection: string;
-  nftId: string;
+  planting_organization: string;
+  latitude: string;
+  longitude: string;
+  sponsor: string;
+  nft_collection: string;
+  nft_id: string;
 };
 
 export type Paginate = {
   offset: number;
-  pageSize: number;
+  limit: number;
 };
 
 export type Paginated<T> = Paginate & {
-  total: number;
+  count: number;
   results: T[];
 };
