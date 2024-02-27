@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { BackButton, Button, LoaderBox } from 'common/components';
+import { BackButton, Button, LoaderBox, Section } from 'common/components';
 import { CameraIcon, CheckIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
@@ -50,8 +50,51 @@ export const CaptureModal: React.FC = () => {
       )}
     >
       <Layout>
-        <div className='min-h-full flex flex-col justify-between gap-5'>
-          <div className='flex flex-col gap-5'>
+        <Section
+          actions={
+            <div className='space-y-4'>
+              {store.tmpImage ? (
+                <>
+                  <Button
+                    size='lg'
+                    type='secondary'
+                    text={
+                      <>
+                        <RepeatIcon pathClassName='fill-bisque-400' />
+                        {fmtMsg('retake')}
+                      </>
+                    }
+                    onClick={() => store.setTmpImage(undefined)}
+                  />
+                  <Button
+                    text={
+                      <>
+                        <CheckIcon svgClassName='h-5 w-5' />
+                        {fmtMsg('keep')}
+                      </>
+                    }
+                    onClick={() => {
+                      store.setImage(store.tmpImage);
+                      store.closeCapture();
+                    }}
+                  />
+                </>
+              ) : (
+                <Button
+                  disabled={store.isCameraLoading}
+                  text={
+                    <>
+                      <CameraIcon svgClassName='h-5 w-5' />
+                      {fmtMsg('capture')}
+                    </>
+                  }
+                  onClick={capture}
+                />
+              )}
+            </div>
+          }
+        >
+          <div className='flex flex-col gap-4'>
             <BackButton onClick={store.closeCapture} />
             <LoaderBox visible={store.isCameraLoading} />
             <video
@@ -74,47 +117,7 @@ export const CaptureModal: React.FC = () => {
               height='800'
             />
           </div>
-          <div className='flex flex-col gap-5'>
-            {store.tmpImage ? (
-              <>
-                <Button
-                  size='lg'
-                  type='secondary'
-                  text={
-                    <>
-                      <RepeatIcon pathClassName='fill-bisque-400' />
-                      {fmtMsg('retake')}
-                    </>
-                  }
-                  onClick={() => store.setTmpImage(undefined)}
-                />
-                <Button
-                  text={
-                    <>
-                      <CheckIcon svgClassName='h-5 w-5' />
-                      {fmtMsg('keep')}
-                    </>
-                  }
-                  onClick={() => {
-                    store.setImage(store.tmpImage);
-                    store.closeCapture();
-                  }}
-                />
-              </>
-            ) : (
-              <Button
-                disabled={store.isCameraLoading}
-                text={
-                  <>
-                    <CameraIcon svgClassName='h-5 w-5' />
-                    {fmtMsg('capture')}
-                  </>
-                }
-                onClick={capture}
-              />
-            )}
-          </div>
-        </div>
+        </Section>
       </Layout>
     </div>
   );
