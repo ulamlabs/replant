@@ -14,7 +14,9 @@ class TreeAdmin(TrackableModelAdmin):
         "id",
         "species",
         "review_state",
+        "minting_state",
         "sponsor",
+        "nft_id",
         "created_by",
         "created_at",
     )
@@ -33,6 +35,10 @@ class TreeAdmin(TrackableModelAdmin):
         "is_native",
         "planting_cost_usd",
         "sponsor",
+        "nft_id",
+        "nft_mint_tx",
+        "image_cid",
+        "metadata_cid",
         "created_by",
         "created_at",
     )
@@ -40,6 +46,7 @@ class TreeAdmin(TrackableModelAdmin):
     list_filter = [
         AutocompleteFilterFactory(title="Sponsor", base_parameter_name="sponsor"),
         "review_state",
+        "minting_state",
     ]
 
     def image_tag(self, obj: Tree):

@@ -1,6 +1,10 @@
 import os
 from typing import Final
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 DATABASE_URL: Final[str] = os.getenv("DATABASE_URL", "sqlite:///db.sqlite3")
 UPLOAD_APP_URL: Final[str] = os.getenv("UPLOAD_APP_URL", "http://localhost:5173")
 ENV: Final[str] = os.getenv("ENV", "local")
@@ -41,3 +45,8 @@ AWS_SECRET_ACCESS_KEY: Final[str] = os.getenv("AWS_SECRET_ACCESS_KEY", "")
 AWS_STORAGE_BUCKET_NAME: Final[str] = os.getenv("AWS_STORAGE_BUCKET_NAME", "")
 AWS_S3_ENDPOINT_URL: Final[str] = os.getenv("AWS_S3_ENDPOINT_URL", "")
 AWS_S3_CUSTOM_DOMAIN: Final[str] = os.getenv("AWS_S3_CUSTOM_DOMAIN", "")
+
+NFT_STORAGE_API_URL: Final[str] = os.getenv(
+    "NFT_STORAGE_API_URL", "https://api.nft.storage"
+)
+NFT_STORAGE_API_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")

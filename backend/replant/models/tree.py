@@ -35,18 +35,30 @@ class Tree(TrackableModel):
         APPROVED = auto()
         REJECTED = auto()
 
-    class Meta:
-        indexes = [
-            models.Index(fields=["review_state"]),
-        ]
+    class MintingState(models.TextChoices):
+        PENDING = auto()
+        TO_BE_MINTED = auto()
+        MINTED = auto()
+        FAILED = auto()
 
     def image_upload_to(self, filename: str) -> str:
         _, ext = filename.rsplit(".", 1)
         return f"{uuid.uuid4().hex}.{ext}"
 
-    review_state = FSMField(choices=ReviewState.choices, default=ReviewState.PENDING)
+    review_state = FSMField(
+        choices=ReviewState.choices, default=ReviewState.PENDING, db_index=True
+    )
     rejection_reason = models.CharField(max_length=100, default="", blank=True)
+    minting_state = FSMField(
+        choices=MintingState.choices, default=MintingState.PENDING, db_index=True
+    )
     image = models.ImageField(upload_to=image_upload_to)  # type: ignore
+    image_cid = models.URLField(
+        max_length=128, default="", blank=True, verbose_name="image CID"
+    )
+    metadata_cid = models.URLField(
+        max_length=128, default="", blank=True, verbose_name="metadata CID"
+    )
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
 
@@ -68,7 +80,26 @@ class Tree(TrackableModel):
         "replant.Sponsor", null=True, blank=True, on_delete=models.PROTECT
     )
 
+    nft_id = models.PositiveIntegerField(
+        unique=True, null=True, blank=True, db_index=True, verbose_name="NFT ID"
+    )
+    nft_mint_tx = models.CharField(max_length=64, default="", blank=True)
+
     objects: TreeManager = TreeManager()
 
     def __str__(self):
         return str(self.pk)
+
+    @property
+    def ipfs_image_url(self):
+        return ipfs_url(self.image_cid, self.nft_id, "png")
+
+    @property
+    def ipfs_metadata_url(self):
+        return ipfs_url(self.metadata_cid, self.nft_id, "json")
+
+
+def ipfs_url(cid: str, nft_id: int, extension: str) -> str:
+    if cid:
+        return f"https://{cid}.ipfs.nftstorage.link/{nft_id}.{extension}"
+    return ""
