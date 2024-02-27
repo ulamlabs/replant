@@ -55,7 +55,8 @@ export const CaptureModal: React.FC = () => {
           <video
             className={clsx(
               'rounded-lg',
-              (store.isCameraLoading || store.tmpImage) && 'hidden'
+              (store.isCameraLoading || store.tmpImage) && 'hidden',
+              'w-full'
             )}
             autoPlay
             playsInline
@@ -63,7 +64,7 @@ export const CaptureModal: React.FC = () => {
           />
           <canvas
             className={clsx(
-              'rounded-lg',
+              'rounded-lg w-full aspect-3/4',
               (store.isCameraLoading || !store.tmpImage) && 'hidden'
             )}
             ref={canvasRef}
