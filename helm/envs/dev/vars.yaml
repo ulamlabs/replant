@@ -5,3 +5,4 @@ vars:
   AWS_STORAGE_BUCKET_NAME: ulam-replant-test-2
   AWS_S3_ENDPOINT_URL: https://fra1.digitaloceanspaces.com
   AWS_S3_CUSTOM_DOMAIN: dev.images.replantworld.ulam.pro
+  SEI_NFT_ADDRESS: sei1lxsu3g5zsgrrgwgd2d7qplscye2ngyfpq2nm9hmh2h8rjrt8yj9qtdv2vc
