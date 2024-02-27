@@ -58,6 +58,7 @@ export const CaptureModal: React.FC = () => {
               (store.isCameraLoading || store.tmpImage) && 'hidden'
             )}
             autoPlay
+            playsInline
             ref={playerRef}
           />
           <canvas
