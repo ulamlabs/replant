@@ -78,8 +78,8 @@ export const Login: React.FC = () => {
         />
       }
     >
-      <form className='flex flex-col gap-5 h-full items-center justify-end'>
-        <img src={poptechImg} className='h-8 invert dark:invert-0' />
+      <form className='flex flex-col gap-5 h-full items-center justify-end pb-2'>
+        <img src={poptechImg} className='h-9 invert dark:invert-0' />
         {loginMutation.isError && (
           <Alert severity='error' text={getErrorText(loginMutation.error)} />
         )}

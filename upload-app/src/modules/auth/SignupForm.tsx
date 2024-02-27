@@ -1,6 +1,6 @@
 import { Input } from 'common/components';
 import { PadlockIcon, PhoneIcon, UserIcon } from 'common/icons';
-import { Country, CountriesAutocomplete } from 'modules/countries';
+import { CountriesAutocomplete, Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {
@@ -43,7 +43,7 @@ export const SignupForm: React.FC<Props> = ({
   const fmtMsg = useFmtMsg();
 
   return (
-    <form className='flex flex-col gap-5'>
+    <form className='flex flex-col gap-5 pb-2'>
       <Input
         label={fmtMsg('login')}
         placeholder={fmtMsg('login')}
