@@ -1,7 +1,8 @@
 import clsx from 'clsx';
-import { BackButton, Button, LoaderBox } from 'common/components';
+import { BackButton, Button, LoaderBox, Section } from 'common/components';
 import { CameraIcon, CheckIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
+import { Layout } from 'modules/layout';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
 
@@ -45,73 +46,79 @@ export const CaptureModal: React.FC = () => {
     <div
       className={clsx(
         !store.isCaptureModalOpen && 'hidden',
-        'fixed left-0 right-0 top-[68px] bottom-0 flex justify-center bg-white dark:bg-teal-900 z-10'
+        'fixed left-0 right-0 top-0 bottom-0 bg-white dark:bg-teal-900 z-10'
       )}
     >
-      <div className='w-full max-w-xl max-h-full h-full overflow-y-auto px-4 flex flex-col gap-5 justify-between'>
-        <div className='flex flex-col gap-5'>
-          <BackButton onClick={store.closeCapture} />
-          <LoaderBox visible={store.isCameraLoading} />
-          <video
-            className={clsx(
-              'rounded-lg',
-              (store.isCameraLoading || store.tmpImage) && 'hidden'
-            )}
-            autoPlay
-            playsInline
-            ref={playerRef}
-          />
-          <canvas
-            className={clsx(
-              'rounded-lg',
-              (store.isCameraLoading || !store.tmpImage) && 'hidden'
-            )}
-            ref={canvasRef}
-            width='600'
-            height='800'
-          />
-        </div>
-        <div className='flex flex-col gap-5 pb-4'>
-          {store.tmpImage ? (
-            <>
-              <Button
-                size='lg'
-                type='secondary'
-                text={
-                  <>
-                    <RepeatIcon pathClassName='fill-bisque-400' />
-                    {fmtMsg('retake')}
-                  </>
-                }
-                onClick={() => store.setTmpImage(undefined)}
-              />
-              <Button
-                text={
-                  <>
-                    <CheckIcon svgClassName='h-5 w-5' />
-                    {fmtMsg('keep')}
-                  </>
-                }
-                onClick={() => {
-                  store.setImage(store.tmpImage);
-                  store.closeCapture();
-                }}
-              />
-            </>
-          ) : (
-            <Button
-              disabled={store.isCameraLoading}
-              text={
+      <Layout>
+        <Section
+          actions={
+            <div className='space-y-4'>
+              {store.tmpImage ? (
                 <>
-                  <CameraIcon svgClassName='h-5 w-5' />
-                  {fmtMsg('capture')}
+                  <Button
+                    size='lg'
+                    type='secondary'
+                    text={
+                      <>
+                        <RepeatIcon pathClassName='fill-bisque-400' />
+                        {fmtMsg('retake')}
+                      </>
+                    }
+                    onClick={() => store.setTmpImage(undefined)}
+                  />
+                  <Button
+                    text={
+                      <>
+                        <CheckIcon svgClassName='h-5 w-5' />
+                        {fmtMsg('keep')}
+                      </>
+                    }
+                    onClick={() => {
+                      store.setImage(store.tmpImage);
+                      store.closeCapture();
+                    }}
+                  />
                 </>
-              }
-              onClick={capture}
+              ) : (
+                <Button
+                  disabled={store.isCameraLoading}
+                  text={
+                    <>
+                      <CameraIcon svgClassName='h-5 w-5' />
+                      {fmtMsg('capture')}
+                    </>
+                  }
+                  onClick={capture}
+                />
+              )}
+            </div>
+          }
+        >
+          <div className='flex flex-col gap-4'>
+            <BackButton onClick={store.closeCapture} />
+            <LoaderBox visible={store.isCameraLoading} />
+            <video
+              className={clsx(
+                'rounded-lg',
+                (store.isCameraLoading || store.tmpImage) && 'hidden',
+                'w-full'
+              )}
+              autoPlay
+              playsInline
+              ref={playerRef}
             />
-          )}
-        </div>
-      </div>
+            <canvas
+              className={clsx(
+                'rounded-lg w-full aspect-3/4',
+                (store.isCameraLoading || !store.tmpImage) && 'hidden'
+              )}
+              ref={canvasRef}
+              width='600'
+              height='800'
+            />
+          </div>
+        </Section>
+      </Layout>
     </div>
   );
 };
