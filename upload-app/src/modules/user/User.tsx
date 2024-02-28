@@ -24,11 +24,11 @@ export const User: React.FC = () => {
           pathClassName='fill-gray-500'
           svgClassName='w-6 h-6'
         />
-        <span>{user?.planting_organization.name}</span>
+        <span>{user?.planting_organization?.name}</span>
       </div>
       <div className='flex gap-2 items-center'>
         <LocationIcon pathClassName='fill-gray-500' svgClassName='w-6 h-6' />
-        <span>{user?.country.name}</span>
+        <span>{user?.country?.name}</span>
       </div>
     </div>
   );
