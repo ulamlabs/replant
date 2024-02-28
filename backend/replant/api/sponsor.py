@@ -1,13 +1,10 @@
 from django.db import models
-from rest_framework import mixins, serializers, viewsets
-from rest_framework.decorators import action
-from rest_framework.request import Request
-from rest_framework.response import Response
+from rest_framework import filters, mixins, serializers, viewsets
 
 from replant.models import Nft, Sponsor
 
 
-class SponsorAutocompleteSerializer(serializers.ModelSerializer):
+class SponsorListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sponsor
         fields = ("id", "name")
@@ -36,14 +33,14 @@ class SponsorSerializer(serializers.ModelSerializer):
         return result["planting_cost_usd__sum"] or 0
 
 
-class SponsorView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    serializer_class = SponsorSerializer
+class SponsorView(
+    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+):
     queryset = Sponsor.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["name"]
 
-    @action(["GET"], detail=False)
-    def autocomplete(self, request: Request):
-        query = request.query_params.get("query", "")
-        organizations = Sponsor.objects.filter(name__icontains=query)[:10]
-
-        data = SponsorAutocompleteSerializer(organizations, many=True).data
-        return Response(data=data)
+    def get_serializer_class(self):
+        if self.action == "list":
+            return SponsorListSerializer
+        return SponsorSerializer

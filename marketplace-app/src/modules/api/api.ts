@@ -17,9 +17,9 @@ export type AutocompleteSponsorsParams = {
   query?: string;
 };
 export function autocompleteSponsors(params: AutocompleteSponsorsParams) {
-  return get<SponsorSimple[]>('sponsors/autocomplete', { params }).then(
-    (response) => response.data
-  );
+  return get<Paginated<SponsorSimple>>('sponsors/', {
+    params,
+  }).then((response) => response.data);
 }
 
 export function getSponsor(sponsorId: number) {

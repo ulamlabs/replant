@@ -54,9 +54,9 @@ export function SponsorSearchBox(props: SponsorSearchBoxProps) {
         {searchTerm ? <IconX className='cursor-pointer' /> : <IconSearch />}
       </div>
 
-      {focused && sponsors?.length ? (
+      {focused && sponsors?.results?.length ? (
         <Menu>
-          {sponsors.map((sponsor) => (
+          {sponsors.results.map((sponsor) => (
             <MenuItem onSelect={() => select(sponsor)} key={sponsor.id}>
               {sponsor.name}
             </MenuItem>

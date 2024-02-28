@@ -2,41 +2,32 @@ from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from replant.models import Species, Sponsor, Tree, User
+from replant.models import Species, Sponsor, Tree
 
 
-def test_sponsors_autocomplete(user_client: APIClient):
+def test_sponsors_list(user_client: APIClient):
     sponsor_a = baker.make(Sponsor, name="Foo")
     sponsor_b = baker.make(Sponsor, name="Foobar")
-    baker.make(Sponsor, 10)
 
-    # Limit results to 10.
-    response = user_client.get("/api/sponsors/autocomplete/")
+    response = user_client.get("/api/sponsors/", {"search": "foo"})
     assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()) == 10
-
-    response = user_client.get("/api/sponsors/autocomplete/", {"query": "foo"})
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json() == [
+    assert response.json()["results"] == [
         {"id": sponsor_a.id, "name": "Foo"},
         {"id": sponsor_b.id, "name": "Foobar"},
     ]
 
-    response = user_client.get("/api/sponsors/autocomplete/", {"query": "fooBAR"})
+    response = user_client.get("/api/sponsors/", {"search": "fooBAR"})
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == [
+    assert response.json()["results"] == [
         {"id": sponsor_b.id, "name": "Foobar"},
     ]
 
-    response = user_client.get("/api/sponsors/autocomplete/", {"query": "non-existing"})
+    response = user_client.get("/api/sponsors/", {"search": "non-existing"})
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == []
+    assert response.json()["results"] == []
 
 
-def test_sponsors_retrieve_no_trees(
-    user_client: APIClient,
-    user: User,
-):
+def test_sponsors_retrieve_no_trees(user_client: APIClient):
     sponsor = baker.make(Sponsor, name="Foo")
 
     response = user_client.get(f"/api/sponsors/{sponsor.id}/")

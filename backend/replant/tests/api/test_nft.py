@@ -27,7 +27,7 @@ def test_nft_listing_single(user_client: APIClient):
                 "botanical_name": tree.species.botanical_name,
                 "common_name": tree.species.common_name,
                 "country": tree.country.name,
-                "created_at": "2024-01-01T00:00:00Z",
+                "created_at": "2024-01-01",
                 "image": f"http://testserver/django-files/{tree.image}",
                 "latitude": str(tree.latitude),
                 "longitude": str(tree.longitude),
