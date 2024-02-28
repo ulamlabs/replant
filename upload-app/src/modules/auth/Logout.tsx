@@ -25,9 +25,10 @@ export const Logout: React.FC = () => {
   return (
     <Button
       isLoading={logoutMutation.isPending}
-      text={fmtMsg('logOut')}
       type='secondary'
       onClick={logOut}
-    />
+    >
+      {fmtMsg('logOut')}
+    </Button>
   );
 };

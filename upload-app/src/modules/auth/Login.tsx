@@ -71,11 +71,9 @@ export const Login: React.FC = () => {
   return (
     <Section
       actions={
-        <Button
-          isLoading={loginMutation.isPending}
-          text={fmtMsg('logIn')}
-          onClick={logIn}
-        />
+        <Button isLoading={loginMutation.isPending} onClick={logIn}>
+          {fmtMsg('logIn')}
+        </Button>
       }
     >
       <form className='flex flex-col gap-5 h-full items-center justify-end pb-2'>

@@ -2,21 +2,21 @@ import clsx from 'clsx';
 import { Loader } from '.';
 
 type Props = {
+  children: React.ReactNode;
   className?: string;
   disabled?: boolean;
   isLoading?: boolean;
   size?: 'lg' | 'sm';
-  text: React.ReactNode;
   type?: 'primary' | 'secondary';
   onClick: () => void;
 };
 
 export const Button: React.FC<Props> = ({
+  children,
   className,
   disabled = false,
   isLoading = false,
   size = 'lg',
-  text,
   type = 'primary',
   onClick,
 }) => {
@@ -34,7 +34,7 @@ export const Button: React.FC<Props> = ({
       onClick={onClick}
     >
       {isLoading && <Loader size={size === 'lg' ? 8 : 4} />}
-      {text}
+      {children}
     </button>
   );
 };
