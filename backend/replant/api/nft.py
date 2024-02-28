@@ -1,4 +1,4 @@
-from django.db import models
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, serializers
 
 import env
@@ -49,12 +49,7 @@ class NftView(generics.ListAPIView):
         "created_by",
         "planting_organization",
         "sponsor",
-    )
+    ).order_by("nft_id")
     pagination_class = LimitOffsetPagination
-
-    def filter_queryset(self, queryset: models.QuerySet[Nft]):
-        queryset = super().filter_queryset(queryset)
-        sponsor_id = self.request.query_params.get("sponsor", "")
-        if sponsor_id:
-            queryset = queryset.filter(sponsor_id=sponsor_id)
-        return queryset
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["sponsor"]

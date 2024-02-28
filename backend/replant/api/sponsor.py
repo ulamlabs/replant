@@ -26,7 +26,8 @@ class SponsorSerializer(serializers.ModelSerializer):
         return self._get_nfts(obj).count()
 
     def get_species(self, obj: Sponsor):
-        return self._get_nfts(obj).distinct("species").count()
+        result = self._get_nfts(obj).aggregate(models.Count("species", distinct=True))
+        return result["species__count"]
 
     def get_total_trees_cost_usd(self, obj: Sponsor):
         result = self._get_nfts(obj).aggregate(models.Sum("planting_cost_usd"))
@@ -36,7 +37,7 @@ class SponsorSerializer(serializers.ModelSerializer):
 class SponsorView(
     mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
 ):
-    queryset = Sponsor.objects.all()
+    queryset = Sponsor.objects.order_by("name")
     filter_backends = [filters.SearchFilter]
     search_fields = ["name"]
 

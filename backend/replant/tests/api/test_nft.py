@@ -90,7 +90,6 @@ def test_nft_listing_filtering(user_client: APIClient):
     nft_ids = [tree["nft_id"] for tree in response.json()["results"]]
     assert nft_ids == [3]
 
+    # Not existing sponsor.
     response = user_client.get("/api/nfts", {"sponsor": 123123})
-    assert response.status_code == status.HTTP_200_OK
-    nft_ids = [tree["nft_id"] for tree in response.json()["results"]]
-    assert nft_ids == []
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
