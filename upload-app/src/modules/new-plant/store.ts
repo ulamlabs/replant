@@ -44,11 +44,12 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       isCaptureModalOpen: true,
       tmpImage: undefined,
     });
-    const isPortait = window.matchMedia('(orientation: portrait)').matches;
+    const isPortrait = window.matchMedia('(orientation: portrait)').matches;
     const stream = await window.navigator.mediaDevices.getUserMedia({
       video: {
-        aspectRatio: { ideal: isPortait ? 4 / 3 : 3 / 4 },
         facingMode: { ideal: 'environment' },
+        width: { ideal: isPortrait ? 800 : 600 },
+        height: { ideal: isPortrait ? 600 : 800 },
       },
     });
     set({ isCameraLoading: false });
