@@ -30,6 +30,7 @@
   "phoneNumber": "Phone number",
   "phoneNumberIsNotValid": "The phone number entered is not valid.",
   "photo": "Photo",
+  "youHaveNotSubmittedAnyTreesYet": "You have not submitted any trees yet.",
   "youHaveSuccessfullySignedUp": "You have successfully signed up.",
   "registrationLinkExpired": "The registration link is expired. Contact your coordinator or other organization member and ask for a new link.",
   "registrationLinkIsInvalid": "The registration link is invalid.",
