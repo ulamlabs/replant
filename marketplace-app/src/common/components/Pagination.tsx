@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Paginate, Paginated } from 'types';
 
 type PaginationProps = {
@@ -10,8 +10,6 @@ type PaginationProps = {
 const LINKS_THRESHOLD = 1;
 
 export function Pagination({ paginated, onPaginated }: PaginationProps) {
-  const [pages, setPages] = useState<(number | null)[]>([]);
-
   const currentPage = useMemo(
     () => Math.ceil(paginated.offset / paginated.limit),
     [paginated]
@@ -21,12 +19,11 @@ export function Pagination({ paginated, onPaginated }: PaginationProps) {
     [paginated]
   );
 
-  useEffect(calculatePages, [paginated, currentPage, pageCount]);
+  const pages = calculatePages();
 
-  function calculatePages() {
+  function calculatePages(): (number | null)[] {
     if (pageCount <= 1) {
-      setPages([]);
-      return;
+      return [];
     }
 
     const newPages: (number | null)[] = [0];
@@ -50,7 +47,7 @@ export function Pagination({ paginated, onPaginated }: PaginationProps) {
       newPages.push(pageCount - 1);
     }
 
-    setPages(newPages);
+    return newPages;
   }
 
   function paginate(page: number) {

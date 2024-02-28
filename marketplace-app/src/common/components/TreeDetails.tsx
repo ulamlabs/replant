@@ -26,7 +26,7 @@ export function TreeDetails({ tree }: TreeDetailsProps) {
         <ReadOnlyField label={fmtMsg('country')} value={tree.country} />
         <ReadOnlyField
           label={fmtMsg('location')}
-          value={`${tree.latitude} ${tree.longitude}`}
+          value={`${tree.latitude}, ${tree.longitude}`}
         />
         <ReadOnlyField label={fmtMsg('captureDate')} value={tree.created_at} />
         <ReadOnlyField label={fmtMsg('sponsoredBy')} value={tree.sponsor} />

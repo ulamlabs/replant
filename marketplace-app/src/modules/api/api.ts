@@ -14,7 +14,7 @@ export function getTrees(params: GetTreesParams) {
 }
 
 export type AutocompleteSponsorsParams = {
-  query?: string;
+  search?: string;
 };
 export function autocompleteSponsors(params: AutocompleteSponsorsParams) {
   return get<Paginated<SponsorSimple>>('sponsors/', {

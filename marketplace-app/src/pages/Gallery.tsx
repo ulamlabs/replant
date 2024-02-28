@@ -46,7 +46,7 @@ export function Gallery() {
               </h3>
             )}
             <TreesGrid trees={trees?.results} />
-            {trees?.count === 0 && <p>No trees</p>}
+            {trees?.count === 0 && <p>{fmtMsg('noTrees')}</p>}
           </div>
           <div className='flex justify-center'>
             <Pagination

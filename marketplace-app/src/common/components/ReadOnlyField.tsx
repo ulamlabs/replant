@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 type ReadOnlyFieldProps = {
   label: string;
-  value: string | ReactElement;
+  value: ReactNode;
 };
 
 export function ReadOnlyField({ label, value }: ReadOnlyFieldProps) {

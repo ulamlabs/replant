@@ -22,7 +22,7 @@ export function SponsorSearchBox(props: SponsorSearchBoxProps) {
 
   const { data: sponsors } = useQuery({
     queryKey: ['sponsors', debouncedSearchTerm],
-    queryFn: () => autocompleteSponsors({ query: debouncedSearchTerm }),
+    queryFn: () => autocompleteSponsors({ search: debouncedSearchTerm }),
     enabled: focused,
   });
 
