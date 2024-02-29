@@ -68,3 +68,10 @@ class TreeAdmin(TrackableModelAdmin):
         self, request: HttpRequest, obj: Tree | None = None
     ) -> bool:
         return False
+
+    def get_queryset(self, request: HttpRequest):
+        return (
+            super()
+            .get_queryset(request)
+            .select_related("species", "sponsor", "created_by")
+        )
