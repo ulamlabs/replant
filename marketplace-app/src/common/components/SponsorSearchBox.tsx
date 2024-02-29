@@ -1,39 +1,40 @@
 import { useQuery } from '@tanstack/react-query';
 import { useClickAway, useDebounce } from '@uidotdev/usehooks';
-import { searchOrganization } from 'fixtures';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
 import { Menu } from './Menu';
 import { MenuItem } from './MenuItem';
 import { IconSearch } from './icons/IconSearch';
 import { IconX } from './icons/IconX';
+import { autocompleteSponsors } from 'modules/api/api';
+import { SponsorSimple } from 'types';
 
-type OrganizationSearchBoxProps = {
-  onSearch: (organizationName: string) => void;
+type SponsorSearchBoxProps = {
+  onSearch: (sponsor: SponsorSimple | null) => void;
 };
 
-export function OrganizationSearchBox(props: OrganizationSearchBoxProps) {
+export function SponsorSearchBox(props: SponsorSearchBoxProps) {
   const fmtMsg = useFmtMsg();
   const [searchTerm, setSearchTerm] = useState('');
   const [focused, setFocused] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const ref = useClickAway<HTMLDivElement>(() => setFocused(false));
 
-  const { data: organizations } = useQuery({
-    queryKey: ['organizations', debouncedSearchTerm],
-    queryFn: () => searchOrganization(debouncedSearchTerm),
+  const { data: sponsors } = useQuery({
+    queryKey: ['sponsors', debouncedSearchTerm],
+    queryFn: () => autocompleteSponsors({ search: debouncedSearchTerm }),
     enabled: focused,
   });
 
-  function select(org: string) {
-    setSearchTerm(org);
+  function select(sponsor: SponsorSimple) {
+    setSearchTerm(sponsor.name);
     setFocused(false);
-    props.onSearch(org);
+    props.onSearch(sponsor);
   }
 
   function onChange(value: string) {
     setSearchTerm(value);
-    props.onSearch('');
+    props.onSearch(null);
   }
 
   return (
@@ -53,11 +54,11 @@ export function OrganizationSearchBox(props: OrganizationSearchBoxProps) {
         {searchTerm ? <IconX className='cursor-pointer' /> : <IconSearch />}
       </div>
 
-      {focused && organizations?.length ? (
+      {focused && sponsors?.results?.length ? (
         <Menu>
-          {organizations.map((org) => (
-            <MenuItem onSelect={() => select(org)} key={org}>
-              {org}
+          {sponsors.results.map((sponsor) => (
+            <MenuItem onSelect={() => select(sponsor)} key={sponsor.id}>
+              {sponsor.name}
             </MenuItem>
           ))}
         </Menu>

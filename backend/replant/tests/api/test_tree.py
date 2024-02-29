@@ -10,6 +10,7 @@ from rest_framework.test import APIClient
 from time_machine import TimeMachineFixture
 
 from replant.models import AssignedSpecies, Species, Tree, User
+from replant.tests import matchers
 
 
 def test_list_trees_ok(
@@ -22,7 +23,7 @@ def test_list_trees_ok(
         common_name="Jackfruit",
         botanical_name="Artocarpus heterophyllus",
     )
-    baker.make(
+    tree_a = baker.make(
         Tree,
         image="c8302c9252744cdc831c45fea17ce36b.jpeg",
         latitude="-1.422354",
@@ -33,7 +34,7 @@ def test_list_trees_ok(
         created_by=user,
     )
     time.shift(timedelta(seconds=1))
-    baker.make(
+    tree_b = baker.make(
         Tree,
         image="bf5435a8b61946d78fbf8e5ef2f24859.jpeg",
         latitude="-2.422354",
@@ -53,7 +54,7 @@ def test_list_trees_ok(
         "previous": None,
         "results": [
             {
-                "id": 2,
+                "id": tree_b.id,
                 "species": {
                     "common_name": "Jackfruit",
                     "botanical_name": "Artocarpus heterophyllus",
@@ -66,7 +67,7 @@ def test_list_trees_ok(
                 "created_at": "2024-01-01T00:00:01Z",
             },
             {
-                "id": 1,
+                "id": tree_a.id,
                 "species": {
                     "common_name": "Jackfruit",
                     "botanical_name": "Artocarpus heterophyllus",
@@ -129,7 +130,7 @@ def test_create_tree_ok(
         common_name="Jackfruit",
         botanical_name="Artocarpus heterophyllus",
     )
-    baker.make(
+    assigned_jackfruit = baker.make(
         AssignedSpecies,
         planting_organization=user.planting_organization,
         country=user.country,
@@ -138,7 +139,7 @@ def test_create_tree_ok(
         planting_cost_usd=D("1"),
     )
     data = {
-        "assigned_species_id": 1,
+        "assigned_species_id": assigned_jackfruit.id,
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
@@ -148,7 +149,7 @@ def test_create_tree_ok(
 
     assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == {
-        "id": 1,
+        "id": matchers.Any(int),
         "species": {
             "common_name": "Jackfruit",
             "botanical_name": "Artocarpus heterophyllus",
@@ -178,7 +179,7 @@ def test_create_tree_assigned_species_doesnt_exists(
     image: SimpleUploadedFile,
 ):
     data = {
-        "assigned_species_id": 1,
+        "assigned_species_id": 9999999,
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
@@ -208,7 +209,7 @@ def test_create_tree_different_planting_organization(
         species=jackfruit,
     )
     data = {
-        "assigned_species_id": 1,
+        "assigned_species_id": 9999999,
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
@@ -239,7 +240,7 @@ def test_create_tree_different_country(
         species=jackfruit,
     )
     data = {
-        "assigned_species_id": 1,
+        "assigned_species_id": 9999999,
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",

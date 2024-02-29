@@ -19,13 +19,13 @@ def test_list_species_ok(
         common_name="Guava",
         botanical_name="Psidium guajava",
     )
-    baker.make(
+    assigned_jackfruit = baker.make(
         AssignedSpecies,
         planting_organization=user.planting_organization,
         country=user.country,
         species=jackfruit,
     )
-    baker.make(
+    assigned_guava = baker.make(
         AssignedSpecies,
         planting_organization=user.planting_organization,
         country=user.country,
@@ -37,14 +37,14 @@ def test_list_species_ok(
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == [
         {
-            "id": 2,
+            "id": assigned_guava.id,
             "species": {
                 "common_name": "Guava",
                 "botanical_name": "Psidium guajava",
             },
         },
         {
-            "id": 1,
+            "id": assigned_jackfruit.id,
             "species": {
                 "common_name": "Jackfruit",
                 "botanical_name": "Artocarpus heterophyllus",

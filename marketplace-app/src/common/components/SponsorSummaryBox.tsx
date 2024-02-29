@@ -1,12 +1,12 @@
 import { ReactElement } from 'react';
 
-type OrganizationSummaryBoxProps = {
+type SponsorSummaryBoxProps = {
   icon: ReactElement;
   value: string | number;
   label: string | number;
 };
 
-export function OrganizationSummaryBox(props: OrganizationSummaryBoxProps) {
+export function SponsorSummaryBox(props: SponsorSummaryBoxProps) {
   return (
     <div className='flex items-center gap-5 rounded-2xl bg-teal-300 dark:bg-teal-700 px-8 py-3 text-green-400 dark:text-green-300 w-full'>
       {props.icon}

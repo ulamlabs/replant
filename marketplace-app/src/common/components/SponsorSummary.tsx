@@ -1,35 +1,34 @@
 import { useQuery } from '@tanstack/react-query';
-import { getOrganizationSummary } from 'fixtures';
 import { useFmtMsg } from 'modules/intl';
-import { OrganizationSummaryBox } from './OrganizationSummaryBox';
+import { SponsorSummaryBox } from './SponsorSummaryBox';
 import { IconCoin } from './icons/IconCoin';
 import { IconLeaf } from './icons/IconLeaf';
-import { IconOrganization } from './icons/IconOrganization';
+import { IconSponsor } from './icons/IconSponsor';
 import { IconTree } from './icons/IconTree';
+import { SponsorSimple } from 'types';
+import { getSponsor } from 'modules/api/api';
 
-type OrganizationSummaryProps = {
-  organization: string;
+type SponsorSummaryProps = {
+  sponsor: SponsorSimple;
 };
 
-export function OrganizationSummary({
-  organization,
-}: OrganizationSummaryProps) {
+export function SponsorSummary({ sponsor: sponsor }: SponsorSummaryProps) {
   const fmtMsg = useFmtMsg();
 
   const { data } = useQuery({
-    queryKey: ['organizationSummary', organization],
-    queryFn: () => getOrganizationSummary(organization),
+    queryKey: ['sponsorDetails', sponsor],
+    queryFn: () => getSponsor(sponsor.id),
   });
 
   return (
     <div>
       <div className='flex gap-3 items-center mb-4'>
-        <IconOrganization className='w-6' />
-        <h2 className='text-2xl font-bold'>{organization}</h2>
+        <IconSponsor className='w-6' />
+        <h2 className='text-2xl font-bold'>{sponsor.name}</h2>
       </div>
       {data ? (
         <div className='flex flex-col sm:flex-row gap-5 w-full'>
-          <OrganizationSummaryBox
+          <SponsorSummaryBox
             icon={
               <IconTree
                 className='w-8 h-8 fill-green-400 dark:fill-green-300'
@@ -37,9 +36,9 @@ export function OrganizationSummary({
               />
             }
             label={fmtMsg('sponsoredTrees')}
-            value={data?.plants}
+            value={data?.trees}
           />
-          <OrganizationSummaryBox
+          <SponsorSummaryBox
             icon={
               <IconLeaf
                 className='w-8 h-8 fill-green-400 dark:fill-green-300'
@@ -49,7 +48,7 @@ export function OrganizationSummary({
             label={fmtMsg('speciesOfTrees')}
             value={data?.species}
           />
-          <OrganizationSummaryBox
+          <SponsorSummaryBox
             icon={
               <IconCoin
                 className='w-8 h-8 fill-green-400 dark:fill-green-300'
@@ -57,7 +56,7 @@ export function OrganizationSummary({
               />
             }
             label={fmtMsg('sponsoredTreesValues')}
-            value={`${data.totalPlantsCostUsd.toLocaleString()} USD`}
+            value={`${Number(data.total_trees_cost_usd).toLocaleString()} USD`}
           />
         </div>
       ) : null}
