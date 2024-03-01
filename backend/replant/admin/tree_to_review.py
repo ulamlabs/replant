@@ -17,7 +17,7 @@ CHOICES = (
 
 class TreeToReviewForm(forms.ModelForm):
     rejection_reason = forms.CharField(
-        widget=forms.Textarea({"cols": "20"}), required=False
+        widget=forms.Textarea({"cols": "13", "rows": "8"}), required=False
     )
     review_state = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
 
@@ -85,15 +85,14 @@ class TreeToReviewForm(forms.ModelForm):
 
 @admin.register(TreeToReview)
 class TreeToReviewAdmin(TrackableModelAdmin):
-    list_display_links = ("id", "image_tag")
+    list_display_links = ("image_tag",)
     list_display = (
         "image_tag",
-        "id",
         "species",
         "planting_organization",
         "country",
         "created_by",
-        "created_at",
+        "created_at_date",
         "rejection_reason",
         "review_state",
     )
@@ -138,6 +137,10 @@ class TreeToReviewAdmin(TrackableModelAdmin):
 
     def image_tag(self, obj: TreeToReview):
         return format_html('<img class="image-tag" src="{}" />', obj.image.url)
+
+    @admin.display(description="created at", ordering="created_at__date")
+    def created_at_date(self, obj: TreeToReview):
+        return obj.created_at.date()
 
     def has_add_permission(self, request: HttpRequest) -> bool:
         return False
