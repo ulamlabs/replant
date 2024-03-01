@@ -2,11 +2,7 @@ TAG ?= $(shell git symbolic-ref --short -q HEAD | tr '/' '-' | tr '\' '-')-$(she
 
 ENV ?= dev
 
-ifeq ($(ENV), prod)
 REGISTRY = registry.digitalocean.com/replant-world-prod
-else
-REGISTRY = registry.digitalocean.com/ulam-replant-dev
-endif
 
 BACKEND_IMAGE_NAME = replant-backend
 BACKEND_IMAGE_TAGGED = $(REGISTRY)/$(BACKEND_IMAGE_NAME):$(TAG)
