@@ -4,12 +4,12 @@
 
 replicaCount: 1
 env: dev
-contactEmail: katarzyna@ulam.io
+contactEmail: support@replant.world
 appDomain: dev.app.replantworld.ulam.pro
 marketplaceDomain: dev.marketplace.replantworld.ulam.pro
 
 image:
-  registry: registry.digitalocean.com/ulam-replant-dev
+  registry: registry.digitalocean.com/replant-world-prod
   backend: replant-backend
   uploadApp: replant-upload-app
   marketplaceApp: replant-marketplace-app
