@@ -12,10 +12,9 @@ export const NotFoundPage: React.FC = () => {
     <Layout>
       <Section
         actions={
-          <Button
-            text={fmtMsg('goToDashboard')}
-            onClick={() => navigate('/')}
-          />
+          <Button onClick={() => navigate('/')}>
+            {fmtMsg('goToDashboard')}
+          </Button>
         }
       >
         <div className='space-y-5'>

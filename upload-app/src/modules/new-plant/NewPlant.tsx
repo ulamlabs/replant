@@ -80,9 +80,10 @@ export const NewPlant: React.FC = () => {
         <Button
           disabled={plantsMutation.isPending || !species?.length}
           isLoading={plantsMutation.isPending}
-          text={fmtMsg('submit')}
           onClick={submit}
-        />
+        >
+          {fmtMsg('submit')}
+        </Button>
       }
     >
       <div className='space-y-5'>

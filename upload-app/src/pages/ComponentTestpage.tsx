@@ -18,20 +18,19 @@ export const ComponentTestpage: React.FC = () => {
       <div className='flex flex-col gap-3'>
         <Alert text={'Test error alert'} severity={'error'} />
         <Alert text={'Test success alert'} severity={'success'} />
-        <Button text={'Test xl primary'} onClick={() => {}} />
-        <Button isLoading text={'Test xl primary load'} onClick={() => {}} />
-        <Button
-          text={'Test xl secondary'}
-          type='secondary'
-          onClick={() => {}}
-        />
-        <Button size={'sm'} text={'Test sm primary'} onClick={() => {}} />
-        <Button
-          size={'sm'}
-          text={'Test sm secondary'}
-          type='secondary'
-          onClick={() => {}}
-        />
+        <Button onClick={() => {}}>Test xl primary</Button>
+        <Button isLoading onClick={() => {}}>
+          Test xl primary load
+        </Button>
+        <Button type='secondary' onClick={() => {}}>
+          Test xl secondary
+        </Button>
+        <Button size={'sm'} onClick={() => {}}>
+          Test sm primary
+        </Button>
+        <Button size={'sm'} type='secondary' onClick={() => {}}>
+          Test sm secondary
+        </Button>
         <Input
           label={'Header test'}
           placeholder={'Test placeholder'}
