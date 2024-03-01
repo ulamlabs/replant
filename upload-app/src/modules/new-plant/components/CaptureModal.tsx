@@ -109,7 +109,7 @@ export const CaptureModal: React.FC = () => {
             />
             <canvas
               className={clsx(
-                'rounded-lg w-full aspect-3/4',
+                'rounded-lg w-full',
                 (store.isCameraLoading || !store.tmpImage) && 'hidden'
               )}
               ref={canvasRef}
