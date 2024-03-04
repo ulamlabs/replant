@@ -1,9 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-// if port is given in origin, assume it's local dev env, and replace app port with api port
-const baseURL = window.location.origin.replace(/:\d+/, ':8001');
-
-export const apiBaseURL = baseURL + '/api';
+export let apiBaseURL = import.meta.env.VITE_API_URL;
+if (!apiBaseURL) {
+  // if port is given in origin, assume it's local dev env, and replace app port with api port
+  const baseURL = window.location.origin.replace(/:\d+/, ':8001');
+  apiBaseURL = baseURL + '/api';
+}
 
 export const api = axios.create({
   baseURL: apiBaseURL,
