@@ -39,7 +39,7 @@ if env.ENV == "local":
         "http://127.0.0.1:5174",
     ]
 else:
-    CORS_ALLOWED_ORIGINS = [env.UPLOAD_APP_URL]
+    CORS_ALLOWED_ORIGINS = [env.UPLOAD_APP_URL, env.MARKETPLACE_APP_URL]
 
 CSRF_TRUSTED_ORIGINS = [*CORS_ALLOWED_ORIGINS]
 

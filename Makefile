@@ -4,6 +4,12 @@ ENV ?= dev
 
 REGISTRY = registry.digitalocean.com/replant-world-prod
 
+ifeq ($(ENV), prod)
+VITE_API_URL = https://app.replantworld.io/api/
+else
+VITE_API_URL = https://dev.app.replantworld.ulam.pro/api/
+endif
+
 BACKEND_IMAGE_NAME = replant-backend
 BACKEND_IMAGE_TAGGED = $(REGISTRY)/$(BACKEND_IMAGE_NAME):$(TAG)
 UPLOAD_APP_IMAGE_NAME = replant-upload-app
@@ -31,6 +37,7 @@ upload-app:		## Build upload app Docker image
 
 marketplace-app:		## Build marketplace app Docker image
 	docker build marketplace-app \
+		--build-arg VITE_API_URL=$(VITE_API_URL) \
 		--tag $(MARKETPLACE_APP_IMAGE_NAME) \
 		--tag $(MARKETPLACE_APP_IMAGE_TAGGED)
 
