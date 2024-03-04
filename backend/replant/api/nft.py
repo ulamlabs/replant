@@ -49,7 +49,7 @@ class NftView(generics.ListAPIView):
         "created_by",
         "planting_organization",
         "sponsor",
-    ).order_by("nft_id")
+    ).order_by("-nft_id")
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["sponsor"]
