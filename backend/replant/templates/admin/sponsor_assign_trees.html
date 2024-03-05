@@ -56,6 +56,15 @@
                 </span>
                 {% endif %}
               </div>
+              <div>
+                [USD] {{sponsor.assigned_trees_usd}} /
+                {{sponsor.nft_ordered_usd}} {% if sponsor.trees_given %}<span
+                  class="green"
+                >
+                  <b>+{{sponsor.trees_given_usd}}</b>
+                </span>
+                {% endif %}
+              </div>
               <div><b>Trees left {{sponsor.trees_to_assign}}</b></div>
             </li>
             {% endfor %}

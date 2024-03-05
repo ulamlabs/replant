@@ -94,7 +94,9 @@ class SponsorAdmin(TrackableModelAdmin):
         "wallet_address",
         "contact_person_email",
         "nft_ordered",
+        "nft_ordered_usd",
         "assigned_trees",
+        "assigned_trees_usd",
         "created_at",
     )
     search_fields = (
@@ -115,6 +117,7 @@ class SponsorAdmin(TrackableModelAdmin):
         "contact_person_full_name",
         "contact_person_email",
         "nft_ordered",
+        "nft_ordered_usd",
         "assigned_trees",
         "created_at",
         "updated_at",
@@ -165,7 +168,9 @@ class SponsorAdmin(TrackableModelAdmin):
         trees_per_sponsor: dict[Sponsor, list[Tree]] = {}
 
         non_eligible_sponsors = [
-            sponsor for sponsor in sponsors if sponsor.trees_to_assign <= 0
+            sponsor
+            for sponsor in sponsors
+            if not sponsor.is_eligible_to_trees_assignment
         ]
         if non_eligible_sponsors:
             messages.warning(
@@ -225,8 +230,16 @@ class SponsorAdmin(TrackableModelAdmin):
                 "name": sponsor.name,
                 "assigned_trees": sponsor.assigned_trees,
                 "nft_ordered": sponsor.nft_ordered,
+                "assigned_trees_usd": format_usd(sponsor.assigned_trees_usd),
+                "nft_ordered_usd": format_usd(sponsor.nft_ordered_usd),
                 "trees_to_assign": sponsor.trees_to_assign,
                 "trees_given": len(trees_per_sponsor.get(sponsor, [])),
+                "trees_given_usd": format_usd(
+                    sum(
+                        tree.planting_cost_usd
+                        for tree in trees_per_sponsor.get(sponsor, [])
+                    )
+                ),
             }
             for sponsor in sponsors
         ]
@@ -258,7 +271,7 @@ class SponsorAdmin(TrackableModelAdmin):
 def simulate_trees_distribution(
     sponsors: list[Sponsor],
     trees: list[Tree],
-    max_total_tree_cost: D | None,
+    max_total_tree_cost: D | None = None,
 ) -> dict[Sponsor, list[Tree]]:
     sponsors = [sponsor for sponsor in sponsors if sponsor.trees_to_assign > 0]
     if not sponsors:
@@ -267,6 +280,7 @@ def simulate_trees_distribution(
     trees_per_sponsor: dict[Sponsor, list[Tree]] = defaultdict(list)
     total_cost = D(0)
     sponsors_cycle = itertools.cycle(sponsors)
+    trees = list(trees)  # don't mutate original list
 
     while trees:
         sponsor = next(sponsors_cycle)
@@ -276,16 +290,34 @@ def simulate_trees_distribution(
         if max_total_tree_cost and total_cost > max_total_tree_cost:
             return trees_per_sponsor
 
-        trees_per_sponsor[sponsor].append(tree)
-        sponsor.assigned_trees += 1
+        if sponsor.nft_ordered_usd:
+            if tree.planting_cost_usd > sponsor.trees_to_assign_usd:
+                sponsor = find_sponsor_for_tree(tree, sponsors)
+                if sponsor is None:
+                    # Ignore the tree
+                    continue
 
-        if sponsor.trees_to_assign <= 0:
+        sponsor.assigned_trees_usd += tree.planting_cost_usd
+
+        sponsor.assigned_trees += 1
+        trees_per_sponsor[sponsor].append(tree)
+
+        if sponsor.trees_to_assign <= 0 or (
+            sponsor.nft_ordered_usd and sponsor.trees_to_assign_usd <= 0
+        ):
             sponsors.remove(sponsor)
             if not sponsors:
                 return trees_per_sponsor
             sponsors_cycle = itertools.cycle(sponsors)
 
     return trees_per_sponsor
+
+
+def find_sponsor_for_tree(tree: Tree, sponsors: list[Sponsor]):
+    for sponsor in sponsors:
+        if tree.planting_cost_usd <= sponsor.trees_to_assign_usd:
+            return sponsor
+    return None
 
 
 @transaction.atomic
@@ -295,4 +327,8 @@ def assign_trees(trees_per_sponsor: dict[Sponsor, list[Tree]]):
         Tree.objects.only_awaiting_sponsor().filter(id__in=tree_ids).update(
             sponsor=sponsor
         )
-        sponsor.save(update_fields=["assigned_trees"])
+        sponsor.save(update_fields=["assigned_trees", "assigned_trees_usd"])
+
+
+def format_usd(amount: D) -> str:
+    return f"${amount:,.2f}"
