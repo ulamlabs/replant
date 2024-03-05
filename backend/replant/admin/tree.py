@@ -2,6 +2,7 @@ from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 from django.http.request import HttpRequest
 from django.utils.html import format_html
+from rangefilter.filters import DateRangeFilterBuilder
 
 from replant.models import Tree
 
@@ -44,7 +45,9 @@ class TreeAdmin(TrackableModelAdmin):
     )
 
     list_filter = [
+        ("created_at", DateRangeFilterBuilder(title="By Created at")),
         AutocompleteFilterFactory(title="Sponsor", base_parameter_name="sponsor"),
+        AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
         "review_state",
         "minting_state",
     ]
@@ -72,3 +75,10 @@ class TreeAdmin(TrackableModelAdmin):
         self, request: HttpRequest, obj: Tree | None = None
     ) -> bool:
         return False
+
+    def get_queryset(self, request: HttpRequest):
+        return (
+            super()
+            .get_queryset(request)
+            .select_related("species", "sponsor", "created_by")
+        )

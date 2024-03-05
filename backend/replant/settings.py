@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_filters",
     "admin_auto_filters",
+    "rangefilter",
     # Project apps
     "replant",
 ]
