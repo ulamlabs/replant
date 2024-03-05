@@ -105,6 +105,7 @@ class TreeToReviewAdmin(TrackableModelAdmin):
     list_per_page = 10
     list_max_show_all = 0
     list_filter = (
+        ("created_at", DateRangeFilterBuilder(title="By Created at")),
         AutocompleteFilterFactory(title="Species", base_parameter_name="species"),
         AutocompleteFilterFactory(
             title="Planting organization / community",
@@ -112,8 +113,8 @@ class TreeToReviewAdmin(TrackableModelAdmin):
         ),
         AutocompleteFilterFactory(title="Country", base_parameter_name="country"),
         AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
-        ("created_at", DateRangeFilterBuilder(title="By Created at")),
     )
+    show_facets = False
 
     fields = (
         "id",

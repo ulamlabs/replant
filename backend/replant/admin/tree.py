@@ -45,11 +45,11 @@ class TreeAdmin(TrackableModelAdmin):
     )
 
     list_filter = [
+        ("created_at", DateRangeFilterBuilder(title="By Created at")),
         AutocompleteFilterFactory(title="Sponsor", base_parameter_name="sponsor"),
+        AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
         "review_state",
         "minting_state",
-        AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
-        ("created_at", DateRangeFilterBuilder(title="By Created at")),
     ]
 
     def image_tag(self, obj: Tree):
