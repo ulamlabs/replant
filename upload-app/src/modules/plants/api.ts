@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
+import { saveNewPlant } from 'modules/offline-db';
 import { NewPlant, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;
@@ -49,12 +50,26 @@ export const usePlantsSummary = () =>
 export const usePlantsMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<AxiosResponse<Plant>, AxiosError, NewPlant>({
+  return useMutation<
+    { response?: AxiosResponse<Plant>; onLine: boolean },
+    AxiosError,
+    NewPlant
+  >({
     mutationKey: postPlantsQueryKey,
-    mutationFn: (payload) => postPlants(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['GET', plantsUrl] }); // invalidates all plants queries
+    mutationFn: async (payload) => {
+      if (window.navigator.onLine) {
+        const response = await postPlants(payload);
+        return { response, onLine: true };
+      }
+      await saveNewPlant(payload);
+      return { onLine: false };
     },
+    onSuccess: (data) => {
+      if (data.onLine) {
+        queryClient.invalidateQueries({ queryKey: ['GET', plantsUrl] }); // invalidates all plants queries
+      }
+    },
+    networkMode: 'always',
   });
 };
 
