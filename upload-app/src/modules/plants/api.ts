@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { saveNewPlant } from 'modules/offline-db';
+import { saveNewPlant } from 'modules/offline';
 import { NewPlant, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;

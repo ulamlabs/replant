@@ -31,6 +31,9 @@ export const CaptureModal: React.FC = () => {
       },
       (error) => {
         console.log(error);
+      },
+      {
+        timeout: 10000,
       }
     );
   };

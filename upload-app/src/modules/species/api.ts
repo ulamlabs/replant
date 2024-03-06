@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'modules/api';
-import { loadAssignedSpecies, saveAssignedSpecies } from 'modules/offline-db';
+import { loadAssignedSpecies, saveAssignedSpecies } from 'modules/offline';
 import { AssignedSpecies } from './types';
 
 export type AssignedSpeciesResponseData = AssignedSpecies[];

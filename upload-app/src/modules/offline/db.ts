@@ -1,6 +1,13 @@
 import { DBSchema, openDB } from 'idb';
 import { NewPlant } from 'modules/plants';
 import { AssignedSpeciesResponseData } from 'modules/species';
+import { v4 as getId } from 'uuid';
+
+export type OfflinePlant = {
+  id: string;
+  capturedAt: string;
+  plant: NewPlant;
+};
 
 interface RwDbSchema extends DBSchema {
   assignedSpecies: {
@@ -9,7 +16,7 @@ interface RwDbSchema extends DBSchema {
   };
   plants: {
     key: number;
-    value: NewPlant;
+    value: OfflinePlant;
   };
 }
 
@@ -23,7 +30,7 @@ export const openDb = async () => {
       }
       if (!db.objectStoreNames.contains('plants')) {
         db.createObjectStore('plants', {
-          autoIncrement: true,
+          keyPath: 'id',
         });
       }
     },
@@ -56,7 +63,12 @@ export const saveNewPlant = async (plant: NewPlant) => {
   const db = await openDb();
   try {
     const tx = db.transaction('plants', 'readwrite');
-    await Promise.all([tx.store.add(plant), tx.done]);
+    const obj = {
+      capturedAt: new Date().toISOString(),
+      id: getId(),
+      plant,
+    };
+    await Promise.all([tx.store.add(obj), tx.done]);
   } catch (e) {
     console.log('Db new plant save error', e);
   }
@@ -68,5 +80,14 @@ export const loadNewPlants = async () => {
     return db.getAll('plants');
   } catch (e) {
     console.log('Db new plant load error', e);
+  }
+};
+
+export const getNewPlantsTotalCount = async () => {
+  const db = await openDb();
+  try {
+    return db.count('plants');
+  } catch (e) {
+    console.log('Db new plants total count error', e);
   }
 };
