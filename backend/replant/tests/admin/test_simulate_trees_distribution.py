@@ -32,7 +32,7 @@ def test_simulate_trees_distribution_empty_data():
     assert result == {}
 
 
-def test_simulate_trees_distribution_single_sponsor_consume_all_trees():
+def test_simulate_trees_distribution_single_sponsor_quantity_consume_all_trees():
     sponsor = make_sponsor(nft_ordered=5)
     trees = [make_tree(), make_tree()]
 
@@ -43,7 +43,7 @@ def test_simulate_trees_distribution_single_sponsor_consume_all_trees():
     assert sponsor.assigned_trees_usd == D(0)
 
 
-def test_simulate_trees_distribution_single_sponsor_fulfill():
+def test_simulate_trees_distribution_single_sponsor_quantity_fulfill():
     sponsor = make_sponsor(nft_ordered=5)
     trees = [make_tree() for _ in range(10)]
 
@@ -54,26 +54,8 @@ def test_simulate_trees_distribution_single_sponsor_fulfill():
     assert sponsor.assigned_trees_usd == D(0)
 
 
-def test_simulate_trees_distribution_single_sponsor_limit_total_cost():
-    sponsor = make_sponsor(nft_ordered=5)
-    trees = [
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(5)),
-        make_tree(planting_cost_usd=D(1)),
-        make_tree(planting_cost_usd=D(2)),
-    ]
-
-    result = simulate_trees_distribution(
-        sponsors=[sponsor], trees=trees, max_total_tree_cost=D(10)
-    )
-
-    assert result == {sponsor: [trees[3], trees[2], trees[1]]}
-    assert sponsor.assigned_trees == 3
-    assert sponsor.assigned_trees_usd == D(8)
-
-
-def test_simulate_trees_distribution_single_sponsor_ordered_usd():
-    sponsor = make_sponsor(nft_ordered=5, nft_ordered_usd=D(10))
+def test_simulate_trees_distribution_single_sponsor_usd():
+    sponsor = make_sponsor(nft_ordered_usd=D(10))
     trees = [
         make_tree(planting_cost_usd=D(3)),
         make_tree(planting_cost_usd=D(5)),
@@ -87,24 +69,7 @@ def test_simulate_trees_distribution_single_sponsor_ordered_usd():
     assert sponsor.assigned_trees_usd == D(8)
 
 
-def test_simulate_trees_distribution_single_sponsor_ordered_usd_and_limit_total_cost():
-    sponsor = make_sponsor(nft_ordered=5, nft_ordered_usd=D(10))
-    trees = [
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(5)),
-        make_tree(planting_cost_usd=D(1)),
-        make_tree(planting_cost_usd=D(2)),
-    ]
-
-    result = simulate_trees_distribution(
-        sponsors=[sponsor], trees=trees, max_total_tree_cost=D(3)
-    )
-    assert result == {sponsor: [trees[3], trees[2]]}
-    assert sponsor.assigned_trees == 2
-    assert sponsor.assigned_trees_usd == D(3)
-
-
-def test_simulate_trees_distribution_two_sponsors_consume_all_trees():
+def test_simulate_trees_distribution_two_sponsors_quantity_consume_all_trees():
     sponsors = [
         make_sponsor(nft_ordered=5),
         make_sponsor(nft_ordered=3),
@@ -120,7 +85,7 @@ def test_simulate_trees_distribution_two_sponsors_consume_all_trees():
     assert sponsors[1].assigned_trees == 2
 
 
-def test_simulate_trees_distribution_two_sponsors_fullfil():
+def test_simulate_trees_distribution_two_sponsors_quantity_fullfil():
     sponsors = [
         make_sponsor(nft_ordered=5),
         make_sponsor(nft_ordered=3),
@@ -136,33 +101,10 @@ def test_simulate_trees_distribution_two_sponsors_fullfil():
     assert sponsors[1].assigned_trees == 3
 
 
-def test_simulate_trees_distribution_two_sponsors_limit_total_cost():
+def test_simulate_trees_distribution_two_sponsors_usd():
     sponsors = [
-        make_sponsor(nft_ordered=5),
-        make_sponsor(nft_ordered=3),
-    ]
-    trees = [
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(5)),
-        make_tree(planting_cost_usd=D(1)),
-        make_tree(planting_cost_usd=D(2)),
-    ]
-
-    result = simulate_trees_distribution(
-        sponsors=sponsors, trees=trees, max_total_tree_cost=D(10)
-    )
-    assert result == {
-        sponsors[0]: [trees[3], trees[1]],
-        sponsors[1]: [trees[2]],
-    }
-    assert sponsors[0].assigned_trees == 2
-    assert sponsors[1].assigned_trees == 1
-
-
-def test_simulate_trees_distribution_two_sponsors_ordered_usd():
-    sponsors = [
-        make_sponsor(nft_ordered=5, nft_ordered_usd=D(10)),
-        make_sponsor(nft_ordered=3, nft_ordered_usd=D(3)),
+        make_sponsor(nft_ordered_usd=D(10)),
+        make_sponsor(nft_ordered_usd=D(3)),
     ]
     trees = [
         make_tree(planting_cost_usd=D(3)),
@@ -182,8 +124,8 @@ def test_simulate_trees_distribution_two_sponsors_ordered_usd():
     assert sponsors[1].assigned_trees_usd == 1
 
 
-def test_simulate_trees_distribution_single_sponsor_skip_expensive_trees():
-    sponsor = make_sponsor(nft_ordered=3, nft_ordered_usd=D(10))
+def test_simulate_trees_distribution_single_sponsor_usd_skip_expensive_trees():
+    sponsor = make_sponsor(nft_ordered_usd=D(10))
     trees = [
         make_tree(planting_cost_usd=D(3)),
         make_tree(planting_cost_usd=D(20)),  # to be skipped
@@ -197,10 +139,10 @@ def test_simulate_trees_distribution_single_sponsor_skip_expensive_trees():
     assert sponsor.assigned_trees_usd == D(4)
 
 
-def test_simulate_trees_distribution_two_sponsors_skip_expensive_trees():
+def test_simulate_trees_distribution_two_sponsors_usd_skip_expensive_trees():
     sponsors = [
-        make_sponsor(nft_ordered=5, nft_ordered_usd=D(10)),
-        make_sponsor(nft_ordered=4, nft_ordered_usd=D(100)),
+        make_sponsor(nft_ordered_usd=D(10)),
+        make_sponsor(nft_ordered_usd=D(70)),
     ]
     trees = [
         make_tree(planting_cost_usd=D(20)),
@@ -216,4 +158,25 @@ def test_simulate_trees_distribution_two_sponsors_skip_expensive_trees():
     assert result == {
         sponsors[0]: [trees[1]],
         sponsors[1]: [trees[5], trees[4], trees[3], trees[2]],
+    }
+
+
+def test_simulate_trees_distribution_two_sponsors_mixed():
+    sponsors = [
+        make_sponsor(nft_ordered_usd=D(10)),
+        make_sponsor(nft_ordered=D(3)),
+    ]
+    trees = [
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(3)),
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(1)),
+        make_tree(planting_cost_usd=D(20)),
+    ]
+
+    result = simulate_trees_distribution(sponsors=sponsors, trees=trees)
+    assert result == {
+        sponsors[0]: [trees[1]],
+        sponsors[1]: [trees[5], trees[4], trees[3]],
     }

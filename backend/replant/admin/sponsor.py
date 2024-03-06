@@ -7,7 +7,6 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin.widgets import AutocompleteSelect
 from django.db import models, transaction
-from django.forms.renderers import DjangoTemplates
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
@@ -40,31 +39,17 @@ class SponsorNeedingTreesFilter(admin.SimpleListFilter):
             )
 
 
-class ReplantFormsRenderer(DjangoTemplates):
-    # Renders help text below input instead of above it.
-    field_template_name = "admin/form_field.html"
-
-
 class AssignTreesForm(forms.Form):
     class TreeFilter(models.TextChoices):
         ALL_TREES = auto()
         EXACT_COST = auto()
         MAX_COST = auto()
 
-    default_renderer = ReplantFormsRenderer
-
     organization = forms.ModelChoiceField(
         queryset=PlantingOrganization.objects.all(),
         widget=AutocompleteSelect(
             Tree._meta.get_field("planting_organization"), admin.site  # type:ignore
         ),
-    )
-
-    max_total_tree_cost = forms.DecimalField(
-        min_value=D(0),
-        required=False,
-        label="Max total cost of trees [USD]",
-        help_text="Uncapped when empty.",
     )
 
     tree_filter = forms.ChoiceField(
@@ -116,9 +101,11 @@ class SponsorAdmin(TrackableModelAdmin):
         "wallet_address",
         "contact_person_full_name",
         "contact_person_email",
+        "additional_info",
         "nft_ordered",
         "nft_ordered_usd",
         "assigned_trees",
+        "assigned_trees_usd",
         "created_at",
         "updated_at",
     )
@@ -126,6 +113,7 @@ class SponsorAdmin(TrackableModelAdmin):
         "created_at",
         "updated_at",
         "assigned_trees",
+        "assigned_trees_usd",
     )
 
     actions = ("assign_trees",)
@@ -163,7 +151,6 @@ class SponsorAdmin(TrackableModelAdmin):
         tree_filter = AssignTreesForm.TreeFilter.ALL_TREES
         exact_tree_cost = D(0)
         max_tree_cost = D(0)
-        max_total_tree_cost = D(0)
         organization: PlantingOrganization | None = None
         trees_per_sponsor: dict[Sponsor, list[Tree]] = {}
 
@@ -185,11 +172,11 @@ class SponsorAdmin(TrackableModelAdmin):
             if form.is_valid():
                 organization = form.cleaned_data["organization"]
                 tree_filter = form.cleaned_data.get("tree_filter")
-                max_total_tree_cost = form.cleaned_data.get("max_total_tree_cost")
                 assert organization
 
-                total_trees_to_assign = sum(
-                    sponsor.trees_to_assign for sponsor in sponsors
+                total_trees_to_assign = (
+                    sum(sponsor.trees_to_assign for sponsor in sponsors)
+                    or 10_000  # Limit the number of trees to fetch into memory.
                 )
 
                 trees_qs = Tree.objects.only_awaiting_sponsor().filter(
@@ -209,18 +196,22 @@ class SponsorAdmin(TrackableModelAdmin):
 
                 trees = list(trees_qs[:total_trees_to_assign])
 
-                trees_per_sponsor = simulate_trees_distribution(
-                    sponsors=sponsors,
-                    trees=trees,
-                    max_total_tree_cost=max_total_tree_cost,
-                )
-
-                if form.data.get("step2"):
-                    assign_trees(trees_per_sponsor)
-                    messages.success(
-                        request, "Trees successfully assigned to sponsores."
+                if not trees:
+                    messages.warning(
+                        request, "There are no trees matching provided criteria."
                     )
-                    return redirect("admin:replant_sponsor_changelist")
+                else:
+                    trees_per_sponsor = simulate_trees_distribution(
+                        sponsors=sponsors,
+                        trees=trees,
+                    )
+
+                    if form.data.get("step2"):
+                        assign_trees(trees_per_sponsor)
+                        messages.success(
+                            request, "Trees successfully assigned to sponsores."
+                        )
+                        return redirect("admin:replant_sponsor_changelist")
         else:
             form = AssignTreesForm()
 
@@ -228,6 +219,7 @@ class SponsorAdmin(TrackableModelAdmin):
             {
                 "id": sponsor.id,
                 "name": sponsor.name,
+                "additional_info": sponsor.additional_info,
                 "assigned_trees": sponsor.assigned_trees,
                 "nft_ordered": sponsor.nft_ordered,
                 "assigned_trees_usd": format_usd(sponsor.assigned_trees_usd),
@@ -257,7 +249,6 @@ class SponsorAdmin(TrackableModelAdmin):
                 "trees_count": organization_trees_count - total_assigned_trees,
                 "total_assigned_trees": total_assigned_trees,
                 "organization": organization,
-                "max_total_tree_cost": max_total_tree_cost,
                 "tree_filter": tree_filter,
                 "max_tree_cost": max_tree_cost,
                 "exact_tree_cost": exact_tree_cost,
@@ -271,24 +262,20 @@ class SponsorAdmin(TrackableModelAdmin):
 def simulate_trees_distribution(
     sponsors: list[Sponsor],
     trees: list[Tree],
-    max_total_tree_cost: D | None = None,
 ) -> dict[Sponsor, list[Tree]]:
-    sponsors = [sponsor for sponsor in sponsors if sponsor.trees_to_assign > 0]
+    sponsors = [
+        sponsor for sponsor in sponsors if sponsor.is_eligible_to_trees_assignment
+    ]
     if not sponsors:
         return {}
 
     trees_per_sponsor: dict[Sponsor, list[Tree]] = defaultdict(list)
-    total_cost = D(0)
     sponsors_cycle = itertools.cycle(sponsors)
     trees = list(trees)  # don't mutate original list
 
     while trees:
         sponsor = next(sponsors_cycle)
         tree = trees.pop()
-        total_cost += tree.planting_cost_usd
-
-        if max_total_tree_cost and total_cost > max_total_tree_cost:
-            return trees_per_sponsor
 
         if sponsor.nft_ordered_usd:
             if tree.planting_cost_usd > sponsor.trees_to_assign_usd:
@@ -298,13 +285,11 @@ def simulate_trees_distribution(
                     continue
 
         sponsor.assigned_trees_usd += tree.planting_cost_usd
-
         sponsor.assigned_trees += 1
+
         trees_per_sponsor[sponsor].append(tree)
 
-        if sponsor.trees_to_assign <= 0 or (
-            sponsor.nft_ordered_usd and sponsor.trees_to_assign_usd <= 0
-        ):
+        if not sponsor.is_eligible_to_trees_assignment:
             sponsors.remove(sponsor)
             if not sponsors:
                 return trees_per_sponsor
@@ -315,7 +300,7 @@ def simulate_trees_distribution(
 
 def find_sponsor_for_tree(tree: Tree, sponsors: list[Sponsor]):
     for sponsor in sponsors:
-        if tree.planting_cost_usd <= sponsor.trees_to_assign_usd:
+        if tree.planting_cost_usd <= sponsor.trees_to_assign_usd or sponsor.nft_ordered:
             return sponsor
     return None
 

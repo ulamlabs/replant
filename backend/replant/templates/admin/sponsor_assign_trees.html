@@ -27,6 +27,11 @@
   fieldset {
     margin-top: 10px;
   }
+  .sponsor:not(:last-child) {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
 </style>
 {{ form.media }}
 {% endblock %}
@@ -43,7 +48,7 @@
         <div class="readonly">
           <ul>
             {% for sponsor in sponsors %}
-            <li>
+            <li class="sponsor">
               <a href="{% url 'admin:replant_sponsor_change' sponsor.id %}">
                 {{ sponsor.name }}
               </a>
@@ -66,6 +71,10 @@
                 {% endif %}
               </div>
               <div><b>Trees left {{sponsor.trees_to_assign}}</b></div>
+
+              {% if sponsor.additional_info %}
+                <p>{{sponsor.additional_info|linebreaks}}</p>
+              {% endif %}
             </li>
             {% endfor %}
           </ul>
@@ -93,9 +102,6 @@
       <input type="hidden" name="step2" value="1" />
       <input type="hidden" name="organization" value="{{organization.id}}" />
       <input type="hidden" name="tree_filter" value="{{tree_filter}}" />
-      {% if max_total_tree_cost %}
-        <input type="hidden" name="max_total_tree_cost" value="{{max_total_tree_cost}}" />
-      {% endif %}
       {% if max_tree_cost %}
         <input type="hidden" name="max_tree_cost" value="{{max_tree_cost}}" />
       {% endif %}
