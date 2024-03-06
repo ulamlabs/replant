@@ -10,17 +10,22 @@ const assignedSpeciesUrl = '/assigned-species';
 export const assignedSpeciesQueryKey = ['GET', assignedSpeciesUrl] as const;
 
 const getAssignedSpecies = async () => {
+  const response = await get<AssignedSpeciesResponseData>(assignedSpeciesUrl);
+  return response.data;
+};
+
+const getAssignedSpeciesOrLoadFromDb = async () => {
   if (window.navigator.onLine) {
-    const response = await get<AssignedSpeciesResponseData>(assignedSpeciesUrl);
-    await saveAssignedSpecies(response.data);
-    return response.data;
+    const species = await getAssignedSpecies();
+    await saveAssignedSpecies(species);
+    return species;
   }
   return await loadAssignedSpecies();
 };
 
 export const useSpecies = () =>
   useQuery({
-    queryFn: getAssignedSpecies,
+    queryFn: getAssignedSpeciesOrLoadFromDb,
     queryKey: assignedSpeciesQueryKey,
     networkMode: 'always',
   });

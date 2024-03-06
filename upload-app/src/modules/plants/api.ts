@@ -35,6 +35,15 @@ const getPlantsSummary = async () => {
 const postPlants = (payload: NewPlant) =>
   post<Plant, NewPlant>(plantsUrl, payload);
 
+const postPlantsOrSaveToDb = async (payload: NewPlant) => {
+  if (window.navigator.onLine) {
+    const response = await postPlants(payload);
+    return { response, onLine: true };
+  }
+  await saveNewPlant(payload);
+  return { onLine: false };
+};
+
 export const usePlants = (page: number) =>
   useQuery<Page<Plant>>({
     queryFn: () => getPlants(page),
@@ -56,17 +65,10 @@ export const usePlantsMutation = () => {
     NewPlant
   >({
     mutationKey: postPlantsQueryKey,
-    mutationFn: async (payload) => {
-      if (window.navigator.onLine) {
-        const response = await postPlants(payload);
-        return { response, onLine: true };
-      }
-      await saveNewPlant(payload);
-      return { onLine: false };
-    },
+    mutationFn: postPlantsOrSaveToDb,
     onSuccess: (data) => {
       if (data.onLine) {
-        queryClient.invalidateQueries({ queryKey: ['GET', plantsUrl] }); // invalidates all plants queries
+        queryClient.invalidateQueries({ queryKey: ['GET', plantsUrl] }); // invalidates all plants queries if uploaded to BE
       }
     },
     networkMode: 'always',
