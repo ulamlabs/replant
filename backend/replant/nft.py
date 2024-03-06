@@ -3,7 +3,8 @@ import itertools
 import json
 import logging
 import time
-from typing import Callable, Sequence
+import traceback
+from typing import Callable, Sequence, TypeVar
 
 from cosmpy.aerial.wallet import LocalWallet
 from django.db import models
@@ -11,7 +12,7 @@ from PIL import Image
 
 import env
 from replant.integrations import nft_storage
-from replant.models import Tree
+from replant.models import History, Tree
 from replant.sdk import CW721Client, MintInfo, get_sei_client
 
 logger = logging.getLogger(__name__)
@@ -48,10 +49,11 @@ def mint_scheduled_nfts():
 
     logger.info(f"Found {len(trees)} NFTs to be minted")
 
-    logger.info("Generating NFT ids...")
     _batch_operation(
+        action="Generating NFT IDs",
         func=_generate_nft_id,
         trees_to_batch=trees,
+        all_trees=trees,
         batch_size=GENERATE_ID_BATCH_SIZE,
     )
 
@@ -59,6 +61,7 @@ def mint_scheduled_nfts():
     trees_no_image_cid = [tree for tree in trees if not tree.image_cid]
     logger.info(f"{len(trees_no_image_cid)} NFTs need image upload")
     _batch_operation(
+        action="Uploading images",
         func=_upload_images,
         trees_to_batch=trees_no_image_cid,
         all_trees=trees,
@@ -69,6 +72,7 @@ def mint_scheduled_nfts():
     trees_no_metadata_cid = [tree for tree in trees if not tree.metadata_cid]
     logger.info(f"{len(trees_no_metadata_cid)} NFTs need metadata upload")
     _batch_operation(
+        action="Uploading metadata",
         func=_upload_metadatas,
         trees_to_batch=trees_no_metadata_cid,
         all_trees=trees,
@@ -80,37 +84,64 @@ def mint_scheduled_nfts():
     sorted_trees = sorted(trees, key=lambda tree: tree.sponsor.id)
     trees_by_sponsor = itertools.groupby(sorted_trees, lambda tree: tree.sponsor)
     for sponsor, sponsor_trees in trees_by_sponsor:
-        logger.info(f"Minting for sponsor {sponsor.name}...")
-        _batch_operation(
+        for tx, minted_trees in _batch_operation(
+            action=f"Minting for sponsor {sponsor.name}",
             func=_mint_nfts,
             trees_to_batch=list(sponsor_trees),
             batch_size=MINT_BATCH_SIZE,
-        )
+        ):
+            minted_tree_ids = [tree.id for tree in minted_trees]
+            minted_nft_ids = [tree.nft_id for tree in minted_trees]
+            details = [
+                f"TX: {tx}",
+                "\nMinted tree IDs:",
+                str(minted_tree_ids),
+                "\nMinted NFT IDs:",
+                str(minted_nft_ids),
+            ]
+            History.objects.create(
+                event_type=History.EventType.MINTING_SUCCEED,
+                message=f"Minted {len(minted_trees)} NFTs",
+                details="\n".join(details),
+            )
+
+
+T = TypeVar("T")
 
 
 def _batch_operation(
-    func: Callable[[Sequence[Tree]], None],
+    action: str,
+    func: Callable[[Sequence[Tree]], T],
     trees_to_batch: Sequence[Tree],
     batch_size: int,
     all_trees: list[Tree] | None = None,
-):
+) -> list[T]:
+    logger.info(f"{action}...")
+
+    result: list[T] = []
     for i in range(0, len(trees_to_batch), batch_size):
         trees_page = trees_to_batch[i : i + batch_size]  # noqa:E203
         logger.info(
             f"Batch {i + 1} - {min(i + batch_size, len(trees_to_batch))} / {len(trees_to_batch)}..."
         )
         try:
-            func(trees_page)
+            result.append(func(trees_page))
         except Exception as err:
             logger.exception(err)
             tree_ids = [p.id for p in trees_page]
             Tree.objects.filter(id__in=tree_ids).update(
                 minting_state=Tree.MintingState.FAILED
             )
+            History.objects.create(
+                event_type=History.EventType.MINTING_FAILED,
+                message=f"{action} ({len(trees_page)} trees)",
+                details=f"Tree IDs:\n{tree_ids}\n\n{traceback.format_exc()}",
+            )
             if all_trees:
                 # Exclude failed trees from further processing.
                 for tree in trees_page:
                     all_trees.remove(tree)
+    return result
 
 
 def _generate_nft_id(trees: Sequence[Tree]):
@@ -200,7 +231,7 @@ def _get_nft_metadata(tree: Tree):
     }
 
 
-def _mint_nfts(trees: Sequence[Tree]):
+def _mint_nfts(trees: Sequence[Tree]) -> tuple[str, Sequence[Tree]]:
     # Can only set 1 owner when using multi-mint.
     assert len(set(tree.sponsor for tree in trees)) == 1
 
@@ -230,3 +261,5 @@ def _mint_nfts(trees: Sequence[Tree]):
 
     # Wait for account sequence to update.
     time.sleep(1)
+
+    return tx.tx_hash, trees

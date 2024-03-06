@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 
 from .assigned_species import AssignedSpecies
 from .country import CountryAdmin
+from .history import HistoryAdmin
 from .nft import Nft
 from .planting_organization import PLantingOrganizationAdmin
 from .species import SpeciesAdmin
