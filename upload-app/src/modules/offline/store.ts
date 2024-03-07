@@ -16,7 +16,6 @@ type OfflineState = {
 type OfflineActions = {
   incTotalCount: () => void;
   incUploadedCount: () => void;
-  reset: () => void;
   syncTotalCount: () => void;
   upload: () => void;
 };
@@ -36,7 +35,6 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
     incUploadedCount: () => {
       set((prevState) => ({ uploadedCount: prevState.uploadedCount + 1 }));
     },
-    reset: () => set(initialValue),
     syncTotalCount: async () => {
       set({ totalCount: await getNewPlantsTotalCount() });
     },
@@ -51,6 +49,7 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
           }
           await postPlants(plant.plant);
           await deleteNewPlantById(key);
+          get().incUploadedCount();
         }
       } catch (e) {
         console.log('Upload error', e);
