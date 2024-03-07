@@ -1,5 +1,5 @@
 import { IntlProvider } from 'modules/intl';
-import { useInitOffline } from 'modules/offline/hooks';
+import { useInitOffline } from 'modules/offline';
 import { QueryClientProvider } from 'modules/query';
 import {
   ComponentTestpage,

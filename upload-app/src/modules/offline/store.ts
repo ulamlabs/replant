@@ -34,6 +34,10 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
     syncTotalCount: async () => {
       set({ totalCount: await getNewPlantsTotalCount() });
     },
-    upload: () => {},
+    upload: async () => {
+      set({ isUploading: true, uploadedCount: 0 });
+      const keys = [];
+      
+    },
   })
 );
