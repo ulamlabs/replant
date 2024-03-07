@@ -22,8 +22,9 @@ class Sponsor(TrackableModel):
 
     nft_ordered = models.PositiveIntegerField(
         verbose_name="NFT ordered",
-        default=0,
-        help_text="Uncapped when zero",
+        null=True,
+        blank=True,
+        help_text="Uncapped when empty",
     )
     assigned_trees = models.PositiveIntegerField(default=0)
 
@@ -31,9 +32,10 @@ class Sponsor(TrackableModel):
         verbose_name="NFT ordered [USD]",
         max_digits=12,
         decimal_places=2,
-        default=D(0),
+        null=True,
+        blank=True,
         validators=[MinValueValidator(0)],
-        help_text="Uncapped when zero",
+        help_text="Uncapped when empty",
     )
     assigned_trees_usd = models.DecimalField(
         verbose_name="Assigned trees [USD]",
@@ -44,17 +46,17 @@ class Sponsor(TrackableModel):
     )
 
     def clean(self) -> None:
-        if self.nft_ordered and self.nft_ordered_usd:
+        if self.nft_ordered is not None and self.nft_ordered_usd is not None:
             message = "Cannot specify NFT quantity and USD value at the same time."
             raise ValidationError({"nft_ordered_usd": message, "nft_ordered": message})
 
     @property
     def trees_to_assign(self):
-        return max(0, self.nft_ordered - self.assigned_trees)
+        return max(0, (self.nft_ordered or 0) - self.assigned_trees)
 
     @property
     def trees_to_assign_usd(self):
-        return max(0, self.nft_ordered_usd - self.assigned_trees_usd)
+        return max(0, (self.nft_ordered_usd or D(0)) - self.assigned_trees_usd)
 
     @property
     def is_eligible_to_trees_assignment(self):

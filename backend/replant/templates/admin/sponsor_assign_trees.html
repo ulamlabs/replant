@@ -10,12 +10,6 @@
   form .aligned ul {
     margin-left: 0;
   }
-  .green {
-    color: green;
-  }
-  .red {
-    color: red;
-  }
   .helptext {
     color: grey;
     font-size: 11px;
@@ -70,7 +64,14 @@
                 </span>
                 {% endif %}
               </div>
-              <div><b>Trees left {{sponsor.trees_to_assign}}</b></div>
+
+              {% if sponsor.nft_ordered != '-' %}
+                <div><b>Trees left {{sponsor.trees_to_assign}}</b></div>
+              {% endif %}
+
+              {% if sponsor.nft_ordered_usd != '-' %}
+                <div><b>USD left {{sponsor.trees_to_assign_usd}}</b></div>
+              {% endif %}
 
               {% if sponsor.additional_info %}
                 <p>{{sponsor.additional_info|linebreaks}}</p>

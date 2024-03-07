@@ -11,6 +11,7 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import URLPattern, path, reverse
+from django.utils.html import format_html
 
 from replant.models import PlantingOrganization, Sponsor, Tree
 
@@ -29,14 +30,13 @@ class SponsorNeedingTreesFilter(admin.SimpleListFilter):
         ]
 
     def queryset(self, request, queryset):
+        trees_filter = models.Q(assigned_trees__lt=models.F("nft_ordered")) | models.Q(
+            assigned_trees_usd__lt=models.F("nft_ordered_usd")
+        )
         if self.value() == "yes":
-            return queryset.filter(
-                assigned_trees__lt=models.F("nft_ordered"),
-            )
+            return queryset.filter(trees_filter)
         elif self.value() == "no":
-            return queryset.exclude(
-                assigned_trees__lt=models.F("nft_ordered"),
-            )
+            return queryset.exclude(trees_filter)
 
 
 class AssignTreesForm(forms.Form):
@@ -78,10 +78,8 @@ class SponsorAdmin(TrackableModelAdmin):
         "type",
         "wallet_address",
         "contact_person_email",
-        "nft_ordered",
-        "nft_ordered_usd",
-        "assigned_trees",
-        "assigned_trees_usd",
+        "get_nft_ordered",
+        "get_nft_ordered_usd",
         "created_at",
     )
     search_fields = (
@@ -101,9 +99,9 @@ class SponsorAdmin(TrackableModelAdmin):
         "wallet_address",
         "contact_person_full_name",
         "contact_person_email",
-        "additional_info",
         "nft_ordered",
         "nft_ordered_usd",
+        "additional_info",
         "assigned_trees",
         "assigned_trees_usd",
         "created_at",
@@ -117,6 +115,26 @@ class SponsorAdmin(TrackableModelAdmin):
     )
 
     actions = ("assign_trees",)
+
+    @admin.display(
+        description="NFT ordered",
+        ordering="nft_ordered",
+    )
+    def get_nft_ordered(self, obj: Sponsor):
+        return self._format_order(
+            obj, f"{obj.assigned_trees} / {obj.nft_ordered or " - "}"
+        )
+
+    @admin.display(description="NFT ordered [USD]", ordering="nft_ordered_usd")
+    def get_nft_ordered_usd(self, obj: Sponsor):
+        return self._format_order(
+            obj,
+            f"{format_usd(obj.assigned_trees_usd)} / {format_usd(obj.nft_ordered_usd)}",
+        )
+
+    def _format_order(self, obj: Sponsor, text: str):
+        html = f'<div class="bold {"" if obj.is_eligible_to_trees_assignment else "green"}">{text}</div>'
+        return format_html(html)
 
     def has_delete_permission(
         self, request: HttpRequest, obj: Sponsor | None = None
@@ -174,11 +192,6 @@ class SponsorAdmin(TrackableModelAdmin):
                 tree_filter = form.cleaned_data.get("tree_filter")
                 assert organization
 
-                total_trees_to_assign = (
-                    sum(sponsor.trees_to_assign for sponsor in sponsors)
-                    or 10_000  # Limit the number of trees to fetch into memory.
-                )
-
                 trees_qs = Tree.objects.only_awaiting_sponsor().filter(
                     planting_organization=organization
                 )
@@ -194,7 +207,8 @@ class SponsorAdmin(TrackableModelAdmin):
                     if max_tree_cost is not None:
                         trees_qs = trees_qs.filter(planting_cost_usd__lte=max_tree_cost)
 
-                trees = list(trees_qs[:total_trees_to_assign])
+                # Limit the number of trees to fetch into memory.
+                trees = list(trees_qs[:10_000])
 
                 if not trees:
                     messages.warning(
@@ -221,10 +235,11 @@ class SponsorAdmin(TrackableModelAdmin):
                 "name": sponsor.name,
                 "additional_info": sponsor.additional_info,
                 "assigned_trees": sponsor.assigned_trees,
-                "nft_ordered": sponsor.nft_ordered,
+                "nft_ordered": sponsor.nft_ordered or "-",
                 "assigned_trees_usd": format_usd(sponsor.assigned_trees_usd),
                 "nft_ordered_usd": format_usd(sponsor.nft_ordered_usd),
                 "trees_to_assign": sponsor.trees_to_assign,
+                "trees_to_assign_usd": format_usd(sponsor.trees_to_assign_usd),
                 "trees_given": len(trees_per_sponsor.get(sponsor, [])),
                 "trees_given_usd": format_usd(
                     sum(
@@ -315,5 +330,7 @@ def assign_trees(trees_per_sponsor: dict[Sponsor, list[Tree]]):
         sponsor.save(update_fields=["assigned_trees", "assigned_trees_usd"])
 
 
-def format_usd(amount: D) -> str:
+def format_usd(amount: D | None) -> str:
+    if amount is None:
+        return "-"
     return f"${amount:,.2f}"
