@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { saveNewPlant } from 'modules/offline';
+import { isOnline, saveNewPlant } from 'modules/offline';
 import { NewPlant, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;
@@ -36,7 +36,7 @@ export const postPlants = (payload: NewPlant) =>
   post<Plant, NewPlant>(plantsUrl, payload);
 
 const postPlantsOrSaveToDb = async (payload: NewPlant) => {
-  if (window.navigator.onLine) {
+  if (isOnline()) {
     const response = await postPlants(payload);
     return { response, onLine: true };
   }

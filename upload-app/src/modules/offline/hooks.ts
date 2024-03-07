@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useOfflineStore } from './store';
+import { useOfflineStore } from '.';
 
 export const useInitOffline = () => {
   const { syncTotalCount } = useOfflineStore();
