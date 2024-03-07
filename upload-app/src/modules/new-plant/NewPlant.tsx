@@ -46,8 +46,11 @@ export const NewPlant: React.FC = () => {
     }
 
     await plantsMutation.mutateAsync({
-      assigned_species_id: store.species!.id,
-      ...store.image!,
+      plant: {
+        assigned_species_id: store.species!.id,
+        ...store.image!,
+      },
+      capturedAt: store.image!.capturedAt,
     });
     setSnackbarOpen(true);
     store.setImage(undefined);

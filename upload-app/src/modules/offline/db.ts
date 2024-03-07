@@ -59,12 +59,12 @@ export const loadAssignedSpecies = async () => {
   }
 };
 
-export const saveNewPlant = async (plant: NewPlant) => {
+export const saveNewPlant = async (plant: NewPlant, capturedAt: string) => {
   const db = await openDb();
   try {
     const tx = db.transaction('plants', 'readwrite');
     const obj = {
-      capturedAt: new Date().toISOString(),
+      capturedAt,
       id: getId(),
       plant,
     };

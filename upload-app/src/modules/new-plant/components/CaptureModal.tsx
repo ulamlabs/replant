@@ -21,19 +21,25 @@ export const CaptureModal: React.FC = () => {
     if (!canvas || !player || !context) {
       return;
     }
+    const capturedAt = new Date().toISOString();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
     const imgData = canvas.toDataURL('image/png');
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
-        store.setTmpImage({ image: imgData, latitude, longitude });
+        store.setTmpImage({
+          capturedAt,
+          image: imgData,
+          latitude,
+          longitude,
+        });
       },
       (error) => {
         console.log(error);
       },
       {
-        timeout: 10000,
+        timeout: 5000,
       }
     );
   };

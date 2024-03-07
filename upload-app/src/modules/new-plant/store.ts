@@ -1,11 +1,6 @@
+import { CapturedImage } from 'modules/plants';
 import { AssignedSpecies } from 'modules/species';
 import { create } from 'zustand';
-
-export type CapturedImage = {
-  image: string; // as data URL
-  latitude: string;
-  longitude: string;
-};
 
 type NewPlantState = {
   image?: CapturedImage;

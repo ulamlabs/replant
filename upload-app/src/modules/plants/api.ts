@@ -37,12 +37,15 @@ const getPlantsSummary = async () => {
 export const postPlants = (payload: NewPlant) =>
   post<Plant, NewPlant>(plantsUrl, payload);
 
-const postPlantsOrSaveToDb = async (payload: NewPlant) => {
+const postPlantsOrSaveToDb = async (payload: {
+  plant: NewPlant;
+  capturedAt: string;
+}) => {
   if (isOnline()) {
-    const response = await postPlants(payload);
+    const response = await postPlants(payload.plant);
     return { response, onLine: true };
   }
-  await saveNewPlant(payload);
+  await saveNewPlant(payload.plant, payload.capturedAt);
   return { onLine: false };
 };
 
@@ -64,7 +67,7 @@ export const usePlantsMutation = () => {
   return useMutation<
     { response?: AxiosResponse<Plant>; onLine: boolean },
     AxiosError,
-    NewPlant
+    { plant: NewPlant; capturedAt: string }
   >({
     mutationKey: postPlantsQueryKey,
     mutationFn: postPlantsOrSaveToDb,
