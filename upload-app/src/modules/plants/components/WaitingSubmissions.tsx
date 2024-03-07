@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { Button, LoaderBox } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import {
@@ -7,6 +8,7 @@ import {
   useOfflineStore,
 } from 'modules/offline';
 import { useEffect, useState } from 'react';
+import { allPlantsQueryKey } from '..';
 import { WaitingPlantTile } from './WaitingPlantTile';
 
 export const WaitingSubmissions: React.FC = () => {
@@ -26,6 +28,8 @@ export const WaitingSubmissions: React.FC = () => {
     loadPlants();
   }, []);
 
+  const queryClient = useQueryClient();
+
   const store = useOfflineStore();
 
   const isOnline = useIsOnline();
@@ -44,6 +48,7 @@ export const WaitingSubmissions: React.FC = () => {
           type='secondary'
           onClick={async () => {
             await store.upload();
+            queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
             await loadPlants();
           }}
         >

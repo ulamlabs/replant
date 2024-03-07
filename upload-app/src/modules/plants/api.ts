@@ -20,6 +20,8 @@ const plantsQueryKey = (page: number) => ['GET', plantsUrl, page];
 const plantsSummaryQueryKey = ['POST', plantsUrl, 'summary'];
 const postPlantsQueryKey = ['POST', plantsUrl];
 
+export const allPlantsQueryKey = ['GET', plantsUrl];
+
 const getPlants = async (page: number) => {
   const response = await get<Page<Plant>>(
     `${plantsUrl}?page_size=${PAGE_SIZE}&page=${page}`
@@ -68,7 +70,7 @@ export const usePlantsMutation = () => {
     mutationFn: postPlantsOrSaveToDb,
     onSuccess: (data) => {
       if (data.onLine) {
-        queryClient.invalidateQueries({ queryKey: ['GET', plantsUrl] }); // invalidates all plants queries if uploaded to BE
+        queryClient.invalidateQueries({ queryKey: allPlantsQueryKey }); // invalidates all plants queries if uploaded to BE
       }
     },
     networkMode: 'always',
