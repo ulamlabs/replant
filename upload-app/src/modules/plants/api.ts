@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { isOnline, saveNewPlant } from 'modules/offline';
+import { isOnline, saveNewPlant, useOfflineStore } from 'modules/offline';
 import { NewPlant, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;
@@ -64,6 +64,8 @@ export const usePlantsSummary = () =>
 export const usePlantsMutation = () => {
   const queryClient = useQueryClient();
 
+  const { incTotalCount } = useOfflineStore();
+
   return useMutation<
     { response?: AxiosResponse<Plant>; onLine: boolean },
     AxiosError,
@@ -74,6 +76,8 @@ export const usePlantsMutation = () => {
     onSuccess: (data) => {
       if (data.onLine) {
         queryClient.invalidateQueries({ queryKey: allPlantsQueryKey }); // invalidates all plants queries if uploaded to BE
+      } else {
+        incTotalCount();
       }
     },
     networkMode: 'always',
