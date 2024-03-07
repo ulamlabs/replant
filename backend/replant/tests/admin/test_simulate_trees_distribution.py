@@ -38,7 +38,7 @@ def test_simulate_trees_distribution_single_sponsor_quantity_consume_all_trees()
 
     result = simulate_trees_distribution(sponsors=[sponsor], trees=trees)
 
-    assert result == {sponsor: [trees[1], trees[0]]}
+    assert result == {sponsor: [trees[0], trees[1]]}
     assert sponsor.assigned_trees == 2
     assert sponsor.assigned_trees_usd == D(0)
 
@@ -49,7 +49,7 @@ def test_simulate_trees_distribution_single_sponsor_quantity_fulfill():
 
     result = simulate_trees_distribution(sponsors=[sponsor], trees=trees)
 
-    assert result == {sponsor: [trees[9], trees[8], trees[7], trees[6], trees[5]]}
+    assert result == {sponsor: [trees[0], trees[1], trees[2], trees[3], trees[4]]}
     assert sponsor.assigned_trees == 5
     assert sponsor.assigned_trees_usd == D(0)
 
@@ -57,14 +57,14 @@ def test_simulate_trees_distribution_single_sponsor_quantity_fulfill():
 def test_simulate_trees_distribution_single_sponsor_usd():
     sponsor = make_sponsor(nft_ordered_usd=D(10))
     trees = [
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(5)),
-        make_tree(planting_cost_usd=D(1)),
         make_tree(planting_cost_usd=D(2)),
+        make_tree(planting_cost_usd=D(1)),
+        make_tree(planting_cost_usd=D(5)),
+        make_tree(planting_cost_usd=D(3)),
     ]
 
     result = simulate_trees_distribution(sponsors=[sponsor], trees=trees)
-    assert result == {sponsor: [trees[3], trees[2], trees[1]]}
+    assert result == {sponsor: [trees[0], trees[1], trees[2]]}
     assert sponsor.assigned_trees == 3
     assert sponsor.assigned_trees_usd == D(8)
 
@@ -78,8 +78,8 @@ def test_simulate_trees_distribution_two_sponsors_quantity_consume_all_trees():
 
     result = simulate_trees_distribution(sponsors=sponsors, trees=trees)
     assert result == {
-        sponsors[0]: [trees[4], trees[2], trees[0]],
-        sponsors[1]: [trees[3], trees[1]],
+        sponsors[0]: [trees[0], trees[2], trees[4]],
+        sponsors[1]: [trees[1], trees[3]],
     }
     assert sponsors[0].assigned_trees == 3
     assert sponsors[1].assigned_trees == 2
@@ -94,8 +94,8 @@ def test_simulate_trees_distribution_two_sponsors_quantity_fullfil():
 
     result = simulate_trees_distribution(sponsors=sponsors, trees=trees)
     assert result == {
-        sponsors[0]: [trees[9], trees[7], trees[5], trees[3], trees[2]],
-        sponsors[1]: [trees[8], trees[6], trees[4]],
+        sponsors[0]: [trees[0], trees[2], trees[4], trees[6], trees[7]],
+        sponsors[1]: [trees[1], trees[3], trees[5]],
     }
     assert sponsors[0].assigned_trees == 5
     assert sponsors[1].assigned_trees == 3
@@ -107,16 +107,16 @@ def test_simulate_trees_distribution_two_sponsors_usd():
         make_sponsor(nft_ordered_usd=D(3)),
     ]
     trees = [
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(5)),
-        make_tree(planting_cost_usd=D(1)),
         make_tree(planting_cost_usd=D(2)),
+        make_tree(planting_cost_usd=D(1)),
+        make_tree(planting_cost_usd=D(5)),
+        make_tree(planting_cost_usd=D(3)),
     ]
 
     result = simulate_trees_distribution(sponsors=sponsors, trees=trees)
     assert result == {
-        sponsors[0]: [trees[3], trees[1], trees[0]],
-        sponsors[1]: [trees[2]],
+        sponsors[0]: [trees[0], trees[2], trees[3]],
+        sponsors[1]: [trees[1]],
     }
     assert sponsors[0].assigned_trees == 3
     assert sponsors[0].assigned_trees_usd == 10
@@ -127,14 +127,14 @@ def test_simulate_trees_distribution_two_sponsors_usd():
 def test_simulate_trees_distribution_single_sponsor_usd_skip_expensive_trees():
     sponsor = make_sponsor(nft_ordered_usd=D(10))
     trees = [
-        make_tree(planting_cost_usd=D(3)),
         make_tree(planting_cost_usd=D(20)),  # to be skipped
         make_tree(planting_cost_usd=D(1)),
         make_tree(planting_cost_usd=D(20)),  # to be skipped
+        make_tree(planting_cost_usd=D(3)),
     ]
 
     result = simulate_trees_distribution(sponsors=[sponsor], trees=trees)
-    assert result == {sponsor: [trees[2], trees[0]]}
+    assert result == {sponsor: [trees[1], trees[3]]}
     assert sponsor.assigned_trees == 2
     assert sponsor.assigned_trees_usd == D(4)
 
@@ -146,18 +146,18 @@ def test_simulate_trees_distribution_two_sponsors_usd_skip_expensive_trees():
     ]
     trees = [
         make_tree(planting_cost_usd=D(20)),
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(20)),
-        make_tree(planting_cost_usd=D(20)),
         make_tree(planting_cost_usd=D(1)),
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(3)),
         make_tree(planting_cost_usd=D(20)),
     ]
 
     result = simulate_trees_distribution(sponsors=sponsors, trees=trees)
     # The following result is not perfect. The trees could be distributed better but who cares.
     assert result == {
-        sponsors[0]: [trees[1]],
-        sponsors[1]: [trees[5], trees[4], trees[3], trees[2]],
+        sponsors[0]: [trees[4]],
+        sponsors[1]: [trees[0], trees[1], trees[2], trees[3]],
     }
 
 
@@ -168,15 +168,15 @@ def test_simulate_trees_distribution_two_sponsors_mixed():
     ]
     trees = [
         make_tree(planting_cost_usd=D(20)),
-        make_tree(planting_cost_usd=D(3)),
-        make_tree(planting_cost_usd=D(20)),
-        make_tree(planting_cost_usd=D(20)),
         make_tree(planting_cost_usd=D(1)),
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(20)),
+        make_tree(planting_cost_usd=D(3)),
         make_tree(planting_cost_usd=D(20)),
     ]
 
     result = simulate_trees_distribution(sponsors=sponsors, trees=trees)
     assert result == {
-        sponsors[0]: [trees[1]],
-        sponsors[1]: [trees[5], trees[4], trees[3]],
+        sponsors[0]: [trees[4]],
+        sponsors[1]: [trees[0], trees[1], trees[2]],
     }

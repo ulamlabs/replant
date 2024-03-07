@@ -286,11 +286,9 @@ def simulate_trees_distribution(
 
     trees_per_sponsor: dict[Sponsor, list[Tree]] = defaultdict(list)
     sponsors_cycle = itertools.cycle(sponsors)
-    trees = list(trees)  # don't mutate original list
 
-    while trees:
+    for tree in trees:
         sponsor = next(sponsors_cycle)
-        tree = trees.pop()
 
         if sponsor.nft_ordered_usd:
             if tree.planting_cost_usd > sponsor.trees_to_assign_usd:
