@@ -8,8 +8,8 @@ import {
   useOfflineStore,
 } from 'modules/offline';
 import { useEffect, useState } from 'react';
+import { UploadProgressBar, WaitingPlantTile } from '.';
 import { allPlantsQueryKey } from '..';
-import { WaitingPlantTile } from './WaitingPlantTile';
 
 export const WaitingSubmissions: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -60,22 +60,7 @@ export const WaitingSubmissions: React.FC = () => {
           {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos')}
         </span>
       )}
-      {store.isUploading && (
-        <div className='space-y-0.5'>
-          <div className='flex justify-between text-sm'>
-            <span>{fmtMsg('uploading')}</span>
-            <span>{`${store.uploadedCount} / ${store.totalCount}`}</span>
-          </div>
-          <div className='w-full bg-gray-500 h-1 rounded-sm'>
-            <div
-              className='bg-white h-1 rounded-sm'
-              style={{
-                width: `${(store.uploadedCount / store.totalCount) * 100}%`,
-              }}
-            />
-          </div>
-        </div>
-      )}
+      {store.isUploading && <UploadProgressBar />}
       <div className='space-y-2.5'>
         <LoaderBox visible={isLoadingPlants} />
         {plants?.map((plant) => (
