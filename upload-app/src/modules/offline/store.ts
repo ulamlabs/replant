@@ -1,5 +1,11 @@
+import { postPlants } from 'modules/plants';
 import { create } from 'zustand';
-import { getNewPlantsTotalCount } from '.';
+import {
+  deleteNewPlantById,
+  getNewPlantById,
+  getNewPlantsKeys,
+  getNewPlantsTotalCount,
+} from '.';
 
 type OfflineState = {
   isUploading: boolean;
@@ -36,8 +42,23 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
     },
     upload: async () => {
       set({ isUploading: true, uploadedCount: 0 });
-      const keys = [];
-      
+      try {
+        const keys = await getNewPlantsKeys();
+        for (const key of keys) {
+          const plant = await getNewPlantById(key);
+          if (!plant) {
+            continue;
+          }
+          await postPlants(plant.plant);
+          await deleteNewPlantById(key);
+        }
+      } catch (e) {
+        console.log('Upload error', e);
+        throw e;
+      } finally {
+        set({ isUploading: false, uploadedCount: 0 });
+        get().syncTotalCount();
+      }
     },
   })
 );

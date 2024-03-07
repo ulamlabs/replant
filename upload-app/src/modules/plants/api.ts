@@ -32,7 +32,7 @@ const getPlantsSummary = async () => {
   return response.data;
 };
 
-const postPlants = (payload: NewPlant) =>
+export const postPlants = (payload: NewPlant) =>
   post<Plant, NewPlant>(plantsUrl, payload);
 
 const postPlantsOrSaveToDb = async (payload: NewPlant) => {

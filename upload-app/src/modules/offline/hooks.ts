@@ -2,26 +2,26 @@ import { useCallback, useEffect, useState } from 'react';
 import { useOfflineStore } from './store';
 
 export const useInitOffline = () => {
-  const store = useOfflineStore();
+  const { syncTotalCount } = useOfflineStore();
   useEffect(() => {
-    store.syncTotalCount();
-  }, []);
+    syncTotalCount();
+  }, [syncTotalCount]);
 };
 
 export const useIsOnline = () => {
   const [isOnline, setIsOnline] = useState(window.navigator.onLine);
 
-  const handleOnline = useCallback(() => setIsOnline(true), []);
   const handleOffline = useCallback(() => setIsOnline(false), []);
+  const handleOnline = useCallback(() => setIsOnline(true), []);
 
   useEffect(() => {
-    window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
     return () => {
-      window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
     };
-  }, []);
+  }, [handleOffline, handleOnline]);
 
   return isOnline;
 };

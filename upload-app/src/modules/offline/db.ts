@@ -15,15 +15,15 @@ interface RwDbSchema extends DBSchema {
     value: AssignedSpeciesResponseData;
   };
   plants: {
-    key: number;
+    key: string;
     value: OfflinePlant;
   };
 }
 
-const rwDbName = 'RW Offline DB';
+const dbName = 'RW Offline DB';
 
 export const openDb = async () => {
-  return await openDB<RwDbSchema>(rwDbName, 1, {
+  return await openDB<RwDbSchema>(dbName, 1, {
     upgrade: (db) => {
       if (!db.objectStoreNames.contains('assignedSpecies')) {
         db.createObjectStore('assignedSpecies');
@@ -89,5 +89,35 @@ export const getNewPlantsTotalCount = async () => {
     return db.count('plants');
   } catch (e) {
     console.log('Db new plants total count error', e);
+  }
+};
+
+export const getNewPlantsKeys = async () => {
+  const db = await openDb();
+  try {
+    return db.getAllKeys('plants');
+  } catch (e) {
+    console.log('Db new plants all keys error', e);
+    throw e;
+  }
+};
+
+export const getNewPlantById = async (id: string) => {
+  const db = await openDb();
+  try {
+    return db.get('plants', id);
+  } catch (e) {
+    console.log('Db get new plant by id error', id, e);
+    throw e;
+  }
+};
+
+export const deleteNewPlantById = async (id: string) => {
+  const db = await openDb();
+  try {
+    return db.delete('plants', id);
+  } catch (e) {
+    console.log('Db delete new plant by id error', id, e);
+    throw e;
   }
 };
