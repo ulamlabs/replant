@@ -1,4 +1,5 @@
 import { IntlProvider } from 'modules/intl';
+import { useInitOffline } from 'modules/offline/hooks';
 import { QueryClientProvider } from 'modules/query';
 import {
   ComponentTestpage,
@@ -13,6 +14,8 @@ import {
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
+  useInitOffline();
+
   return (
     <QueryClientProvider>
       <IntlProvider>
