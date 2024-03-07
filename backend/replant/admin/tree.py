@@ -52,10 +52,6 @@ class TreeAdmin(TrackableModelAdmin):
         "minting_state",
     ]
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        return qs.select_related("sponsor", "created_by", "species")
-
     def image_tag(self, obj: Tree):
         return format_html(
             '<img style="max-height: 600px; max-width: 100vw; object-fit: contain;" src="{}" />'.format(
