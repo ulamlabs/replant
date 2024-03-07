@@ -17,4 +17,4 @@ class User(AbstractUser):
         on_delete=models.PROTECT,
         verbose_name="planting organization / community",
     )
-    time_zone = models.CharField(max_length=40, default="UTC")
+    time_zone = models.CharField(max_length=40, choices=TIME_ZONES, default="UTC")
