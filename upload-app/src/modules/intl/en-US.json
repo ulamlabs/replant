@@ -52,7 +52,7 @@
   "uploading": "Uploading...",
   "waiting": "Waiting",
   "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",
-  "youAreOfflineConnectToInternetToUploadWaitingPhotos": "You are offline. Connect to Internet to upload waiting photos.",
+  "youAreOfflineConnectToInternetToUploadWaitingPhotos": "You are offline. Connect to Internet to upload {count, plural, =1 {# waiting photo} other {# waiting photos}}.",
   "youHaveNoTreesWaitingForSubmission": "You have no trees waiting for submission.",
   "youHaveNotSubmittedAnyTreesYet": "You have not submitted any trees yet.",
   "youHaveSuccessfullySignedUp": "You have successfully signed up.",

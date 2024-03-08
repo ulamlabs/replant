@@ -83,7 +83,9 @@ export const WaitingSubmissions: React.FC = () => {
             pathClassName='fill-black dark:fill-white'
             svgClassName='w-6 h-6 min-w-6 min-h-6'
           />
-          {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos')}
+          {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos', {
+            count: store.totalCount,
+          })}
         </div>
       )}
       {store.isUploading && <UploadProgressBar />}
