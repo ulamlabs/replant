@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Button, LoaderBox } from 'common/components';
-import { UploadIcon } from 'common/icons';
+import { OfflineIcon, UploadIcon } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import {
@@ -78,7 +78,11 @@ export const WaitingSubmissions: React.FC = () => {
         </div>
       )}
       {showNoConnection && (
-        <div>
+        <div className='flex gap-4 items-center justify-center'>
+          <OfflineIcon
+            pathClassName='fill-black dark:fill-white'
+            svgClassName='w-6 h-6 min-w-6 min-h-6'
+          />
           {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos')}
         </div>
       )}
