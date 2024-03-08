@@ -47,35 +47,31 @@ export const WaitingSubmissions: React.FC = () => {
   return (
     <div className='space-y-5'>
       {showUploadButton && (
-        <div className='flex gap-4 items-center'>
-          <Button
-            size='md'
-            onClick={async () => {
-              try {
-                await store.upload();
-                openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
-              } catch (e) {
-                openSnackbar(
-                  fmtMsg('uploadAborted', {
-                    error:
-                      e instanceof AxiosError ? prettifyError(e) : String(e),
-                  }),
-                  'error'
-                );
-              } finally {
-                queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
-                await loadPlants();
-              }
-            }}
-          >
-            <UploadIcon
-              svgClassName={'size-6'}
-              pathClassName='fill-bisque-400 dark:fill-white'
-            />
-            {fmtMsg('uploadAll')}
-          </Button>
-          <span>{fmtMsg('treesToUpload', { count: store.totalCount })}</span>
-        </div>
+        <Button
+          size='md'
+          onClick={async () => {
+            try {
+              await store.upload();
+              openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
+            } catch (e) {
+              openSnackbar(
+                fmtMsg('uploadAborted', {
+                  error: e instanceof AxiosError ? prettifyError(e) : String(e),
+                }),
+                'error'
+              );
+            } finally {
+              queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
+              await loadPlants();
+            }
+          }}
+        >
+          <UploadIcon
+            svgClassName={'size-6'}
+            pathClassName='fill-bisque-400 dark:fill-white'
+          />
+          {fmtMsg('uploadAll')}
+        </Button>
       )}
       {showNoConnection && (
         <div className='flex gap-4 items-center justify-center'>
@@ -83,9 +79,7 @@ export const WaitingSubmissions: React.FC = () => {
             pathClassName='fill-black dark:fill-white'
             svgClassName='w-6 h-6 min-w-6 min-h-6'
           />
-          {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos', {
-            count: store.totalCount,
-          })}
+          {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos')}
         </div>
       )}
       {store.isUploading && <UploadProgressBar />}

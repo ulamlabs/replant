@@ -26,7 +26,7 @@ export const NavigationButton: React.FC<Props> = ({
         )}
       />
       {showBadge && (
-        <div className='w-2 h-2 bg-orange-500 rounded-lg absolute top-[-0.25rem] right-[-0.25rem]' />
+        <div className='w-2 h-2 bg-orange-600 rounded-lg absolute top-[-0.25rem] right-[-0.25rem]' />
       )}
     </button>
   );
