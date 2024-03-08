@@ -38,45 +38,45 @@ export const WaitingSubmissions: React.FC = () => {
 
   const isOnline = useIsOnline();
 
-  const showUploadButton =
-    store.totalCount > 0 && !store.isUploading && isOnline;
-
-  const showNoConnection =
-    store.totalCount > 0 && !store.isUploading && !isOnline;
+  const showUploadButton = store.totalCount > 0 && !store.isUploading;
 
   return (
     <div className='space-y-5'>
       {showUploadButton && (
-        <Button
-          Icon={UploadIcon}
-          size='md'
-          onClick={async () => {
-            try {
-              await store.upload();
-              openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
-            } catch (e) {
-              openSnackbar(
-                fmtMsg('uploadAborted', {
-                  error: e instanceof AxiosError ? prettifyError(e) : String(e),
-                }),
-                'error'
-              );
-            } finally {
-              queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
-              await loadPlants();
-            }
-          }}
-        >
-          {fmtMsg('uploadAll')}
-        </Button>
-      )}
-      {showNoConnection && (
-        <div className='flex gap-4 items-center justify-center'>
-          <OfflineIcon
-            pathClassName='fill-black dark:fill-white'
-            svgClassName='w-6 h-6 min-w-6 min-h-6'
-          />
-          {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos')}
+        <div className='flex gap-4 items-center'>
+          <Button
+            Icon={UploadIcon}
+            disabled={!isOnline}
+            size='md'
+            onClick={async () => {
+              try {
+                await store.upload();
+                openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
+              } catch (e) {
+                openSnackbar(
+                  fmtMsg('uploadAborted', {
+                    error:
+                      e instanceof AxiosError ? prettifyError(e) : String(e),
+                  }),
+                  'error'
+                );
+              } finally {
+                queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
+                await loadPlants();
+              }
+            }}
+          >
+            {fmtMsg('uploadAll')}
+          </Button>
+          {!isOnline && (
+            <div className='flex gap-2 items-center text-sm'>
+              <OfflineIcon
+                pathClassName='fill-black dark:fill-white'
+                svgClassName='w-4 h-4 min-w-4 min-h-4'
+              />
+              {fmtMsg('youAreOffline')}
+            </div>
+          )}
         </div>
       )}
       {store.isUploading && <UploadProgressBar />}
