@@ -11,7 +11,7 @@ type ModalProps = PropsWithChildren & {
 export function Modal(props: ModalProps) {
   const modal = (
     <div
-      className='w-full h-full flex items-center justify-center absolute top-0 left-0 bg-black bg-opacity-50'
+      className='w-full h-dvh flex items-center justify-center absolute top-0 left-0 bg-black bg-opacity-50 z-10'
       onClick={() => props.onClose()}
     >
       <div
