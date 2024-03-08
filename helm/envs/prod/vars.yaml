@@ -3,6 +3,10 @@ vars:
   ENV: prod
   UPLOAD_APP_URL: https://app.replantworld.io
   MARKETPLACE_APP_URL: https://marketplace.replantworld.io
+  SEI_CHAIN_ID: pacific-1
+  SEI_RPC: rest+https://rest.sei-apis.com
+  SEI_NFT_ADDRESS: sei1mscuymq2pdy3gvxsflpts9ekl0ps73eprsanv0
+  NFT_MULTI_CODE_ID: 3842
   AWS_STORAGE_BUCKET_NAME: replant-world
   AWS_S3_ENDPOINT_URL: https://syd1.digitaloceanspaces.com
-  AWS_S3_CUSTOM_DOMAIN: images.replantworld.io
+  AWS_S3_CUSTOM_DOMAIN: trees.images.replantworld.io
