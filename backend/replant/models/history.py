@@ -4,10 +4,6 @@ from django.db import models
 
 
 class History(models.Model):
-    class Meta:
-        verbose_name = "History log"
-        verbose_name_plural = "History"
-
     class EventType(models.TextChoices):
         MINTING_SUCCEED = auto()
         MINTING_FAILED = auto()
@@ -19,3 +15,10 @@ class History(models.Model):
     message = models.TextField(blank=True)
 
     details = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "History log"
+        verbose_name_plural = "History"
+
+    def __str__(self):
+        return f"{self.event_type} {self.created_at}"
