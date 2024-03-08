@@ -65,26 +65,29 @@ export const CaptureModal: React.FC = () => {
               {store.tmpImage ? (
                 <>
                   <Button
+                    Icon={RepeatIcon}
                     size='lg'
                     type='secondary'
                     onClick={() => store.setTmpImage(undefined)}
                   >
-                    <RepeatIcon pathClassName='fill-bisque-400' />
                     {fmtMsg('retake')}
                   </Button>
                   <Button
+                    Icon={CheckIcon}
                     onClick={() => {
                       store.setImage(store.tmpImage);
                       store.closeCapture();
                     }}
                   >
-                    <CheckIcon svgClassName='h-5 w-5' />
                     {fmtMsg('keep')}
                   </Button>
                 </>
               ) : (
-                <Button disabled={store.isCameraLoading} onClick={capture}>
-                  <CameraIcon svgClassName='h-5 w-5' />
+                <Button
+                  Icon={CameraIcon}
+                  disabled={store.isCameraLoading}
+                  onClick={capture}
+                >
                   {fmtMsg('capture')}
                 </Button>
               )}
