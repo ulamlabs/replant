@@ -1,3 +1,4 @@
+from admin_auto_filters.filters import AutocompleteFilterFactory
 from django import forms
 from django.contrib import admin
 
@@ -48,7 +49,12 @@ class AssignedSpeciesAdmin(TrackableModelAdmin):
         "is_native",
         "planting_cost_usd",
     )
-    list_filter = ("planting_organization",)
+    list_filter = (
+        AutocompleteFilterFactory(
+            title="Planting organization / community",
+            base_parameter_name="planting_organization",
+        ),
+    )
     autocomplete_fields = (
         "planting_organization",
         "country",

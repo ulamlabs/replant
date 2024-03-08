@@ -7,7 +7,9 @@ load_dotenv()
 
 DATABASE_URL: Final[str] = os.getenv("DATABASE_URL", "sqlite:///db.sqlite3")
 UPLOAD_APP_URL: Final[str] = os.getenv("UPLOAD_APP_URL", "http://localhost:5173")
-MARKETPLACE_APP_URL: Final[str] = os.getenv("MARKETPLACE_APP_URL", "http://localhost:5174")
+MARKETPLACE_APP_URL: Final[str] = os.getenv(
+    "MARKETPLACE_APP_URL", "http://localhost:5174"
+)
 ENV: Final[str] = os.getenv("ENV", "local")
 SECRET_KEY: Final[str] = os.getenv(
     "SECRET_KEY", "django-insecure-e@r8+=9i1et%kta%81(6#=&=-ls#$7d0kqzxw6ihpipxnd414k"
