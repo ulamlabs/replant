@@ -3,6 +3,7 @@ import { Alert, Button, Header, LoaderBox, Section } from 'common/components';
 import { prettifyError } from 'common/utils';
 import { Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
+import { openSnackbar } from 'modules/snackbar';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SignupForm } from './SignupForm';
@@ -97,7 +98,8 @@ export const Signup: React.FC = () => {
         },
         {
           onSuccess: () => {
-            navigate('/login', { state: { signupSuccess: true } });
+            openSnackbar(fmtMsg('youHaveSuccessfullySignedUp'), 'success');
+            navigate('/login');
           },
         }
       );
