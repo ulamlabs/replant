@@ -39,8 +39,8 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
       set({ totalCount: await getNewPlantsTotalCount() });
     },
     upload: async () => {
-      set({ isUploading: true, uploadedCount: 0 });
       try {
+        set({ isUploading: true, uploadedCount: 0 });
         const keys = await getNewPlantsKeys();
         for (const key of keys) {
           const plant = await getNewPlantById(key);
@@ -51,9 +51,6 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
           await deleteNewPlantById(key);
           get().incUploadedCount();
         }
-      } catch (e) {
-        console.log('Upload error', e);
-        throw e;
       } finally {
         set({ isUploading: false, uploadedCount: 0 });
         get().syncTotalCount();

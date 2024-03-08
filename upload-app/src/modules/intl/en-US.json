@@ -46,6 +46,8 @@
   "successYouCanNowAddNextTree": "Succes. You can now add next tree.",
   "thereAreNoPlantSpeciesAssignedToYourCommunity": "There are no plant species assigned to your community.",
   "uploadAll": "Upload all",
+  "uploadFinishedSuccessfully": "Upload finished successfully.",
+  "uploadAborted": "Upload aborted. {error}",
   "uploading": "Uploading...",
   "waiting": "Waiting",
   "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",

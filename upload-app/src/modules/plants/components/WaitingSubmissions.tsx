@@ -1,5 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { Button, LoaderBox } from 'common/components';
+import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import {
   OfflinePlant,
@@ -7,6 +9,7 @@ import {
   useIsOnline,
   useOfflineStore,
 } from 'modules/offline';
+import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useState } from 'react';
 import { UploadProgressBar, WaitingPlantTile } from '.';
 import { allPlantsQueryKey } from '..';
@@ -45,11 +48,21 @@ export const WaitingSubmissions: React.FC = () => {
       {showUploadButton && (
         <Button
           size='sm'
-          type='secondary'
           onClick={async () => {
-            await store.upload();
-            queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
-            await loadPlants();
+            try {
+              await store.upload();
+              openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
+            } catch (e) {
+              openSnackbar(
+                fmtMsg('uploadAborted', {
+                  error: e instanceof AxiosError ? prettifyError(e) : String(e),
+                }),
+                'error'
+              );
+            } finally {
+              queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
+              await loadPlants();
+            }
           }}
         >
           {fmtMsg('uploadAll')}

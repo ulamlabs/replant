@@ -15,7 +15,7 @@ export const Snackbar: React.FC<Props> = ({ children, severity, onClose }) => {
         'rounded-lg px-5 py-2.5 text-base',
         severity === 'error' ? 'bg-red-400' : 'bg-green-400'
       )}
-      autoHideDuration={17500}
+      autoHideDuration={7500}
       open={true}
       onClose={onClose}
     >
