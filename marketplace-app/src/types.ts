@@ -1,0 +1,36 @@
+export type SponsorSimple = {
+  id: number;
+  name: string;
+};
+
+export type SponsorDetails = SponsorSimple & {
+  trees: number;
+  species: number;
+  total_trees_cost_usd: string;
+};
+
+export type Tree = {
+  common_name: string;
+  botanical_name: string;
+  image: string;
+  country: string;
+  created_at: string;
+  planting_cost_usd: string;
+  planter: string;
+  planting_organization: string;
+  latitude: string;
+  longitude: string;
+  sponsor: string;
+  nft_collection: string;
+  nft_id: string;
+};
+
+export type Paginate = {
+  offset: number;
+  limit: number;
+};
+
+export type Paginated<T> = Paginate & {
+  count: number;
+  results: T[];
+};
