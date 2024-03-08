@@ -45,6 +45,7 @@
   "submitted": "Submitted",
   "successYouCanNowAddNextTree": "Success. You can now add next tree.",
   "thereAreNoPlantSpeciesAssignedToYourCommunity": "There are no plant species assigned to your community.",
+  "treesToUpload": "{count} {count, plural, =1 {tree} other {trees}} to upload",
   "uploadAll": "Upload all",
   "uploadFinishedSuccessfully": "Upload finished successfully.",
   "uploadAborted": "Upload aborted. {error}",

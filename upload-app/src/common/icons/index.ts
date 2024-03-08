@@ -16,5 +16,7 @@ export * from './PadlockeIcon';
 export * from './PhoneIcon';
 export * from './RepeatIcon';
 export * from './TreeIcon';
+export * from './UploadIcon';
 export * from './UserIcon';
 export * from './types';
+

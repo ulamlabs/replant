@@ -6,7 +6,7 @@ type Props = {
   className?: string;
   disabled?: boolean;
   isLoading?: boolean;
-  size?: 'lg' | 'sm';
+  size?: 'lg' | 'md' | 'sm';
   type?: 'primary' | 'secondary';
   onClick: () => void;
 };
@@ -23,8 +23,12 @@ export const Button: React.FC<Props> = ({
   return (
     <button
       className={clsx(
-        'rounded-full cursor-pointer font-bold flex gap-2 items-center justify-center',
-        size === 'lg' ? 'text-xl py-2.5 w-full ' : 'text-sm px-2 py-0.5',
+        'rounded-full cursor-pointer font-bold flex items-center justify-center',
+        size === 'lg'
+          ? 'text-xl py-2.5 w-full gap-2'
+          : size === 'md'
+          ? 'text-base px-3 py-1.5 gap-1'
+          : 'text-sm px-2 py-0.5 gap-1',
         type === 'primary'
           ? 'bg-bisque-400 text-white'
           : 'border-2 border-bisque-400 text-bisque-400',
@@ -33,7 +37,7 @@ export const Button: React.FC<Props> = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {isLoading && <Loader size={size === 'lg' ? 8 : 4} />}
+      {isLoading && <Loader size={size === 'lg' ? 8 : size === 'md' ? 6 : 4} />}
       {children}
     </button>
   );

@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Button, LoaderBox } from 'common/components';
+import { UploadIcon } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import {
@@ -46,32 +47,40 @@ export const WaitingSubmissions: React.FC = () => {
   return (
     <div className='space-y-5'>
       {showUploadButton && (
-        <Button
-          size='sm'
-          onClick={async () => {
-            try {
-              await store.upload();
-              openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
-            } catch (e) {
-              openSnackbar(
-                fmtMsg('uploadAborted', {
-                  error: e instanceof AxiosError ? prettifyError(e) : String(e),
-                }),
-                'error'
-              );
-            } finally {
-              queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
-              await loadPlants();
-            }
-          }}
-        >
-          {fmtMsg('uploadAll')}
-        </Button>
+        <div className='flex gap-4 items-center'>
+          <Button
+            size='md'
+            onClick={async () => {
+              try {
+                await store.upload();
+                openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
+              } catch (e) {
+                openSnackbar(
+                  fmtMsg('uploadAborted', {
+                    error:
+                      e instanceof AxiosError ? prettifyError(e) : String(e),
+                  }),
+                  'error'
+                );
+              } finally {
+                queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
+                await loadPlants();
+              }
+            }}
+          >
+            <UploadIcon
+              svgClassName={'size-6'}
+              pathClassName='fill-bisque-400 dark:fill-white'
+            />
+            {fmtMsg('uploadAll')}
+          </Button>
+          <span>{fmtMsg('treesToUpload', { count: store.totalCount })}</span>
+        </div>
       )}
       {showNoConnection && (
-        <span>
+        <div>
           {fmtMsg('youAreOfflineConnectToInternetToUploadWaitingPhotos')}
-        </span>
+        </div>
       )}
       {store.isUploading && <UploadProgressBar />}
       <div className='space-y-2.5'>
