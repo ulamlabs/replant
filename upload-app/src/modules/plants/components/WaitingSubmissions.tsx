@@ -48,6 +48,7 @@ export const WaitingSubmissions: React.FC = () => {
     <div className='space-y-5'>
       {showUploadButton && (
         <Button
+          Icon={UploadIcon}
           size='md'
           onClick={async () => {
             try {
@@ -66,10 +67,6 @@ export const WaitingSubmissions: React.FC = () => {
             }
           }}
         >
-          <UploadIcon
-            svgClassName={'size-6'}
-            pathClassName='fill-bisque-400 dark:fill-white'
-          />
           {fmtMsg('uploadAll')}
         </Button>
       )}
