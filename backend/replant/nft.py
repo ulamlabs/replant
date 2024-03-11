@@ -6,6 +6,7 @@ import time
 import traceback
 from typing import Callable, Sequence, TypeVar
 
+from cosmpy.aerial.exceptions import BroadcastError
 from cosmpy.aerial.wallet import LocalWallet
 from django.db import models
 from PIL import Image
@@ -132,9 +133,12 @@ def _batch_operation(
             Tree.objects.filter(id__in=tree_ids).update(
                 minting_state=Tree.MintingState.FAILED
             )
+            message = f"{action} ({len(trees_page)} trees)"
+            if isinstance(err, BroadcastError):
+                message += " (out of gas?)"
             History.objects.create(
                 event_type=History.EventType.MINTING_FAILED,
-                message=f"{action} ({len(trees_page)} trees)",
+                message=message,
                 details=f"Tree IDs:\n{tree_ids}\n\n{traceback.format_exc()}",
             )
             if all_trees:
