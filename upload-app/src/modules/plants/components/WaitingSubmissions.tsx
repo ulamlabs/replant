@@ -12,7 +12,7 @@ import {
 } from 'modules/offline';
 import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useState } from 'react';
-import { UploadProgressBar, WaitingPlantTile } from '.';
+import { WaitingPlantTile } from '.';
 import { allPlantsQueryKey } from '..';
 
 export const WaitingSubmissions: React.FC = () => {
@@ -79,7 +79,6 @@ export const WaitingSubmissions: React.FC = () => {
           )}
         </div>
       )}
-      {store.isUploading && <UploadProgressBar />}
       <div className='space-y-2.5'>
         <LoaderBox visible={isLoadingPlants} />
         {plants?.map((plant) => (
