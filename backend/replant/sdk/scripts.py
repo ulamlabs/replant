@@ -59,15 +59,16 @@ def validate_sei_address(address: str) -> None:
     """
 
     prefix, data_base5 = bech32.bech32_decode(address)
+
+    if data_base5 is None:
+        raise ValueError(f"Unable to parse address: {address}")
+
     if prefix != "sei":
-        raise ValueError("Address must start with 'sei' prefix")
+        raise ValueError("Address must start with 'sei' prefix.")
 
     data_base8 = bech32.convertbits(data_base5, 5, 8, False)
 
-    if data_base8 is None:
-        raise ValueError("Unable to parse address")
-
-    if len(data_base8) != 20 and len(data_base8) != 32:
+    if data_base8 is None or len(data_base8) != 20 and len(data_base8) != 32:
         raise ValueError(
-            "Decoded address must be 20 bytes long (account) or 32 bytes long (contract)"
+            "Decoded address must be 20 bytes long (account) or 32 bytes long (contract)."
         )

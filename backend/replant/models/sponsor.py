@@ -5,7 +5,16 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from replant import sdk
+
 from .utils import TrackableModel
+
+
+def validate_sei_address(address: str):
+    try:
+        sdk.validate_sei_address(address)
+    except ValueError as e:
+        raise ValidationError(str(e))
 
 
 class Sponsor(TrackableModel):
@@ -15,7 +24,9 @@ class Sponsor(TrackableModel):
 
     type = models.CharField(max_length=10, choices=Type.choices)
     name = models.CharField(max_length=100, unique=True)
-    wallet_address = models.CharField(max_length=42, unique=True)
+    wallet_address = models.CharField(
+        max_length=100, unique=True, validators=[validate_sei_address]
+    )
     contact_person_full_name = models.CharField(max_length=50)
     contact_person_email = models.EmailField()
     additional_info = models.TextField(blank=True)
