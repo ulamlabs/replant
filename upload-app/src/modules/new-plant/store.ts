@@ -9,6 +9,7 @@ type NewPlantState = {
   imageError?: string;
   isCameraLoading?: boolean;
   isCaptureModalOpen?: boolean;
+  isGettingLocation?: boolean;
   stream?: MediaStream;
   species?: AssignedSpecies;
   speciesError?: string;
@@ -18,6 +19,7 @@ type NewPlantState = {
   reset: () => void;
   setImage: (value?: CapturedImage) => void;
   setImageError: (value?: string) => void;
+  setIsGettingLocation: (value: boolean) => void;
   setSpecies: (value?: AssignedSpecies) => void;
   setSpeciesError: (value?: string) => void;
   setTmpImage: (value?: CapturedImage) => void;
@@ -75,6 +77,7 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       imageError: undefined,
       isCameraLoading: undefined,
       isCaptureModalOpen: undefined,
+      isGettingLocation: undefined,
       stream: undefined,
       species: undefined,
       speciesError: undefined,
@@ -82,6 +85,7 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     }),
   setImage: (image) => set({ image, imageError: undefined }),
   setImageError: (imageError) => set({ imageError }),
+  setIsGettingLocation: (value: boolean) => set({ isGettingLocation: value }),
   setSpecies: (species) => set({ species, speciesError: undefined }),
   setSpeciesError: (speciesError) => set({ speciesError }),
   setTmpImage: (tmpImage) => set({ tmpImage }),

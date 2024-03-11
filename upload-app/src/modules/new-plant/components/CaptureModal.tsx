@@ -1,8 +1,15 @@
 import clsx from 'clsx';
-import { BackButton, Button, LoaderBox, Section } from 'common/components';
-import { CameraIcon, CheckIcon, RepeatIcon } from 'common/icons';
+import {
+  BackButton,
+  Button,
+  Loader,
+  LoaderBox,
+  Section,
+} from 'common/components';
+import { CameraIcon, CheckIcon, LocationIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
+import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
 
@@ -24,8 +31,10 @@ export const CaptureModal: React.FC = () => {
     const capturedAt = new Date().toISOString();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
     const imgData = canvas.toDataURL('image/png');
+    store.setIsGettingLocation(true);
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
+        store.setIsGettingLocation(false);
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
         store.setTmpImage({
@@ -36,7 +45,11 @@ export const CaptureModal: React.FC = () => {
         });
       },
       (error) => {
-        console.log(error);
+        store.setIsGettingLocation(false);
+        openSnackbar(
+          fmtMsg('failedToGetLocation', { error: error.message }),
+          'error'
+        );
       },
       {
         timeout: 5000,
@@ -116,6 +129,12 @@ export const CaptureModal: React.FC = () => {
               width='600'
               height='800'
             />
+            {store.isGettingLocation && (
+              <div className='flex gap-4 items-center justify-center'>
+                <LocationIcon svgClassName='w-6 h-6' />
+                <Loader />
+              </div>
+            )}
           </div>
         </Section>
       </Layout>
