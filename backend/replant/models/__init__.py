@@ -4,6 +4,7 @@ from .user import User
 
 # isort: on
 from .assigned_species import AssignedSpecies
+from .history import History
 from .nft import Nft
 from .passcode import Passcode
 from .planting_organization import PlantingOrganization
