@@ -13,7 +13,7 @@ from PIL import Image
 
 import env
 from replant.integrations import nft_storage
-from replant.models import History, Tree
+from replant.models import History, Species, Tree
 from replant.sdk import CW721Client, MintInfo, get_sei_client
 
 logger = logging.getLogger(__name__)
@@ -213,6 +213,10 @@ def _get_nft_metadata(tree: Tree):
         "image": tree.ipfs_image_url,
         "attributes": [
             {"trait_type": "Botanical Name", "value": tree.species.botanical_name},
+            {
+                "trait_type": "IUCN status",
+                "value": Species.IucnStatus(tree.species.iucn_status).name,
+            },
             {"trait_type": "Country", "value": tree.country.name},
             {"trait_type": "Longitude", "value": str(tree.longitude)},
             {"trait_type": "Latitude", "value": str(tree.latitude)},

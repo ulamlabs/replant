@@ -23,6 +23,10 @@ export function TreeDetails({ tree }: TreeDetailsProps) {
           value={tree.botanical_name}
         />
         <ReadOnlyField label={fmtMsg('commonName')} value={tree.common_name} />
+        <ReadOnlyField
+          label={fmtMsg('iucnStatus')}
+          value={fmtMsg(`iucnStatus.${tree.iucn_status}`)}
+        />
         <ReadOnlyField label={fmtMsg('country')} value={tree.country} />
         <ReadOnlyField
           label={fmtMsg('location')}
