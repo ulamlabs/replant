@@ -61,7 +61,7 @@ def validate_sei_address(address: str) -> None:
     prefix, data_base5 = bech32.bech32_decode(address)
 
     if data_base5 is None:
-        raise ValueError(f"Unable to parse address: {address}")
+        raise ValueError("Unable to parse address.")
 
     if prefix != "sei":
         raise ValueError("Address must start with 'sei' prefix.")
