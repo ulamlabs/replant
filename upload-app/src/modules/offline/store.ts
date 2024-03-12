@@ -1,11 +1,6 @@
 import { postPlants } from 'modules/plants';
 import { create } from 'zustand';
-import {
-  deleteNewPlantById,
-  getNewPlantById,
-  getNewPlantsKeys,
-  getNewPlantsTotalCount,
-} from '.';
+import * as offlineDb from './db';
 
 type OfflineState = {
   isUploading: boolean;
@@ -36,19 +31,19 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
       set((prevState) => ({ uploadedCount: prevState.uploadedCount + 1 }));
     },
     syncTotalCount: async () => {
-      set({ totalCount: await getNewPlantsTotalCount() });
+      set({ totalCount: await offlineDb.getNewTreesTotalCount() });
     },
     upload: async () => {
       try {
         set({ isUploading: true, uploadedCount: 0 });
-        const keys = await getNewPlantsKeys();
+        const keys = await offlineDb.getNewTreesKeys();
         for (const key of keys) {
-          const plant = await getNewPlantById(key);
+          const plant = await offlineDb.getNewTreeById(key);
           if (!plant) {
             continue;
           }
-          await postPlants(plant.plant);
-          await deleteNewPlantById(key);
+          await postPlants(plant.tree);
+          await offlineDb.deleteNewTreeById(key);
           get().incUploadedCount();
         }
       } finally {

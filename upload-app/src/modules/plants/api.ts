@@ -7,8 +7,9 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { isOnline, saveNewPlant, useOfflineStore } from 'modules/offline';
-import { NewPlant, Page, Plant, PlantsSummary } from '.';
+import { isOnline, useOfflineStore } from 'modules/offline';
+import * as offlineDb from 'modules/offline/db';
+import { NewTree, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;
 
@@ -34,18 +35,18 @@ const getPlantsSummary = async () => {
   return response.data;
 };
 
-export const postPlants = (payload: NewPlant) =>
-  post<Plant, NewPlant>(plantsUrl, payload);
+export const postPlants = (payload: NewTree) =>
+  post<Plant, NewTree>(plantsUrl, payload);
 
 const postPlantsOrSaveToDb = async (payload: {
-  plant: NewPlant;
+  plant: NewTree;
   capturedAt: string;
 }) => {
   if (isOnline()) {
     const response = await postPlants(payload.plant);
     return { response, onLine: true };
   }
-  await saveNewPlant(payload.plant, payload.capturedAt);
+  await offlineDb.saveNewTree(payload.plant, payload.capturedAt);
   return { onLine: false };
 };
 
@@ -69,7 +70,7 @@ export const usePlantsMutation = () => {
   return useMutation<
     { response?: AxiosResponse<Plant>; onLine: boolean },
     AxiosError,
-    { plant: NewPlant; capturedAt: string }
+    { plant: NewTree; capturedAt: string }
   >({
     mutationKey: postPlantsQueryKey,
     mutationFn: postPlantsOrSaveToDb,

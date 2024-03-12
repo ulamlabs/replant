@@ -1,12 +1,12 @@
 import { DBSchema, openDB } from 'idb';
-import { NewPlant } from 'modules/plants';
+import { NewTree } from 'modules/plants';
 import { AssignedSpeciesResponseData } from 'modules/species';
 import { v4 as getId } from 'uuid';
 
-export type OfflinePlant = {
+export type OfflineTree = {
   id: string;
   capturedAt: string;
-  plant: NewPlant;
+  tree: NewTree;
 };
 
 interface RwDbSchema extends DBSchema {
@@ -14,9 +14,9 @@ interface RwDbSchema extends DBSchema {
     key: number;
     value: AssignedSpeciesResponseData;
   };
-  plants: {
+  trees: {
     key: string;
-    value: OfflinePlant;
+    value: OfflineTree;
   };
 }
 
@@ -28,8 +28,8 @@ export const openDb = async () => {
       if (!db.objectStoreNames.contains('assignedSpecies')) {
         db.createObjectStore('assignedSpecies');
       }
-      if (!db.objectStoreNames.contains('plants')) {
-        db.createObjectStore('plants', {
+      if (!db.objectStoreNames.contains('trees')) {
+        db.createObjectStore('trees', {
           keyPath: 'id',
         });
       }
@@ -45,7 +45,8 @@ export const saveAssignedSpecies = async (
     const tx = db.transaction('assignedSpecies', 'readwrite');
     await Promise.all([tx.store.put(value, 0), tx.done]);
   } catch (e) {
-    console.log('Db assigned species save error', e);
+    console.error('Db assigned species save error', e);
+    throw e;
   }
 };
 
@@ -55,69 +56,73 @@ export const loadAssignedSpecies = async () => {
     const species = await db.get('assignedSpecies', 0);
     return species;
   } catch (e) {
-    console.log('Db assigned species load error', e);
+    console.error('Db assigned species load error', e);
+    throw e;
   }
 };
 
-export const saveNewPlant = async (plant: NewPlant, capturedAt: string) => {
+export const saveNewTree = async (tree: NewTree, capturedAt: string) => {
   const db = await openDb();
   try {
-    const tx = db.transaction('plants', 'readwrite');
+    const tx = db.transaction('trees', 'readwrite');
     const obj = {
       capturedAt,
       id: getId(),
-      plant,
+      tree,
     };
     await Promise.all([tx.store.add(obj), tx.done]);
   } catch (e) {
-    console.log('Db new plant save error', e);
-  }
-};
-
-export const loadNewPlants = async () => {
-  const db = await openDb();
-  try {
-    return db.getAll('plants');
-  } catch (e) {
-    console.log('Db new plant load error', e);
-  }
-};
-
-export const getNewPlantsTotalCount = async () => {
-  const db = await openDb();
-  try {
-    return db.count('plants');
-  } catch (e) {
-    console.log('Db new plants total count error', e);
-  }
-};
-
-export const getNewPlantsKeys = async () => {
-  const db = await openDb();
-  try {
-    return db.getAllKeys('plants');
-  } catch (e) {
-    console.log('Db new plants all keys error', e);
+    console.error('Db new tree save error', e);
     throw e;
   }
 };
 
-export const getNewPlantById = async (id: string) => {
+export const loadNewTrees = async () => {
   const db = await openDb();
   try {
-    return db.get('plants', id);
+    return db.getAll('trees');
   } catch (e) {
-    console.log('Db get new plant by id error', id, e);
+    console.error('Db new tree load error', e);
     throw e;
   }
 };
 
-export const deleteNewPlantById = async (id: string) => {
+export const getNewTreesTotalCount = async () => {
   const db = await openDb();
   try {
-    return db.delete('plants', id);
+    return db.count('trees');
   } catch (e) {
-    console.log('Db delete new plant by id error', id, e);
+    console.error('Db new trees total count error', e);
+    throw e;
+  }
+};
+
+export const getNewTreesKeys = async () => {
+  const db = await openDb();
+  try {
+    return db.getAllKeys('trees');
+  } catch (e) {
+    console.error('Db new trees all keys error', e);
+    throw e;
+  }
+};
+
+export const getNewTreeById = async (id: string) => {
+  const db = await openDb();
+  try {
+    return db.get('trees', id);
+  } catch (e) {
+    console.error('Db get new tree by id error', id, e);
+    throw e;
+  }
+};
+
+export const deleteNewTreeById = async (id: string) => {
+  const db = await openDb();
+  try {
+    return db.delete('trees', id);
+  } catch (e) {
+    console.error('Db delete new tree by id error', id, e);
     throw e;
   }
 };

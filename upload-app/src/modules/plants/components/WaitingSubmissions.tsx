@@ -4,12 +4,8 @@ import { Button, LoaderBox } from 'common/components';
 import { OfflineIcon, UploadIcon } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
-import {
-  OfflinePlant,
-  loadNewPlants,
-  useIsOnline,
-  useOfflineStore,
-} from 'modules/offline';
+import { OfflineTree, useIsOnline, useOfflineStore } from 'modules/offline';
+import * as offlineDb from 'modules/offline/db';
 import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useState } from 'react';
 import { WaitingPlantTile } from '.';
@@ -18,18 +14,18 @@ import { allPlantsQueryKey } from '..';
 export const WaitingSubmissions: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
-  const [isLoadingPlants, setIsLoadingPlants] = useState(true);
-  const [plants, setPlants] = useState<OfflinePlant[]>();
+  const [isLoadingTrees, setIsLoadingTrees] = useState(true);
+  const [plants, setPlants] = useState<OfflineTree[]>();
 
-  const loadPlants = async () => {
-    setIsLoadingPlants(true);
-    const plants = await loadNewPlants();
-    setIsLoadingPlants(false);
+  const loadTrees = async () => {
+    setIsLoadingTrees(true);
+    const plants = await offlineDb.loadNewTrees();
+    setIsLoadingTrees(false);
     setPlants(plants);
   };
 
   useEffect(() => {
-    loadPlants();
+    loadTrees();
   }, []);
 
   const queryClient = useQueryClient();
@@ -40,6 +36,23 @@ export const WaitingSubmissions: React.FC = () => {
 
   const showUploadButton = store.totalCount > 0 && !store.isUploading;
 
+  const upload = async () => {
+    try {
+      await store.upload();
+      openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
+    } catch (e) {
+      openSnackbar(
+        fmtMsg('uploadAborted', {
+          error: e instanceof AxiosError ? prettifyError(e) : String(e),
+        }),
+        'error'
+      );
+    } finally {
+      queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
+      await loadTrees();
+    }
+  };
+
   return (
     <div className='space-y-5'>
       {showUploadButton && (
@@ -48,23 +61,7 @@ export const WaitingSubmissions: React.FC = () => {
             Icon={UploadIcon}
             disabled={!isOnline}
             size='md'
-            onClick={async () => {
-              try {
-                await store.upload();
-                openSnackbar(fmtMsg('uploadFinishedSuccessfully'), 'success');
-              } catch (e) {
-                openSnackbar(
-                  fmtMsg('uploadAborted', {
-                    error:
-                      e instanceof AxiosError ? prettifyError(e) : String(e),
-                  }),
-                  'error'
-                );
-              } finally {
-                queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
-                await loadPlants();
-              }
-            }}
+            onClick={upload}
           >
             {fmtMsg('uploadAll')}
           </Button>
@@ -80,9 +77,9 @@ export const WaitingSubmissions: React.FC = () => {
         </div>
       )}
       <div className='space-y-2.5'>
-        <LoaderBox visible={isLoadingPlants} />
+        <LoaderBox visible={isLoadingTrees} />
         {plants?.map((plant) => (
-          <WaitingPlantTile key={plant.id} plant={plant.plant} />
+          <WaitingPlantTile key={plant.id} plant={plant.tree} />
         ))}
         {plants?.length === 0 && (
           <div className='text-center'>

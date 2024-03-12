@@ -7,7 +7,7 @@ export type CapturedImage = {
   longitude: string;
 };
 
-export type NewPlant = {
+export type NewTree = {
   assigned_species_id: number;
   image: string;
   latitude: string;

@@ -34,7 +34,7 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     }
     stopStream(stream);
   },
-  openCapture: async (fmtMsg) => {
+  openCapture: async (fmtMsg: FmtMsgFn) => {
     if (!window.navigator.mediaDevices) {
       openSnackbar(fmtMsg('mediaDevicesNotFound'), 'error');
       return;

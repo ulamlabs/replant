@@ -1,8 +1,8 @@
 import { useSpecies } from 'modules/species';
-import { NewPlant } from '..';
+import { NewTree } from '..';
 
 type Props = {
-  plant: NewPlant;
+  plant: NewTree;
 };
 
 export const WaitingPlantTile: React.FC<Props> = ({ plant }) => {
