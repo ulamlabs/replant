@@ -1,4 +1,4 @@
-import { DBSchema, openDB } from 'idb';
+import { DBSchema, IDBPDatabase, openDB } from 'idb';
 import { NewTree } from 'modules/plants';
 import { AssignedSpeciesResponseData } from 'modules/species';
 import { v4 as getId } from 'uuid';
@@ -22,7 +22,16 @@ interface RwDbSchema extends DBSchema {
 
 const dbName = 'RW Offline DB';
 
-export const openDb = async () => {
+let db: IDBPDatabase<RwDbSchema>;
+
+const getDb = async () => {
+  if (!db) {
+    db = await openDb();
+  }
+  return db;
+};
+
+const openDb = async () => {
   return await openDB<RwDbSchema>(dbName, 1, {
     upgrade: (db) => {
       if (!db.objectStoreNames.contains('assignedSpecies')) {
@@ -40,89 +49,48 @@ export const openDb = async () => {
 export const saveAssignedSpecies = async (
   value: AssignedSpeciesResponseData
 ) => {
-  const db = await openDb();
-  try {
-    const tx = db.transaction('assignedSpecies', 'readwrite');
-    await Promise.all([tx.store.put(value, 0), tx.done]);
-  } catch (e) {
-    console.error('Db assigned species save error', e);
-    throw e;
-  }
+  const db = await getDb();
+  const tx = db.transaction('assignedSpecies', 'readwrite');
+  await Promise.all([tx.store.put(value, 0), tx.done]);
 };
 
 export const loadAssignedSpecies = async () => {
-  const db = await openDb();
-  try {
-    const species = await db.get('assignedSpecies', 0);
-    return species;
-  } catch (e) {
-    console.error('Db assigned species load error', e);
-    throw e;
-  }
+  const db = await getDb();
+  return db.get('assignedSpecies', 0);
 };
 
 export const saveNewTree = async (tree: NewTree, capturedAt: string) => {
-  const db = await openDb();
-  try {
-    const tx = db.transaction('trees', 'readwrite');
-    const obj = {
-      capturedAt,
-      id: getId(),
-      tree,
-    };
-    await Promise.all([tx.store.add(obj), tx.done]);
-  } catch (e) {
-    console.error('Db new tree save error', e);
-    throw e;
-  }
+  const db = await getDb();
+  const tx = db.transaction('trees', 'readwrite');
+  const obj = {
+    capturedAt,
+    id: getId(),
+    tree,
+  };
+  await Promise.all([tx.store.add(obj), tx.done]);
 };
 
 export const loadNewTrees = async () => {
-  const db = await openDb();
-  try {
-    return db.getAll('trees');
-  } catch (e) {
-    console.error('Db new tree load error', e);
-    throw e;
-  }
+  const db = await getDb();
+  return db.getAll('trees');
 };
 
 export const getNewTreesTotalCount = async () => {
-  const db = await openDb();
-  try {
-    return db.count('trees');
-  } catch (e) {
-    console.error('Db new trees total count error', e);
-    throw e;
-  }
+  const db = await getDb();
+  return db.count('trees');
 };
 
 export const getNewTreesKeys = async () => {
-  const db = await openDb();
-  try {
-    return db.getAllKeys('trees');
-  } catch (e) {
-    console.error('Db new trees all keys error', e);
-    throw e;
-  }
+  const db = await getDb();
+  return db.getAllKeys('trees');
 };
 
 export const getNewTreeById = async (id: string) => {
-  const db = await openDb();
-  try {
-    return db.get('trees', id);
-  } catch (e) {
-    console.error('Db get new tree by id error', id, e);
-    throw e;
-  }
+  const db = await getDb();
+  return db.get('trees', id);
 };
 
 export const deleteNewTreeById = async (id: string) => {
-  const db = await openDb();
-  try {
-    return db.delete('trees', id);
-  } catch (e) {
-    console.error('Db delete new tree by id error', id, e);
-    throw e;
-  }
+  const db = await getDb();
+  return db.delete('trees', id);
 };
