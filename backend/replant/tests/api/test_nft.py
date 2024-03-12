@@ -26,6 +26,7 @@ def test_nft_listing_single(user_client: APIClient):
             {
                 "botanical_name": tree.species.botanical_name,
                 "common_name": tree.species.common_name,
+                "iucn_status": tree.species.iucn_status,
                 "country": tree.country.name,
                 "created_at": "2024-01-01",
                 "image": f"http://testserver/django-files/{tree.image}",

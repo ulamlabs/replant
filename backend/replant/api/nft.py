@@ -12,6 +12,7 @@ class NftSerializer(serializers.ModelSerializer):
         fields = (
             "common_name",
             "botanical_name",
+            "iucn_status",
             "image",
             "country",
             "planting_cost_usd",
@@ -27,6 +28,7 @@ class NftSerializer(serializers.ModelSerializer):
 
     common_name = serializers.CharField(source="species.common_name")
     botanical_name = serializers.CharField(source="species.botanical_name")
+    iucn_status = serializers.CharField(source="species.iucn_status")
     country = serializers.CharField(source="country.name")
     planter = serializers.CharField(source="created_by.username")
     planting_organization = serializers.CharField(source="planting_organization.name")

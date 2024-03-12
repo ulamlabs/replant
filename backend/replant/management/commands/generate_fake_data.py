@@ -116,9 +116,26 @@ def create_organizations(quantity: int):
 def create_sponsors(quantity: int):
     if not quantity:
         return
+
     logger.info(f"Creating {quantity} sponsors...")
     admin = User.objects.filter(is_superuser=True).first()
-    baker.make(Sponsor, quantity, created_by=admin, name=baker.seq("Sponsor"))
+
+    sponsors: list[Sponsor] = []
+    for i in range(quantity):
+        is_quantity = random.random() > 0.5
+        nft_ordered = random.randrange(1, 20) * 10 if is_quantity else None
+        nft_ordered_usd = random.randrange(1, 20) * 100 if not is_quantity else None
+
+        sponsor = baker.prepare(
+            Sponsor,
+            created_by=admin,
+            name=f"Sponsor{i + 1}",
+            nft_ordered=nft_ordered,
+            nft_ordered_usd=nft_ordered_usd,
+        )
+        sponsors.append(sponsor)
+
+    Sponsor.objects.bulk_create(sponsors)
 
 
 def create_trees(quantity: int, review_state: str, minting_state: str):

@@ -8,7 +8,7 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider>
       <IntlProvider>
-        <div className='w-screen h-screen overflow-y-auto'>
+        <div id='root-scroll' className='w-screen h-screen overflow-y-auto'>
           <BrowserRouter>
             <Routes>
               <Route path='/' element={<Gallery />} />
