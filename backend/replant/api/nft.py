@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, serializers
+from rest_framework import mixins, serializers, viewsets
 
 import env
 from replant.models import Nft
@@ -43,7 +43,12 @@ class NftSerializer(serializers.ModelSerializer):
         return obj.created_at.date()
 
 
-class NftView(generics.ListAPIView):
+class NftView(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
+    lookup_field = "nft_id"
     serializer_class = NftSerializer
     queryset = Nft.objects.select_related(
         "species",

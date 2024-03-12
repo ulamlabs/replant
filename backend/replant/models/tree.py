@@ -62,6 +62,7 @@ class Tree(TrackableModel):
     )
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    tile_index = models.PositiveIntegerField(db_index=True)
     captured_at = models.DateTimeField()
 
     planting_organization = models.ForeignKey(
