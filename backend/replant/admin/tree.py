@@ -4,7 +4,7 @@ from django.http.request import HttpRequest
 from django.utils.html import format_html
 from rangefilter.filters import DateRangeFilterBuilder
 
-from replant.models import Tree
+from replant.models import Species, Tree
 
 from .utils import TrackableModelAdmin
 
@@ -33,6 +33,7 @@ class TreeAdmin(TrackableModelAdmin):
         "planting_organization",
         "country",
         "species",
+        "iucn_status",
         "is_native",
         "planting_cost_usd",
         "sponsor",
@@ -58,6 +59,10 @@ class TreeAdmin(TrackableModelAdmin):
                 obj.image.url
             )
         )
+
+    @admin.display(description="IUCN status")
+    def iucn_status(self, obj: Tree):
+        return Species.IucnStatus(obj.species.iucn_status).name
 
     def has_add_permission(self, request: HttpRequest) -> bool:
         return False
