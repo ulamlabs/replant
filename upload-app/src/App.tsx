@@ -1,5 +1,7 @@
 import { IntlProvider } from 'modules/intl';
+import { useInitOffline } from 'modules/offline';
 import { QueryClientProvider } from 'modules/query';
+import { SnackbarManager } from 'modules/snackbar';
 import {
   ComponentTestpage,
   DashboardPage,
@@ -13,6 +15,8 @@ import {
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
+  useInitOffline();
+
   return (
     <QueryClientProvider>
       <IntlProvider>
@@ -28,6 +32,7 @@ const App: React.FC = () => {
             <Route path='/user' element={<UserPage />} />
             <Route path='/*' element={<NotFoundPage />} />
           </Routes>
+          <SnackbarManager />
         </BrowserRouter>
       </IntlProvider>
     </QueryClientProvider>

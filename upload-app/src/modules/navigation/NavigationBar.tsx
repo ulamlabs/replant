@@ -1,7 +1,10 @@
 import { CameraIcon, ForestIcon, HomeIcon, UserIcon } from 'common/icons';
+import { useOfflineStore } from 'modules/offline';
 import { NavigationButton } from './components';
 
 export const NavigationBar: React.FC = () => {
+  const offlineStore = useOfflineStore();
+
   return (
     <div
       className={
@@ -9,7 +12,11 @@ export const NavigationBar: React.FC = () => {
       }
     >
       <NavigationButton Icon={HomeIcon} path='/dashboard' />
-      <NavigationButton Icon={ForestIcon} path='/submissions' />
+      <NavigationButton
+        Icon={ForestIcon}
+        path='/submissions'
+        showBadge={offlineStore.totalCount > 0}
+      />
       <NavigationButton Icon={CameraIcon} path='/new-plant' />
       <NavigationButton Icon={UserIcon} path='/user' />
     </div>

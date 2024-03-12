@@ -2,6 +2,7 @@ import { LoaderBox } from 'common/components';
 import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
+import { useSpecies } from 'modules/species';
 import { InfoBox } from './components';
 
 export const Dashboard: React.FC = () => {
@@ -10,6 +11,8 @@ export const Dashboard: React.FC = () => {
   const { data: summary, isLoading: isLoadingSummary } = usePlantsSummary();
 
   const { data: plants, isLoading: isLoadingPlants } = usePlants(1);
+
+  useSpecies(); // just fetch them so that they get saved to indexed DB immediately after login
 
   return (
     <div>

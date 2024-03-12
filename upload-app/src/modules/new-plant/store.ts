@@ -1,26 +1,25 @@
+import { FmtMsgFn } from 'modules/intl';
+import { CapturedImage } from 'modules/plants';
+import { openSnackbar } from 'modules/snackbar';
 import { AssignedSpecies } from 'modules/species';
 import { create } from 'zustand';
-
-export type CapturedImage = {
-  image: string; // as data URL
-  latitude: string;
-  longitude: string;
-};
 
 type NewPlantState = {
   image?: CapturedImage;
   imageError?: string;
   isCameraLoading?: boolean;
   isCaptureModalOpen?: boolean;
+  isGettingLocation?: boolean;
   stream?: MediaStream;
   species?: AssignedSpecies;
   speciesError?: string;
   tmpImage?: CapturedImage;
   closeCapture: () => void;
-  openCapture: () => void;
+  openCapture: (fmtMsg: FmtMsgFn) => void;
   reset: () => void;
   setImage: (value?: CapturedImage) => void;
   setImageError: (value?: string) => void;
+  setIsGettingLocation: (value: boolean) => void;
   setSpecies: (value?: AssignedSpecies) => void;
   setSpeciesError: (value?: string) => void;
   setTmpImage: (value?: CapturedImage) => void;
@@ -35,8 +34,9 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     }
     stopStream(stream);
   },
-  openCapture: async () => {
+  openCapture: async (fmtMsg: FmtMsgFn) => {
     if (!window.navigator.mediaDevices) {
+      openSnackbar(fmtMsg('mediaDevicesNotFound'), 'error');
       return;
     }
     set({
@@ -45,20 +45,31 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       tmpImage: undefined,
     });
     const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-    const stream = await window.navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: { ideal: 'environment' },
-        width: { ideal: isPortrait ? 800 : 600 },
-        height: { ideal: isPortrait ? 600 : 800 },
-      },
-    });
-    set({ isCameraLoading: false });
-    // if capture modal has been closed before camera fully started, then close the camera
-    if (!get().isCaptureModalOpen) {
-      stopStream(stream);
-      return;
+    try {
+      const stream = await window.navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: { ideal: 'environment' },
+          width: { ideal: isPortrait ? 800 : 600 },
+          height: { ideal: isPortrait ? 600 : 800 },
+        },
+      });
+      set({ isCameraLoading: false });
+      // if capture modal has been closed before camera fully started, then close the camera
+      if (!get().isCaptureModalOpen) {
+        stopStream(stream);
+        return;
+      }
+      set({ stream });
+    } catch (e) {
+      // if capture modal has been closed before camera error, then don't show error
+      if (get().isCaptureModalOpen) {
+        openSnackbar(
+          fmtMsg('failedToOpenCamera', { error: String(e) }),
+          'error'
+        );
+      }
+      set({ isCameraLoading: false, isCaptureModalOpen: false });
     }
-    set({ stream });
   },
   reset: () =>
     set({
@@ -66,6 +77,7 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       imageError: undefined,
       isCameraLoading: undefined,
       isCaptureModalOpen: undefined,
+      isGettingLocation: undefined,
       stream: undefined,
       species: undefined,
       speciesError: undefined,
@@ -73,6 +85,7 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
     }),
   setImage: (image) => set({ image, imageError: undefined }),
   setImageError: (imageError) => set({ imageError }),
+  setIsGettingLocation: (value: boolean) => set({ isGettingLocation: value }),
   setSpecies: (species) => set({ species, speciesError: undefined }),
   setSpeciesError: (speciesError) => set({ speciesError }),
   setTmpImage: (tmpImage) => set({ tmpImage }),

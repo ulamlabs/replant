@@ -1,9 +1,10 @@
-import { Alert, Button, Header, Section, Snackbar } from 'common/components';
+import { Alert, Button, Header, Section } from 'common/components';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { usePlantsMutation } from 'modules/plants';
+import { openSnackbar } from 'modules/snackbar';
 import { SpeciesAutocomplete, useSpecies } from 'modules/species';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capture, NewPlantSummary } from './components';
 import { useNewPlantStore } from './store';
@@ -20,8 +21,6 @@ export const NewPlant: React.FC = () => {
   const { data: species } = useSpecies();
 
   const noSpecies = species && !species.length; // species loaded, but no items
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
     store.reset();
@@ -46,10 +45,13 @@ export const NewPlant: React.FC = () => {
     }
 
     await plantsMutation.mutateAsync({
-      assigned_species_id: store.species!.id,
-      ...store.image!,
+      plant: {
+        assigned_species_id: store.species!.id,
+        ...store.image!,
+      },
+      capturedAt: store.image!.capturedAt,
     });
-    setSnackbarOpen(true);
+    openSnackbar(fmtMsg('successYouCanNowAddAnotherTree'), 'success');
     store.setImage(undefined);
   };
 
@@ -105,9 +107,6 @@ export const NewPlant: React.FC = () => {
         />
         <NewPlantSummary />
       </div>
-      <Snackbar open={snackbarOpen} onClose={() => setSnackbarOpen(false)}>
-        {fmtMsg('successYouCanNowAddNextTree')}
-      </Snackbar>
     </Section>
   );
 };

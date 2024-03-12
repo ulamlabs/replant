@@ -7,7 +7,9 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { NewPlant, Page, Plant, PlantsSummary } from '.';
+import { isOnline, useOfflineStore } from 'modules/offline';
+import * as offlineDb from 'modules/offline/db';
+import { NewTree, Page, Plant, PlantsSummary } from '.';
 
 const PAGE_SIZE = 15;
 
@@ -18,6 +20,8 @@ const plantsInfiniteQueryKey = ['GET', plantsUrl, 'infinite'];
 const plantsQueryKey = (page: number) => ['GET', plantsUrl, page];
 const plantsSummaryQueryKey = ['POST', plantsUrl, 'summary'];
 const postPlantsQueryKey = ['POST', plantsUrl];
+
+export const allPlantsQueryKey = ['GET', plantsUrl];
 
 const getPlants = async (page: number) => {
   const response = await get<Page<Plant>>(
@@ -31,8 +35,20 @@ const getPlantsSummary = async () => {
   return response.data;
 };
 
-const postPlants = (payload: NewPlant) =>
-  post<Plant, NewPlant>(plantsUrl, payload);
+export const postPlants = (payload: NewTree) =>
+  post<Plant, NewTree>(plantsUrl, payload);
+
+const postPlantsOrSaveToDb = async (payload: {
+  plant: NewTree;
+  capturedAt: string;
+}) => {
+  if (isOnline()) {
+    const response = await postPlants(payload.plant);
+    return { response, onLine: true };
+  }
+  await offlineDb.saveNewTree(payload.plant, payload.capturedAt);
+  return { onLine: false };
+};
 
 export const usePlants = (page: number) =>
   useQuery<Page<Plant>>({
@@ -49,12 +65,23 @@ export const usePlantsSummary = () =>
 export const usePlantsMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<AxiosResponse<Plant>, AxiosError, NewPlant>({
+  const { incTotalCount } = useOfflineStore();
+
+  return useMutation<
+    { response?: AxiosResponse<Plant>; onLine: boolean },
+    AxiosError,
+    { plant: NewTree; capturedAt: string }
+  >({
     mutationKey: postPlantsQueryKey,
-    mutationFn: (payload) => postPlants(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['GET', plantsUrl] }); // invalidates all plants queries
+    mutationFn: postPlantsOrSaveToDb,
+    onSuccess: (data) => {
+      if (data.onLine) {
+        queryClient.invalidateQueries({ queryKey: allPlantsQueryKey }); // invalidates all plants queries if uploaded to BE
+      } else {
+        incTotalCount();
+      }
     },
+    networkMode: 'always',
   });
 };
 
