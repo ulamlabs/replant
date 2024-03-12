@@ -24,6 +24,7 @@ class UserHistoryLogSerializer(serializers.ModelSerializer):
             "created_at",
         )
 
+
 class UserHistorySerializer(serializers.Serializer):
     history = UserHistoryLogSerializer(many=True, write_only=True)
 

@@ -5,6 +5,7 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
+from replant import clustering
 from replant.models import AssignedSpecies, Tree, User
 from replant.permissions import IsPlanter
 
@@ -79,6 +80,10 @@ class TreeSerializer(serializers.ModelSerializer):
             planting_cost_usd=assigned_species.planting_cost_usd,
             created_by=validated_data["user"],
             captured_at=validated_data["captured_at"],
+            tile_index=clustering.get_tree_tile_index(
+                float(validated_data["latitude"]),
+                float(validated_data["longitude"]),
+            ),
         )
 
 

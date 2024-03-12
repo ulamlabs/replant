@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+@import 'leaflet/dist/leaflet.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,4 +26,24 @@
   html {
     @apply dark:text-white dark:bg-teal-900 bg-white
   }
+}
+
+.map-cluster-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: white;
+  padding: 14px;
+  border: 5px solid green;
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 4px 0 #555;
+  color:black;
+}
+
+.leaflet-div-icon {
+  border: none;
+  background:none;
 }

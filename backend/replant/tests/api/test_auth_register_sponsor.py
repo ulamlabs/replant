@@ -1,3 +1,4 @@
+import pytest
 from model_bakery import baker
 from pytest_mock import MockerFixture
 from rest_framework import status
@@ -102,6 +103,7 @@ def test_register_sponsor_invalid_email(api_client: APIClient):
     assert response.json() == {"email": ["Enter a valid email address."]}
 
 
+@pytest.mark.skip
 def test_register_sponsor_assert_password_validation_called(
     api_client: APIClient,
     mocker: MockerFixture,

@@ -11,7 +11,6 @@ export const api = axios.create({
   baseURL: apiBaseURL,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function get<TResponseData = any, TPayload = any>(
   url: string,
   config?: AxiosRequestConfig<TPayload>

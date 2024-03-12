@@ -12,6 +12,7 @@ from .sponsor import SponsorAdmin
 from .tree import TreeAdmin
 from .tree_to_mint import TreeToMintAdmin
 from .tree_to_review import TreeToReviewAdmin
+from .trees_cluster import TreesClusterAdmin
 from .user import UserAdmin
 from .user_history import UserHistoryAdmin
 
