@@ -4,7 +4,7 @@ import { useFmtMsg } from 'modules/intl';
 import { usePlantsMutation } from 'modules/plants';
 import { openSnackbar } from 'modules/snackbar';
 import { SpeciesAutocomplete, useSpecies } from 'modules/species';
-import { useEffect, } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capture, NewPlantSummary } from './components';
 import { useNewPlantStore } from './store';
@@ -51,7 +51,7 @@ export const NewPlant: React.FC = () => {
       },
       capturedAt: store.image!.capturedAt,
     });
-    openSnackbar(fmtMsg('successYouCanNowAddNextTree'), 'success')
+    openSnackbar(fmtMsg('successYouCanNowAddAnotherTree'), 'success');
     store.setImage(undefined);
   };
 
