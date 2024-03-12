@@ -43,6 +43,7 @@ class TreeAdmin(TrackableModelAdmin):
         "metadata_cid",
         "created_by",
         "created_at",
+        "tile_index",
     )
 
     list_filter = [

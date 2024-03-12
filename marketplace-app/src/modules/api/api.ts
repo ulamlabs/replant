@@ -1,4 +1,11 @@
-import { SponsorSimple, SponsorDetails, Paginated, Tree } from 'types';
+import {
+  SponsorSimple,
+  SponsorDetails,
+  Paginated,
+  Tree,
+  TreesCluster,
+  TreePoint,
+} from 'types';
 import { get } from './base-api';
 
 export type GetTreesParams = {
@@ -9,6 +16,30 @@ export type GetTreesParams = {
 
 export function getTrees(params: GetTreesParams) {
   return get<Paginated<Tree>>('nfts', { params }).then(
+    (response) => response.data
+  );
+}
+
+export function getTreeDetails(nftId: number) {
+  return get<Tree>(`nfts/${nftId}`).then((response) => response.data);
+}
+
+export type Tile = {
+  index: number;
+};
+
+export type TileWithZoom = Tile & {
+  zoom: number;
+};
+
+export function getTreesClusters(params: TileWithZoom) {
+  return get<TreesCluster[]>('trees_clusters', { params }).then(
+    (response) => response.data
+  );
+}
+
+export function getTreePoints(params: Tile) {
+  return get<TreePoint[]>('tree_points', { params }).then(
     (response) => response.data
   );
 }

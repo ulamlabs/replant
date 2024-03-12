@@ -13,4 +13,5 @@ from .sponsor import Sponsor
 from .tree import Tree
 from .tree_to_mint import TreeToMint
 from .tree_to_review import TreeToReview
+from .trees_cluster import TreesCluster
 from .user_history import UserHistory
