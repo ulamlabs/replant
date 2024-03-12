@@ -70,14 +70,30 @@ export const saveNewTree = async (tree: NewTree, capturedAt: string) => {
   await Promise.all([tx.store.add(obj), tx.done]);
 };
 
-export const loadNewTrees = async () => {
-  const db = await getDb();
-  return db.getAll('trees');
-};
-
 export const getNewTreesTotalCount = async () => {
   const db = await getDb();
   return db.count('trees');
+};
+
+export const loadNewTrees = async (offset: number, count: number) => {
+  const result: OfflineTree[] = [];
+  const db = await openDb();
+  const tx = await db.transaction('trees', 'readonly');
+  let cursor = await tx.store.openCursor();
+  if (!cursor) {
+    return [];
+  }
+  if (offset > 0) {
+    cursor = await cursor.advance(offset);
+  }
+  for (let i = 0; i < count; i++) {
+    if (!cursor) {
+      break;
+    }
+    result.push(cursor.value);
+    cursor = await cursor.continue();
+  }
+  return result;
 };
 
 export const getNewTreesKeys = async () => {
@@ -94,3 +110,8 @@ export const deleteNewTreeById = async (id: string) => {
   const db = await getDb();
   return db.delete('trees', id);
 };
+
+(window as any).saveNewTree = saveNewTree;
+(window as any).loadNewTrees = loadNewTrees;
+(window as any).getNewTreesTotalCount = getNewTreesTotalCount;
+(window as any).getNewTreesKeys = getNewTreesKeys;

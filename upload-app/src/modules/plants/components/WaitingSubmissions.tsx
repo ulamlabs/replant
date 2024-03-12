@@ -2,31 +2,20 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Button, LoaderBox } from 'common/components';
 import { OfflineIcon, UploadIcon } from 'common/icons';
-import { prettifyError } from 'common/utils';
+import { prettifyError, useInfiniteScrolling } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
-import { OfflineTree, useIsOnline, useOfflineStore } from 'modules/offline';
-import * as offlineDb from 'modules/offline/db';
+import {
+  offlineTreesQueryKey,
+  useIsOnline,
+  useOfflineStore,
+  useOfflineTreesInfinite,
+} from 'modules/offline';
 import { openSnackbar } from 'modules/snackbar';
-import { useEffect, useState } from 'react';
 import { WaitingPlantTile } from '.';
 import { allPlantsQueryKey } from '..';
 
 export const WaitingSubmissions: React.FC = () => {
   const fmtMsg = useFmtMsg();
-
-  const [isLoadingTrees, setIsLoadingTrees] = useState(true);
-  const [plants, setPlants] = useState<OfflineTree[]>();
-
-  const loadTrees = async () => {
-    setIsLoadingTrees(true);
-    const plants = await offlineDb.loadNewTrees();
-    setIsLoadingTrees(false);
-    setPlants(plants);
-  };
-
-  useEffect(() => {
-    loadTrees();
-  }, []);
 
   const queryClient = useQueryClient();
 
@@ -49,9 +38,20 @@ export const WaitingSubmissions: React.FC = () => {
       );
     } finally {
       queryClient.invalidateQueries({ queryKey: allPlantsQueryKey });
-      await loadTrees();
+      queryClient.invalidateQueries({ queryKey: offlineTreesQueryKey });
     }
   };
+
+  const { lastItemRef } = useInfiniteScrolling(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  });
+
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useOfflineTreesInfinite();
+
+  const plants = data?.pages.flatMap((page) => page.results);
 
   return (
     <div className='space-y-5'>
@@ -77,9 +77,13 @@ export const WaitingSubmissions: React.FC = () => {
         </div>
       )}
       <div className='space-y-2.5'>
-        <LoaderBox visible={isLoadingTrees} />
-        {plants?.map((plant) => (
-          <WaitingPlantTile key={plant.id} plant={plant.tree} />
+        <LoaderBox visible={isLoading} />
+        {plants?.map((plant, idx, plants) => (
+          <WaitingPlantTile
+            key={plant.id}
+            plant={plant.tree}
+            ref={idx === plants.length - 1 ? lastItemRef : undefined}
+          />
         ))}
         {plants?.length === 0 && (
           <div className='text-center'>
