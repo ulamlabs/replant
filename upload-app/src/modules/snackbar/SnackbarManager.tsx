@@ -56,5 +56,3 @@ export const SnackbarManager: React.FC = () => {
     </div>
   );
 };
-
-(window as any).openSnackbar = openSnackbar;
