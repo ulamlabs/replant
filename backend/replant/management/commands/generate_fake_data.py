@@ -5,6 +5,7 @@ import random
 import djclick as click
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from model_bakery import baker
 
 from replant.models import (
@@ -16,6 +17,8 @@ from replant.models import (
     Tree,
     User,
 )
+
+from .utils import random_coords
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +77,9 @@ def generate_fake_data(
     clear: bool,
 ):
     assert settings.DEBUG, "Can generate fake data only in debug mode"
+
+    # random_coords.get_latlon_roller()
+    # return
 
     if clear:
         clear_data()
@@ -158,6 +164,8 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
     if minting_state == Tree.MintingState.MINTED:
         nft_id = Tree.objects.aggregate(models.Max("nft_id"))["nft_id__max"] or 0
 
+    latlon_roller = random_coords.get_latlon_roller()
+
     trees: list[Tree] = []
     total_trees = 0
     saved_trees = 0
@@ -165,13 +173,15 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
         if nft_id is not None:
             nft_id += 1
 
+        latitude, longitude = latlon_roller.roll()
+
         tree = Tree(
             planting_organization_id=random.choice(organization_ids),
             review_state=review_state,
             minting_state=minting_state,
             image=random.choice(images),
-            latitude=random_coordinate(),
-            longitude=random_coordinate(),
+            latitude=latitude,
+            longitude=longitude,
             country_id=random.choice(countries_ids),
             species_id=random.choice(species_ids),
             is_native=False,
@@ -183,6 +193,7 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
                 if minting_state == Tree.MintingState.MINTED
                 else None
             ),
+            captured_at=timezone.now(),
         )
         trees.append(tree)
 
@@ -192,7 +203,3 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
             saved_trees += len(trees)
             Tree.objects.bulk_create(trees)
             trees = []
-
-
-def random_coordinate():
-    return random.randrange(-180 * 10**4, 180 * 10**4) / 10**4

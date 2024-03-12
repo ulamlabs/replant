@@ -11,5 +11,6 @@ from .planting_organization import PlantingOrganization
 from .species import Species
 from .sponsor import Sponsor
 from .tree import Tree
+from .trees_cluster import TreesCluster
 from .tree_to_mint import TreeToMint
 from .tree_to_review import TreeToReview

@@ -28,6 +28,14 @@ export type Tree = {
   nft_id: string;
 };
 
+export type TreesCluster = {
+  id: number;
+  lon: number;
+  lat: number;
+  number_of_trees: number;
+  zoom: number;
+};
+
 export type Paginate = {
   offset: number;
   limit: number;
