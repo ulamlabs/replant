@@ -4,20 +4,28 @@ import { TreesGrid } from 'common/components/TreesGrid';
 import { ReplantLogo } from 'common/components/ReplantLogo';
 import { getTrees } from 'modules/api/api';
 import { useFmtMsg } from 'modules/intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SponsorSimple } from 'types';
 import { SponsorSummary } from 'common/components/SponsorSummary';
 import { SponsorSearchBox } from 'common/components/SponsorSearchBox';
+import { Loader } from 'common/components/Loader';
 
 export function Gallery() {
   const fmtMsg = useFmtMsg();
   const [offset, setOffset] = useState(0);
   const [sponsor, setSponsor] = useState<SponsorSimple | null>(null);
 
-  const { data: trees } = useQuery({
+  const { data: trees, isLoading } = useQuery({
     queryKey: ['trees', offset, sponsor],
     queryFn: () => getTrees({ offset, sponsor: sponsor?.id }),
   });
+
+  useEffect(() => {
+    const el = document.getElementById('root-scroll');
+    if (el) {
+      el.scrollTo({ top: 0 });
+    }
+  }, [trees]);
 
   function onSearch(sponsor: SponsorSimple | null) {
     setSponsor(sponsor);
@@ -36,6 +44,12 @@ export function Gallery() {
       </div>
 
       {sponsor && <SponsorSummary sponsor={sponsor} />}
+
+      {isLoading && (
+        <div className='flex justify-center my-20'>
+          <Loader />
+        </div>
+      )}
 
       {trees && (
         <>
