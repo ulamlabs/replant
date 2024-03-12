@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("replant", "0015_user_time_zone"),
+        ("replant", "0017_species_iucn_status"),
     ]
 
     operations = [
