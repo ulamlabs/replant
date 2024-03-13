@@ -20,6 +20,7 @@
   "logOut": "Log out",
   "login": "Login",
   "failedToGetLocation": "Failed to get location. {error}",
+  "failedToLoadWaitingTrees": "Failed to load waiting trees.",
   "failedToOpenCamera": "Failed to open camera. {error}",
   "keep": "Keep",
   "mediaDevicesNotFound": "Media devices not found",

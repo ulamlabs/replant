@@ -110,8 +110,3 @@ export const deleteNewTreeById = async (id: string) => {
   const db = await getDb();
   return db.delete('trees', id);
 };
-
-(window as any).saveNewTree = saveNewTree;
-(window as any).loadNewTrees = loadNewTrees;
-(window as any).getNewTreesTotalCount = getNewTreesTotalCount;
-(window as any).getNewTreesKeys = getNewTreesKeys;

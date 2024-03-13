@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { Button, LoaderBox } from 'common/components';
+import clsx from 'clsx';
+import { Alert, Button, LoaderBox } from 'common/components';
 import { OfflineIcon, UploadIcon } from 'common/icons';
 import { prettifyError, useInfiniteScrolling } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
@@ -48,8 +49,14 @@ export const WaitingSubmissions: React.FC = () => {
     }
   });
 
-  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useOfflineTreesInfinite();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useOfflineTreesInfinite();
 
   const plants = data?.pages.flatMap((page) => page.results);
 
@@ -77,7 +84,6 @@ export const WaitingSubmissions: React.FC = () => {
         </div>
       )}
       <div className='space-y-2.5'>
-        <LoaderBox visible={isLoading} />
         {plants?.map((plant, idx, plants) => (
           <WaitingPlantTile
             key={plant.id}
@@ -90,6 +96,13 @@ export const WaitingSubmissions: React.FC = () => {
             {fmtMsg('youHaveNoTreesWaitingForSubmission')}
           </div>
         )}
+        <Alert
+          className={clsx(!error && 'hidden')}
+          severity='error'
+          header={fmtMsg('failedToLoadWaitingTrees')}
+          text={error ? String(error) : ''}
+        />
+        <LoaderBox visible={isFetching} />
       </div>
     </div>
   );

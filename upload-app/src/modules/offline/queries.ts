@@ -24,5 +24,6 @@ export const useOfflineTreesInfinite = () => {
       }
       return lastPageParam + PAGE_SIZE;
     },
+    networkMode: 'always',
   });
 };
