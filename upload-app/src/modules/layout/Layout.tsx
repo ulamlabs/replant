@@ -1,6 +1,7 @@
 import replantWorldImg from 'assets/replant.png';
 import clsx from 'clsx';
 import { NavigationBar } from 'modules/navigation';
+import { UploadProgressBar } from 'modules/plants/components';
 
 type Props = {
   children?: React.ReactNode;
@@ -10,8 +11,9 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children, navigation = false }) => {
   return (
     <div className='max-w-xl mx-auto h-dvh'>
-      <div className='p-4'>
+      <div className='p-4 flex gap-4 items-center justify-between'>
         <img className='h-9 invert dark:invert-0' src={replantWorldImg} />
+        <UploadProgressBar />
       </div>
       <div
         className={clsx(

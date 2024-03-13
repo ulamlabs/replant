@@ -1,6 +1,13 @@
 import { Species } from 'modules/species';
 
-export type NewPlant = {
+export type CapturedImage = {
+  capturedAt: string;
+  image: string; // as data URL
+  latitude: string;
+  longitude: string;
+};
+
+export type NewTree = {
   assigned_species_id: number;
   image: string;
   latitude: string;

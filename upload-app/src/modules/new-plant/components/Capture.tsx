@@ -19,7 +19,7 @@ export const Capture: React.FC = () => {
             ? 'border-red-400 dark:border-red-400'
             : 'border-black dark:border-white'
         )}
-        onClick={store.openCapture}
+        onClick={() => store.openCapture(fmtMsg)}
       >
         <CameraIcon
           svgClassName='size-6'

@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'modules/api';
+import { isOnline } from 'modules/offline';
+import * as offlineDb from 'modules/offline/db';
 import { AssignedSpecies } from './types';
 
-type AssignedSpeciesResponseData = AssignedSpecies[];
+export type AssignedSpeciesResponseData = AssignedSpecies[];
 
 const assignedSpeciesUrl = '/assigned-species';
 
@@ -13,8 +15,18 @@ const getAssignedSpecies = async () => {
   return response.data;
 };
 
+const getAssignedSpeciesOrLoadFromDb = async () => {
+  if (isOnline()) {
+    const species = await getAssignedSpecies();
+    await offlineDb.saveAssignedSpecies(species);
+    return species;
+  }
+  return await offlineDb.loadAssignedSpecies();
+};
+
 export const useSpecies = () =>
   useQuery({
-    queryFn: getAssignedSpecies,
+    queryFn: getAssignedSpeciesOrLoadFromDb,
     queryKey: assignedSpeciesQueryKey,
+    networkMode: 'always',
   });

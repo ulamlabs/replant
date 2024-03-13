@@ -3,12 +3,18 @@ import clsx from 'clsx';
 type Severity = 'error' | 'success';
 
 type Props = {
+  header?: string;
   text: string;
   severity: Severity;
   className?: string;
 };
 
-export const Alert: React.FC<Props> = ({ text, severity, className }) => {
+export const Alert: React.FC<Props> = ({
+  header,
+  text,
+  severity,
+  className,
+}) => {
   return (
     <div
       className={clsx(
@@ -18,6 +24,7 @@ export const Alert: React.FC<Props> = ({ text, severity, className }) => {
         className
       )}
     >
+      {header && <div className='mb-2 font-bold'>{header}</div>}
       {text}
     </div>
   );
