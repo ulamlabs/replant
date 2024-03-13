@@ -7,7 +7,11 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { isOnline, useOfflineStore } from 'modules/offline';
+import {
+  isOnline,
+  offlineTreesQueryKey,
+  useOfflineStore,
+} from 'modules/offline';
 import * as offlineDb from 'modules/offline/db';
 import { NewTree, Page, Plant, PlantsSummary } from '.';
 
@@ -78,6 +82,7 @@ export const usePlantsMutation = () => {
       if (data.onLine) {
         queryClient.invalidateQueries({ queryKey: allPlantsQueryKey }); // invalidates all plants queries if uploaded to BE
       } else {
+        queryClient.invalidateQueries({ queryKey: offlineTreesQueryKey });
         incTotalCount();
       }
     },
