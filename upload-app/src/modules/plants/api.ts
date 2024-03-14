@@ -73,7 +73,7 @@ export const usePlantsMutation = () => {
 
   return useMutation<
     { response?: AxiosResponse<Plant>; onLine: boolean },
-    AxiosError,
+    Error,
     { plant: NewTree; capturedAt: string }
   >({
     mutationKey: postPlantsQueryKey,
