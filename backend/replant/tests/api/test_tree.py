@@ -32,6 +32,7 @@ def test_list_trees_ok(
         country=user.country,
         species=jackfruit,
         created_by=user,
+        captured_at="2023-12-31T23:00:00Z",
     )
     time.shift(timedelta(seconds=1))
     tree_b = baker.make(
@@ -43,6 +44,7 @@ def test_list_trees_ok(
         country=user.country,
         species=jackfruit,
         created_by=user,
+        captured_at="2023-12-31T23:00:01Z",
     )
 
     response = user_client.get("/api/trees")
@@ -64,6 +66,7 @@ def test_list_trees_ok(
                 "image": "http://testserver/django-files/bf5435a8b61946d78fbf8e5ef2f24859.jpeg",
                 "latitude": "-2.422354",
                 "longitude": "121.237897",
+                "captured_at": "2023-12-31T23:00:01Z",
                 "created_at": "2024-01-01T00:00:01Z",
             },
             {
@@ -77,6 +80,7 @@ def test_list_trees_ok(
                 "image": "http://testserver/django-files/c8302c9252744cdc831c45fea17ce36b.jpeg",
                 "latitude": "-1.422354",
                 "longitude": "120.237897",
+                "captured_at": "2023-12-31T23:00:00Z",
                 "created_at": "2024-01-01T00:00:00Z",
             },
         ],
@@ -143,6 +147,7 @@ def test_create_tree_ok(
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
+        "captured_at": "2023-12-31T23:00:00Z",
     }
 
     response = user_client.post("/api/trees", data=data)
@@ -159,6 +164,7 @@ def test_create_tree_ok(
         "image": "http://testserver/django-files/bf5435a8b61946d78fbf8e5ef2f24859.png",
         "latitude": "-1.422354",
         "longitude": "120.237897",
+        "captured_at": "2023-12-31T23:00:00Z",
         "created_at": "2024-01-01T00:00:00Z",
     }
 
@@ -183,6 +189,7 @@ def test_create_tree_assigned_species_doesnt_exists(
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
+        "captured_at": "2023-12-31T23:00:00Z",
     }
 
     response = user_client.post("/api/trees", data=data)
@@ -213,6 +220,7 @@ def test_create_tree_different_planting_organization(
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
+        "captured_at": "2023-12-31T23:00:00Z",
     }
 
     response = user_client.post("/api/trees", data=data)
@@ -244,6 +252,7 @@ def test_create_tree_different_country(
         "image": image,
         "latitude": "-1.422354",
         "longitude": "120.237897",
+        "captured_at": "2023-12-31T23:00:00Z",
     }
 
     response = user_client.post("/api/trees", data=data)
@@ -252,6 +261,42 @@ def test_create_tree_different_country(
     assert response.json() == {
         "assigned_species_id": ["Assigned species with provided ID does not exist."]
     }
+
+
+def test_create_tree_tree_already_uploaded(
+    user_client: APIClient,
+    user: User,
+    image: SimpleUploadedFile,
+    mocker: MockerFixture,
+):
+    mocker.patch(
+        "uuid.uuid4", return_value=UUID("bf5435a8-b619-46d7-8fbf-8e5ef2f24859")
+    )
+    jackfruit = baker.make(
+        Species,
+        common_name="Jackfruit",
+        botanical_name="Artocarpus heterophyllus",
+    )
+    assigned_jackfruit = baker.make(
+        AssignedSpecies,
+        planting_organization=user.planting_organization,
+        country=user.country,
+        species=jackfruit,
+        is_native=True,
+        planting_cost_usd=D("1"),
+    )
+    baker.make(Tree, created_by=user, captured_at="2023-12-31T23:00:00Z")
+    data = {
+        "assigned_species_id": assigned_jackfruit.id,
+        "image": image,
+        "latitude": "-1.422354",
+        "longitude": "120.237897",
+        "captured_at": "2023-12-31T23:00:00Z",
+    }
+
+    response = user_client.post("/api/trees", data=data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {"captured_at": ["Tree has been already uploaded."]}
 
 
 def test_create_tree_unauthorized(api_client: APIClient):
