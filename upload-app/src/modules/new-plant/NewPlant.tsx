@@ -46,11 +46,8 @@ export const NewPlant: React.FC = () => {
     }
 
     await plantsMutation.mutateAsync({
-      plant: {
-        assigned_species_id: store.species!.id,
-        ...store.image!,
-      },
-      capturedAt: store.image!.capturedAt,
+      assigned_species_id: store.species!.id,
+      ...store.image!,
     });
     openSnackbar(fmtMsg('successYouCanNowAddAnotherTree'), 'success');
     store.setImage(undefined);

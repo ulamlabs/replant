@@ -42,7 +42,10 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
           if (!plant) {
             continue;
           }
-          await postPlants(plant.tree);
+          await postPlants({
+            ...plant.tree,
+            ...(plant.capturedAt ? { captured_at: plant.capturedAt } : {}), // fallback for trees captured before NewTree had captured_at field
+          });
           await offlineDb.deleteNewTreeById(key);
           get().incUploadedCount();
         }

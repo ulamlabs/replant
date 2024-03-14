@@ -5,7 +5,7 @@ import { v4 as getId } from 'uuid';
 
 export type OfflineTree = {
   id: string;
-  capturedAt: string;
+  capturedAt?: string; // new trees have no capturedAt field (it lives in NewTree now)
   tree: NewTree;
 };
 
@@ -59,11 +59,10 @@ export const loadAssignedSpecies = async () => {
   return db.get('assignedSpecies', 0);
 };
 
-export const saveNewTree = async (tree: NewTree, capturedAt: string) => {
+export const saveNewTree = async (tree: NewTree) => {
   const db = await getDb();
   const tx = db.transaction('trees', 'readwrite');
   const obj = {
-    capturedAt,
     id: getId(),
     tree,
   };
