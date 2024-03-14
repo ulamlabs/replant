@@ -6,6 +6,7 @@ from .auth_login import LoginView
 from .auth_logout import LogoutView
 from .auth_register import RegisterView
 from .auth_register_to_organization import RegisterToOrganizationView
+from .auth_reset_password import ResetPasswordView
 from .country import CountryView
 from .nft import NftView
 from .sponsor import SponsorView
@@ -27,6 +28,7 @@ urlpatterns = [
         "auth/register-to-organization/<uuid:code>",
         RegisterToOrganizationView.as_view(),
     ),
+    path("auth/reset-password", ResetPasswordView.as_view()),
     path("countries", CountryView.as_view()),
     path("trees", TreeView.as_view()),
     path("trees/summary", TreeSummaryView.as_view()),
