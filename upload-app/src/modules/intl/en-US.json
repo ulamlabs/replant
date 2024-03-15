@@ -22,6 +22,8 @@
   "failedToGetLocation": "Failed to get location. {error}",
   "failedToLoadWaitingTrees": "Failed to load waiting trees.",
   "failedToOpenCamera": "Failed to open camera. {error}",
+  "failedToSubmitTree": "Failed to submit tree",
+  "failedToSaveTreeLocally": "Failed to save tree locally",
   "keep": "Keep",
   "mediaDevicesNotFound": "Media devices not found",
   "pageNotFound": "Page not found",

@@ -28,9 +28,9 @@ export const CaptureModal: React.FC = () => {
     if (!canvas || !player || !context) {
       return;
     }
-    const capturedAt = new Date().toISOString();
+    const captured_at = new Date().toISOString();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    const imgData = canvas.toDataURL('image/png');
+    const image = canvas.toDataURL('image/png');
     store.setIsGettingLocation(true);
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -38,8 +38,8 @@ export const CaptureModal: React.FC = () => {
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
         store.setTmpImage({
-          capturedAt,
-          image: imgData,
+          captured_at,
+          image,
           latitude,
           longitude,
         });

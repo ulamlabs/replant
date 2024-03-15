@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Alert, Button, Header, Section } from 'common/components';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
@@ -45,11 +46,8 @@ export const NewPlant: React.FC = () => {
     }
 
     await plantsMutation.mutateAsync({
-      plant: {
-        assigned_species_id: store.species!.id,
-        ...store.image!,
-      },
-      capturedAt: store.image!.capturedAt,
+      assigned_species_id: store.species!.id,
+      ...store.image!,
     });
     openSnackbar(fmtMsg('successYouCanNowAddAnotherTree'), 'success');
     store.setImage(undefined);
@@ -97,7 +95,19 @@ export const NewPlant: React.FC = () => {
           />
         )}
         {plantsMutation.isError && (
-          <Alert severity='error' text={prettifyError(plantsMutation.error)} />
+          <Alert
+            severity='error'
+            header={
+              plantsMutation.error instanceof AxiosError
+                ? fmtMsg('failedToSubmitTree')
+                : fmtMsg('failedToSaveTreeLocally')
+            }
+            text={
+              plantsMutation.error instanceof AxiosError
+                ? prettifyError(plantsMutation.error)
+                : String(plantsMutation.error)
+            }
+          />
         )}
         <Capture />
         <SpeciesAutocomplete
