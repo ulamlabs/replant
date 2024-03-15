@@ -1,19 +1,26 @@
 import replantWorldImg from 'assets/replant.png';
 import clsx from 'clsx';
+import { InstallButton } from 'modules/install';
 import { NavigationBar } from 'modules/navigation';
 import { UploadProgressBar } from 'modules/plants/components';
 
 type Props = {
   children?: React.ReactNode;
+  hideInstall?: boolean;
   navigation?: boolean;
 };
 
-export const Layout: React.FC<Props> = ({ children, navigation = false }) => {
+export const Layout: React.FC<Props> = ({
+  children,
+  navigation = false,
+  hideInstall = false,
+}) => {
   return (
     <div className='max-w-xl mx-auto h-dvh'>
       <div className='p-4 flex gap-4 items-center justify-between'>
         <img className='h-9 invert dark:invert-0' src={replantWorldImg} />
         <UploadProgressBar />
+        {!hideInstall && <InstallButton />}
       </div>
       <div
         className={clsx(

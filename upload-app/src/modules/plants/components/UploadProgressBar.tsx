@@ -8,7 +8,7 @@ export const UploadProgressBar: React.FC = () => {
 
   return (
     isUploading && (
-      <div className='space-y-0.5 min-w-52'>
+      <div className='space-y-0.5'>
         <div className='flex justify-between text-sm gap-4'>
           <span>{fmtMsg('uploadingTrees')}</span>
           <span>{`${uploadedCount} / ${totalCount}`}</span>

@@ -1,5 +1,6 @@
 export * from './ComponentTestpage';
 export * from './DashboardPage';
+export * from './InstallPage';
 export * from './LoginPage';
 export * from './NewPlantPage';
 export * from './NotFoundPage';
