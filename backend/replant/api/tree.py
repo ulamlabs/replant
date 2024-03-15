@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import cast
 
 from drf_extra_fields.fields import Base64ImageField
@@ -25,9 +26,16 @@ class TreeSerializer(serializers.ModelSerializer):
             "image",
             "latitude",
             "longitude",
+            "captured_at",
             "created_at",
         )
         read_only_fields = ("id", "review_state", "rejection_reason", "created_at")
+
+    def validate_captured_at(self, captured_at: datetime):
+        user = cast(User, self.context["request"].user)
+        if Tree.objects.filter(created_by=user, captured_at=captured_at).exists():
+            raise serializers.ValidationError("Tree has been already uploaded.")
+        return captured_at
 
     def _validate_assigned_species(self, assigned_species_id: int, user: User):
         assigned_species = AssignedSpecies.objects.filter(
@@ -69,6 +77,7 @@ class TreeSerializer(serializers.ModelSerializer):
             is_native=assigned_species.is_native,
             planting_cost_usd=assigned_species.planting_cost_usd,
             created_by=validated_data["user"],
+            captured_at=validated_data["captured_at"],
         )
 
 
