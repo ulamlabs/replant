@@ -14,7 +14,7 @@ export const BackButton: React.FC<Props> = ({ onClick }) => {
       }
       onClick={onClick}
     >
-      <ArrowLeftIcon className='dark:fill-white fill-black' />
+      <ArrowLeftIcon pathClassName='dark:fill-white fill-black' />
       {fmtMsg('back')}
     </button>
   );

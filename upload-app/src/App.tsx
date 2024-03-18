@@ -5,11 +5,13 @@ import { SnackbarManager } from 'modules/snackbar';
 import {
   ComponentTestpage,
   DashboardPage,
+  ForgotPasswordPage,
   InstallPage,
   LoginPage,
   NewPlantPage,
   NotFoundPage,
   PlantSubmissionsPage,
+  ResetPasswordPage,
   SignupPage,
   UserPage,
 } from 'pages';
@@ -26,8 +28,10 @@ const App: React.FC = () => {
             <Route path='/' element={<Navigate replace to='/dashboard' />} />
             <Route path='/dashboard' element={<DashboardPage />} />
             <Route path='/how-to-install' element={<InstallPage />} />
+            <Route path='/forgot-password' element={<ForgotPasswordPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/new-plant' element={<NewPlantPage />} />
+            <Route path='/reset-password' element={<ResetPasswordPage />} />
             <Route path='/testpage' element={<ComponentTestpage />} />
             <Route path='/signup-org' element={<SignupPage />} />
             <Route path='/submissions' element={<PlantSubmissionsPage />} />

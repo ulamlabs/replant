@@ -5,8 +5,8 @@ import { PadlockIcon, UserIcon } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LoginError, useLoginMutation } from './api';
+import { Link, useNavigate } from 'react-router-dom';
+import { LoginError, useLoginMutation } from './';
 
 export const Login: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -103,6 +103,12 @@ export const Login: React.FC = () => {
             setPassword(value);
           }}
         />
+        <Link
+          className='text-sm text-right text-gray-500 w-full mt-[-1rem]'
+          to={'/forgot-password'}
+        >
+          {fmtMsg('forgotYourPassword')}
+        </Link>
       </form>
     </Section>
   );

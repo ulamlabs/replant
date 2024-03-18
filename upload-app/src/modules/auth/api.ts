@@ -1,125 +1,49 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError, AxiosResponse } from 'axios';
 import { get, post } from 'modules/api';
-import { Country } from 'modules/countries';
+import {
+  LoginPayload,
+  LoginResponse,
+  RegisterError,
+  RegisterIntoOrganizationError,
+  RegisterPayload,
+  RegisterResponse,
+  RegisteredOrganizationError,
+  RegisteredOrganizationResponse,
+  ResetPasswordPayload,
+} from '.';
 
-const LOGIN_URL = '/auth/login';
-const LOGOUT_URL = '/auth/logout';
-const REGISTER_TO_ORGANIZATION_URL = '/auth/register-to-organization/{code}';
+export const LOGIN_URL = '/auth/login';
+export const LOGOUT_URL = '/auth/logout';
+export const REGISTER_TO_ORGANIZATION_URL =
+  '/auth/register-to-organization/{code}';
+export const RESET_PASSWORD_URL = '/auth/reset-password';
 
-const registeredOrganizationQueryKey = (code: string | null) => [
-  'GET',
-  REGISTER_TO_ORGANIZATION_URL,
-  code,
-];
-
-export type LoginPayload = {
-  password: string;
-  username: string;
-};
-
-export type LoginError = {
-  non_field_errors?: string[];
-};
-
-export type LoginResponse = { username: string };
-
-export type RegisterPayload = {
-  username: string;
-  phone_number: string;
-  country: number;
-  password: string;
-};
-
-export type RegisterError = {
-  username?: string[];
-  phone_number?: string[];
-  country?: string[];
-  password?: string[];
-  details?: string[];
-};
-
-export type RegisterResponse = {
-  username: string;
-  phone_number: string;
-  country: number;
-};
-
-export type RegisterIntoOrganizationError = RegisterError & {
-  code?: string[];
-};
-
-export type RegisteredOrganizationResponse = {
-  planting_organization: {
-    name: string;
-    countries: Country[];
-  };
-};
-
-export type RegisteredOrganizationError = {
-  non_field_errors?: string[];
-};
-
-const getRegisteredOrganization = async (code: string) => {
+export const getRegisteredOrganization = async (code: string) => {
   const response = await get<RegisteredOrganizationResponse>(
     REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`)
   );
   return response.data;
 };
 
-const postLogin = (payload: LoginPayload) =>
+export const postLogin = (payload: LoginPayload) =>
   post<LoginResponse, LoginPayload>(LOGIN_URL, payload);
 
-const postLogout = () =>
+export const postLogout = () =>
   post<Record<string, never>, Record<string, never>>(LOGOUT_URL);
 
-const postRegisterIntoOrganization = (payload: RegisterPayload, code: string) =>
+export const postRegisterIntoOrganization = (
+  payload: RegisterPayload,
+  code: string
+) =>
   post<RegisterResponse, RegisterPayload>(
     REGISTER_TO_ORGANIZATION_URL.replace('{code}', `${code}`),
     payload
   );
 
-export const useLoginMutation = () =>
-  useMutation<
-    AxiosResponse<LoginResponse>,
-    AxiosError<LoginError>,
-    LoginPayload
-  >({
-    mutationKey: ['POST', LOGIN_URL],
-    mutationFn: postLogin,
-  });
-
-export const useLogoutMutation = () =>
-  useMutation<
-    AxiosResponse<Record<string, never>>,
-    AxiosError<{ detail: string }>,
-    Record<string, never>
-  >({
-    mutationKey: ['POST', LOGOUT_URL],
-    mutationFn: postLogout,
-  });
-
-export const useRegisterIntoOrganizationMutation = (code: string) => {
-  const mutation = useMutation<
-    AxiosResponse<RegisterResponse>,
-    AxiosError<RegisterIntoOrganizationError>,
-    RegisterPayload
-  >({
-    mutationFn: (payload) => postRegisterIntoOrganization(payload, code),
-  });
-
-  return mutation;
-};
-
-export const useRegisteredOrganization = (code: string | null) =>
-  useQuery<
-    RegisteredOrganizationResponse,
-    AxiosError<RegisteredOrganizationError>
-  >({
-    queryKey: registeredOrganizationQueryKey(code),
-    queryFn: () => getRegisteredOrganization(code!),
-    enabled: !!code,
-  });
+export const postResetPassowrd = (payload: ResetPasswordPayload) =>
+  post<Record<string, never>, ResetPasswordPayload>(
+    RESET_PASSWORD_URL,
+    payload
+  );
 
 export const phoneNumberIsNotValid = (
   errResponseData?: RegisterError | RegisterIntoOrganizationError
