@@ -1,0 +1,29 @@
+{% load mjml %}
+{% load static %}
+
+{% mjml %}
+<mjml>
+    <mj-head>
+        <mj-attributes>
+            <mj-all font-family="Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', Segoe UI Symbol, 'Noto Color Emoji';" />
+            <mj-class name="logo" width="50px" align="left" />
+            <mj-class name="content" font-size="16px" font-weight="300" line-height="24px" />
+            <mj-class name="footer" font-size="12px" font-style="italic" color="#ADA7A0" />
+            <mj-button background-color="#3683D2" inner-padding="15px 35px" />
+        </mj-attributes>
+    </mj-head>
+    <mj-body>
+        <mj-section>
+            <mj-column>
+                <mj-image mj-class="logo" src="{{ BACKEND_URL }}{% static 'logo-r-blue.png' %}" />
+            </mj-column>
+        </mj-section>
+        {% block content %}{% endblock %}
+        <mj-section>
+            <mj-column>
+                <mj-text mj-class="footer">Copyright &copy; 2024 Replant World</mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>
+{% endmjml %}
