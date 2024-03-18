@@ -2,6 +2,7 @@ import replantWorldImg from 'assets/replant.png';
 import clsx from 'clsx';
 import { InstallButton } from 'modules/install';
 import { NavigationBar } from 'modules/navigation';
+import { useOfflineStore } from 'modules/offline';
 import { UploadProgressBar } from 'modules/plants/components';
 
 type Props = {
@@ -15,12 +16,14 @@ export const Layout: React.FC<Props> = ({
   navigation = false,
   hideInstall = false,
 }) => {
+  const { isUploading } = useOfflineStore();
+
   return (
     <div className='max-w-xl mx-auto h-dvh'>
       <div className='p-4 flex gap-4 items-center justify-between'>
         <img className='h-9 invert dark:invert-0' src={replantWorldImg} />
         <UploadProgressBar />
-        {!hideInstall && <InstallButton />}
+        {!hideInstall && !isUploading && <InstallButton />}
       </div>
       <div
         className={clsx(
