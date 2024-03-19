@@ -11,8 +11,7 @@ import iosStep3 from './assets/ios-safari-step-3.webp';
 export const InstallationSteps: React.FC = () => {
   const fmtMsg = useFmtMsg();
 
-  // On desktop Windows and Linux there will be empty page displayed, but it's
-  // not an issue as the app is intended to be used only on phones and tablets.
+  // The app is mobile only, no need to detect Windows or Linux user agents.
   const ua = window.navigator.userAgent;
   const isAndroid = /Android/.test(ua);
   const isApple = /iPhone|Macintosh/.test(ua);
