@@ -1,4 +1,4 @@
-import { BackButton, Header } from 'common/components';
+import { Button, Header } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useNavigate } from 'react-router-dom';
 import androidStep1 from './assets/android-chrome-step-1.webp';
@@ -48,7 +48,7 @@ export const InstallationSteps: React.FC = () => {
       <p className='text-center'>
         {fmtMsg('theAppIsNowInstalledAndAddedToTheHomeScreen')}
       </p>
-      <BackButton onClick={goBack} />
+      <Button onClick={goBack}>{fmtMsg('back')}</Button>
     </div>
   );
 };
