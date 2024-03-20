@@ -57,7 +57,7 @@ export const NewPlant: React.FC = () => {
     <Header
       text={fmtMsg('addTree')}
       onBack={() => {
-        navigate('/');
+        navigate(-1);
       }}
     />
   );

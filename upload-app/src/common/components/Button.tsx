@@ -10,7 +10,7 @@ type Props = {
   isLoading?: boolean;
   size?: 'lg' | 'md' | 'sm';
   type?: 'primary' | 'secondary';
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export const Button: React.FC<Props> = ({
