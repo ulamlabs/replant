@@ -4,9 +4,11 @@ import { QueryClientProvider } from 'modules/query';
 import {
   Home,
   Impact,
+  LogIn,
   Marketplace,
   NotFoundPage,
   Planters,
+  SignUp,
   Sponsors,
 } from 'pages';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -23,6 +25,8 @@ const App: React.FC = () => {
               <Route path='sponsors' element={<Sponsors />} />
               <Route path='planters' element={<Planters />} />
               <Route path='impact' element={<Impact />} />
+              <Route path='login' element={<LogIn />} />
+              <Route path='signup' element={<SignUp />} />
               <Route path='*' element={<NotFoundPage />} />
             </Route>
           </Routes>
