@@ -4,6 +4,7 @@ from django.contrib import admin, messages
 from django.core.exceptions import BadRequest
 from django.http import Http404, HttpRequest, HttpResponseRedirect
 from django.urls import path
+from django.utils.html import format_html
 
 from replant.models import User
 
@@ -23,13 +24,24 @@ class UserAdmin(admin.ModelAdmin):
         "country",
         "date_joined",
         "last_login",
+        "password_reset_link",
     )
     readonly_fields = (
         "username",
         "phone_number",
         "date_joined",
         "last_login",
+        "password_reset_link",
     )
+
+    def password_reset_link(self, obj: User):
+        if obj.pk is None:
+            return ""
+
+        url = obj.get_password_reset_link()
+        return format_html(
+            """<a class="button" onclick="this.outerHTML='{}'">Show</a>""", url
+        )
 
     def has_add_permission(self, request: HttpRequest) -> bool:
         return False
