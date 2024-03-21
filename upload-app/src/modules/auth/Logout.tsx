@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from './api';
+import { useLogoutMutation } from '.';
 
 export const Logout: React.FC = () => {
   const fmtMsg = useFmtMsg();
