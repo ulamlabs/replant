@@ -6,6 +6,7 @@ from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from replant.models import AssignedSpecies, Tree, User
+from replant.permissions import IsPlanter
 
 from .assigned_species import SpeciesSerializer
 
@@ -83,7 +84,7 @@ class TreeSerializer(serializers.ModelSerializer):
 
 class TreeView(generics.ListCreateAPIView):
     serializer_class = TreeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPlanter]
 
     def get_queryset(self):
         user = cast(User, self.request.user)

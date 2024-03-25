@@ -7,8 +7,6 @@ from django.db import models
 
 from replant import sdk
 
-from .utils import TrackableModel
-
 
 def validate_sei_address(address: str):
     try:
@@ -17,18 +15,17 @@ def validate_sei_address(address: str):
         raise ValidationError(str(e))
 
 
-class Sponsor(TrackableModel):
+class Sponsor(models.Model):
     class Type(models.TextChoices):
         COMPANY = auto()
         INDIVIDUAL = auto()
 
     type = models.CharField(max_length=10, choices=Type.choices)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     wallet_address = models.CharField(
-        max_length=100, unique=True, validators=[validate_sei_address]
+        max_length=100, unique=True, validators=[validate_sei_address], null=True
     )
-    contact_person_full_name = models.CharField(max_length=50)
-    contact_person_email = models.EmailField()
+    contact_person_email = models.EmailField(unique=True)
     additional_info = models.TextField(blank=True)
 
     nft_ordered = models.PositiveIntegerField(
@@ -71,8 +68,11 @@ class Sponsor(TrackableModel):
 
     @property
     def is_eligible_to_trees_assignment(self):
-        return (self.nft_ordered and self.trees_to_assign > 0) or (
-            self.nft_ordered_usd and self.trees_to_assign_usd > 0
+        return self.wallet_address and (
+            self.nft_ordered
+            and self.trees_to_assign > 0
+            or self.nft_ordered_usd
+            and self.trees_to_assign_usd > 0
         )
 
     def __str__(self):

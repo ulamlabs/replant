@@ -8,3 +8,8 @@ def validate_password_in_serializer(password, user):
         validate_password(password, user)
     except exceptions.ValidationError as e:
         raise serializers.ValidationError({"password": e.messages})
+
+
+class EmailCaseInsensitiveField(serializers.EmailField):
+    def to_internal_value(self, data: str):
+        return super().to_internal_value(data).lower()

@@ -114,8 +114,10 @@ WSGI_APPLICATION = "replant.wsgi.application"
 
 DATABASES = {"default": dj_database_url.config(default=env.DATABASE_URL)}
 
-# Custom user model
+# Custom user and authentication
 AUTH_USER_MODEL = "replant.User"
+
+AUTHENTICATION_BACKENDS = ["replant.backends.UsernameOrEmailBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -124,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
         "OPTIONS": {
-            "user_attributes": ("username",),
+            "user_attributes": ("username", "email"),
         },
     },
     {

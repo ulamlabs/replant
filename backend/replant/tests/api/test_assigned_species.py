@@ -1,3 +1,4 @@
+import pytest
 from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -70,6 +71,23 @@ def test_list_species_skip(user_client: APIClient, user: User):
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == []
+
+
+@pytest.mark.parametrize(
+    "role",
+    [
+        None,
+        User.Role.SPONSOR,
+        User.Role.PLANTING_ORGANIZATION,
+    ],
+)
+def test_list_species_not_planter(api_client: APIClient, role: User.Role | None):
+    user = baker.make(User, role=role)
+    api_client.force_login(user)
+
+    response = api_client.get("/api/assigned-species")
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 def test_list_species_unauthorized(api_client: APIClient):
