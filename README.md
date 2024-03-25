@@ -57,6 +57,12 @@ make lint-marketplace-app
 
 It's good to have [Python 3.12](https://www.python.org/downloads/) and [Poetry](https://python-poetry.org/docs/) installed. It's usefull for generating migrations, adding new dependencies or running tests with custom flags.
 
+For generating email templates we use `mjml` which can be installed with `npm`
+
+```
+npm install
+```
+
 ## Frontend tips
 
 Follow instructions from README files of marketplace-app and upload-app.

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 import dj_database_url
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "django_filters",
     "admin_auto_filters",
     "rangefilter",
+    "mjml",
     # Project apps
     "replant",
 ]
@@ -273,3 +275,7 @@ LOGGING = {
         },
     },
 }
+
+
+MJML_BACKEND_MODE = "cmd"
+MJML_EXEC_CMD = os.path.join(BASE_DIR, "node_modules/mjml/bin/mjml")
