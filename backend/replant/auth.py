@@ -1,3 +1,4 @@
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 from drf_spectacular.authentication import SessionScheme
@@ -76,3 +77,16 @@ class LowercaseValidator:
 
     def get_help_text(self):
         return _("Your password must contain at least 1 lowercase character.")
+
+
+class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        """
+        Based on base class method. The hash will be invalidated after user verifies
+        the email or after timeout. For now using same timeout as for password reset:
+        settings.PASSWORD_RESET_TIMEOUT (3 days).
+        """
+        return f"{user.pk}{user.is_email_verified}{timestamp}"
+
+
+email_token_generator = EmailVerificationTokenGenerator()

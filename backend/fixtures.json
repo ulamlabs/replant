@@ -9,13 +9,31 @@
             "username": "admin",
             "first_name": "",
             "last_name": "",
-            "email": "",
+            "email": null,
             "phone_number": "",
-            "planting_organization": 1,
-            "country": 1,
             "is_staff": true,
             "is_active": true,
             "date_joined": "2024-01-18T14:37:31.026Z"
+        }
+    },
+    {
+        "model": "replant.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$fY5le6UEDW5i2dnjgCchPm$LZxHHTMCH9jGttuofFWdlj0oFLe3hJ3f8QbKCzL0fgg=",
+            "last_login": "2024-01-18T14:57:48.651Z",
+            "is_superuser": false,
+            "username": "planter",
+            "first_name": "",
+            "last_name": "",
+            "email": null,
+            "phone_number": "",
+            "planting_organization": 1,
+            "country": 1,
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-01-18T14:37:31.026Z",
+            "role": "PLANTER"
         }
     },
     {
@@ -27,7 +45,6 @@
             "created_at": "2024-01-22T09:25:31.799Z",
             "updated_at": "2024-01-22T09:25:31.799Z",
             "name": "Green World",
-            "contact_person_full_name": "John Doe",
             "contact_person_email": "test@email.com",
             "countries": [
                 1

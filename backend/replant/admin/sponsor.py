@@ -15,8 +15,6 @@ from django.utils.html import format_html
 
 from replant.models import PlantingOrganization, Sponsor, Tree
 
-from .utils import TrackableModelAdmin
-
 
 class SponsorNeedingTreesFilter(admin.SimpleListFilter):
     title = "need trees assignment"
@@ -72,7 +70,7 @@ class AssignTreesForm(forms.Form):
 
 
 @admin.register(Sponsor)
-class SponsorAdmin(TrackableModelAdmin):
+class SponsorAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "type",
@@ -80,7 +78,6 @@ class SponsorAdmin(TrackableModelAdmin):
         "contact_person_email",
         "get_nft_ordered",
         "get_nft_ordered_usd",
-        "created_at",
     )
     search_fields = (
         "name",
@@ -97,19 +94,14 @@ class SponsorAdmin(TrackableModelAdmin):
         "type",
         "name",
         "wallet_address",
-        "contact_person_full_name",
         "contact_person_email",
         "nft_ordered",
         "nft_ordered_usd",
         "additional_info",
         "assigned_trees",
         "assigned_trees_usd",
-        "created_at",
-        "updated_at",
     )
     readonly_fields = (
-        "created_at",
-        "updated_at",
         "assigned_trees",
         "assigned_trees_usd",
     )

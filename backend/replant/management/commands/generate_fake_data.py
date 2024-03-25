@@ -24,10 +24,10 @@ TREES_BULK_SIZE = 5000
 
 @click.command()
 @click.option(
-    "--users",
+    "--planters",
     type=int,
     default=0,
-    help="Number of users to create",
+    help="Number of planters to create",
 )
 @click.option(
     "--organizations",
@@ -78,7 +78,7 @@ def generate_fake_data(
     if clear:
         clear_data()
 
-    create_users(users)
+    create_planters(users)
     create_organizations(organizations)
     create_sponsors(sponsors)
     create_trees(trees, review_state, minting_state)
@@ -96,12 +96,16 @@ def clear_data():
     PlantingOrganization.objects.all().delete()
 
 
-def create_users(quantity: int):
+def create_planters(quantity: int):
     if not quantity:
         return
-    logger.info(f"Creating {quantity} users...")
+    logger.info(f"Creating {quantity} planters...")
     baker.make(
-        User, quantity, phone_number="+48-111-111-111", username=baker.seq("User")
+        User,
+        quantity,
+        role=User.Role.PLANTER,
+        phone_number="+48-111-111-111",
+        username=baker.seq("Planter"),
     )
 
 
@@ -130,6 +134,7 @@ def create_sponsors(quantity: int):
             Sponsor,
             created_by=admin,
             name=f"Sponsor{i + 1}",
+            wallet_address=f"Address{i + 1}",
             nft_ordered=nft_ordered,
             nft_ordered_usd=nft_ordered_usd,
         )

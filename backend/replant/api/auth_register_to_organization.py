@@ -35,6 +35,8 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
         fields = ("username", "phone_number", "country", "password")
         extra_kwargs = {
             "password": {"write_only": True},
+            "username": {"required": True, "allow_null": False},
+            "phone_number": {"required": True, "allow_null": False},
             "country": {"required": True, "allow_null": False},
         }
 
@@ -65,6 +67,7 @@ class RegisterToOrganizationSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data: dict):
         return User.objects.create_user(
+            role=User.Role.PLANTER,
             planting_organization=validated_data["planting_organization"],
             username=validated_data["username"],
             phone_number=validated_data["phone_number"],

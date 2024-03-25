@@ -74,6 +74,7 @@ def test_register_to_organization_ok(
     }
     new_user = User.objects.filter(username="user").first()
     assert new_user is not None
+    assert new_user.role == User.Role.PLANTER
     assert new_user.planting_organization == planting_organization
     assert new_user.phone_number == "+48888234567"
     assert new_user.country is not None

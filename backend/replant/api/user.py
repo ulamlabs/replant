@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from replant.models import PlantingOrganization, User
+from replant.models import PlantingOrganization, Sponsor, User
 
 from .country import CountrySerializer
 
@@ -14,17 +14,26 @@ class PlantingOrganizationSimpleSerializer(serializers.ModelSerializer):
         fields = ("name",)
 
 
+class SponsorUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sponsor
+        fields = ("type", "name")
+
+
 class UserSerializer(serializers.ModelSerializer):
     country = CountrySerializer()
     planting_organization = PlantingOrganizationSimpleSerializer()
+    sponsor = SponsorUserSerializer()
 
     class Meta:
         model = User
         fields = (
             "username",
+            "email",
             "phone_number",
             "country",
             "planting_organization",
+            "sponsor",
         )
 
 
