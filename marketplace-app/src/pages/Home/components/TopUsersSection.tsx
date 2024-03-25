@@ -1,6 +1,7 @@
 import { Planter } from 'types';
 import { UsersList } from '.';
 
+// to delete after testing
 const testData: Planter[] = [
   {
     id: 1,

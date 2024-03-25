@@ -19,7 +19,8 @@
     "react-helmet-async": "^2.0.4",
     "react-intl": "^6.6.1",
     "react-router-dom": "^6.21.3",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.17.18",

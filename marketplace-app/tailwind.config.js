@@ -59,6 +59,9 @@ export default {
         500: '#04A46A',
         600: '#218D66',
       },
+      red: {
+        400: '#EC7B7B',
+      },
     },
   },
   plugins: [],

@@ -12,7 +12,7 @@ export const NFTSection = () => {
     queryKey: ['trees'],
     queryFn: () => getTrees({ pageSize: 4 }),
   });
-
+  // to delete after testing
   if (trees) {
     trees.results = [
       {
