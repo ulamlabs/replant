@@ -32,5 +32,10 @@
   "signUp": "Sign up",
   "profile": "Profile",
   "settings": "Settings",
-  "logOut": "Log out"
+  "logOut": "Log out",
+  "hello!": "Hello!",
+  "signInAndExploreTheReplantWorldsMarketplace": "Sign in and explore the Replant World's marketplace",
+  "name": "Name",
+  "company": "Company",
+  "individual": "Individual"
 }

@@ -8,7 +8,7 @@ import {
   Marketplace,
   NotFoundPage,
   Planters,
-  SignUp,
+  SignUpPage,
   Sponsors,
 } from 'pages';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -26,7 +26,7 @@ const App: React.FC = () => {
               <Route path='planters' element={<Planters />} />
               <Route path='impact' element={<Impact />} />
               <Route path='login' element={<LogIn />} />
-              <Route path='signup' element={<SignUp />} />
+              <Route path='signup' element={<SignUpPage />} />
               <Route path='*' element={<NotFoundPage />} />
             </Route>
           </Routes>

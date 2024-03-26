@@ -5,5 +5,5 @@ export * from './LogIn';
 export * from './Marketplace';
 export * from './NotFoundPage';
 export * from './Planters';
-export * from './SignUp';
+export * from './SignUpPage';
 export * from './Sponsors';
