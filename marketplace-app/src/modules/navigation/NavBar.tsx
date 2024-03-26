@@ -2,6 +2,7 @@ import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useUser } from 'modules/user';
 import { User } from 'modules/user/User';
+import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ReplantLogo } from '../../common/components/ReplantLogo';
 import MobileNavBar from './components/MobileNavBar';
@@ -9,6 +10,8 @@ import NavItem from './components/NavItem';
 
 function NavBar() {
   const fmtMsg = useFmtMsg();
+
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   const { data: user } = useUser();
 
@@ -18,13 +21,31 @@ function NavBar() {
 
   const isAuthPath = ['/signup', '/login'].includes(pathname);
 
+  useEffect(() => {
+    setIsNavOpen(false);
+  }, [pathname]);
+
+  const toggleNav = () => {
+    setIsNavOpen((state) => !state);
+  };
+
+  const logOut = () => {
+    // handle logout here
+  };
+
   return (
     <nav className=' mx-auto h-[71px] md:h-[116px] py-4 md:py-8 bg-opacity-90 backdrop-blur-[20px] fixed w-screen top-0 flex align-center justify-center'>
       <div className='flex justify-between items-center max-w-[1728px] px-[20px] sm:px-[60px] lg:px-[120px] w-full'>
         <NavLink to='/'>
           <ReplantLogo />
         </NavLink>
-        <MobileNavBar user={user} navigate={navigate} />
+        <MobileNavBar
+          user={user}
+          navigate={navigate}
+          toggleNav={toggleNav}
+          open={isNavOpen}
+          logOut={logOut}
+        />
         {!isAuthPath && (
           <div className='items-center gap-[40px] hidden md:flex'>
             <div className='flex gap-3 lg:gap-9 w-auto'>
