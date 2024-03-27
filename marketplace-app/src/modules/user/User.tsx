@@ -4,7 +4,7 @@ import { useFmtMsg } from 'modules/intl';
 import NavItem from 'modules/navigation/components/NavItem';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User as UserType } from '.';
+import { UserType } from '.';
 
 type Props = {
   user: UserType;
@@ -23,7 +23,7 @@ export const User: FC<Props> = ({ user }) => {
           onClick={() => navigate('profile')}
           className='h-full flex justify-center items-center'
         >
-          <UserIcon pathClassName='fill-neutral-400' svgClassName='w-9 h-9' />
+          <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
         </div>
         <div>
           <h3 className='text-sm font-semibold'>
@@ -42,7 +42,7 @@ export const User: FC<Props> = ({ user }) => {
           onClick={() => setIsUserOpen((prev) => !prev)}
           className='w-full h-full flex justify-center items-center'
         >
-          <UserIcon pathClassName='fill-neutral-400' svgClassName='w-9 h-9' />
+          <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
         </div>
         <div
           className={clsx(
@@ -51,7 +51,7 @@ export const User: FC<Props> = ({ user }) => {
           )}
         >
           <div className='h-[76px] px-6 py-5 bg-zinc-100 rounded-t-3xl cursor-default flex items-center gap-2 dark:bg-neutral-900'>
-            <UserIcon pathClassName='fill-neutral-400' svgClassName='w-9 h-9' />
+            <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
             <div>
               <h3 className='text-sm font-semibold'>
                 {user?.username || 'Test testowy'}

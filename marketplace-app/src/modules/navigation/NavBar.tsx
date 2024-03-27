@@ -1,10 +1,9 @@
 import { Button } from 'common/components';
+import { ReplantLogo } from 'common/components/ReplantLogo';
 import { useFmtMsg } from 'modules/intl';
-import { useUser } from 'modules/user';
-import { User } from 'modules/user/User';
+import { User, useUser } from 'modules/user';
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { ReplantLogo } from '../../common/components/ReplantLogo';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import MobileNavBar from './components/MobileNavBar';
 import NavItem from './components/NavItem';
 
@@ -34,7 +33,7 @@ function NavBar() {
   };
 
   return (
-    <nav className=' mx-auto h-[71px] md:h-[116px] py-4 md:py-8 bg-opacity-90 backdrop-blur-[20px] fixed w-screen top-0 flex align-center justify-center'>
+    <nav className='mx-auto h-[72px] md:h-[116px] py-4 md:py-8 bg-opacity-90 backdrop-blur-[20px] fixed w-screen top-0 flex align-center justify-center'>
       <div className='flex justify-between items-center max-w-[1728px] px-[20px] sm:px-[60px] lg:px-[120px] w-full'>
         <NavLink to='/'>
           <ReplantLogo />
@@ -60,12 +59,12 @@ function NavBar() {
                 <User user={user} />
               ) : (
                 <>
-                  <Button onClick={() => navigate('/login')} type='secondary'>
-                    {fmtMsg('logIn')}
-                  </Button>
-                  <Button onClick={() => navigate('/signup')} type='primary'>
-                    {fmtMsg('signUp')}
-                  </Button>
+                  <Link to='login'>
+                    <Button type='secondary'>{fmtMsg('logIn')}</Button>
+                  </Link>
+                  <Link to='signup'>
+                    <Button type='primary'>{fmtMsg('signUp')}</Button>
+                  </Link>
                 </>
               )}
             </div>

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
-import { User as UserType } from 'modules/user';
+import { UserType } from 'modules/user';
 import { User } from 'modules/user/User';
 import { FC } from 'react';
 import { NavigateFunction } from 'react-router-dom';
@@ -28,18 +28,18 @@ const MobileNavBar: FC<Props> = ({
     <>
       <div
         onClick={toggleNav}
-        className=' w-7 h-7 flex-col justify-center items-center gap-2 inline-flex cursor-pointer relative  md:hidden'
+        className='w-7 h-7 flex-col justify-center items-center gap-2 inline-flex cursor-pointer relative  md:hidden'
       >
         <div
           className={clsx(
             'w-7 h-0.5 bg-neutral-900 dark:bg-gray-200 rounded-3xl transition-transform duration-300 transform',
-            open && ' rotate-45 translate-y-[5px]'
+            open && 'rotate-45 translate-y-[5px]'
           )}
         />
         <div
           className={clsx(
             'w-7 h-0.5 bg-neutral-900 dark:bg-gray-200 rounded-3xl transition-transform duration-300 transform',
-            open && ' -rotate-45 -translate-y-[5px]'
+            open && '-rotate-45 -translate-y-[5px]'
           )}
         />
       </div>
@@ -57,7 +57,7 @@ const MobileNavBar: FC<Props> = ({
           <NavItem to='impact'>{fmtMsg('impact')}</NavItem>
         </ul>
         {!user ? (
-          <div className=' bg-transparent rounded-b-3xl flex flex-col gap-3'>
+          <div className='bg-transparent rounded-b-3xl flex flex-col gap-3'>
             <Button
               onClick={() => navigate('/signup')}
               type='primary'

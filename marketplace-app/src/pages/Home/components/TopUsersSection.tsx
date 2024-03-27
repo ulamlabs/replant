@@ -6,7 +6,7 @@ const testData: Planter[] = [
   {
     id: 1,
     name: 'wojtek maslowski',
-    trees: 2137,
+    trees: 7127,
     percentage: 55,
     img: 'https://uploads-ssl.webflow.com/63086d41671f3bfcf18a5762/652fb89d535953efb3b84cde_image%201421%20(1).png',
     company: 'test',
@@ -14,7 +14,7 @@ const testData: Planter[] = [
   {
     id: 2,
     name: 'wojtek maslowski',
-    trees: 2137,
+    trees: 2,
     percentage: 55,
     img: 'https://uploads-ssl.webflow.com/63086d41671f3bfcf18a5762/652fb89d535953efb3b84cde_image%201421%20(1).png',
     company: 'test',
@@ -22,7 +22,7 @@ const testData: Planter[] = [
   {
     id: 3,
     name: 'wojtek maslowski',
-    trees: 2137,
+    trees: 99877,
     percentage: 55,
     img: 'https://uploads-ssl.webflow.com/63086d41671f3bfcf18a5762/652fb89d535953efb3b84cde_image%201421%20(1).png',
     company: 'test',
@@ -30,7 +30,7 @@ const testData: Planter[] = [
   {
     id: 4,
     name: 'wojtek maslowski',
-    trees: 2137,
+    trees: 1237,
     percentage: 55,
     img: 'https://uploads-ssl.webflow.com/63086d41671f3bfcf18a5762/652fb89d535953efb3b84cde_image%201421%20(1).png',
     company: 'test',
@@ -38,7 +38,7 @@ const testData: Planter[] = [
   {
     id: 5,
     name: 'wojtek maslowski',
-    trees: 2137,
+    trees: 2243,
     percentage: 55,
     img: 'https://uploads-ssl.webflow.com/63086d41671f3bfcf18a5762/652fb89d535953efb3b84cde_image%201421%20(1).png',
     company: 'test',
