@@ -11,6 +11,7 @@ export function IconInsta({ className, overrideColors }: IconProps) {
         viewBox='0 0 28 28'
         fill='none'
         className={clsx(
+          'hover:opacity-60',
           !overrideColors && 'fill-black dark:fill-white',
           className
         )}

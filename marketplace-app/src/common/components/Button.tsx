@@ -4,7 +4,7 @@ type Props = {
   children: React.ReactNode;
   className?: string;
   type?: 'primary' | 'secondary';
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
 };
 

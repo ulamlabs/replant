@@ -13,7 +13,7 @@ export function TreeTile(props: TreeDetailsProps) {
     >
       <div
         style={{ backgroundImage: `url(${props.tree.image})` }}
-        className=' h-64 bg-cover bg-center'
+        className='h-64 bg-cover bg-center'
       />
       <div className='p-5'>
         <div className='font-bold text-lg'>{props.tree.botanical_name}</div>
@@ -24,7 +24,7 @@ export function TreeTile(props: TreeDetailsProps) {
           <span className='text-[29px] font-bold'>
             ${props.tree.planting_cost_usd}
           </span>
-          <span className=' text-neutral-400 dark:text-zinc-600 text-sm font-normal'>
+          <span className='text-neutral-400 dark:text-zinc-600 text-sm font-normal'>
             #{props.tree.nft_id}
           </span>
         </div>
