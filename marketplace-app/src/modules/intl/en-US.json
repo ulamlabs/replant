@@ -37,5 +37,11 @@
   "signInAndExploreTheReplantWorldsMarketplace": "Sign in and explore the Replant World's marketplace",
   "name": "Name",
   "company": "Company",
-  "individual": "Individual"
+  "individual": "Individual",
+  "email": "Email",
+  "password": "Password",
+  "companyName": "Company name",
+  "fieldRequired": "This field is required.",
+  "wrongPasswordFormat": "Wrong password format: minimum 8-character password, with at least a symbol (!,@,#,$,%,^,&,*), upper and lower case letters, and a number.",
+  "wrongEmailFormat": "Wrong email format!"
 }

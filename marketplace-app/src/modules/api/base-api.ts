@@ -22,3 +22,16 @@ export function get<TResponseData = any, TPayload = any>(
     TPayload
   >(url, config);
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function post<TResponseData = any, TPayload = any>(
+  url: string,
+  payload?: TPayload,
+  config?: AxiosRequestConfig<TPayload>
+) {
+  return api.post<
+    TResponseData,
+    AxiosResponse<TResponseData, TPayload>,
+    TPayload
+  >(url, payload, config);
+}

@@ -45,7 +45,13 @@ export const Input: FC<Props> = ({
           type={showPassword ? 'text' : type}
         />
         {type === 'password' && (
-          <div onClick={() => setShowPassword((prev) => !prev)}>
+          <div
+            className={clsx(
+              'text-xs font-semibold cursor-pointer',
+              error ? 'text-red-400' : 'text-teal-500'
+            )}
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
             {showPassword ? 'Hide' : 'Show'}
           </div>
         )}
