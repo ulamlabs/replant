@@ -85,7 +85,7 @@ class TreeToReviewForm(forms.ModelForm):
 
 @admin.register(TreeToReview)
 class TreeToReviewAdmin(TrackableModelAdmin):
-    list_display_links = ("image_tag",)
+    list_display_links = None
     list_display = (
         "image_tag",
         "species",
@@ -115,6 +115,7 @@ class TreeToReviewAdmin(TrackableModelAdmin):
         AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
     )
     show_facets = False
+    change_list_template = "admin/change_list_tree_review.html"
 
     fields = (
         "id",
