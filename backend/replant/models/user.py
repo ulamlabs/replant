@@ -96,6 +96,9 @@ class User(AbstractUser):
     def is_planter(self):
         return self.role == User.Role.PLANTER
 
+    def __str__(self):
+        return self.username or self.email
+
     def get_password_reset_link(self):
         uid = urlsafe_base64_encode(force_bytes(self.pk))
         token = default_token_generator.make_token(self)
