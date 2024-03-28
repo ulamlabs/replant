@@ -9,6 +9,7 @@ import {
   NotFoundPage,
   Planters,
   SignUpPage,
+  SignUpSuccess,
   Sponsors,
 } from 'pages';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
               <Route path='impact' element={<Impact />} />
               <Route path='login' element={<LogIn />} />
               <Route path='signup' element={<SignUpPage />} />
+              <Route path='signup-success' element={<SignUpSuccess />} />
               <Route path='*' element={<NotFoundPage />} />
             </Route>
           </Routes>

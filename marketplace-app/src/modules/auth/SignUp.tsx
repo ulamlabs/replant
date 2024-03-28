@@ -64,8 +64,8 @@ export const SignUp = () => {
   };
 
   return (
-    <div className='max-w-[400px] m-auto flex flex-col'>
-      <h2 className=' text-4xl font-bold mb-3 '>Hello!</h2>
+    <div className='max-w-md m-auto flex flex-col'>
+      <h2 className=' text-4xl font-bold mb-3 '>{fmtMsg('hello!')}</h2>
       <p className='text-neutral-400 text-lg font-normal mb-8'>
         {fmtMsg('signInAndExploreTheReplantWorldsMarketplace')}
       </p>
