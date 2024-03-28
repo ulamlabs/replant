@@ -9,6 +9,7 @@ import {
 import { CameraIcon, CheckIcon, LocationIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
+import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
 import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
@@ -20,6 +21,9 @@ export const CaptureModal: React.FC = () => {
   const playerRef = useRef<HTMLVideoElement>(null);
 
   const store = useNewPlantStore();
+
+  const logLocationFailed = useLogLocationFailed();
+  const logLocationSucceeded = useLogLocationSucceeded();
 
   const capture = () => {
     const canvas = canvasRef.current;
@@ -37,12 +41,14 @@ export const CaptureModal: React.FC = () => {
         store.setIsGettingLocation(false);
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
+        const accuracy = position.coords.accuracy;
         store.setTmpImage({
           captured_at,
           image,
           latitude,
           longitude,
         });
+        logLocationSucceeded(accuracy);
       },
       (error) => {
         store.setIsGettingLocation(false);
@@ -50,6 +56,10 @@ export const CaptureModal: React.FC = () => {
           fmtMsg('failedToGetLocation', { error: error.message }),
           'error'
         );
+        logLocationFailed({
+          name: 'GeolocationPositionError',
+          message: error.message,
+        });
       },
       {
         timeout: 5000,

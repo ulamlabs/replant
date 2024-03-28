@@ -1,15 +1,7 @@
 /// <reference types="user-agent-data-types" />
 
 import { UAParser } from 'ua-parser-js';
-
-type UserAgent = {
-  browser?: string;
-  browser_version?: string;
-  device?: string;
-  os?: string;
-  os_version?: string;
-  user_agent?: string;
-};
+import { UserAgent } from './types';
 
 const uaParsed = UAParser();
 
