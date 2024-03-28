@@ -7,8 +7,8 @@ import { IconYouTube } from './icons/IconYouTube';
 
 export function Footer() {
   return (
-    <footer className='mt-20 border-t-2 border-stone-300 dark:border-stone-900 py-10 flex justify-between items-center'>
-      <div className='flex items-center'>
+    <footer className='mt-20 border-t-2 border-stone-300 dark:border-stone-900 py-10 flex flex-col md:flex-row md:justify-between md:items-center gap-5 md:gap-0'>
+      <div className='flex md:items-center flex-col md:flex-row gap-5 md:gap-0'>
         <a href='https://www.replant.world/' className=' mr-10'>
           <ReplantLogo />
         </a>

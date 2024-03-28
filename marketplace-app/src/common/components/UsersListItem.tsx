@@ -11,7 +11,7 @@ export const UsersListItem: FC<Props> = ({ data, index, type }) => {
   const { img, name, company, trees, percentage } = data;
 
   return (
-    <li className='flex h-24 px-8 py-3 bg-stone-50 dark:bg-neutral-850 dark:border-transparent border border-stone-100 justify-between rounded-3xl items-center transition-colors hover:bg-teal-100 cursor-pointer dark:hover:bg-neutral-750'>
+    <li className='flex flex-col sm:flex-row sm:h-24 px-8 py-3 gap-5 bg-stone-50 dark:bg-neutral-850 dark:border-transparent border border-stone-100 sm:justify-between rounded-3xl sm:items-center transition-colors hover:bg-teal-100 cursor-pointer dark:hover:bg-neutral-750'>
       <div className='flex gap-4 items-center'>
         <span className='text-neutral-400 text-xl font-semibold dark:text-zinc-600'>
           {index}
@@ -26,7 +26,7 @@ export const UsersListItem: FC<Props> = ({ data, index, type }) => {
       </div>
       <div className='flex justify-between gap-3 items-center'>
         <div>
-          <p className='text-right text-3xl font-bold'>{trees}</p>
+          <p className='md:text-right text-3xl font-bold'>{trees}</p>
           <p className='text-neutral-400 text-sm font-normal dark:text-zinc-600'>
             {type === 'planters' ? 'sponsored trees' : 'planted trees'}
           </p>
