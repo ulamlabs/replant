@@ -9,6 +9,10 @@ if (!apiBaseURL) {
 
 export const api = axios.create({
   baseURL: apiBaseURL,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
+  withXSRFToken: true,
+  withCredentials: true,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,4 +25,17 @@ export function get<TResponseData = any, TPayload = any>(
     AxiosResponse<TResponseData, TPayload>,
     TPayload
   >(url, config);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function post<TResponseData = any, TPayload = any>(
+  url: string,
+  payload?: TPayload,
+  config?: AxiosRequestConfig<TPayload>
+) {
+  return api.post<
+    TResponseData,
+    AxiosResponse<TResponseData, TPayload>,
+    TPayload
+  >(url, payload, config);
 }
