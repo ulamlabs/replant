@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.utils.http import urlsafe_base64_decode
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import generics, serializers, status
@@ -45,6 +46,7 @@ class RegisterSponsorVerifySerializer(serializers.Serializer):
 class RegisterSponsorVerifyView(generics.GenericAPIView):
     serializer_class = RegisterSponsorVerifySerializer
 
+    @transaction.atomic
     def post(self, request: Request, *args, **kwargs) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
