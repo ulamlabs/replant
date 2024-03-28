@@ -18,9 +18,12 @@ function NavBar() {
 
   const { pathname } = useLocation();
 
-  const isAuthPath = ['/signup', '/login', '/signup-success'].includes(
-    pathname
-  );
+  const isAuthPath = [
+    '/signup',
+    '/login',
+    '/signup-success',
+    '/email-confirm',
+  ].includes(pathname);
 
   useEffect(() => {
     setIsNavOpen(false);
