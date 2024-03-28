@@ -12,6 +12,7 @@
   "dependencies": {
     "@mui/base": "^5.0.0-beta.33",
     "@tanstack/react-query": "^5.17.15",
+    "@types/ua-parser-js": "^0.7.39",
     "axios": "^1.6.7",
     "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
@@ -23,6 +24,7 @@
     "react-intl": "^6.6.1",
     "react-router-dom": "^6.21.3",
     "react-spinners": "^0.13.8",
+    "ua-parser-js": "^1.0.37",
     "uuid": "^9.0.1",
     "zustand": "^4.5.0"
   },
@@ -41,6 +43,7 @@
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
+    "user-agent-data-types": "^0.4.2",
     "vite": "^5.0.8",
     "vite-plugin-pwa": "^0.17.4",
     "vite-tsconfig-paths": "^4.3.1"
