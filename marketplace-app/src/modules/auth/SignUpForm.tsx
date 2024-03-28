@@ -1,6 +1,6 @@
 import { Input, Switch } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 type Props = {
   name: string;
@@ -12,6 +12,9 @@ type Props = {
   onNameChange: (val: string) => void;
   onEmailChange: (val: string) => void;
   onPasswordChange: (val: string) => void;
+  switchValues: [string, string];
+  switchValue: string;
+  changeSwitchValue: () => void;
 };
 
 export const SignUpForm: FC<Props> = ({
@@ -24,22 +27,11 @@ export const SignUpForm: FC<Props> = ({
   password,
   passwordError,
   onPasswordChange,
+  switchValues,
+  switchValue,
+  changeSwitchValue,
 }) => {
   const fmtMsg = useFmtMsg();
-
-  const switchValues: [string, string] = [
-    fmtMsg('company'),
-    fmtMsg('individual'),
-  ];
-  const [switchValue, setSwitchValue] = useState(switchValues[0]);
-
-  const changeSwitchValue = () => {
-    if (switchValue === switchValues[0]) {
-      setSwitchValue(switchValues[1]);
-      return;
-    }
-    setSwitchValue(switchValues[0]);
-  };
 
   const clientTypeName =
     switchValue === switchValues[0] ? fmtMsg('companyName') : fmtMsg('name');

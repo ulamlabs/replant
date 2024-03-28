@@ -9,6 +9,10 @@ if (!apiBaseURL) {
 
 export const api = axios.create({
   baseURL: apiBaseURL,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
+  withXSRFToken: true,
+  withCredentials: true,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

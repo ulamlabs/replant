@@ -30,10 +30,11 @@ export const Button: React.FC<Props> = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {isLoading && (
+      {isLoading ? (
         <Loader color={type === 'primary' ? '#FFFFFF' : '#C7AA94'} />
+      ) : (
+        children
       )}
-      {children}
     </button>
   );
 };

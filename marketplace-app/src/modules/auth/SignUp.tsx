@@ -1,11 +1,27 @@
 import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRegisterUser, validateEmail, validatePassword } from '.';
 import { SignUpForm } from './SignUpForm';
 
 export const SignUp = () => {
   const fmtMsg = useFmtMsg();
+  const navigate = useNavigate();
+
+  const switchValues: [string, string] = [
+    fmtMsg('company'),
+    fmtMsg('individual'),
+  ];
+  const [switchValue, setSwitchValue] = useState(switchValues[0]);
+
+  const changeSwitchValue = () => {
+    if (switchValue === switchValues[0]) {
+      setSwitchValue(switchValues[1]);
+      return;
+    }
+    setSwitchValue(switchValues[0]);
+  };
 
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState('');
@@ -50,13 +66,33 @@ export const SignUp = () => {
     if (nameTrimmed && password && email) {
       registerMutation.mutate(
         {
-          username: nameTrimmed,
+          name: nameTrimmed,
           email: email,
           password: password,
+          type: switchValue === switchValues[0] ? 'COMPANY' : 'INDIVIDUAL',
         },
         {
           onSuccess: () => {
-            //navigate('/login');
+            navigate('/signup-success');
+          },
+          onError(error) {
+            if (error.response?.data.email) {
+              if (
+                error.response?.data.email.some((value) =>
+                  value.match('A user with that email already exists')
+                )
+              ) {
+                setEmailError(fmtMsg('aUserWithThatEmailAlreadyExists'));
+              } else {
+                setEmailError(fmtMsg('wrongEmailFormat'));
+              }
+            }
+            if (error.response?.data.name) {
+              setNameError(fmtMsg('nameIsNotValid'));
+            }
+            if (error.response?.data.password) {
+              setPasswordError(fmtMsg('passwordIsNotValid'));
+            }
           },
         }
       );
@@ -88,6 +124,9 @@ export const SignUp = () => {
           setPasswordError('');
           setPassword(val);
         }}
+        switchValue={switchValue}
+        switchValues={switchValues}
+        changeSwitchValue={changeSwitchValue}
       />
       <Button
         isLoading={registerMutation.isPending}
