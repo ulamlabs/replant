@@ -7,7 +7,7 @@ export const BasicLayout = () => {
     <>
       <NavBar />
       <div className='mx-auto mt-24 max-w-[1728px] px-5 sm:px-16 lg:px-32'>
-        <main className='pt-20'>
+        <main className='pt-12'>
           <Outlet />
         </main>
         <Footer />

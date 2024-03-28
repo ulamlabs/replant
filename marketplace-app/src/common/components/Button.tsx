@@ -7,7 +7,7 @@ type Props = {
   type?: 'primary' | 'secondary';
   onClick?: () => void;
   disabled?: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 export const Button: React.FC<Props> = ({
