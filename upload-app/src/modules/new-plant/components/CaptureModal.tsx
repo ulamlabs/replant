@@ -30,7 +30,7 @@ export const CaptureModal: React.FC = () => {
     }
     const captured_at = new Date().toISOString();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    const image = canvas.toDataURL('image/png');
+    const image = canvas.toDataURL('image/jpeg', 0.5);
     store.setIsGettingLocation(true);
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -126,8 +126,8 @@ export const CaptureModal: React.FC = () => {
                 (store.isCameraLoading || !store.tmpImage) && 'hidden'
               )}
               ref={canvasRef}
-              width='600'
-              height='800'
+              width='960'
+              height='1280'
             />
             {store.isGettingLocation && (
               <div className='flex gap-4 items-center justify-center'>
