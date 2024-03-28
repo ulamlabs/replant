@@ -33,8 +33,8 @@ function NavBar() {
   };
 
   return (
-    <nav className='mx-auto h-[72px] md:h-[116px] py-4 md:py-8 bg-opacity-90 backdrop-blur-[20px] fixed w-screen top-0 flex align-center justify-center'>
-      <div className='flex justify-between items-center max-w-[1728px] px-[20px] sm:px-[60px] lg:px-[120px] w-full'>
+    <nav className='mx-auto h-20 md:h-28 py-4 md:py-8 bg-opacity-90 backdrop-blur-xl fixed w-screen top-0 flex align-center justify-center'>
+      <div className='flex justify-between items-center max-w-[1728px] px-5 sm:px-16 lg:px-32 w-full'>
         <NavLink to='/'>
           <ReplantLogo />
         </NavLink>
@@ -46,7 +46,7 @@ function NavBar() {
           logOut={logOut}
         />
         {!isAuthPath && (
-          <div className='items-center gap-[40px] hidden md:flex'>
+          <div className='items-center gap-10 hidden md:flex'>
             <div className='flex gap-3 lg:gap-9 w-auto'>
               <NavItem to='/'>{fmtMsg('home')}</NavItem>
               <NavItem to='marketplace'>{fmtMsg('marketplace')}</NavItem>
