@@ -14,6 +14,7 @@ from .status import StatusView
 from .tree import TreeView
 from .tree_summary import TreeSummaryView
 from .user import UserView
+from .user_history import UserHistoryView
 
 router = routers.SimpleRouter()
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path("trees/summary", TreeSummaryView.as_view()),
     path("status", StatusView.as_view()),
     path("user", UserView.as_view()),
+    path("user-history", UserHistoryView.as_view()),
     path("nfts", NftView.as_view()),
     *router.urls,
 ]
