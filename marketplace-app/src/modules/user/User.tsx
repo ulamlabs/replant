@@ -46,7 +46,7 @@ export const User: FC<Props> = ({ user }) => {
         </div>
         <div
           className={clsx(
-            'lg:w-80 max-h-0 overflow-hidden bg-neutral-50 mr-0 ml-auto transition-all duration-200 mt-[70px] rounded-3xl absolute z-20 top-0 right-0 shadow-lg dark:bg-neutral-750 dark:shadow-neutral-700',
+            'lg:w-80 max-h-0 overflow-hidden bg-neutral-50 mr-0 ml-auto transition-all duration-200 mt-16 rounded-3xl absolute z-20 top-0 right-0 shadow-lg dark:bg-neutral-750 dark:shadow-neutral-700',
             isUserOpen && 'max-h-80'
           )}
         >

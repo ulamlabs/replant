@@ -131,7 +131,7 @@ export const SignUp = () => {
       <Button
         isLoading={registerMutation.isPending}
         onClick={submit}
-        className='mt-8 h-[59px] max-h-max'
+        className='mt-8 h-16 max-h-max'
       >
         {fmtMsg('signUp')}
       </Button>
