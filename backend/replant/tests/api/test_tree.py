@@ -2,6 +2,7 @@ from datetime import timedelta
 from decimal import Decimal as D
 from uuid import UUID
 
+import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from model_bakery import baker
 from pytest_mock import MockerFixture
@@ -112,6 +113,23 @@ def test_list_trees_skip(user_client: APIClient, user: User):
         "previous": None,
         "results": [],
     }
+
+
+@pytest.mark.parametrize(
+    "role",
+    [
+        None,
+        User.Role.SPONSOR,
+        User.Role.PLANTING_ORGANIZATION,
+    ],
+)
+def test_list_trees_not_planter(api_client: APIClient, role: User.Role | None):
+    user = baker.make(User, role=role)
+    api_client.force_login(user)
+
+    response = api_client.get("/api/trees")
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 def test_list_trees_unauthorized(api_client: APIClient):
@@ -297,6 +315,23 @@ def test_create_tree_tree_already_uploaded(
     response = user_client.post("/api/trees", data=data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {"captured_at": ["Tree has been already uploaded."]}
+
+
+@pytest.mark.parametrize(
+    "role",
+    [
+        None,
+        User.Role.SPONSOR,
+        User.Role.PLANTING_ORGANIZATION,
+    ],
+)
+def test_create_tree_not_planter(api_client: APIClient, role: User.Role | None):
+    user = baker.make(User, role=role)
+    api_client.force_login(user)
+
+    response = api_client.post("/api/trees")
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 def test_create_tree_unauthorized(api_client: APIClient):

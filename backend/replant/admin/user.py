@@ -11,24 +11,23 @@ from replant.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    list_display_links = ("username", "email")
     list_display = (
         "username",
+        "email",
+        "role",
         "planting_organization",
         "date_joined",
     )
     search_fields = ("username", "planting_organization__name")
     fields = (
         "username",
+        "email",
+        "role",
         "phone_number",
         "planting_organization",
         "country",
-        "date_joined",
-        "last_login",
-        "password_reset_link",
-    )
-    readonly_fields = (
-        "username",
-        "phone_number",
+        "sponsor",
         "date_joined",
         "last_login",
         "password_reset_link",
@@ -44,6 +43,11 @@ class UserAdmin(admin.ModelAdmin):
         )
 
     def has_add_permission(self, request: HttpRequest) -> bool:
+        return False
+
+    def has_change_permission(
+        self, request: HttpRequest, obj: User | None = None
+    ) -> bool:
         return False
 
     def has_delete_permission(
