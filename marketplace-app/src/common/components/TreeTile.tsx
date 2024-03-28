@@ -21,7 +21,7 @@ export function TreeTile(props: TreeDetailsProps) {
           {props.tree.common_name}
         </div>
         <div className='flex justify-between items-center mt-3'>
-          <span className='text-[29px] font-bold'>
+          <span className='text-3xl font-bold'>
             ${props.tree.planting_cost_usd}
           </span>
           <span className='text-neutral-400 dark:text-zinc-600 text-sm font-normal'>

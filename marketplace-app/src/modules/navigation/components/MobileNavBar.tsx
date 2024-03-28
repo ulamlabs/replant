@@ -45,8 +45,8 @@ const MobileNavBar: FC<Props> = ({
       </div>
       <div
         className={clsx(
-          'w-screen max-h-0 overflow-hidden opacity-0 bg-zinc-100 transition-all duration-300 pt-0 pb-0  fixed -z-10 top-0 left-0 dark:bg-neutral-750 px-[20px] sm:px-[60px] flex flex-col justify-around',
-          open && 'max-h-screen h-screen !pt-[70px] !pb-[30px] opacity-100 '
+          'w-screen max-h-0 overflow-hidden opacity-0 bg-zinc-100 transition-all duration-300 pt-0 pb-0  fixed -z-10 top-0 left-0 dark:bg-neutral-750 px-5 sm:px-16 flex flex-col justify-around',
+          open && 'max-h-screen h-screen !pt-20 !pb-8 opacity-100 '
         )}
       >
         <ul className='flex flex-col gap-10 my-10'>
@@ -77,7 +77,7 @@ const MobileNavBar: FC<Props> = ({
           <div className='flex flex-col gap-3 bg-tr'>
             <User user={user} />
             <Button
-              className='bg-transparent h-[59px] !text-teal-500 hover:bg-transparent dark:bg-transparent dark:!text-teal-600'
+              className='bg-transparent h-14 !text-teal-500 hover:bg-transparent dark:bg-transparent dark:!text-teal-600'
               onClick={logOut}
             >
               {fmtMsg('logOut')}
