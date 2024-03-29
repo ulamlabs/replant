@@ -6,7 +6,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      fontFamily: { sans: ['Inter', ...defaultTheme.fontFamily.sans] },
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
     },
     colors: {
       white: colors.white,
@@ -14,19 +16,51 @@ export default {
       transparent: colors.transparent,
       teal: {
         900: '#1b3233',
+        800: '#1C2F28',
         700: '#2a4546',
         650: '#6E8683',
-        600: '#7B9C93',
+        600: '#3C7A64',
+        500: '#499A7D',
+        400: '#97B6AB',
         300: '#daece6',
-        200: '#eaeee8',
-        100: '#f4f3f2',
+        200: '#E2EDDC',
+        100: '#E8F3E1',
       },
       green: {
         400: '#4C5E41',
         300: '#C5D8D9',
       },
       gray: {
-        200: '#EFEFEF',
+        200: '#ECECEC',
+      },
+      neutral: {
+        900: '#151515',
+        850: '#191919',
+        800: '#151D0C',
+        750: '#212121',
+        700: '#363636',
+        400: '#A5A6A6',
+        100: '#F7F7F7',
+        50: '#FAFAFA',
+      },
+      zinc: {
+        100: '#F3F3F3',
+        400: '#AEAEAE',
+        500: '#7F7F7F',
+        600: '#626262',
+      },
+      stone: {
+        50: '#F9F9F9',
+        300: '#C9C9C9',
+        400: '#9CA7A3',
+        900: '#1E1E1E',
+      },
+      emerald: {
+        500: '#04A46A',
+        600: '#218D66',
+      },
+      red: {
+        400: '#EC7B7B',
       },
     },
   },
