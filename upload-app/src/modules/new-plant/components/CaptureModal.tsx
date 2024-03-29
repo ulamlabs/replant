@@ -10,6 +10,7 @@ import { CameraIcon, CheckIcon, LocationIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
 import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
+import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
 
@@ -34,43 +35,36 @@ export const CaptureModal: React.FC = () => {
     const captured_at = new Date().toISOString();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
     const image = canvas.toDataURL('image/jpeg', 0.5);
-    // store.setIsGettingLocation(true);
-    store.setTmpImage({
-      captured_at,
-      image,
-      latitude: '1.23',
-      longitude: '1.23',
-    });
-    logLocationSucceeded(5.5);
-    // window.navigator.geolocation.getCurrentPosition(
-    //   (position) => {
-    //     store.setIsGettingLocation(false);
-    //     const latitude = position.coords.latitude.toFixed(6);
-    //     const longitude = position.coords.longitude.toFixed(6);
-    //     const accuracy = position.coords.accuracy;
-    //     store.setTmpImage({
-    //       captured_at,
-    //       image,
-    //       latitude,
-    //       longitude,
-    //     });
-    //     logLocationSucceeded(accuracy);
-    //   },
-    //   (error) => {
-    //     store.setIsGettingLocation(false);
-    //     openSnackbar(
-    //       fmtMsg('failedToGetLocation', { error: error.message }),
-    //       'error'
-    //     );
-    //     logLocationFailed({
-    //       name: 'GeolocationPositionError',
-    //       message: error.message,
-    //     });
-    //   },
-    //   {
-    //     timeout: 5000,
-    //   }
-    // );
+    store.setIsGettingLocation(true);
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        store.setIsGettingLocation(false);
+        const latitude = position.coords.latitude.toFixed(6);
+        const longitude = position.coords.longitude.toFixed(6);
+        const accuracy = position.coords.accuracy;
+        store.setTmpImage({
+          captured_at,
+          image,
+          latitude,
+          longitude,
+        });
+        logLocationSucceeded(accuracy);
+      },
+      (error) => {
+        store.setIsGettingLocation(false);
+        openSnackbar(
+          fmtMsg('failedToGetLocation', { error: error.message }),
+          'error'
+        );
+        logLocationFailed({
+          name: 'GeolocationPositionError',
+          message: error.message,
+        });
+      },
+      {
+        timeout: 5000,
+      }
+    );
   };
 
   useEffect(() => {
