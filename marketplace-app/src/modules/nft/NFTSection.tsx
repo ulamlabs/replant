@@ -29,8 +29,8 @@ export const NFTSection = () => {
         latitude: '10',
         longitude: '10',
         sponsor: 'ulam',
-        nft_collection: '#234748765757685',
-        nft_id: '#23474876575768',
+        nft_collection: '234748765757685',
+        nft_id: '23474876575768',
       },
       {
         image:
@@ -46,8 +46,8 @@ export const NFTSection = () => {
         latitude: '10',
         longitude: '10',
         sponsor: 'ulam',
-        nft_collection: '#234748765757685',
-        nft_id: '#23474876575785',
+        nft_collection: '234748765757685',
+        nft_id: '23474876575785',
       },
       {
         image:
@@ -63,8 +63,8 @@ export const NFTSection = () => {
         latitude: '10',
         longitude: '10',
         sponsor: 'ulam',
-        nft_collection: '#234748765757685',
-        nft_id: '#23478765757685',
+        nft_collection: '234748765757685',
+        nft_id: '23478765757685',
       },
       {
         image:
@@ -80,8 +80,8 @@ export const NFTSection = () => {
         latitude: '10',
         longitude: '10',
         sponsor: 'ulam',
-        nft_collection: '#234748765757685',
-        nft_id: '#23448765757685',
+        nft_collection: '234748765757685',
+        nft_id: '23448765757685',
       },
     ];
   }
@@ -102,7 +102,7 @@ export const NFTSection = () => {
       )}
 
       {trees && (
-        <div className='grid place-items-center gap-7 content-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className='grid overflow-y-hidden grid-rows-1 auto-rows-[0] gap-2 xl:gap-7 grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
           {trees.results.map((tree) => (
             <TreeTile tree={tree} key={tree.nft_id} />
           ))}

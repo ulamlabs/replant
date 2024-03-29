@@ -18,7 +18,7 @@ export const User: FC<Props> = ({ user }) => {
 
   return (
     <>
-      <div className='flex md:hidden w-full h-20 px-7 py-4 bg-neutral-50 rounded-3xl items-center gap-3 dark:bg-neutral-900'>
+      <div className='flex lg:hidden w-full h-20 px-7 py-4 bg-neutral-50 rounded-3xl items-center gap-3 dark:bg-neutral-900'>
         <div
           onClick={() => navigate('profile')}
           className='h-full flex justify-center items-center'
@@ -35,7 +35,7 @@ export const User: FC<Props> = ({ user }) => {
 
       <div
         className={
-          'w-12 h-12 relative rounded-full hidden md:flex items-center bg-neutral-50 justify-center cursor-pointer z-20'
+          'w-12 h-12 relative rounded-full hidden lg:flex items-center bg-neutral-50 justify-center cursor-pointer z-20'
         }
       >
         <div
@@ -46,7 +46,7 @@ export const User: FC<Props> = ({ user }) => {
         </div>
         <div
           className={clsx(
-            'md:w-80 max-h-0 overflow-hidden bg-neutral-50 mr-0 ml-auto transition-all duration-200 mt-[70px] rounded-3xl absolute z-20 top-0 right-0 shadow-lg dark:bg-neutral-750 dark:shadow-neutral-700',
+            'lg:w-80 max-h-0 overflow-hidden bg-neutral-50 mr-0 ml-auto transition-all duration-200 mt-[70px] rounded-3xl absolute z-20 top-0 right-0 shadow-lg dark:bg-neutral-750 dark:shadow-neutral-700',
             isUserOpen && 'max-h-md'
           )}
         >

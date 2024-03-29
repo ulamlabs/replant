@@ -17,7 +17,7 @@ export const UsersList: FC<Props> = ({ data, type }) => {
         <h2 className='text-4xl font-bold'>
           {type === 'sponsors' ? 'Top sponsors' : 'Top planters'}
         </h2>
-        <Button type='secondary' onClick={() => navigate('sponsors')}>
+        <Button type='secondary' onClick={() => navigate(type)}>
           View all
         </Button>
       </div>

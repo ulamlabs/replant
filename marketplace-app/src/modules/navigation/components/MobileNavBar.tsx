@@ -28,7 +28,7 @@ const MobileNavBar: FC<Props> = ({
     <>
       <div
         onClick={toggleNav}
-        className='w-7 h-7 flex-col justify-center items-center gap-2 inline-flex cursor-pointer relative  md:hidden'
+        className='w-7 h-7 flex-col justify-center items-center gap-2 inline-flex cursor-pointer relative  lg:hidden'
       >
         <div
           className={clsx(
