@@ -7,7 +7,9 @@ from replant.models import User, UserHistory
 def test_create_user_history_empty_ok(
     user_client: APIClient,
 ):
-    response = user_client.post("/api/user-history", data=[], format="json")
+    response = user_client.post(
+        "/api/user-history", data={"history": []}, format="json"
+    )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -16,20 +18,22 @@ def test_create_user_history_ok(
     user_client: APIClient,
     user: User,
 ):
-    data = [
-        {
-            "created_at": "2024-03-29T08:37:39.063Z",
-            "error_name": "GeolocationPositionError",
-            "error_message": "Timeout expired",
-            "event_type": "LOCATION_FAILED",
-            "browser": "Brave",
-            "browser_version": "123.0.0.0",
-            "device": "Macintosh",
-            "os": "Mac OS",
-            "os_version": "10",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-        }
-    ]
+    data = {
+        "history": [
+            {
+                "created_at": "2024-03-29T08:37:39.063Z",
+                "error_name": "GeolocationPositionError",
+                "error_message": "Timeout expired",
+                "event_type": "LOCATION_FAILED",
+                "browser": "Brave",
+                "browser_version": "123.0.0.0",
+                "device": "Macintosh",
+                "os": "Mac OS",
+                "os_version": "10",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+            }
+        ]
+    }
     response = user_client.post("/api/user-history", data=data, format="json")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
