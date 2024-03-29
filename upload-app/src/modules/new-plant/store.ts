@@ -49,8 +49,8 @@ export const useNewPlantStore = create<NewPlantState>()((set, get) => ({
       const stream = await window.navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: { ideal: 'environment' },
-          width: { ideal: isPortrait ? 800 : 600 },
-          height: { ideal: isPortrait ? 600 : 800 },
+          width: { ideal: isPortrait ? 1280 : 960 },
+          height: { ideal: isPortrait ? 960 : 1280 },
         },
       });
       set({ isCameraLoading: false });

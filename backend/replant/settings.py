@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 import dj_database_url
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "django_filters",
     "admin_auto_filters",
     "rangefilter",
+    "mjml",
     # Project apps
     "replant",
 ]
@@ -112,8 +114,10 @@ WSGI_APPLICATION = "replant.wsgi.application"
 
 DATABASES = {"default": dj_database_url.config(default=env.DATABASE_URL)}
 
-# Custom user model
+# Custom user and authentication
 AUTH_USER_MODEL = "replant.User"
+
+AUTHENTICATION_BACKENDS = ["replant.backends.UsernameOrEmailBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -122,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
         "OPTIONS": {
-            "user_attributes": ("username",),
+            "user_attributes": ("username", "email"),
         },
     },
     {
@@ -273,3 +277,7 @@ LOGGING = {
         },
     },
 }
+
+
+MJML_BACKEND_MODE = "cmd"
+MJML_EXEC_CMD = os.path.join(BASE_DIR, "node_modules/mjml/bin/mjml")

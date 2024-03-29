@@ -9,6 +9,7 @@ export * from './EyeIcon';
 export * from './ForestIcon';
 export * from './HomeIcon';
 export * from './ImageIcon';
+export * from './InstallIcon';
 export * from './LocationIcon';
 export * from './LoupeIcon';
 export * from './OfflineIcon';

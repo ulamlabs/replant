@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { postPlants } from 'modules/plants';
 import { create } from 'zustand';
 import * as offlineDb from './db';
@@ -42,7 +43,24 @@ export const useOfflineStore = create<OfflineState & OfflineActions>()(
           if (!plant) {
             continue;
           }
-          await postPlants(plant.tree);
+          try {
+            await postPlants({
+              ...plant.tree,
+              ...(plant.capturedAt ? { captured_at: plant.capturedAt } : {}), // fallback for trees captured before NewTree had captured_at field
+            });
+          } catch (e) {
+            if (
+              e instanceof AxiosError &&
+              e.response?.status === 400 &&
+              e.response.data.captured_at.includes(
+                'Tree has been already uploaded.'
+              )
+            ) {
+              // pass; the plant has been uploaded before, but not deleted, so now it can be deleted without uploading
+            } else {
+              throw e;
+            }
+          }
           await offlineDb.deleteNewTreeById(key);
           get().incUploadedCount();
         }

@@ -1,18 +1,14 @@
 import { Species } from 'modules/species';
 
-export type CapturedImage = {
-  capturedAt: string;
+export type NewTree = {
+  assigned_species_id: number;
+  captured_at: string;
   image: string; // as data URL
   latitude: string;
   longitude: string;
 };
 
-export type NewTree = {
-  assigned_species_id: number;
-  image: string;
-  latitude: string;
-  longitude: string;
-};
+export type CapturedImage = Omit<NewTree, 'assigned_species_id'>;
 
 export type ReviewState = 'PENDING' | 'APPROVED' | 'REJECTED';
 

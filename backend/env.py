@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URL: Final[str] = os.getenv("DATABASE_URL", "sqlite:///db.sqlite3")
+BACKEND_URL: Final[str] = os.getenv("BACKEND_URL", "http://localhost:8001")
 UPLOAD_APP_URL: Final[str] = os.getenv("UPLOAD_APP_URL", "http://localhost:5173")
 MARKETPLACE_APP_URL: Final[str] = os.getenv(
     "MARKETPLACE_APP_URL", "http://localhost:5174"
@@ -53,3 +54,8 @@ NFT_STORAGE_API_URL: Final[str] = os.getenv(
     "NFT_STORAGE_API_URL", "https://api.nft.storage"
 )
 NFT_STORAGE_API_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")
+
+# Sendgrid
+
+SENDGRID_API_KEY: Final[str] = os.getenv("SENDGRID_API_KEY", "")
+FROM_EMAIL: Final[str] = os.getenv("FROM_EMAIL", "noreply-local@replantworld.ulam.pro")

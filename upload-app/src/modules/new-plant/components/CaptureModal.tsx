@@ -9,6 +9,7 @@ import {
 import { CameraIcon, CheckIcon, LocationIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
+import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
 import { openSnackbar } from 'modules/snackbar';
 import { useEffect, useRef } from 'react';
 import { useNewPlantStore } from '../store';
@@ -21,6 +22,9 @@ export const CaptureModal: React.FC = () => {
 
   const store = useNewPlantStore();
 
+  const logLocationFailed = useLogLocationFailed();
+  const logLocationSucceeded = useLogLocationSucceeded();
+
   const capture = () => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
@@ -28,21 +32,23 @@ export const CaptureModal: React.FC = () => {
     if (!canvas || !player || !context) {
       return;
     }
-    const capturedAt = new Date().toISOString();
+    const captured_at = new Date().toISOString();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    const imgData = canvas.toDataURL('image/png');
+    const image = canvas.toDataURL('image/jpeg', 0.5);
     store.setIsGettingLocation(true);
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
         store.setIsGettingLocation(false);
         const latitude = position.coords.latitude.toFixed(6);
         const longitude = position.coords.longitude.toFixed(6);
+        const accuracy = position.coords.accuracy;
         store.setTmpImage({
-          capturedAt,
-          image: imgData,
+          captured_at,
+          image,
           latitude,
           longitude,
         });
+        logLocationSucceeded(accuracy);
       },
       (error) => {
         store.setIsGettingLocation(false);
@@ -50,6 +56,10 @@ export const CaptureModal: React.FC = () => {
           fmtMsg('failedToGetLocation', { error: error.message }),
           'error'
         );
+        logLocationFailed({
+          name: 'GeolocationPositionError',
+          message: error.message,
+        });
       },
       {
         timeout: 5000,
@@ -126,8 +136,8 @@ export const CaptureModal: React.FC = () => {
                 (store.isCameraLoading || !store.tmpImage) && 'hidden'
               )}
               ref={canvasRef}
-              width='600'
-              height='800'
+              width='960'
+              height='1280'
             />
             {store.isGettingLocation && (
               <div className='flex gap-4 items-center justify-center'>

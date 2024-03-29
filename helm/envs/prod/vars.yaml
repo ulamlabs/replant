@@ -1,6 +1,7 @@
 vars:
   DEBUG: false
   ENV: prod
+  BACKEND_URL: https://app.replantworld.io
   UPLOAD_APP_URL: https://app.replantworld.io
   MARKETPLACE_APP_URL: https://marketplace.replantworld.io
   SEI_CHAIN_ID: pacific-1
@@ -10,3 +11,4 @@ vars:
   AWS_STORAGE_BUCKET_NAME: replant-world
   AWS_S3_ENDPOINT_URL: https://syd1.digitaloceanspaces.com
   AWS_S3_CUSTOM_DOMAIN: trees.images.replantworld.io
+  FROM_EMAIL: noreply@replantworld.io

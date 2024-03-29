@@ -6,7 +6,6 @@ import { useFmtMsg } from 'modules/intl';
 import { openSnackbar } from 'modules/snackbar';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { SignupForm } from './SignupForm';
 import {
   RegisterError,
   RegisteredOrganizationError,
@@ -16,7 +15,8 @@ import {
   registrationLinkExpired,
   useRegisterIntoOrganizationMutation,
   useRegisteredOrganization,
-} from './api';
+} from '.';
+import { SignupForm } from './SignupForm';
 import { validatePassword, validatePhoneNumber } from './utils';
 
 export const Signup: React.FC = () => {
@@ -186,19 +186,19 @@ export const Signup: React.FC = () => {
         countryError={countryError}
         passwordError={passwordError}
         confirmPasswordError={confirmPasswordError}
-        onLoginChange={(val: string) => {
+        onLoginChange={(val) => {
           setLoginError('');
           setLogin(val);
         }}
-        onPhoneNumberChange={(val: string) => {
+        onPhoneNumberChange={(val) => {
           setPhoneNumberError('');
           setPhoneNumber(val);
         }}
-        onPasswordChange={(val: string) => {
+        onPasswordChange={(val) => {
           setPasswordError('');
           setPassword(val);
         }}
-        onConfirmPasswordChange={(val: string) => {
+        onConfirmPasswordChange={(val) => {
           setConfirmPasswordError('');
           setConfirmPassword(val);
         }}

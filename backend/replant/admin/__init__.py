@@ -13,6 +13,7 @@ from .tree import TreeAdmin
 from .tree_to_mint import TreeToMintAdmin
 from .tree_to_review import TreeToReviewAdmin
 from .user import UserAdmin
+from .user_history import UserHistoryAdmin
 
 admin.site.unregister(Group)
 admin.site.site_url = ""

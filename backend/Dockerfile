@@ -17,14 +17,18 @@ ENV PYTHONUNBUFFERED=1 \
 
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
+RUN apt-get -yqq update \
+    && apt-get install -yqq \
+        libpq-dev \
+        nodejs
+
 # Builder
 FROM base as builder
 
-RUN apt-get -yqq update \
-    && apt-get install -yqq \
+RUN apt-get install -yqq \
         curl \
-        libpq-dev \
-        gcc
+        gcc \
+        npm
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
@@ -34,10 +38,18 @@ COPY poetry.lock pyproject.toml ./
 
 RUN poetry install
 
+WORKDIR /app/
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
 # Final
-FROM builder AS final
+FROM base AS final
 
 COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
+
+COPY --from=builder /app/node_modules/ /app/node_modules/
 
 WORKDIR /app/
 

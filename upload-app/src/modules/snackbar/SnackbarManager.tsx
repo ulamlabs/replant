@@ -1,14 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Snackbar } from './Snackbar';
-import { Message, MessageWithId, Severity } from './types';
-
-const SNACKBAR_EVENT = 'ReplantWorld:openSnackbar';
-
-export const openSnackbar = (message: string, severity: Severity) => {
-  document.dispatchEvent(
-    new CustomEvent<Message>(SNACKBAR_EVENT, { detail: { message, severity } })
-  );
-};
+import { Message, MessageWithId } from './types';
+import { SNACKBAR_EVENT } from './utils';
 
 let id = 0;
 
@@ -31,16 +24,19 @@ export const SnackbarManager: React.FC = () => {
     );
   }, []);
 
-  const handleOpenSnackbar = useCallback((event: any) => {
-    addMessage((event as CustomEvent<Message>).detail);
-  }, []);
+  const handleOpenSnackbar = useCallback(
+    (event: Event) => {
+      addMessage((event as CustomEvent<Message>).detail);
+    },
+    [addMessage]
+  );
 
   useEffect(() => {
     document.addEventListener(SNACKBAR_EVENT, handleOpenSnackbar);
     return () => {
       document.removeEventListener(SNACKBAR_EVENT, handleOpenSnackbar);
     };
-  }, []);
+  }, [handleOpenSnackbar]);
 
   return (
     <div className='fixed flex flex-col gap-2 z-50 top-0 right-0 p-4 items-end'>

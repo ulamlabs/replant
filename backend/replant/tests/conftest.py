@@ -57,6 +57,7 @@ def planting_organization(country: Country):
 def user(country: Country, planting_organization: PlantingOrganization):
     return baker.make(
         User,
+        role=User.Role.PLANTER,
         planting_organization=planting_organization,
         country=country,
     )
