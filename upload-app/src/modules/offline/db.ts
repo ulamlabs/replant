@@ -64,9 +64,10 @@ export const loadAllLogEntries = async () => {
   return db.getAll('logs');
 };
 
-export const deleteLogEntry = async (key: string) => {
+export const deleteLogEntries = async (keys: string[]) => {
   const db = await getDb();
-  db.delete('logs', key);
+  const tx = db.transaction('logs', 'readwrite');
+  await Promise.all([...keys.map((key) => tx.store.delete(key)), tx.done]);
 };
 
 export const saveAssignedSpecies = async (

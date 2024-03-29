@@ -41,18 +41,25 @@ export const useLogLocationSucceeded = () => {
   return logLocationSucceeded;
 };
 
+const SLICE_SIZE = 100;
+
+const slicedArray = <T = any>(array: T[], sliceSize: number): T[][] => {
+  let slices: T[][] = [];
+  for (let i = 0; i <= array.length; i += sliceSize) {
+    slices.push(array.slice(i, i + sliceSize));
+  }
+  return slices;
+};
+
 export const useUploadLogWhenOnline = () => {
   const mutation = useUserHistoryBulkMutation();
 
   const uploadLog = useCallback(async () => {
     const log = await offlineDb.loadAllLogEntries();
-    let logSlice = log.splice(0, 100);
-    while (logSlice.length > 0) {
-      await mutation.mutateAsync(logSlice);
-      for (let i = 0; i < logSlice.length; i++) {
-        await offlineDb.deleteLogEntry(logSlice[i].created_at);
-      }
-      logSlice = log.splice(0, 100);
+    const logSlices = slicedArray(log, SLICE_SIZE);
+    for (const slice of logSlices) {
+      await mutation.mutateAsync(slice);
+      await offlineDb.deleteLogEntries(slice.map((item) => item.created_at));
     }
   }, []);
 
