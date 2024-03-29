@@ -1,12 +1,14 @@
 import { LogIn, useVerifyEmail } from 'modules/auth';
 import { useFmtMsg } from 'modules/intl';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export const ConfirmEmailPage = () => {
   const fmtMsg = useFmtMsg();
 
-  const verifyEmailMutation = useVerifyEmail();
+  const ref = useRef(false);
+
+  const { mutate, isIdle, isSuccess } = useVerifyEmail();
 
   const [searchParams] = useSearchParams();
 
@@ -14,17 +16,18 @@ export const ConfirmEmailPage = () => {
   const token = searchParams.get('token') || '';
 
   useEffect(() => {
-    if (verifyEmailMutation.isIdle) {
-      verifyEmailMutation.mutate({
+    if (isIdle && !ref.current) {
+      ref.current = true;
+      mutate({
         uid,
         token,
       });
     }
-  }, [uid, token, verifyEmailMutation]);
+  }, [uid, token, mutate, isIdle]);
 
   return (
     <div className='max-w-md m-auto flex flex-col'>
-      {verifyEmailMutation.isSuccess ? (
+      {isSuccess ? (
         <>
           <h2 className=' text-4xl font-bold mb-3 '>
             {fmtMsg('yourAccountHasBeenSuccessfullyVerified')}
