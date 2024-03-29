@@ -18,7 +18,12 @@ last_tree_id = -1
 def make_sponsor(**kwargs):
     global last_sponsor_id
     last_sponsor_id += 1
-    return Sponsor(id=last_sponsor_id, name=str(last_sponsor_id), **kwargs)
+    return Sponsor(
+        id=last_sponsor_id,
+        name=str(last_sponsor_id),
+        wallet_address=str(last_sponsor_id),
+        **kwargs,
+    )
 
 
 def make_tree(planting_cost_usd: D | None = None):

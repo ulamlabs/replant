@@ -4,6 +4,7 @@ from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from replant.models import AssignedSpecies, Species, User
+from replant.permissions import IsPlanter
 
 
 class SpeciesSerializer(serializers.ModelSerializer):
@@ -28,7 +29,7 @@ class AssignedSpeciesSerializer(serializers.ModelSerializer):
 
 class AssignedSpeciesView(generics.ListAPIView):
     serializer_class = AssignedSpeciesSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPlanter]
     pagination_class = None
 
     def get_queryset(self):
