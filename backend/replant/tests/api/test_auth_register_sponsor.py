@@ -3,6 +3,7 @@ from pytest_mock import MockerFixture
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from replant.integrations import sendgrid
 from replant.models import Sponsor, User
 
 
@@ -119,3 +120,26 @@ def test_register_sponsor_assert_password_validation_called(
     assert response.status_code == status.HTTP_201_CREATED
     validate_password_mock.assert_called_once_with("DifficultPassword8*", mocker.ANY)
     assert validate_password_mock.call_args.args[1].email == "jon.snow@example.com"
+
+
+def test_register_sendgrid_error(api_client: APIClient, mocker: MockerFixture):
+    mocker.patch(
+        "replant.integrations.sendgrid.send_email",
+        side_effect=sendgrid.SendGridAPIError(),
+    )
+    data = {
+        "type": "INDIVIDUAL",
+        "name": "Jon Snow",
+        "email": "jon.snow@example.com",
+        "password": "DifficultPassword8*",
+    }
+
+    response = api_client.post("/api/auth/register-sponsor", data=data)
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {
+        "non_field_errors": ["Registration is not possible now. Try again later."]
+    }
+
+    assert User.objects.count() == 0
+    assert Sponsor.objects.count() == 0

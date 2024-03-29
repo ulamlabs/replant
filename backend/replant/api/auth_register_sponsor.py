@@ -46,12 +46,21 @@ class RegisterSponsorSerializer(serializers.Serializer):
             role=User.Role.SPONSOR, email=email, password=password, sponsor=sponsor
         )
 
-        sendgrid.send_email(
-            to=email,
-            template_name="email_verification",
-            subject="Confirm your email address",
-            context={"verification_link": user.get_email_verification_link()},
-        )
+        try:
+            sendgrid.send_email(
+                to=email,
+                template_name="email_verification",
+                subject="Confirm your email address",
+                context={"verification_link": user.get_email_verification_link()},
+            )
+        except sendgrid.SendGridAPIError:
+            raise serializers.ValidationError(
+                {
+                    "non_field_errors": [
+                        "Registration is not possible now. Try again later."
+                    ]
+                }
+            )
         return user
 
 
