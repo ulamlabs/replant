@@ -89,7 +89,9 @@ export const NFTSection = () => {
   return (
     <section className='mb-20'>
       <div className='flex justify-between items-center mb-10'>
-        <h2 className='dark:text text-4xl font-bold'>NFT's for sale</h2>
+        <h2 className='dark:text text-2xl sm:text-4xl font-bold'>
+          NFT's for sale
+        </h2>
         <Button type='secondary' onClick={() => navigate('marketplace')}>
           View all
         </Button>

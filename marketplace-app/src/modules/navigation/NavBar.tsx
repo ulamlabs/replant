@@ -47,7 +47,7 @@ function NavBar() {
         />
         {!isAuthPath && (
           <div className='items-center gap-10 hidden lg:flex'>
-            <div className='flex gap-3 lg:gap-9 w-auto'>
+            <div className='flex gap-5 xl:gap-9 w-auto'>
               <NavItem to='/'>{fmtMsg('home')}</NavItem>
               <NavItem to='marketplace'>{fmtMsg('marketplace')}</NavItem>
               <NavItem to='sponsors'>{fmtMsg('sponsors')}</NavItem>

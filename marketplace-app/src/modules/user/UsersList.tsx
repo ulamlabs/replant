@@ -14,7 +14,7 @@ export const UsersList: FC<Props> = ({ data, type }) => {
   return (
     <div className='xl:w-1/2'>
       <div className='flex justify-between items-center mb-10'>
-        <h2 className='text-4xl font-bold'>
+        <h2 className='text-2xl sm:text-4xl font-bold'>
           {type === 'sponsors' ? 'Top sponsors' : 'Top planters'}
         </h2>
         <Button type='secondary' onClick={() => navigate(type)}>
