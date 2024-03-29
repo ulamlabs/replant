@@ -24,7 +24,9 @@ export const Switch: FC<Props> = ({ values, onClick, inputValue }) => {
           key={value}
           className={clsx(
             'px-6 py-4 w-1/2 flex justify-center items-center z-10 transition-all duration-200 ease-in-out font-bold text-base',
-            value === inputValue ? '' : 'text-teal-500 dark:text-emerald-600'
+            value === inputValue
+              ? 'text-white dark:text-zinc-100'
+              : 'text-teal-500 dark:text-emerald-600'
           )}
         >
           {value}

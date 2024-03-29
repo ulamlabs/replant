@@ -33,9 +33,6 @@ export const SignUpForm: FC<Props> = ({
 }) => {
   const fmtMsg = useFmtMsg();
 
-  const clientTypeName =
-    switchValue === switchValues[0] ? fmtMsg('companyName') : fmtMsg('name');
-
   return (
     <form className='flex flex-col gap-5 pb-2'>
       <Switch
@@ -44,8 +41,8 @@ export const SignUpForm: FC<Props> = ({
         inputValue={switchValue}
       />
       <Input
-        label={clientTypeName}
-        placeholder={clientTypeName}
+        label={fmtMsg('name')}
+        placeholder={fmtMsg('name')}
         onChange={onNameChange}
         value={name}
         error={nameError}
