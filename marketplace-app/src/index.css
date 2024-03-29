@@ -22,6 +22,6 @@
   }
 
   html {
-    @apply dark:text-gray-200 dark:bg-neutral-900 bg-zinc-100;
+    @apply dark:text-white dark:bg-teal-900 bg-white
   }
 }

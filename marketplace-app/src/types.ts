@@ -7,9 +7,6 @@ export type SponsorDetails = SponsorSimple & {
   trees: number;
   species: number;
   total_trees_cost_usd: string;
-  percentage?: number;
-  img?: string;
-  company?: string;
 };
 
 export type IucnStatus = 'CR' | 'EN' | 'VU' | 'NT' | 'LC' | 'DD';
@@ -39,13 +36,4 @@ export type Paginate = {
 export type Paginated<T> = Paginate & {
   count: number;
   results: T[];
-};
-
-export type Planter = {
-  id: number;
-  name: string;
-  trees: number;
-  percentage?: number;
-  img: string;
-  company?: string;
 };

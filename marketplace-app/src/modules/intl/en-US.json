@@ -22,15 +22,5 @@
   "iucnStatus.VU": "Vulnerable",
   "iucnStatus.NT": "Near threatened",
   "iucnStatus.LC": "Least concern",
-  "iucnStatus.DD": "Data deficient",
-  "home": "Home",
-  "marketplace": "Marketplace",
-  "sponsors": "Sponsors",
-  "planters": "Planters",
-  "impact": "Impact",
-  "logIn": "Log in",
-  "signUp": "Sign up",
-  "profile": "Profile",
-  "settings": "Settings",
-  "logOut": "Log out"
+  "iucnStatus.DD": "Data deficient"
 }
