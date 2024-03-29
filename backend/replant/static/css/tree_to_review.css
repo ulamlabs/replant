@@ -1,6 +1,6 @@
 .image-tag {
-    max-height: 300px;
-    max-width: 170px;
+    max-height: 400px;
+    max-width: 220px;
     object-fit: contain;
     cursor: pointer;
 }

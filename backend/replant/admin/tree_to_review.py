@@ -50,7 +50,7 @@ class TreeToReviewForm(forms.ModelForm):
             if assigned_species is None:
                 self.add_error(
                     "species",
-                    "Species is not yet assigned to this planting organization / community and country.",
+                    f"Species is not yet assigned to this planting organization / community in {self.instance.country}.",
                 )
 
             else:
@@ -90,7 +90,6 @@ class TreeToReviewAdmin(TrackableModelAdmin):
         "image_tag",
         "species",
         "planting_organization",
-        "country",
         "created_by",
         "created_at_date",
         "rejection_reason",
@@ -111,7 +110,6 @@ class TreeToReviewAdmin(TrackableModelAdmin):
             title="Planting organization / community",
             base_parameter_name="planting_organization",
         ),
-        AutocompleteFilterFactory(title="Country", base_parameter_name="country"),
         AutocompleteFilterFactory(title="Created by", base_parameter_name="created_by"),
     )
     show_facets = False
