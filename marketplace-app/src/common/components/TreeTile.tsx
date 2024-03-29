@@ -8,7 +8,7 @@ type TreeDetailsProps = {
 export function TreeTile(props: TreeDetailsProps) {
   return (
     <div
-      className='flex flex-col bg-stone-50 dark:bg-neutral-850 rounded-3xl overflow-hidden cursor-pointer w-full transition-colors hover:bg-teal-100 dark:hover:bg-neutral-750'
+      className='flex flex-col bg-stone-50 dark:bg-neutral-850 rounded-xl sm:rounded-3xl overflow-hidden cursor-pointer w-full transition-colors hover:bg-teal-100 dark:hover:bg-neutral-750'
       onClick={props.onClick}
     >
       <div
