@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { isOnline } from 'modules/offline';
+import * as offlineDb from 'modules/offline/db';
 import {
   UserHistoryError,
   UserHistoryResponse,
@@ -18,12 +19,12 @@ export const useUserHistoryBulkMutation = () =>
 // works offline
 export const useUserHistoryMutation = () =>
   useMutation<UserHistoryResponse, UserHistoryError, HistoryEvent>({
-    mutationKey: ['POST', userHistoryUrl, 'bulk'],
+    mutationKey: ['POST', userHistoryUrl, 'single'],
     mutationFn: (event) => {
       if (isOnline()) {
         return postUserHistory({ history: [event] });
       }
-      return postUserHistory({ history: [event] }); // make db instead
+      return offlineDb.saveLogEntry(event);
     },
     networkMode: 'always',
   });

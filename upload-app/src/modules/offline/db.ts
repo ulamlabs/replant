@@ -1,4 +1,5 @@
 import { DBSchema, IDBPDatabase, openDB } from 'idb';
+import { HistoryEvent } from 'modules/logging/types';
 import { NewTree } from 'modules/plants';
 import { AssignedSpeciesResponseData } from 'modules/species';
 import { v4 as getId } from 'uuid';
@@ -18,9 +19,14 @@ interface RwDbSchema extends DBSchema {
     key: string;
     value: OfflineTree;
   };
+  logs: {
+    key: string;
+    value: HistoryEvent;
+  };
 }
 
 const dbName = 'RW Offline DB';
+const dbVersion = 2; // increment every time DB schema changes
 
 let db: IDBPDatabase<RwDbSchema>;
 
@@ -32,18 +38,35 @@ const getDb = async () => {
 };
 
 const openDb = async () => {
-  return await openDB<RwDbSchema>(dbName, 1, {
-    upgrade: (db) => {
-      if (!db.objectStoreNames.contains('assignedSpecies')) {
-        db.createObjectStore('assignedSpecies');
-      }
-      if (!db.objectStoreNames.contains('trees')) {
-        db.createObjectStore('trees', {
-          keyPath: 'id',
-        });
+  return await openDB<RwDbSchema>(dbName, dbVersion, {
+    upgrade: (db, oldVersion) => {
+      switch (oldVersion) {
+        // @ts-expect-error intentionally fall through
+        case 0:
+          db.createObjectStore('assignedSpecies');
+          db.createObjectStore('trees', {
+            keyPath: 'id',
+          });
+        case 1:
+          db.createObjectStore('logs', { keyPath: 'created_at' });
       }
     },
   });
+};
+
+export const saveLogEntry = async (value: HistoryEvent) => {
+  const db = await getDb();
+  return db.add('logs', value);
+};
+
+export const loadAllLogEntries = async () => {
+  const db = await getDb();
+  return db.getAll('logs');
+};
+
+export const deleteLogEntry = async (key: string) => {
+  const db = await getDb();
+  db.delete('logs', key);
 };
 
 export const saveAssignedSpecies = async (
