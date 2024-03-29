@@ -1,5 +1,5 @@
 export * from './Gallery';
-export * from './Home/Home';
+export * from './Home';
 export * from './Impact';
 export * from './LogIn';
 export * from './Marketplace';
