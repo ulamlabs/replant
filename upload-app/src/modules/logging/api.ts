@@ -3,7 +3,7 @@ import { HistoryEvent } from './types';
 
 export const userHistoryUrl = '/user-history';
 
-export type UserHistoryPayload = HistoryEvent[];
+export type UserHistoryPayload = { history: HistoryEvent[] };
 
 export type UserHistoryResponse = {};
 

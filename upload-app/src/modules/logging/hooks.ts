@@ -30,7 +30,7 @@ export const useLogLocationSucceeded = () => {
   const logLocationSucceeded = async (accuracy: number) => {
     const userAgent = await getUserAgent();
     const event: HistoryEvent = {
-      accuracy,
+      accuracy: parseInt(accuracy.toPrecision(12), 10),
       created_at: new Date().toISOString(),
       event_type: 'LOCATION_SUCCEEDED',
       ...userAgent,
@@ -43,7 +43,7 @@ export const useLogLocationSucceeded = () => {
 
 const SLICE_SIZE = 100;
 
-const slicedArray = <T = any>(array: T[], sliceSize: number): T[][] => {
+const slicedArray = <T>(array: T[], sliceSize: number): T[][] => {
   let slices: T[][] = [];
   for (let i = 0; i <= array.length; i += sliceSize) {
     slices.push(array.slice(i, i + sliceSize));

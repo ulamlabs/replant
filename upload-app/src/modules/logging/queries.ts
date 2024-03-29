@@ -13,7 +13,7 @@ import { HistoryEvent } from './types';
 export const useUserHistoryBulkMutation = () =>
   useMutation<UserHistoryResponse, UserHistoryError, HistoryEvent[]>({
     mutationKey: ['POST', userHistoryUrl, 'bulk'],
-    mutationFn: (events) => postUserHistory(events),
+    mutationFn: (events) => postUserHistory({ history: events }),
   });
 
 // works offline
@@ -22,7 +22,7 @@ export const useUserHistoryMutation = () =>
     mutationKey: ['POST', userHistoryUrl, 'single'],
     mutationFn: (event) => {
       if (isOnline()) {
-        return postUserHistory([event]);
+        return postUserHistory({ history: [event] });
       }
       return offlineDb.saveLogEntry(event);
     },
