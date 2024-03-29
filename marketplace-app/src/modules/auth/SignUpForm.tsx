@@ -34,7 +34,7 @@ export const SignUpForm: FC<Props> = ({
   const fmtMsg = useFmtMsg();
 
   return (
-    <form className='flex flex-col gap-5 pb-2'>
+    <form className='flex flex-col gap-3 md:gap-5 pb-2'>
       <Switch
         values={switchValues}
         onClick={changeSwitchValue}

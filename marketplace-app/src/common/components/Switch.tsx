@@ -10,7 +10,7 @@ type Props = {
 export const Switch: FC<Props> = ({ values, onClick, inputValue }) => {
   return (
     <div
-      className='h-14 p-0.5 bg-white dark:bg-neutral-750 rounded-3xl flex relative cursor-pointer'
+      className=' h-12 md:h-14 p-0.5 bg-white dark:bg-neutral-750 rounded-3xl flex relative cursor-pointer'
       onClick={onClick}
     >
       <input

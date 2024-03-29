@@ -101,8 +101,10 @@ export const SignUp = () => {
 
   return (
     <div className='max-w-md m-auto flex flex-col'>
-      <h2 className=' text-4xl font-bold mb-3 '>{fmtMsg('hello!')}</h2>
-      <p className='text-neutral-400 text-lg font-normal mb-8'>
+      <h2 className='text-2xl md:text-4xl font-bold mb-1 md:mb-3 '>
+        {fmtMsg('hello!')}
+      </h2>
+      <p className='text-neutral-400 text-sm md:text-lg font-normal mb-4 md:mb-8'>
         {fmtMsg('signInAndExploreTheReplantWorldsMarketplace')}
       </p>
       <SignUpForm
@@ -131,7 +133,7 @@ export const SignUp = () => {
       <Button
         isLoading={registerMutation.isPending}
         onClick={submit}
-        className='mt-8 h-16 max-h-max'
+        className='mt-6 md:mt-8 md:h-16 max-h-max'
       >
         {fmtMsg('signUp')}
       </Button>

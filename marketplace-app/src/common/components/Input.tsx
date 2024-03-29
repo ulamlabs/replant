@@ -25,11 +25,11 @@ export const Input: FC<Props> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className='flex flex-col gap-2 text-base w-full'>
+    <div className='flex flex-col gap-2 text-sm md:text-base w-full'>
       {label && <label className='text-left font-semibold'>{label}</label>}
       <div
         className={clsx(
-          'border  py-5 px-7 w-full flex gap-2 rounded-3xl cursor-text items-center bg-white dark:bg-neutral-750 hover:border-teal-200 hover:dark:border-neutral-700 hover:dark:bg-zinc-800',
+          'border px-5 py-3 md:py-5 md:px-7 w-full flex gap-2 rounded-2xl md:rounded-3xl cursor-text items-center bg-white dark:bg-neutral-750 hover:border-teal-200 hover:dark:border-neutral-700 hover:dark:bg-zinc-800',
           error
             ? 'dark:!border-red-800 !border-red-400'
             : 'border-stone-100 dark:border-neutral-700',
