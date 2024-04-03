@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useUserHistoryBulkMutation, useUserHistoryMutation } from './queries';
 import { HistoryEvent } from './types';
 import { getUserAgent } from './user-agent';
+import { slicedArray } from './utils';
 
 export const useLogLocationFailed = () => {
   const mutation = useUserHistoryMutation();
@@ -42,14 +43,6 @@ export const useLogLocationSucceeded = () => {
 };
 
 const SLICE_SIZE = 100;
-
-const slicedArray = <T>(array: T[], sliceSize: number): T[][] => {
-  let slices: T[][] = [];
-  for (let i = 0; i <= array.length; i += sliceSize) {
-    slices.push(array.slice(i, i + sliceSize));
-  }
-  return slices;
-};
 
 export const useUploadLogWhenOnline = () => {
   const mutation = useUserHistoryBulkMutation();
