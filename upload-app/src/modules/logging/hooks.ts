@@ -56,13 +56,13 @@ export const useUploadLogWhenOnline = () => {
     }
   }, []);
 
+  // Log upload requires authentication, so only pages that require user to be
+  // authenticated should upload it. Otherwise, 401 error would occur and trigger
+  // a handler that could potentially disrupt the flow of pages that don't require
+  // authentication.
   const location = useLocation();
-  const isLoggedIn = [
-    '/dashboard',
-    '/new-plant',
-    '/user',
-    '/submissions',
-  ].includes(location.pathname); // VERY primitive solution, hopefully temporary
+  const routes = ['/dashboard', '/new-plant', '/user', '/submissions'];
+  const isLoggedIn = routes.includes(location.pathname);
 
   // initial upload on app startup
   useEffect(() => {
