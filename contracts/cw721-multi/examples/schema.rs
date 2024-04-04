@@ -3,7 +3,7 @@ use std::fs::create_dir_all;
 
 use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
 
-use cw721_multi::msg::{MintMsg, ExtensionMsg};
+use cw721_multi::msg::{MintMsg, ExtensionMsg, Cw721MultiReceiveMsg};
 use cw721_multi::types::TypeT;
 
 fn main() {
@@ -13,4 +13,5 @@ fn main() {
     remove_schemas(&out_dir).unwrap();
     export_schema(&schema_for!(MintMsg<TypeT>), &out_dir);
     export_schema(&schema_for!(ExtensionMsg<TypeT>), &out_dir);
+    export_schema(&schema_for!(Cw721MultiReceiveMsg), &out_dir);
 }

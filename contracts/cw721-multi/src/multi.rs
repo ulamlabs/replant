@@ -1,13 +1,13 @@
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
 use cw721_base::{ContractError, state::TokenInfo};
-use crate::{msg::MintMsg, types::{TypeT, Cw721Multi}};
+use crate::{msg::{MintMsg, Cw721MultiReceiveMsg}, types::{TypeT, Cw721Multi}};
 use cw_ownable;
 
 
 pub fn mint(
-    contract: Cw721Multi,
+    contract: &mut Cw721Multi,
     deps: DepsMut,
-    info: MessageInfo,
+    info: &MessageInfo,
     owner: String,
     messages: Vec<MintMsg<TypeT>>,
 ) -> Result<Response, ContractError> {
@@ -15,7 +15,7 @@ pub fn mint(
 
     let mut response = Response::default()
         .add_attribute("action", "multi_mint")
-        .add_attribute("minter", info.sender)
+        .add_attribute("minter", info.sender.to_string())
         .add_attribute("owner", &owner);
 
     for msg in messages {
@@ -43,10 +43,10 @@ pub fn mint(
 }
 
 pub fn transfer(
-    contract: Cw721Multi,
+    contract: &mut Cw721Multi,
     mut deps: DepsMut,
-    env: Env,
-    info: MessageInfo,
+    env: &Env,
+    info: &MessageInfo,
     recipient: String,
     token_ids: Vec<String>,
 ) -> Result<Response, ContractError> {
@@ -56,10 +56,41 @@ pub fn transfer(
         .add_attribute("recipient", &recipient);
 
     for token_id in token_ids {
-        contract._transfer_nft(deps.branch(), &env, &info, &recipient, &token_id)?;
+        contract._transfer_nft(deps.branch(), env, info, &recipient, &token_id)?;
 
         response = response.add_attribute("token_id", token_id);
     }
+
+    Ok(response)
+}
+
+pub fn send(
+    contract: &mut Cw721Multi,
+    mut deps: DepsMut,
+    env: &Env,
+    info: &MessageInfo,
+    contract_addr: String,
+    token_ids: Vec<String>,
+    msg: String,
+) -> Result<Response, ContractError> {
+    let mut response = Response::new()
+        .add_attribute("action", "multi_send_nft")
+        .add_attribute("sender", &info.sender)
+        .add_attribute("recipient", &contract_addr);
+
+    for token_id in token_ids.iter() {
+        contract._transfer_nft(deps.branch(), env, info, &contract_addr, token_id)?;
+
+        response = response.add_attribute("token_id", token_id);
+    }
+
+    let send = Cw721MultiReceiveMsg {
+        sender: info.sender.to_string(),
+        token_ids,
+        msg
+    };
+
+    response = response.add_message(send.into_cosmos_msg(contract_addr)?);
 
     Ok(response)
 }

@@ -6,9 +6,11 @@ pub use cw721_base::{
     MinterResponse,
 };
 use cw721_base::msg::QueryMsg as Cw721QueryMsg;
-use cw2;
 use msg::ExtensionMsg;
-use types::{Cw721Multi, TypeT};
+use types::TypeT;
+
+pub use types::Cw721Multi;
+pub use msg::*;
 
 pub mod msg;
 pub mod multi;
@@ -49,22 +51,25 @@ pub mod entry {
         info: MessageInfo,
         msg: ExecuteMsg<Extension, ExtensionMsg<TypeT>>,
     ) -> Result<Response, cw721_base::ContractError> {
-        let contract = Cw721Multi::default();
+        let mut con = Cw721Multi::default();
         match msg {
             ExecuteMsg::Extension { msg } => match msg {
                 ExtensionMsg::MultiMint { owner, messages } => {
-                    multi::mint(contract, deps, info, owner, messages)
+                    multi::mint(&mut con, deps, &info, owner, messages)
                 }
                 ExtensionMsg::MultiTransfer { recipient, token_ids } => {
-                    multi::transfer(contract, deps, env, info, recipient, token_ids)
+                    multi::transfer(&mut con, deps, &env, &info, recipient, token_ids)
+                }
+                ExtensionMsg::MultiSend { contract, token_ids, msg } => {
+                    multi::send(&mut con, deps, &env, &info, contract, token_ids, msg)
                 }
             },
-            _ => contract.execute(deps, env, info, msg),
+            _ => con.execute(deps, env, info, msg),
         }
     }
 
     #[entry_point]
     pub fn query(deps: Deps, env: Env, msg: Cw721QueryMsg<Empty>) -> StdResult<Binary> {
-        _query(deps, env, msg.into())
+        _query(deps, env, msg)
     }
 }
