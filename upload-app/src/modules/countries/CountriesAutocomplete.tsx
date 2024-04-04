@@ -1,6 +1,8 @@
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import clsx from 'clsx';
-import { ArrowDownIcon, LocationIcon } from 'common/icons';
+import { InputIcon } from 'common/components';
+import { LocationOn } from 'common/custom-icons';
+import { ArrowDownIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Country } from './api';
 
@@ -53,7 +55,7 @@ export const CountriesAutocomplete: React.FC<Props> = ({
             : 'border-black dark:border-white'
         )}
       >
-        <LocationIcon />
+        <InputIcon Icon={LocationOn} />
         <input
           {...getInputProps()}
           placeholder={fmtMsg('country')}

@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import { CrossedEyeIcon, EyeIcon } from 'common/icons';
+import { CrossedEyeIcon, EyeIcon, IconProps } from 'common/icons';
 import { HTMLInputTypeAttribute, useState } from 'react';
 
 type Props = {
+  Icon: React.ComponentType<IconProps>;
   label?: string;
   placeholder: string;
   value?: string;
-  icon: React.ReactNode;
   className?: string;
   onChange: (e: string) => void;
   type?: HTMLInputTypeAttribute;
@@ -14,10 +14,10 @@ type Props = {
 };
 
 export const Input: React.FC<Props> = ({
+  Icon,
   label,
   placeholder,
   value,
-  icon,
   className,
   onChange,
   type = 'text',
@@ -41,7 +41,7 @@ export const Input: React.FC<Props> = ({
           className
         )}
       >
-        {icon}
+        <InputIcon Icon={Icon} />
         <input
           onChange={(e) => onChange(e.target.value)}
           value={value}
@@ -63,3 +63,13 @@ export const Input: React.FC<Props> = ({
     </div>
   );
 };
+
+export const InputIcon: React.FC<{ Icon: React.ComponentType<IconProps> }> = ({
+  Icon,
+}) => (
+  <Icon
+    overrideColor
+    pathClassName='fill-gray-500'
+    svgClassName='h-4 min-h-4 min-w-4 opacity-80 w-4'
+  />
+);

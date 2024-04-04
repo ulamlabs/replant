@@ -1,5 +1,5 @@
 import { Input } from 'common/components';
-import { PadlockIcon, PhoneIcon, UserIcon } from 'common/icons';
+import { Call, Lock, Person } from 'common/custom-icons';
 import { CountriesAutocomplete, Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 
@@ -45,17 +45,17 @@ export const SignupForm: React.FC<Props> = ({
   return (
     <form className='flex flex-col gap-5 pb-2'>
       <Input
+        Icon={Person}
         label={fmtMsg('login')}
         placeholder={fmtMsg('login')}
-        icon={<UserIcon pathClassName='fill-gray-500' svgClassName='w-4 h-4' />}
         value={login}
         onChange={onLoginChange}
         error={loginError}
       />
       <Input
+        Icon={Call}
         label={fmtMsg('phoneNumber')}
         placeholder={fmtMsg('phoneNumber')}
-        icon={<PhoneIcon />}
         value={phoneNumber}
         onChange={onPhoneNumberChange}
         type='tel'
@@ -68,18 +68,18 @@ export const SignupForm: React.FC<Props> = ({
         error={countryError}
       />
       <Input
+        Icon={Lock}
         label={fmtMsg('password')}
         placeholder={fmtMsg('password')}
-        icon={<PadlockIcon />}
         value={password}
         type='password'
         error={passwordError}
         onChange={onPasswordChange}
       />
       <Input
+        Icon={Lock}
         label={fmtMsg('confirmPassword')}
         placeholder={fmtMsg('confirmPassword')}
-        icon={<PadlockIcon />}
         value={confirmPassword}
         type='password'
         error={confirmPasswordError}

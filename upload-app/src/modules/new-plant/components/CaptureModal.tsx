@@ -6,7 +6,8 @@ import {
   LoaderBox,
   Section,
 } from 'common/components';
-import { CameraIcon, CheckIcon, LocationIcon, RepeatIcon } from 'common/icons';
+import { LocationOn } from 'common/custom-icons';
+import { CameraIcon, CheckIcon, RepeatIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
 import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
@@ -141,7 +142,11 @@ export const CaptureModal: React.FC = () => {
             />
             {store.isGettingLocation && (
               <div className='flex gap-4 items-center justify-center'>
-                <LocationIcon svgClassName='w-6 h-6' />
+                <LocationOn
+                  overrideColor
+                  pathClassName='fill-gray-500'
+                  svgClassName='h-7 min-h-7 min-w-7 opacity-80 w-7'
+                />
                 <Loader />
               </div>
             )}
