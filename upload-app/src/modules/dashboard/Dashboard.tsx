@@ -3,7 +3,7 @@ import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
 import { useSpecies } from 'modules/species';
-import { InfoBox } from './components';
+import { InfoBox } from './InfoBox';
 
 export const Dashboard: React.FC = () => {
   const fmtMsg = useFmtMsg();

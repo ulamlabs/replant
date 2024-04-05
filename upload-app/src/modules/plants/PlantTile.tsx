@@ -20,7 +20,7 @@ export const PlantTile = forwardRef<HTMLDivElement, Props>(({ plant }, ref) => {
         <img
           src={plant.image}
           alt='Tree'
-          className='aspect-3/4 object-cover rounded-xl w-28 h-full'
+          className='aspect-3/4 object-cover rounded-md w-28 h-full'
         />
         <div className='flex flex-col text-sm font-light'>
           <span className='text-base font-bold'>
