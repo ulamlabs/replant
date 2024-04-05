@@ -31,7 +31,7 @@ pub enum ExecuteMsg {
     },
     /// Remove a denom from allowed list (admin only)
     /// Removing allowed denom will not purge NFTs that are already for sale
-    BlockDenom {
+    DisallowDenom {
         denom: String,
     },
     ReceiveNfts(Cw721MultiReceiveMsg),

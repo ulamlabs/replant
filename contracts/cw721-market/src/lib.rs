@@ -1,24 +1,28 @@
 mod msg;
 mod error;
 mod state;
+mod admin;
+mod query;
 
-use cw_ownable::initialize_owner;
 pub use msg::*;
 pub use error::ContractError;
-
-
 
 // version info for migration info
 const CONTRACT_NAME: &str = "cw721-market";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
-
 #[cfg(not(feature = "library"))]
 pub mod entry {
     use super::*;
+    use cw_ownable::initialize_owner;
     use cosmwasm_std::{
-        entry_point, to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult
+        entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response, to_json_binary
     };
+    use cosmwasm_schema::serde::Serialize;
+
+    fn encode_query_response<T: Serialize + ?Sized>(data: &T) -> Result<Binary, ContractError> {
+        to_json_binary(data).map_err(ContractError::Std)
+    }
 
     #[entry_point]
     pub fn instantiate(
@@ -47,15 +51,22 @@ pub mod entry {
     #[entry_point]
     pub fn execute(
         deps: DepsMut,
-        env: Env,
+        _env: Env,
         info: MessageInfo,
         msg: ExecuteMsg,
     ) -> Result<Response, ContractError> {
-        unimplemented!();
+        match msg {
+            ExecuteMsg::AllowDenom { denom } => admin::allow_denom(deps, info, denom),
+            ExecuteMsg::DisallowDenom { denom } => admin::disallow_denom(deps, info, denom),
+            _ => unimplemented!(),
+        }
     }
 
     #[entry_point]
-    pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<Binary, ContractError> {
-        unimplemented!();
+    pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<Binary, ContractError> {
+        match msg {
+            QueryMsg::AllowedDenoms {  } => encode_query_response(&query::allowed_denoms(deps)?),
+            _ => unimplemented!(),
+        }
     }
 }
