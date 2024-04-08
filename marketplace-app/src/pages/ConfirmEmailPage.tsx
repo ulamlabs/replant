@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 export const ConfirmEmailPage = () => {
   const fmtMsg = useFmtMsg();
 
-  const ref = useRef(false);
+  const mutateCalled = useRef(false);
 
   const { mutate, isIdle, isSuccess } = useVerifyEmail();
 
@@ -16,8 +16,8 @@ export const ConfirmEmailPage = () => {
   const token = searchParams.get('token') || '';
 
   useEffect(() => {
-    if (isIdle && !ref.current) {
-      ref.current = true;
+    if (!mutateCalled.current) {
+      mutateCalled.current = true;
       mutate({
         uid,
         token,

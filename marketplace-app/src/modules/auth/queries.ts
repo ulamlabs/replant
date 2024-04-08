@@ -1,5 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   RegisterError,
   RegisterPayload,
@@ -12,7 +13,7 @@ import {
 } from '.';
 
 export const useRegisterUser = () => {
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const mutation = useMutation<
     AxiosResponse<RegisterResponse>,
@@ -21,7 +22,7 @@ export const useRegisterUser = () => {
   >({
     mutationFn: (payload) => postRegister(payload),
     onSuccess: (data) => {
-      queryClient.setQueryData(['email'], data.data.email);
+      navigate('/signup-success', { state: { email: data.data.email } });
     },
   });
 

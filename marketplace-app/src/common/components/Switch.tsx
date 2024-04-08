@@ -10,14 +10,13 @@ type Props = {
 export const Switch: FC<Props> = ({ values, onClick, inputValue }) => {
   return (
     <div
-      className=' h-12 md:h-14 p-0.5 bg-white dark:bg-neutral-750 rounded-3xl flex relative cursor-pointer'
+      className='h-12 md:h-14 p-0.5 bg-white dark:bg-neutral-750 rounded-3xl flex relative cursor-pointer'
       onClick={onClick}
     >
       <input
-        className=' invisible absolute -z-10'
-        type='text'
+        className='invisible absolute -z-10'
+        type='hidden'
         value={inputValue}
-        onChange={() => {}}
       />
       {values.map((value) => (
         <p
@@ -35,7 +34,7 @@ export const Switch: FC<Props> = ({ values, onClick, inputValue }) => {
       <div
         className={clsx(
           'absolute w-1/2 h-full bg-teal-500 dark:bg-emerald-600 rounded-3xl top-0 left-0 transition-all duration-200 ease-in-out',
-          inputValue === values[1] && ' translate-x-full'
+          inputValue === values[1] && 'translate-x-full'
         )}
       />
     </div>
