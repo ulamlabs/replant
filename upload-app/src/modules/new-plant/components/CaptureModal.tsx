@@ -7,7 +7,8 @@ import {
   Section,
 } from 'common/components';
 import { LocationOn } from 'common/custom-icons';
-import { CameraIcon, CheckIcon, RepeatIcon } from 'common/icons';
+import { CameraIcon } from 'common/icons';
+import { Done, Repeat } from 'common/material-symbols';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
 import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
@@ -89,7 +90,7 @@ export const CaptureModal: React.FC = () => {
               {store.tmpImage ? (
                 <>
                   <Button
-                    Icon={RepeatIcon}
+                    Icon={Repeat}
                     size='lg'
                     type='secondary'
                     onClick={() => store.setTmpImage(undefined)}
@@ -97,7 +98,7 @@ export const CaptureModal: React.FC = () => {
                     {fmtMsg('retake')}
                   </Button>
                   <Button
-                    Icon={CheckIcon}
+                    Icon={Done}
                     onClick={() => {
                       store.setImage(store.tmpImage);
                       store.closeCapture();

@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { CrossedEyeIcon, EyeIcon, IconProps } from 'common/icons';
+import { IconProps } from 'common/icons';
+import { Visibility, VisibilityOff } from 'common/material-symbols';
 import { HTMLInputTypeAttribute, useState } from 'react';
 
 type Props = {
@@ -51,7 +52,11 @@ export const Input: React.FC<Props> = ({
         />
         {type === 'password' && (
           <div onClick={() => setShowPassword((prev) => !prev)}>
-            {showPassword ? <CrossedEyeIcon /> : <EyeIcon />}
+            {showPassword ? (
+              <InputIcon Icon={VisibilityOff} size={5} />
+            ) : (
+              <InputIcon Icon={Visibility} size={5} />
+            )}
           </div>
         )}
       </div>
@@ -64,12 +69,18 @@ export const Input: React.FC<Props> = ({
   );
 };
 
-export const InputIcon: React.FC<{ Icon: React.ComponentType<IconProps> }> = ({
-  Icon,
-}) => (
+export const InputIcon: React.FC<{
+  Icon: React.ComponentType<IconProps>;
+  size?: 4 | 5 | 6;
+}> = ({ Icon, size = 4 }) => (
   <Icon
     overrideColor
     pathClassName='fill-gray-500'
-    svgClassName='h-4 min-h-4 min-w-4 opacity-80 w-4'
+    svgClassName={clsx(
+      'opacity-80',
+      size === 4 && 'h-4 min-h-4 min-w-4 w-4',
+      size === 5 && 'h-5 min-h-5 min-w-5 w-5',
+      size === 6 && 'h-6 min-h-6 min-w-6 w-6'
+    )}
   />
 );

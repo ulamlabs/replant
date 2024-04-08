@@ -52,6 +52,7 @@ export const Button: React.FC<Props> = ({
       )}
       {Icon && (
         <Icon
+          overrideColor
           pathClassName={
             type === 'primary'
               ? 'fill-white'

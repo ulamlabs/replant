@@ -1,6 +1,6 @@
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import clsx from 'clsx';
-import { LoupeIcon } from 'common/icons';
+import { Search } from 'common/material-symbols';
 import { useFmtMsg } from 'modules/intl';
 import { AssignedSpecies, useSpecies } from 'modules/species';
 
@@ -63,7 +63,7 @@ export const SpeciesAutocomplete: React.FC<Props> = ({
           placeholder={fmtMsg('search')}
           className='text-black dark:text-white placeholder-black dark:placeholder-white border-0 bg-transparent focus:outline-none w-full'
         />
-        <LoupeIcon pathClassName='fill-black dark:fill-white' />
+        <Search svgClassName='h-5 min-h-5 min-w-5 w-5' />
       </div>
       {groupedOptions.length > 0 && (
         <ul
