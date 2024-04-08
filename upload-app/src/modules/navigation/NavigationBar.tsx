@@ -8,7 +8,7 @@ export const NavigationBar: React.FC = () => {
   return (
     <div
       className={
-        'w-full h-12 py-2.5 px-5 flex items-center justify-around dark:bg-teal-700 bg-teal-600 rounded-full shadow-md'
+        'w-full h-12 py-2.5 px-5 flex items-center justify-around bg-teal-700 rounded-full shadow-md'
       }
     >
       <NavigationButton Icon={HomeIcon} path='/dashboard' />
