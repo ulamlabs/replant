@@ -4,7 +4,7 @@ export * from './Done';
 export * from './ExpandLess';
 export * from './ExpandMore';
 export * from './FindInPage';
-export * from './ImageLine';
+export * from './Image';
 export * from './InstallMobile';
 export * from './KeyboardBackspace';
 export * from './Repeat';
