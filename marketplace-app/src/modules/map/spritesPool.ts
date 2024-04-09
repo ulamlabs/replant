@@ -2,8 +2,8 @@
  * This module optimizes creating tree markers by preallocating a buffer (pool) of sprites. That way, when we have to display a few thousands of markers, we don't have to create all of them in a single tick which is a very expensive operation. Instead, we use the preallocated sprites. It's a technique taken from gamedev - objects pooling.
  */
 
-import { PIN_SCALE, PIN_TINT } from './const';
 import { Assets, Container, Sprite, Texture } from 'pixi.js';
+import { PIN_SCALE, PIN_TINT } from './const';
 
 const POOL_SIZE = 5_000;
 

@@ -1,7 +1,6 @@
 import { useFmtMsg } from 'modules/intl';
-import { Tree } from 'types';
-import { ReadOnlyField } from './ReadOnlyField';
-import { AbbreviateWithCopy } from './AbbreviateWithCopy';
+import { AbbreviateWithCopy, ReadOnlyField } from 'common/components';
+import { Tree } from './types';
 
 type TreeDetailsProps = {
   tree: Tree;

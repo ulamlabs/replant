@@ -1,10 +1,10 @@
-import { TileWithZoom } from 'modules/api/api';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { useEffect, useMemo, useState } from 'react';
 import { useThrottle } from '@uidotdev/usehooks';
 import { MapTreePoints } from './MapTreePoints';
 import { MapTreesClusters } from './MapTreesClusters';
 import { MAX_MARKERS_ZOOM } from './const';
+import { TileWithZoom } from './api';
 
 export function MapMarkers() {
   const map = useMap();

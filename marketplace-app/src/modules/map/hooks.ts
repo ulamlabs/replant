@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { Sprite, type Container } from 'pixi.js';
-import { TreePoint } from 'types';
+import { TreePoint } from './types';
 
 export type PixiMapContextType = {
   container: Container | null;

@@ -1,14 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import { Pagination } from 'common/components/Pagination';
-import { TreesGrid } from 'common/components/TreesGrid';
-import { ReplantLogo } from 'common/components/ReplantLogo';
-import { getTrees } from 'modules/api/api';
-import { useFmtMsg } from 'modules/intl';
 import { useEffect, useState } from 'react';
-import { SponsorSimple } from 'types';
-import { SponsorSummary } from 'common/components/SponsorSummary';
-import { SponsorSearchBox } from 'common/components/SponsorSearchBox';
-import { Loader } from 'common/components/Loader';
+import { useQuery } from '@tanstack/react-query';
+import { useFmtMsg } from 'modules/intl';
+import { Loader, Pagination, ReplantLogo } from 'common/components';
+import { SponsorSummary } from './SponsorSummary';
+import { TreesGrid } from './TreesGrid';
+import { SponsorSimple } from './types';
+import { getTrees } from './api';
+import { SponsorSearchBox } from './SponsorSearchBox';
 
 export function Gallery() {
   const fmtMsg = useFmtMsg();

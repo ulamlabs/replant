@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
-import { IconX } from './icons/IconX';
+
+import { IconX } from './icons';
 
 type ModalProps = PropsWithChildren & {
   title: string;

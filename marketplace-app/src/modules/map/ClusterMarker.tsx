@@ -1,8 +1,8 @@
 import { DivIcon } from 'leaflet';
 import { Marker, useMap } from 'react-leaflet';
-import { TreesCluster } from 'types';
 import { abbreviateNumber } from 'js-abbreviation-number';
 import { memo } from 'react';
+import { TreesCluster } from './types';
 
 export type MapMarkerProps = {
   cluster: TreesCluster;

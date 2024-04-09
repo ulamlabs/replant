@@ -1,13 +1,11 @@
-import { TreePoint } from 'types';
-import { usePixiMap, useSelectedTree } from './hooks';
 import { useQuery } from '@tanstack/react-query';
-import { getTreeDetails } from 'modules/api/api';
-import { Modal } from 'common/components/Modal';
 import { ReactElement, useState } from 'react';
-import { Loader } from 'common/components/Loader';
-import { TreeDetails } from 'common/components/TreeDetails';
-import { IconX } from 'common/components/icons/IconX';
+import { IconX, Loader, Modal } from 'common/components';
+import { TreeDetails } from 'modules/gallery';
 import { PIN_SCALE, PIN_TINT } from './const';
+import { getTreeDetails } from './api';
+import { TreePoint } from './types';
+import { usePixiMap, useSelectedTree } from './hooks';
 
 type SelectedTreeProps = {
   tree: TreePoint;

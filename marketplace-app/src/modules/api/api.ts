@@ -1,60 +1,23 @@
-import {
-  SponsorSimple,
-  SponsorDetails,
-  Paginated,
-  Tree,
-  TreesCluster,
-  TreePoint,
-} from 'types';
-import { get } from './base-api';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export type GetTreesParams = {
-  sponsor?: number;
-  offset?: number;
-  pageSize?: number;
-};
-
-export function getTrees(params: GetTreesParams) {
-  return get<Paginated<Tree>>('nfts', { params }).then(
-    (response) => response.data
-  );
+export let apiBaseURL = import.meta.env.VITE_API_URL;
+if (!apiBaseURL) {
+  // if port is given in origin, assume it's local dev env, and replace app port with api port
+  const baseURL = window.location.origin.replace(/:\d+/, ':8001');
+  apiBaseURL = baseURL + '/api';
 }
 
-export function getTreeDetails(nftId: number) {
-  return get<Tree>(`nfts/${nftId}`).then((response) => response.data);
-}
+export const api = axios.create({
+  baseURL: apiBaseURL,
+});
 
-export type Tile = {
-  index: number;
-};
-
-export type TileWithZoom = Tile & {
-  zoom: number;
-};
-
-export function getTreesClusters(params: TileWithZoom) {
-  return get<TreesCluster[]>('trees_clusters', { params }).then(
-    (response) => response.data
-  );
-}
-
-export function getTreePoints(params: Tile) {
-  return get<TreePoint[]>('tree_points', { params }).then(
-    (response) => response.data
-  );
-}
-
-export type AutocompleteSponsorsParams = {
-  search?: string;
-};
-export function autocompleteSponsors(params: AutocompleteSponsorsParams) {
-  return get<Paginated<SponsorSimple>>('sponsors/', {
-    params,
-  }).then((response) => response.data);
-}
-
-export function getSponsor(sponsorId: number) {
-  return get<SponsorDetails>(`sponsors/${sponsorId}/`).then(
-    (response) => response.data
-  );
+export function get<TResponseData = any, TPayload = any>(
+  url: string,
+  config?: AxiosRequestConfig<TPayload>
+) {
+  return api.get<
+    TResponseData,
+    AxiosResponse<TResponseData, TPayload>,
+    TPayload
+  >(url, config);
 }
