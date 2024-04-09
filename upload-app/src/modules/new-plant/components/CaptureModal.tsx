@@ -6,7 +6,7 @@ import {
   LoaderBox,
   Section,
 } from 'common/components';
-import { CameraIcon, Done, LocationOn, Repeat } from 'common/icons';
+import { CameraLine, Done, LocationOn, Repeat } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
 import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
@@ -107,7 +107,7 @@ export const CaptureModal: React.FC = () => {
                 </>
               ) : (
                 <Button
-                  Icon={CameraIcon}
+                  Icon={CameraLine}
                   disabled={store.isCameraLoading}
                   onClick={capture}
                 >

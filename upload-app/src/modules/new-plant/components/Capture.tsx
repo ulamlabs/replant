@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { CameraIcon } from 'common/icons';
+import { CameraLine } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { useNewPlantStore } from '../store';
 import { CaptureModal } from './CaptureModal';
@@ -21,10 +21,7 @@ export const Capture: React.FC = () => {
         )}
         onClick={() => store.openCapture(fmtMsg)}
       >
-        <CameraIcon
-          svgClassName='size-6'
-          pathClassName='fill-black dark:fill-white'
-        />
+        <CameraLine svgClassName='size-7' />
         <span className='font-bold'>
           {store.image ? fmtMsg('changePhoto') : fmtMsg('capturePhoto')}
         </span>

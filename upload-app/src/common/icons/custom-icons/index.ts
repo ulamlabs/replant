@@ -1,7 +1,13 @@
 export * from './Call';
+export * from './Camera';
+export * from './CameraLine';
+export * from './Forest';
+export * from './ForestLine';
 export * from './Groups';
+export * from './Home';
+export * from './HomeLine';
 export * from './LocationOn';
 export * from './Lock';
 export * from './Park';
 export * from './Person';
-
+export * from './PersonLine';
