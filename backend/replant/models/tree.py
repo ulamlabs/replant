@@ -29,6 +29,11 @@ class TreeManager(models.Manager):
         )
 
 
+def image_upload_to(model: models.Model, filename: str) -> str:
+    _, ext = filename.rsplit(".", 1)
+    return f"{uuid.uuid4().hex}.{ext}"
+
+
 class Tree(TrackableModel):
     class ReviewState(models.TextChoices):
         PENDING = auto()
@@ -41,10 +46,6 @@ class Tree(TrackableModel):
         MINTED = auto()
         FAILED = auto()
 
-    def image_upload_to(self, filename: str) -> str:
-        _, ext = filename.rsplit(".", 1)
-        return f"{uuid.uuid4().hex}.{ext}"
-
     review_state = FSMField(
         choices=ReviewState.choices, default=ReviewState.PENDING, db_index=True
     )
@@ -52,7 +53,7 @@ class Tree(TrackableModel):
     minting_state = FSMField(
         choices=MintingState.choices, default=MintingState.PENDING, db_index=True
     )
-    image = models.ImageField(upload_to=image_upload_to)  # type: ignore
+    image = models.ImageField(upload_to=image_upload_to)
     image_cid = models.URLField(
         max_length=128, default="", blank=True, verbose_name="image CID"
     )

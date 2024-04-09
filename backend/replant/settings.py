@@ -160,6 +160,7 @@ REST_FRAMEWORK = {
         "replant.auth.SessionAuthentication",
     ],
     "DEFAULT_PAGINATION_CLASS": "replant.pagination.PageNumberPagination",
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
 SPECTACULAR_SETTINGS = {

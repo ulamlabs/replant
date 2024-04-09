@@ -13,7 +13,15 @@ class SponsorListSerializer(serializers.ModelSerializer):
 class SponsorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sponsor
-        fields = ("id", "name", "trees", "species", "total_trees_cost_usd")
+        fields = (
+            "id",
+            "name",
+            "bio",
+            "logo",
+            "trees",
+            "species",
+            "total_trees_cost_usd",
+        )
 
     trees = serializers.SerializerMethodField()
     species = serializers.SerializerMethodField()

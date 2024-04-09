@@ -1,5 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import generics, serializers
 
 from replant.integrations import sendgrid
@@ -15,6 +16,8 @@ class RegisterSponsorSerializer(serializers.Serializer):
     password = serializers.CharField(
         max_length=128, write_only=True, validators=[validate_password]
     )
+    bio = serializers.CharField(allow_blank=True, write_only=True)
+    logo = Base64ImageField(allow_null=True, write_only=True)
 
     def validate_email(self, email: str):
         if User.objects.filter(email=email).exists():
@@ -37,10 +40,18 @@ class RegisterSponsorSerializer(serializers.Serializer):
         name = validated_data["name"]
         email = validated_data["email"]
         password = validated_data["password"]
+        bio = validated_data["bio"]
+        logo = validated_data["logo"]
 
         sponsor, _ = Sponsor.objects.update_or_create(
             contact_person_email=email,
-            defaults={"type": type_, "name": name, "wallet_address": None},
+            defaults={
+                "type": type_,
+                "name": name,
+                "wallet_address": None,
+                "bio": bio,
+                "logo": logo,
+            },
         )
         user = User.objects.create_user(
             role=User.Role.SPONSOR, email=email, password=password, sponsor=sponsor

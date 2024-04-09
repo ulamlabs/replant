@@ -7,9 +7,7 @@ from replant.models import User, UserHistory
 def test_create_user_history_empty_ok(
     user_client: APIClient,
 ):
-    response = user_client.post(
-        "/api/user-history", data={"history": []}, format="json"
-    )
+    response = user_client.post("/api/user-history", data={"history": []})
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -34,7 +32,7 @@ def test_create_user_history_ok(
             }
         ]
     }
-    response = user_client.post("/api/user-history", data=data, format="json")
+    response = user_client.post("/api/user-history", data=data)
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 

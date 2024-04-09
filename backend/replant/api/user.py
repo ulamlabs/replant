@@ -1,4 +1,5 @@
-from rest_framework import serializers, views
+from drf_extra_fields.fields import Base64ImageField
+from rest_framework import exceptions, serializers, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -17,7 +18,22 @@ class PlantingOrganizationSimpleSerializer(serializers.ModelSerializer):
 class SponsorUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sponsor
-        fields = ("type", "name")
+        fields = ("type", "name", "bio", "logo")
+
+
+class SponsorUserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sponsor
+        fields = ("name", "bio", "logo")
+
+    logo = Base64ImageField(allow_null=True)
+
+    def update(self, sponsor: Sponsor, validated_data: dict):
+        sponsor.name = validated_data["name"]
+        sponsor.bio = validated_data["bio"]
+        sponsor.logo = validated_data["logo"]
+        sponsor.save()
+        return sponsor
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,6 +53,32 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    sponsor = SponsorUserUpdateSerializer(allow_null=True)
+
+    class Meta:
+        model = User
+        fields = ("sponsor",)
+
+    def update(self, user: User, validated_data: dict):
+        sponsor_data = validated_data.pop("sponsor")
+        if bool(user.sponsor) ^ bool(sponsor_data):
+            message = {
+                "sponsor": (
+                    "Sponsor cannot be null"
+                    if user.sponsor
+                    else "No sponsor is associated with the user"
+                )
+            }
+            raise exceptions.ValidationError(message)
+
+        if sponsor_data:
+            sponsor_serializer = SponsorUserUpdateSerializer()
+            user.sponsor = sponsor_serializer.update(user.sponsor, sponsor_data)
+
+        return user
+
+
 class UserView(views.APIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
@@ -44,3 +86,9 @@ class UserView(views.APIView):
     def get(self, request: Request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+    def put(self, request: Request):
+        serializer = UserUpdateSerializer(instance=request.user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(UserSerializer(request.user).data)
