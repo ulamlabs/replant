@@ -54,7 +54,7 @@ export const Snackbar: FC<Props> = ({
       )}
     >
       {title && <h3 className='text-base font-bold pr-4'>{title}</h3>}
-      <p className='text-sm font-normal'>{message}</p>
+      <p className={clsx('text-sm font-normal', !title && 'pr-4')}>{message}</p>
       <div
         onClick={closeSnackbar}
         className={clsx(
