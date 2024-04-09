@@ -21,19 +21,31 @@ export const ReviewStatePill: React.FC<Props> = ({ state }) => {
     >
       {state === 'PENDING' && (
         <>
-          <FindInPage svgClassName='h-3.5 w-3.5' />
+          <FindInPage
+            overrideColor
+            pathClassName='fill-white'
+            svgClassName='h-3.5 w-3.5'
+          />
           <span>{fmtMsg('pending')}</span>
         </>
       )}
       {state === 'APPROVED' && (
         <>
-          <Done svgClassName='h-3.5 w-3.5' />
+          <Done
+            overrideColor
+            pathClassName='fill-white'
+            svgClassName='h-3.5 w-3.5'
+          />
           <span>{fmtMsg('approved')}</span>
         </>
       )}
       {state === 'REJECTED' && (
         <>
-          <Close svgClassName='h-3.5 w-3.5' />
+          <Close
+            overrideColor
+            pathClassName='fill-white'
+            svgClassName='h-3.5 w-3.5'
+          />
           <span>{fmtMsg('rejected')}</span>
         </>
       )}
