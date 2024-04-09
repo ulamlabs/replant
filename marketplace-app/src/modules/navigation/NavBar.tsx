@@ -1,7 +1,7 @@
 import { Button } from 'common/components';
 import { ReplantLogo } from 'common/components/ReplantLogo';
 import { useFmtMsg } from 'modules/intl';
-import { User, useUser } from 'modules/user';
+import { User } from 'modules/user';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import MobileNavBar from './components/MobileNavBar';
@@ -12,7 +12,7 @@ function NavBar() {
 
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const { data: user } = useUser();
+  const { data: user } = { data: undefined };
 
   const navigate = useNavigate();
 

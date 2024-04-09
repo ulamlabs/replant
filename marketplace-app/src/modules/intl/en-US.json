@@ -55,5 +55,8 @@
   "yourAccountHasBeenAlreadyVerified": "Your account has been already verified.",
   "nowYouCanLogInAndDiscoverTheFeaturesOfReplantWorld": "Now you can log in and discover the features of Replant World.",
   "registrationIsNotPossibleNow": "Registration is not possible now. Try again later.",
-  "signIn": "Sign in"
+  "signIn": "Sign in",
+  "welcomeBack": "Welcome back!",
+  "logInAndExploreTheReplantWorldsFeatures": "Log in and explore the Replant World's features.",
+  "createAccount": "Create account"
 }
