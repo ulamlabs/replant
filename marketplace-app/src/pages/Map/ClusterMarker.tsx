@@ -16,8 +16,10 @@ function _ClusterMarker({ cluster, relativeSize }: MapMarkerProps) {
 
   const formattedNumber = abbreviateNumber(cluster.number_of_trees, 0);
 
+  const cssClasses =
+    'absolute flex items-center justify-center rounded-full bg-white p-1 border-4 border-green-350 w-8 h-8';
   const icon = new DivIcon({
-    html: `<div class="map-cluster-icon" style="transform: scale(${scale})">${formattedNumber}</div>`,
+    html: `<div class="${cssClasses}" style="transform: scale(${scale})">${formattedNumber}</div>`,
   });
 
   const position: [number, number] = [cluster.latitude, cluster.longitude];
