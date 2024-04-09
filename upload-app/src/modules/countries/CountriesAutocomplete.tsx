@@ -61,9 +61,9 @@ export const CountriesAutocomplete: React.FC<Props> = ({
           className=' text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
         />
         {groupedOptions.length ? (
-          <InputIcon Icon={ExpandLess} size={5} />
+          <InputIcon Icon={ExpandLess} />
         ) : (
-          <InputIcon Icon={ExpandMore} size={5} />
+          <InputIcon Icon={ExpandMore} />
         )}
       </div>
       {groupedOptions.length > 0 && (

@@ -10,7 +10,7 @@ export const User: React.FC = () => {
         <Person
           overrideColor
           pathClassName='fill-gray-500'
-          svgClassName='w-5 h-5 opacity-80'
+          svgClassName='w-6 h-6 opacity-80'
         />
         <span>{user?.username}</span>
       </div>
@@ -18,7 +18,7 @@ export const User: React.FC = () => {
         <Call
           overrideColor
           pathClassName='fill-gray-500'
-          svgClassName='w-5 h-5 opacity-80'
+          svgClassName='w-6 h-6 opacity-80'
         />
         <span>{user?.phone_number}</span>
       </div>
@@ -26,7 +26,7 @@ export const User: React.FC = () => {
         <Groups
           overrideColor
           pathClassName='fill-gray-500'
-          svgClassName='w-5 h-5 opacity-80'
+          svgClassName='w-6 h-6 opacity-80'
         />
         <span>{user?.planting_organization?.name}</span>
       </div>
@@ -34,7 +34,7 @@ export const User: React.FC = () => {
         <LocationOn
           overrideColor
           pathClassName='fill-gray-500'
-          svgClassName='w-5 h-5 opacity-80'
+          svgClassName='w-6 h-6 opacity-80'
         />
         <span>{user?.country?.name}</span>
       </div>
