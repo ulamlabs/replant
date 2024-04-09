@@ -71,7 +71,7 @@ export const Input: React.FC<Props> = ({
 export const InputIcon: React.FC<{
   Icon: React.ComponentType<IconProps>;
   size?: 4 | 5 | 6;
-}> = ({ Icon, size = 4 }) => (
+}> = ({ Icon, size = 5 }) => (
   <Icon
     overrideColor
     pathClassName='fill-gray-500'
