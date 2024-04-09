@@ -8,7 +8,7 @@ import {
   Summary,
   SummaryItem,
 } from 'common/components';
-import { LocationOn } from 'common/custom-icons';
+import { LocationOn } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
 import { Layout } from 'modules/layout';
 

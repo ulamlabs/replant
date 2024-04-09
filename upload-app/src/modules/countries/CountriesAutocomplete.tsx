@@ -1,8 +1,7 @@
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import clsx from 'clsx';
 import { InputIcon } from 'common/components';
-import { LocationOn } from 'common/custom-icons';
-import { ExpandLess, ExpandMore } from 'common/material-symbols';
+import { ExpandLess, ExpandMore, LocationOn } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Country } from './api';
 

@@ -1,4 +1,4 @@
-import { KeyboardBackspace } from 'common/material-symbols';
+import { KeyboardBackspace } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {

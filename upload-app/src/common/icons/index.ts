@@ -5,6 +5,7 @@ export * from './DocumentIcon';
 export * from './ForestIcon';
 export * from './HomeIcon';
 export * from './ImageIcon';
-export * from './TreeIcon';
 export * from './UserIcon';
+export * from './custom-icons';
+export * from './material-symbols';
 export * from './types';

@@ -1,4 +1,4 @@
-import { Call, Groups, LocationOn, Person } from 'common/custom-icons';
+import { Call, Groups, LocationOn, Person } from 'common/icons';
 import { useUser } from '.';
 
 export const User: React.FC = () => {

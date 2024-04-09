@@ -6,9 +6,7 @@ import {
   LoaderBox,
   Section,
 } from 'common/components';
-import { LocationOn } from 'common/custom-icons';
-import { CameraIcon } from 'common/icons';
-import { Done, Repeat } from 'common/material-symbols';
+import { CameraIcon, Done, LocationOn, Repeat } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
 import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';

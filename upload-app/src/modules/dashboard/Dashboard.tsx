@@ -1,5 +1,5 @@
 import { LoaderBox } from 'common/components';
-import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
+import { CheckIcon, CrossIcon, DocumentIcon, Park } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
 import { useSpecies } from 'modules/species';
@@ -19,7 +19,7 @@ export const Dashboard: React.FC = () => {
       <div className='grid grid-cols-2 gap-3 mb-5'>
         <InfoBox
           title={fmtMsg('addedTrees')}
-          icon={<TreeIcon />}
+          icon={<Park svgClassName='h-7 w-7' />}
           isLoading={isLoadingSummary}
           value={summary?.added_count}
           className={'bg-blue-400'}

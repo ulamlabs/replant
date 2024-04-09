@@ -1,6 +1,6 @@
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import clsx from 'clsx';
-import { Search } from 'common/material-symbols';
+import { Search } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { AssignedSpecies, useSpecies } from 'modules/species';
 

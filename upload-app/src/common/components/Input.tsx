@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { IconProps } from 'common/icons';
-import { Visibility, VisibilityOff } from 'common/material-symbols';
+import { IconProps, Visibility, VisibilityOff } from 'common/icons';
 import { HTMLInputTypeAttribute, useState } from 'react';
 
 type Props = {

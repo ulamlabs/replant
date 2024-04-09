@@ -1,5 +1,5 @@
 import { Button } from 'common/components';
-import { InstallMobile } from 'common/material-symbols';
+import { InstallMobile } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Link } from 'react-router-dom';
 

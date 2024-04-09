@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { Alert, Button, Header, Input, Section } from 'common/components';
-import { Lock } from 'common/custom-icons';
+import { Lock } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { openSnackbar } from 'modules/snackbar';

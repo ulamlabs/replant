@@ -1,7 +1,7 @@
 import poptechImg from 'assets/poptech.png';
 import { AxiosError } from 'axios';
 import { Alert, Button, Input, Section } from 'common/components';
-import { Lock, Person } from 'common/custom-icons';
+import { Lock, Person } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';

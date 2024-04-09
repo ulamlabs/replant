@@ -1,5 +1,5 @@
 import { Input } from 'common/components';
-import { Call, Lock, Person } from 'common/custom-icons';
+import { Call, Lock, Person } from 'common/icons';
 import { CountriesAutocomplete, Country } from 'modules/countries';
 import { useFmtMsg } from 'modules/intl';
 

@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import clsx from 'clsx';
 import { Alert, Button, LoaderBox } from 'common/components';
-import { CloudOff, Upload2 } from 'common/material-symbols';
+import { CloudOff, Upload2 } from 'common/icons';
 import { prettifyError, useInfiniteScrolling } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import {
