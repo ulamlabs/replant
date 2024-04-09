@@ -13,6 +13,7 @@ export type RegisterError = {
   email?: string[];
   password?: string[];
   name?: string[];
+  non_field_error?: string[];
 };
 
 export type ResendPayload = {

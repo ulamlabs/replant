@@ -1,6 +1,7 @@
 import { IntlProvider } from 'modules/intl';
 import { BasicLayout } from 'modules/layout/BasicLayout';
 import { QueryClientProvider } from 'modules/query';
+import { SnackbarManager } from 'modules/snackbar';
 import {
   ConfirmEmailPage,
   Home,
@@ -34,6 +35,7 @@ const App: React.FC = () => {
               <Route path='*' element={<NotFoundPage />} />
             </Route>
           </Routes>
+          <SnackbarManager />
         </BrowserRouter>
       </IntlProvider>
     </QueryClientProvider>

@@ -53,5 +53,6 @@
   "userWithThatEmailAlreadyExists": "A user with that email already exists",
   "yourAccountHasBeenSuccessfullyVerified": "Your account has been successfully verified.",
   "yourAccountHasBeenAlreadyVerified": "Your account has been already verified.",
-  "nowYouCanLogInAndDiscoverTheFeaturesOfReplantWorld": "Now you can log in and discover the features of Replant World."
+  "nowYouCanLogInAndDiscoverTheFeaturesOfReplantWorld": "Now you can log in and discover the features of Replant World.",
+  "registrationIsNotPossibleNow": "Registration is not possible now. Try again later."
 }

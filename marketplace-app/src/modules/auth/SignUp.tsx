@@ -1,5 +1,6 @@
 import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
+import { openSnackbar } from 'modules/snackbar';
 import {
   useAuthStore,
   useRegisterUser,
@@ -70,22 +71,27 @@ export const SignUp = () => {
         },
         {
           onError(error) {
-            if (error.response?.data.email) {
-              if (
-                error.response?.data.email.some((value) =>
-                  value.match('A user with that email already exists')
-                )
-              ) {
-                setEmailError(fmtMsg('userWithThatEmailAlreadyExists'));
-              } else {
-                setEmailError(fmtMsg('wrongEmailFormat'));
-              }
+            if (
+              error.response?.data?.email?.includes(
+                'A user with that email already exists'
+              )
+            ) {
+              setEmailError(fmtMsg('userWithThatEmailAlreadyExists'));
+            } else if (error.response?.data?.email) {
+              setEmailError(fmtMsg('wrongEmailFormat'));
             }
             if (error.response?.data.name) {
               setNameError(fmtMsg('nameIsNotValid'));
             }
             if (error.response?.data.password) {
               setPasswordError(fmtMsg('passwordIsNotValid'));
+            }
+            if (
+              error.response?.data.non_field_error?.includes(
+                'Registration is not possible now. Try again later.'
+              )
+            ) {
+              openSnackbar(fmtMsg('registrationIsNotPossibleNow'), 'error');
             }
           },
         }

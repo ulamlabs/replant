@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { Loader, MailboxImage } from 'common/components';
 import { IconCheck } from 'common/components/icons/IconCheck';
 import { useResendEmail } from 'modules/auth';
@@ -7,12 +6,9 @@ import { useLocation } from 'react-router-dom';
 
 export const SignUpSuccess = () => {
   const fmtMsg = useFmtMsg();
-  const queryClient = useQueryClient();
-  const email: string | undefined = queryClient.getQueryData(['email']);
   const resendMutation = useResendEmail();
   const location = useLocation();
-
-  console.log(location);
+  const email: string | undefined = location.state?.email;
 
   const resendEmail = () => {
     if (!email) {
