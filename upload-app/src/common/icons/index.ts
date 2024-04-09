@@ -1,7 +1,4 @@
 export * from './CameraIcon';
-export * from './CheckIcon';
-export * from './CrossIcon';
-export * from './DocumentIcon';
 export * from './ForestIcon';
 export * from './HomeIcon';
 export * from './ImageIcon';

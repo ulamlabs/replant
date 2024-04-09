@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { CheckIcon, CrossIcon, DocumentIcon } from 'common/icons';
+import { Close, Done, FindInPage } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { ReviewState } from '../types';
 
@@ -21,19 +21,19 @@ export const ReviewStatePill: React.FC<Props> = ({ state }) => {
     >
       {state === 'PENDING' && (
         <>
-          <DocumentIcon svgClassName='h-3 w-auto' />
+          <FindInPage svgClassName='h-3.5 w-3.5' />
           <span>{fmtMsg('pending')}</span>
         </>
       )}
       {state === 'APPROVED' && (
         <>
-          <CheckIcon svgClassName='h-3 w-auto' />
+          <Done svgClassName='h-3.5 w-3.5' />
           <span>{fmtMsg('approved')}</span>
         </>
       )}
       {state === 'REJECTED' && (
         <>
-          <CrossIcon svgClassName='h-3 w-auto' />
+          <Close svgClassName='h-3.5 w-3.5' />
           <span>{fmtMsg('rejected')}</span>
         </>
       )}

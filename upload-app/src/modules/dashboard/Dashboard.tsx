@@ -1,5 +1,5 @@
 import { LoaderBox } from 'common/components';
-import { CheckIcon, CrossIcon, DocumentIcon, Park } from 'common/icons';
+import { Close, Done, FindInPage, Park } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
 import { useSpecies } from 'modules/species';
@@ -26,21 +26,21 @@ export const Dashboard: React.FC = () => {
         />
         <InfoBox
           title={fmtMsg('pendingTrees')}
-          icon={<DocumentIcon />}
+          icon={<FindInPage svgClassName='h-7 w-7' />}
           isLoading={isLoadingSummary}
           value={summary?.pending_review_count}
           className={'bg-bisque-400'}
         />
         <InfoBox
           title={fmtMsg('approvedTrees')}
-          icon={<CheckIcon />}
+          icon={<Done svgClassName='h-7 w-7' />}
           isLoading={isLoadingSummary}
           value={summary?.approved_count}
           className={'bg-green-400'}
         />
         <InfoBox
           title={fmtMsg('rejectedTrees')}
-          icon={<CrossIcon />}
+          icon={<Close svgClassName='h-7 w-7' />}
           isLoading={isLoadingSummary}
           value={summary?.rejected_count}
           className={'bg-red-400'}
