@@ -1,8 +1,9 @@
-mod msg;
-mod error;
-mod state;
-mod admin;
-mod query;
+pub mod msg;
+pub mod error;
+pub mod state;
+pub mod admin;
+pub mod query;
+pub mod trade;
 
 pub use msg::*;
 pub use error::ContractError;
@@ -58,6 +59,7 @@ pub mod entry {
         match msg {
             ExecuteMsg::AllowDenom { denom } => admin::allow_denom(deps, info, denom),
             ExecuteMsg::DisallowDenom { denom } => admin::disallow_denom(deps, info, denom),
+            ExecuteMsg::ReceiveNfts( msg ) => trade::receive_nfts(deps, info, msg),
             _ => unimplemented!(),
         }
     }

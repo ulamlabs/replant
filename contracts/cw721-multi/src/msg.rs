@@ -2,6 +2,8 @@ use cosmwasm_schema::{cw_serde, schemars::JsonSchema, serde::{de::DeserializeOwn
 use cosmwasm_std::{to_json_binary, Binary, CosmosMsg, CustomMsg, StdResult, WasmMsg};
 use std::fmt::Debug;
 
+use crate::types::TypeT;
+
 #[cw_serde]
 pub struct MintMsg<T> {
     /// Unique ID of the NFT
@@ -61,3 +63,5 @@ impl Cw721MultiReceiveMsg {
 }
 
 impl<T: Serialize + DeserializeOwned + Clone + JsonSchema + PartialEq + Debug> CustomMsg for ExtensionMsg<T> {}
+
+pub type ExecuteMsg = cw721_base::ExecuteMsg<cw721_base::Extension, ExtensionMsg<TypeT>>;

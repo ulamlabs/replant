@@ -73,7 +73,10 @@ pub fn send(
     token_ids: Vec<String>,
     msg: String,
 ) -> Result<Response, ContractError> {
-    let mut response = Response::new()
+    let mut response = Response::new();
+    response.attributes.reserve(token_ids.len() + 3);
+    
+    response = response
         .add_attribute("action", "multi_send_nft")
         .add_attribute("sender", &info.sender)
         .add_attribute("recipient", &contract_addr);

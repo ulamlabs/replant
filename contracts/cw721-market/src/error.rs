@@ -15,4 +15,25 @@ pub enum ContractError {
 
     #[error("insufficient funds to purchase NFTs")]
     InsufficientFunds {},
+
+    #[error("missing deposit for curency {denom}")]
+    MissingDeposit { denom: String },
+
+    #[error("tried to receive an NFT from an unsupported colleciton")]
+    UnsupportedCollection {},
+
+    #[error("denom {denom} is not allowed")]
+    DenomNotAllowed { denom: String },
+
+    #[error("length of prices does not match the amount of NFTs offered")]
+    InvalidPricesLength {},
+
+    #[error("length of denoms does not match the amount of NFTs offered")]
+    InvalidDenomsLength {},
+
+    #[error("NFT {nft_id} is not for sale")]
+    NftNotForSale { nft_id: String },
+
+    #[error("Commision rate too high")]
+    InvalidCommissionRate {},
 }

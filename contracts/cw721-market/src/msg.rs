@@ -1,4 +1,5 @@
 use cosmwasm_schema::cw_serde;
+use cosmwasm_std::{Uint128, Uint64};
 use cw721_multi::Cw721MultiReceiveMsg;
 
 #[cw_serde]
@@ -23,7 +24,7 @@ pub enum ExecuteMsg {
     ChangePrices {
         nft_ids: Vec<String>,
         prices: Vec<u128>,
-        denom: String,
+        denoms: Vec<String>,
     },
     /// Add a new denom to allowed list (admin only)
     AllowDenom {
@@ -33,6 +34,9 @@ pub enum ExecuteMsg {
     /// Removing allowed denom will not purge NFTs that are already for sale
     DisallowDenom {
         denom: String,
+    },
+    SetCommisionRate {
+        rate: Uint64,
     },
     ReceiveNfts(Cw721MultiReceiveMsg),
 }
@@ -47,4 +51,10 @@ pub enum QueryMsg {
     NftPrices { nft_id: Vec<String> },
     /// Return the owner of the NFT
     NftOwner { nft_id: String },
+}
+
+#[cw_serde]
+pub struct ReceiveNftsData {
+    pub prices: Vec<Uint128>,
+    pub denoms: Vec<String>,
 }

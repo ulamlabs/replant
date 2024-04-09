@@ -1,6 +1,6 @@
 [package]
 name = "cw721-multi"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Lukasz Ptak <lukasz@ulam.io>"]
 edition = "2021"
 
@@ -11,6 +11,7 @@ crate-type = ["cdylib", "rlib"]
 
 [features]
 backtraces = ["cosmwasm-std/backtraces"]
+library = []
 
 [dependencies]
 cosmwasm-schema = "1.5.3"

@@ -1,14 +1,3 @@
-// pub use crate::msg::{InstantiateMsg, QueryMsg};
-use cosmwasm_std::Empty;
-pub use cw721_base::{
-    entry::{execute as _execute, query as _query, instantiate as _instantiate},
-    ContractError, Cw721Contract, InstantiateMsg, ExecuteMsg, Extension,
-    MinterResponse,
-};
-use cw721_base::msg::QueryMsg as Cw721QueryMsg;
-use msg::ExtensionMsg;
-use types::TypeT;
-
 pub use types::Cw721Multi;
 pub use msg::*;
 
@@ -17,16 +6,21 @@ pub mod multi;
 pub mod types;
 
 // version info for migration info
-const CONTRACT_NAME: &str = "cw721-multi";
-const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
+pub const CONTRACT_NAME: &str = "cw721-multi";
+pub const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[cfg(not(feature = "library"))]
 pub mod entry {
     use super::*;
     use cosmwasm_std::{
         entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response,
-        StdResult,
+        StdResult, Empty
     };
+    use cw721_base::{
+        entry::query as _query,
+        ContractError, InstantiateMsg,
+    };
+    use cw721_base::msg::QueryMsg as Cw721QueryMsg;
 
     #[entry_point]
     pub fn instantiate(
@@ -49,7 +43,7 @@ pub mod entry {
         deps: DepsMut,
         env: Env,
         info: MessageInfo,
-        msg: ExecuteMsg<Extension, ExtensionMsg<TypeT>>,
+        msg: ExecuteMsg,
     ) -> Result<Response, cw721_base::ContractError> {
         let mut con = Cw721Multi::default();
         match msg {
