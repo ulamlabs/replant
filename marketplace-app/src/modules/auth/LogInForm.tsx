@@ -6,16 +6,7 @@ import { useAuthStore } from '.';
 export const LogInForm = () => {
   const fmtMsg = useFmtMsg();
 
-  const {
-    email,
-    setEmail,
-    setEmailError,
-    password,
-    setPassword,
-    setPasswordError,
-    emailError,
-    passwordError,
-  } = useAuthStore();
+  const store = useAuthStore();
 
   return (
     <form className='flex flex-col gap-3 md:gap-5 pb-2'>
@@ -23,22 +14,22 @@ export const LogInForm = () => {
         label={fmtMsg('email')}
         placeholder={fmtMsg('email')}
         onChange={(val) => {
-          setEmail(val);
-          setEmailError('');
+          store.setEmail(val);
+          store.setEmailError('');
         }}
-        value={email}
-        error={emailError}
+        value={store.email}
+        error={store.emailError}
         type='email'
       />
       <Input
         label={fmtMsg('password')}
         placeholder={fmtMsg('password')}
         onChange={(val) => {
-          setPassword(val);
-          setPasswordError('');
+          store.setPassword(val);
+          store.setPasswordError('');
         }}
-        value={password}
-        error={passwordError}
+        value={store.password}
+        error={store.passwordError}
         type='password'
       />
       <Link

@@ -1,6 +1,7 @@
 import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { openSnackbar } from 'modules/snackbar';
+import { useEffect } from 'react';
 import {
   useAuthStore,
   useRegisterUser,
@@ -13,6 +14,10 @@ export const SignUp = () => {
   const fmtMsg = useFmtMsg();
 
   const store = useAuthStore();
+
+  useEffect(() => {
+    store.reset();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const switchLabels: [string, string] = [
     fmtMsg('company'),
