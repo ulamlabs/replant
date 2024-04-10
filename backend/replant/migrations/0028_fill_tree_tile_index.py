@@ -4,6 +4,8 @@ from django.db import migrations
 
 TREE_ZOOM = 9
 
+BULK_SIZE = 1000
+
 
 def _get_tile_index(lat: float, lon: float) -> int:
     grid_size = int(4 ** (max(0, TREE_ZOOM - 1)))
@@ -21,7 +23,8 @@ def set_tile_index(apps, schema_editor):
     for tree in trees:
         tree.tile_index = _get_tile_index(float(tree.latitude), float(tree.longitude))
 
-    Tree.objects.bulk_update(trees, ["tile_index"])
+    for i in range(0, len(trees), BULK_SIZE):
+        Tree.objects.bulk_update(trees[i : i + BULK_SIZE], ["tile_index"])
 
 
 class Migration(migrations.Migration):

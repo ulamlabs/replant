@@ -1,12 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useFmtMsg } from 'modules/intl';
+import { IconCoin, IconLeaf, IconSponsor, IconTree } from 'common/components';
 import { SponsorSummaryBox } from './SponsorSummaryBox';
-import { IconCoin } from './icons/IconCoin';
-import { IconLeaf } from './icons/IconLeaf';
-import { IconSponsor } from './icons/IconSponsor';
-import { IconTree } from './icons/IconTree';
-import { SponsorSimple } from 'types';
-import { getSponsor } from 'modules/api/api';
+import { SponsorSimple } from './types';
+import { getSponsor } from './api';
 
 type SponsorSummaryProps = {
   sponsor: SponsorSimple;

@@ -5,8 +5,8 @@ import L from 'leaflet';
 import 'leaflet-pixi-overlay';
 import { SelectedTreeContext, usePixiMap } from './hooks';
 import { buildSpritesPool, loadTexture } from './spritesPool';
-import { TreePoint } from 'types';
 import { SelectedTree } from './SelectedTree';
+import { TreePoint } from './types';
 
 export function PixiOverlay(props: PropsWithChildren) {
   const [selectedTree, setSelectedTree] = useState<TreePoint | null>(null);

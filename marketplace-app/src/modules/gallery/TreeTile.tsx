@@ -1,4 +1,4 @@
-import { Tree } from 'types';
+import { Tree } from './types';
 
 type TreeDetailsProps = {
   tree: Tree;

@@ -1,10 +1,10 @@
 import { useQueries } from '@tanstack/react-query';
-import { TileWithZoom, getTreePoints } from 'modules/api/api';
 import { useEffect } from 'react';
-import { TreePoint } from 'types';
 import { PixiTreeMarker } from './PixiTreeMarker';
 import { usePixiMap } from './hooks';
 import { MAX_MARKERS_ZOOM } from './const';
+import { TileWithZoom, getTreePoints } from './api';
+import { TreePoint } from './types';
 
 export function MapTreePoints({ tiles }: { tiles: TileWithZoom[] }) {
   const pixiMap = usePixiMap();

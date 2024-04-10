@@ -1,7 +1,6 @@
-import { TreePoint } from 'types';
-import { usePixiMap, useSelectedTree } from './hooks';
 import { memo, useEffect, useRef } from 'react';
 import { FederatedPointerEvent, Sprite } from 'pixi.js';
+import { usePixiMap, useSelectedTree } from './hooks';
 import { getSpriteFromPool, returnSpriteToPool } from './spritesPool';
 import {
   PIN_SCALE,
@@ -10,6 +9,7 @@ import {
   PIN_TINT,
   PIN_TINT_SELECTED,
 } from './const';
+import { TreePoint } from './types';
 
 export type PixiTreeMarkerProps = {
   tree: TreePoint;

@@ -1,8 +1,8 @@
-import { Modal } from 'common/components/Modal';
-import { TreeDetails } from 'common/components/TreeDetails';
-import { TreeTile } from 'common/components/TreeTile';
+import { Modal } from 'common/components';
 import { useState } from 'react';
-import { Tree } from 'types';
+import { Tree } from './types';
+import { TreeTile } from './TreeTile';
+import { TreeDetails } from '.';
 
 type TreesGridProps = {
   trees: Tree[];
