@@ -10,6 +10,8 @@ pub struct InstantiateMsg {
     pub collection: String,
     /// The list of allowed denoms for selling nfts
     pub allowed_denoms: Vec<String>,
+    /// The initial commission rate
+    pub commission_rate: Uint64,
 }
 
 #[cw_serde]
@@ -45,6 +47,10 @@ pub enum ExecuteMsg {
 pub enum QueryMsg {
     /// Return the list of allowed denoms
     AllowedDenoms {},
+    /// Return the address of the collection which can be traded on this market
+    Collection {},
+    /// Return the commission rate
+    CommissionRate {},
     /// Return the list of NFTs for sale (optional account filter)
     NftsForSale { account: Option<String> },
     /// Return the price of the NFT

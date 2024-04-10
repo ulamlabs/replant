@@ -34,13 +34,19 @@ pub mod entry {
     ) -> Result<Response, ContractError> {
         cw2::set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
 
-        initialize_owner(deps.storage, deps.api, Some(&msg.owner))?;
+        // deconstruct message
+        let InstantiateMsg{ owner, collection, allowed_denoms, commission_rate } = msg;
+
+        initialize_owner(deps.storage, deps.api, Some(&owner))?;
         // Store allowed denominations to the contract's state
-        for denom in msg.allowed_denoms {
+        for denom in allowed_denoms {
             state::ALLOWED_DENOMS.save(deps.storage, &denom, &true)?;
         }
         // Save the NFT collection's address
-        state::COLLECTION.save(deps.storage, &deps.api.addr_validate(&msg.collection)?)?;
+        state::COLLECTION.save(deps.storage, &deps.api.addr_validate(&collection)?)?;
+
+        // Save the commission rate to the contract's state
+        state::COMMISSION_RATE.save(deps.storage, &commission_rate.u64())?;
 
         let res = Response::new()
             .add_attribute("contract_name", CONTRACT_NAME)
@@ -68,6 +74,8 @@ pub mod entry {
     pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<Binary, ContractError> {
         match msg {
             QueryMsg::AllowedDenoms {  } => encode_query_response(&query::allowed_denoms(deps)?),
+            QueryMsg::Collection {  } => encode_query_response(&query::collection(deps)?),
+            QueryMsg::CommissionRate {  } => encode_query_response(&query::commission_rate(deps)?),
             _ => unimplemented!(),
         }
     }

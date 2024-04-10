@@ -379,6 +379,7 @@ dependencies = [
  "cw-storage-plus 1.2.0",
  "cw2 1.1.2",
  "cw721-multi",
+ "test-utils",
  "thiserror",
 ]
 
@@ -391,6 +392,7 @@ dependencies = [
  "cw-ownable",
  "cw2 1.1.2",
  "cw721-base 0.18.0",
+ "test-utils",
 ]
 
 [[package]]
@@ -830,6 +832,13 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "test-utils"
+version = "0.1.0"
+dependencies = [
+ "cosmwasm-std",
 ]
 
 [[package]]
