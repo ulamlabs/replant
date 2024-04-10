@@ -2,12 +2,19 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
+  LOGIN_USER_URL,
+  LOGOUT_USER_URL,
+  LoginError,
+  LoginPayload,
+  LoginResponse,
   RegisterError,
   RegisterPayload,
   RegisterResponse,
   ResendPayload,
   VERIFY_EMAIL_URL,
   VerifyEmailPayload,
+  postLogin,
+  postLogout,
   postRegister,
   resendEmail,
   verifyEmail,
@@ -48,3 +55,25 @@ export const useVerifyEmail = (payload: VerifyEmailPayload) => {
 
   return query;
 };
+
+export const useLoginUser = () => {
+  const mutation = useMutation<
+    AxiosResponse<LoginResponse>,
+    AxiosError<LoginError>,
+    LoginPayload
+  >({
+    mutationKey: ['POST', LOGIN_USER_URL],
+    mutationFn: (payload) => postLogin(payload),
+  });
+  return mutation;
+};
+
+export const useLogoutUser = () =>
+  useMutation<
+    AxiosResponse<Record<string, never>>,
+    AxiosError<{ detail: string }>,
+    Record<string, never>
+  >({
+    mutationKey: ['POST', LOGOUT_USER_URL],
+    mutationFn: postLogout,
+  });

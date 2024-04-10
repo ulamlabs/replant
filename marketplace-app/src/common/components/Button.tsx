@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { FC } from 'react';
 import { Loader } from '.';
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
   isLoading?: boolean;
 };
 
-export const Button: React.FC<Props> = ({
+export const Button: FC<Props> = ({
   children,
   className,
   type = 'primary',

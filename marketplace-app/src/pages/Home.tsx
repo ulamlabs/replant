@@ -1,7 +1,9 @@
 import { NFTSection } from 'modules/nft';
-import { TopUsersSection } from 'modules/user';
+import { TopUsersSection, useUser } from 'modules/user';
 
 export const Home = () => {
+  useUser();
+
   return (
     <>
       <NFTSection />

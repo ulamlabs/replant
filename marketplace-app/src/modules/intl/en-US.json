@@ -58,5 +58,7 @@
   "signIn": "Sign in",
   "welcomeBack": "Welcome back!",
   "logInAndExploreTheReplantWorldsFeatures": "Log in and explore the Replant World's features.",
-  "createAccount": "Create account"
+  "createAccount": "Create account",
+  "incorrectUsernameOrPassword": "Incorrect username or password.",
+  "resetPassword": "Reset password"
 }

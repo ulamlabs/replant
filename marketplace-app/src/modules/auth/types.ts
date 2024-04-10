@@ -23,3 +23,18 @@ export type VerifyEmailPayload = {
   uid: string;
   token: string;
 };
+
+export type LoginResponse = {
+  email: string;
+};
+
+export type LoginError = {
+  non_field_errors?: string[];
+  email?: string[];
+  password?: string[];
+};
+
+export type LoginPayload = {
+  password: string;
+  email: string;
+};

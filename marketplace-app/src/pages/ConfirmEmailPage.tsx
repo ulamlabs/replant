@@ -1,5 +1,5 @@
 import { Loader } from 'common/components';
-import { LogInForm, useVerifyEmail } from 'modules/auth';
+import { LogIn, useVerifyEmail } from 'modules/auth';
 import { useFmtMsg } from 'modules/intl';
 import { useSearchParams } from 'react-router-dom';
 
@@ -27,13 +27,18 @@ export const ConfirmEmailPage = () => {
           <p className='text-neutral-400 text-sm md:text-base font-normal mb-8'>
             {fmtMsg('nowYouCanLogInAndDiscoverTheFeaturesOfReplantWorld')}
           </p>
-          <LogInForm />
         </>
       ) : (
-        <h2 className='text-2xl md:text-3xl font-bold mb-3 '>
-          {fmtMsg('yourAccountHasBeenAlreadyVerified')}
-        </h2>
+        <>
+          <h2 className='text-2xl md:text-3xl font-bold mb-3 '>
+            {fmtMsg('yourAccountHasBeenAlreadyVerified')}
+          </h2>
+          <p className='text-neutral-400 text-lg font-normal mb-8'>
+            {fmtMsg('logInAndExploreTheReplantWorldsFeatures')}
+          </p>
+        </>
       )}
+      <LogIn />
     </div>
   );
 };

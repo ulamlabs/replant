@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { UserIcon } from 'common/components/icons/UserIcon';
+import { Logout } from 'modules/auth';
 import { useFmtMsg } from 'modules/intl';
 import NavItem from 'modules/navigation/components/NavItem';
 import { FC, useState } from 'react';
@@ -26,10 +27,12 @@ export const User: FC<Props> = ({ user }) => {
           <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
         </div>
         <div>
-          <h3 className='text-sm font-semibold'>
-            {user?.username || 'Test testowy'}
-          </h3>
-          <p className='text-neutral-400 text-xs font-normal'>Individual</p>
+          <h3 className='text-sm font-semibold'>{user.sponsor.name}</h3>
+          <p className='text-neutral-400 text-xs font-normal'>
+            {user.sponsor.type === 'COMPANY'
+              ? fmtMsg('company')
+              : fmtMsg('individual')}
+          </p>
         </div>
       </div>
 
@@ -40,35 +43,41 @@ export const User: FC<Props> = ({ user }) => {
       >
         <div
           onClick={() => setIsUserOpen((prev) => !prev)}
-          className='w-full h-full flex justify-center items-center'
+          className='w-full h-full flex justify-center items-center z-20 relative'
         >
           <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
         </div>
+        {isUserOpen && (
+          <div
+            onClick={() => setIsUserOpen(false)}
+            className='hidden md:block fixed top-0 left-0 w-screen h-screen z-10 cursor-default'
+          />
+        )}
         <div
           className={clsx(
             'lg:w-80 max-h-0 overflow-hidden bg-neutral-50 mr-0 ml-auto transition-all duration-200 mt-16 rounded-3xl absolute z-20 top-0 right-0 shadow-lg dark:bg-neutral-750 dark:shadow-neutral-700',
             isUserOpen && 'max-h-80'
           )}
         >
-          <div className='h-20 px-6 py-5 bg-zinc-100 rounded-t-3xl cursor-default flex items-center gap-2 dark:bg-neutral-900'>
+          <div className='px-6 py-5 bg-zinc-100 rounded-t-3xl cursor-default flex items-center gap-2 dark:bg-neutral-900'>
             <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
             <div>
-              <h3 className='text-sm font-semibold'>
-                {user?.username || 'Test testowy'}
-              </h3>
-              <p className='text-neutral-400 text-xs font-normal'>Individual</p>
+              <h3 className='text-sm font-semibold'>{user.sponsor.name}</h3>
+              <p className='text-neutral-400 text-xs font-normal'>
+                {user.sponsor.type === 'COMPANY'
+                  ? fmtMsg('company')
+                  : fmtMsg('individual')}
+              </p>
             </div>
           </div>
-          <ul className='flex flex-col px-6 py-5 gap-2'>
+          <ul className='flex flex-col px-6 py-5'>
             <NavItem type='submenu' to='profile'>
               {fmtMsg('profile')}
             </NavItem>
             <NavItem type='submenu' to='settings'>
               {fmtMsg('settings')}
             </NavItem>
-            <NavItem type='submenu' className=' text-red-400' to=''>
-              {fmtMsg('logOut')}
-            </NavItem>
+            <Logout />
           </ul>
         </div>
       </div>
