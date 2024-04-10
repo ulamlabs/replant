@@ -1,83 +1,55 @@
 import { Input, Switch } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useAuthStore } from '.';
 
 type Props = {
-  switchValues: [string, string];
+  switchLabels: [string, string];
 };
 
-export const SignUpForm: FC<Props> = ({ switchValues }) => {
+export const SignUpForm: FC<Props> = ({ switchLabels }) => {
   const fmtMsg = useFmtMsg();
 
-  const {
-    name,
-    setName,
-    setNameError,
-    email,
-    setEmail,
-    setEmailError,
-    password,
-    setPassword,
-    setPasswordError,
-    nameError,
-    emailError,
-    passwordError,
-    switchValue,
-    setSwitchValue,
-  } = useAuthStore();
-
-  useEffect(() => {
-    setSwitchValue(switchValues[0]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const changeSwitchValue = () => {
-    if (switchValue === switchValues[0]) {
-      setSwitchValue(switchValues[1]);
-      return;
-    }
-    setSwitchValue(switchValues[0]);
-  };
+  const store = useAuthStore();
 
   return (
     <form className='flex flex-col gap-3 md:gap-5 pb-2'>
       <Switch
-        values={switchValues}
-        onClick={changeSwitchValue}
-        inputValue={switchValue}
+        values={switchLabels}
+        onClick={store.toggleSwitchValue}
+        inputValue={store.switchValue}
       />
       <Input
         label={fmtMsg('name')}
         placeholder={fmtMsg('name')}
         onChange={(val) => {
-          setName(val);
-          setNameError('');
+          store.setName(val);
+          store.setNameError('');
         }}
-        value={name}
-        error={nameError}
+        value={store.name}
+        error={store.nameError}
         type='text'
       />
       <Input
         label={fmtMsg('email')}
         placeholder={fmtMsg('email')}
         onChange={(val) => {
-          setEmail(val);
-          setEmailError('');
+          store.setEmail(val);
+          store.setEmailError('');
         }}
-        value={email}
-        error={emailError}
+        value={store.email}
+        error={store.emailError}
         type='email'
       />
       <Input
         label={fmtMsg('password')}
         placeholder={fmtMsg('password')}
         onChange={(val) => {
-          setPassword(val);
-          setPasswordError('');
+          store.setPassword(val);
+          store.setPasswordError('');
         }}
-        value={password}
-        error={passwordError}
+        value={store.password}
+        error={store.passwordError}
         type='password'
       />
     </form>

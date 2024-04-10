@@ -14,7 +14,7 @@ export const MailboxImage: FC<Props> = ({ className }) => {
         alt='Mailbox'
       />
       <img
-        className={clsx('dark:hidden', className)}
+        className={clsx('dark:hidden w-1/2 m-auto md:w-auto', className)}
         src='mailbox_white.svg'
         alt='Mailbox'
       />

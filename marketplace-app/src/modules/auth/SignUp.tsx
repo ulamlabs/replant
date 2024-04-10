@@ -12,20 +12,9 @@ import { SignUpForm } from './SignUpForm';
 export const SignUp = () => {
   const fmtMsg = useFmtMsg();
 
-  const {
-    name,
-    setNameError,
-    email,
-    setEmailError,
-    password,
-    setPasswordError,
-    nameError,
-    emailError,
-    passwordError,
-    switchValue,
-  } = useAuthStore();
+  const store = useAuthStore();
 
-  const switchValues: [string, string] = [
+  const switchLabels: [string, string] = [
     fmtMsg('company'),
     fmtMsg('individual'),
   ];
@@ -33,58 +22,58 @@ export const SignUp = () => {
   const registerMutation = useRegisterUser();
 
   const submit = () => {
-    const nameTrimmed = name.trim();
+    const nameTrimmed = store.name.trim();
 
     if (!nameTrimmed) {
-      setNameError(fmtMsg('fieldRequired'));
+      store.setNameError(fmtMsg('fieldRequired'));
     }
 
-    if (!email) {
-      setEmailError(fmtMsg('fieldRequired'));
+    if (!store.email) {
+      store.setEmailError(fmtMsg('fieldRequired'));
     }
 
-    if (!password) {
-      setPasswordError(fmtMsg('fieldRequired'));
+    if (!store.password) {
+      store.setPasswordError(fmtMsg('fieldRequired'));
     }
 
-    if (!validatePassword(password)) {
-      setPasswordError(fmtMsg('wrongPasswordFormat'));
+    if (!validatePassword(store.password)) {
+      store.setPasswordError(fmtMsg('wrongPasswordFormat'));
       return;
     }
 
-    if (!validateEmail(email)) {
-      setEmailError(fmtMsg('wrongEmailFormat'));
+    if (!validateEmail(store.email)) {
+      store.setEmailError(fmtMsg('wrongEmailFormat'));
       return;
     }
 
-    if (nameError || passwordError || emailError) {
+    if (store.nameError || store.passwordError || store.emailError) {
       return;
     }
 
-    if (nameTrimmed && password && email) {
+    if (nameTrimmed && store.password && store.email) {
       registerMutation.mutate(
         {
           name: nameTrimmed,
-          email: email,
-          password: password,
-          type: switchValue === switchValues[0] ? 'COMPANY' : 'INDIVIDUAL',
+          email: store.email,
+          password: store.password,
+          type: store.switchValue ? 'COMPANY' : 'INDIVIDUAL',
         },
         {
           onError(error) {
             if (
               error.response?.data?.email?.includes(
-                'A user with that email already exists'
+                'A user with that email already exists.'
               )
             ) {
-              setEmailError(fmtMsg('userWithThatEmailAlreadyExists'));
+              store.setEmailError(fmtMsg('userWithThatEmailAlreadyExists'));
             } else if (error.response?.data?.email) {
-              setEmailError(fmtMsg('wrongEmailFormat'));
+              store.setEmailError(fmtMsg('wrongEmailFormat'));
             }
             if (error.response?.data.name) {
-              setNameError(fmtMsg('nameIsNotValid'));
+              store.setNameError(fmtMsg('nameIsNotValid'));
             }
             if (error.response?.data.password) {
-              setPasswordError(fmtMsg('passwordIsNotValid'));
+              store.setPasswordError(fmtMsg('passwordIsNotValid'));
             }
             if (
               error.response?.data.non_field_error?.includes(
@@ -107,7 +96,7 @@ export const SignUp = () => {
       <p className='text-neutral-400 text-sm md:text-lg font-normal mb-4 md:mb-8'>
         {fmtMsg('signInAndExploreTheReplantWorldsMarketplace')}
       </p>
-      <SignUpForm switchValues={switchValues} />
+      <SignUpForm switchLabels={switchLabels} />
       <Button
         isLoading={registerMutation.isPending}
         onClick={submit}

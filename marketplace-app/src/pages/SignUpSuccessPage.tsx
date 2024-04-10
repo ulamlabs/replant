@@ -4,7 +4,7 @@ import { useResendEmail } from 'modules/auth';
 import { useFmtMsg } from 'modules/intl';
 import { useLocation } from 'react-router-dom';
 
-export const SignUpSuccess = () => {
+export const SignUpSuccessPage = () => {
   const fmtMsg = useFmtMsg();
   const resendMutation = useResendEmail();
   const location = useLocation();

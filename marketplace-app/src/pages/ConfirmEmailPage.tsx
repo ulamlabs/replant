@@ -8,7 +8,7 @@ export const ConfirmEmailPage = () => {
 
   const mutateCalled = useRef(false);
 
-  const { mutate, isIdle, isSuccess } = useVerifyEmail();
+  const { mutate, isSuccess } = useVerifyEmail();
 
   const [searchParams] = useSearchParams();
 
@@ -23,7 +23,7 @@ export const ConfirmEmailPage = () => {
         token,
       });
     }
-  }, [uid, token, mutate, isIdle]);
+  }, [uid, token, mutate]);
 
   return (
     <div className='max-w-md m-auto flex flex-col'>

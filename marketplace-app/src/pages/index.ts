@@ -7,5 +7,5 @@ export * from './Marketplace';
 export * from './NotFoundPage';
 export * from './Planters';
 export * from './SignUpPage';
-export * from './SignUpSuccess';
+export * from './SignUpSuccessPage';
 export * from './Sponsors';

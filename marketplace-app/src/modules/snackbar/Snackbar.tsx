@@ -1,3 +1,4 @@
+import { Snackbar as MuiSnackbar } from '@mui/base';
 import clsx from 'clsx';
 import { IconX } from 'common/components/icons/IconX';
 import { FC, useEffect, useState } from 'react';
@@ -21,21 +22,12 @@ export const Snackbar: FC<Props> = ({
   const [transition, setTransition] = useState(false);
 
   useEffect(() => {
-    setTransition(true);
+    const timeout = setTimeout(() => {
+      setTransition(true);
+    }, 100);
 
-    const closeTimer = setTimeout(() => {
-      onClose();
-    }, hideAfter);
-
-    const transitionTimer = setTimeout(() => {
-      setTransition(false);
-    }, hideAfter - 300);
-
-    return () => {
-      clearTimeout(closeTimer);
-      clearTimeout(transitionTimer);
-    };
-  }, [onClose, hideAfter]);
+    return () => clearTimeout(timeout);
+  }, []);
 
   const closeSnackbar = () => {
     setTransition(false);
@@ -43,10 +35,13 @@ export const Snackbar: FC<Props> = ({
   };
 
   return (
-    <div
+    <MuiSnackbar
+      onClose={closeSnackbar}
+      autoHideDuration={hideAfter}
+      open
       className={clsx(
-        'rounded-3xl shadow px-8 py-6 w-96 gap-4 flex flex-col relative -translate-x-full transition-transform duration-300 ease-in-out',
-        transition && 'translate-x-0',
+        'rounded-3xl shadow px-8 py-6 w-96 gap-4 flex flex-col relative transition-transform duration-300 ease-in-out',
+        transition ? 'translate-x-0' : '-translate-x-full',
         severity === 'error' && 'bg-red-50 text-red-400',
         severity === 'warning' && 'bg-yellow-50 text-yellow-800',
         severity === 'info' && 'bg-sky-100 text-sky-600',
@@ -73,6 +68,6 @@ export const Snackbar: FC<Props> = ({
           overrideColors
         />
       </div>
-    </div>
+    </MuiSnackbar>
   );
 };

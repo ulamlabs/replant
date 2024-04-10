@@ -11,7 +11,7 @@ import {
   NotFoundPage,
   Planters,
   SignUpPage,
-  SignUpSuccess,
+  SignUpSuccessPage,
   Sponsors,
 } from 'pages';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -30,7 +30,7 @@ const App: React.FC = () => {
               <Route path='impact' element={<Impact />} />
               <Route path='login' element={<LogInPage />} />
               <Route path='signup' element={<SignUpPage />} />
-              <Route path='signup-success' element={<SignUpSuccess />} />
+              <Route path='signup-success' element={<SignUpSuccessPage />} />
               <Route path='email-confirm' element={<ConfirmEmailPage />} />
               <Route path='*' element={<NotFoundPage />} />
             </Route>
