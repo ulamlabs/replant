@@ -23,8 +23,9 @@ export default {
       },
       green: {
         400: '#4C5E41',
-        350: '#62a33d',
         300: '#C5D8D9',
+        200: '#DFEAD8',
+        100: '#F7FAF4',
       },
       gray: {
         200: '#EFEFEF',

@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useClickAway, useDebounce } from '@uidotdev/usehooks';
 import { useFmtMsg } from 'modules/intl';
+import { IconSearch, IconX, Menu, MenuItem } from 'common/components';
 import { useState } from 'react';
-import { Menu } from './Menu';
-import { MenuItem } from './MenuItem';
-import { IconSearch } from './icons/IconSearch';
-import { IconX } from './icons/IconX';
-import { autocompleteSponsors } from 'modules/api/api';
-import { SponsorSimple } from 'types';
+import { SponsorSimple } from './types';
+import { autocompleteSponsors } from './api';
 
 type SponsorSearchBoxProps = {
   onSearch: (sponsor: SponsorSimple | null) => void;

@@ -1,9 +1,9 @@
 import { useQueries } from '@tanstack/react-query';
-import { TileWithZoom, getTreesClusters } from 'modules/api/api';
 import { useMemo } from 'react';
-import { TreesCluster } from 'types';
 import { ClusterMarker } from './ClusterMarker';
 import { MAX_MARKERS_ZOOM } from './const';
+import { TileWithZoom, getTreesClusters } from './api';
+import { TreesCluster } from './types';
 
 export function MapTreesClusters({ tiles }: { tiles: TileWithZoom[] }) {
   const clusters = useQueries({

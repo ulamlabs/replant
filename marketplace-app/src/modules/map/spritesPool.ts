@@ -2,8 +2,8 @@
  * This module optimizes creating tree markers by preallocating a buffer (pool) of sprites. That way, when we have to display a few thousands of markers, we don't have to create all of them in a single tick which is a very expensive operation. Instead, we use the preallocated sprites. It's a technique taken from gamedev - objects pooling.
  */
 
-import { PIN_SCALE, PIN_TINT } from './const';
 import { Assets, Container, Sprite, Texture } from 'pixi.js';
+import { PIN_SCALE, PIN_TINT } from './const';
 
 const POOL_SIZE = 5_000;
 
@@ -58,7 +58,8 @@ function extendSpritesPool(container: Container, quantity = SPRITES_PER_TICK) {
 }
 
 function getDefaultIcon() {
-  const svgIcon = `<svg style="-webkit-filter: drop-shadow( 1px 1px 1px rgba(0, 0, 0, .4));filter: drop-shadow( 1px 1px 1px rgba(0, 0, 0, .4));" xmlns="http://www.w3.org/2000/svg" fill="white" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 6.243 6.377 6.903 8 16.398 1.623-9.495 8-10.155 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.342-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>`;
+  const svgIcon = `<svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_1279_3554)"> <path d="M14.1425 7.07184C14.1425 3.1657 10.9768 0 7.07184 0C3.16686 0 0 3.1657 0 7.07184C0 10.4705 2.39861 13.3082 5.59444 13.9873V18.5678C5.59444 19.3592 6.23523 20 7.02665 20H7.13326C7.92468 20 8.56547 19.3592 8.56547 18.5678V13.9826C11.7532 13.2966 14.1425 10.4635 14.1425 7.07068V7.07184Z" fill="#1D3E32"/> <path d="M7.07226 0.853271C3.62498 0.853271 0.830078 3.64817 0.830078 7.09661C0.830078 10.2832 3.21942 12.9112 6.30401 13.2901L6.47087 11.5636L4.37585 9.03983L6.54155 10.837L7.06994 5.35849L7.50447 9.78838L9.98419 7.73044L7.58674 10.6192L7.84862 13.2901C10.9309 12.9089 13.3179 10.282 13.3179 7.09661C13.3179 3.64933 10.523 0.853271 7.07457 0.853271H7.07226Z" fill="#F7FAF4"/> <path d="M6.31543 14.0674H7.84614V18.4532C7.84614 18.875 7.50315 19.218 7.08136 19.218C6.65958 19.218 6.31659 18.875 6.31659 18.4532V14.0674H6.31543Z" fill="#F7FAF4"/> </g> <defs> <clipPath id="clip0_1279_3554"> <rect width="14.1425" height="20" fill="white"/> </clipPath> </defs> </svg>
+  `;
   return getEncodedIcon(svgIcon);
 }
 
