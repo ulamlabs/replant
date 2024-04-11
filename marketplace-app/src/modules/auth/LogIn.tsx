@@ -79,7 +79,7 @@ export const LogIn = () => {
           },
           onSuccess(data) {
             queryClient.removeQueries();
-            navigate('/', { state: { email: data.data.is_first_login } });
+            navigate('/', { state: { firstLogin: data.data.is_first_login } });
           },
         }
       );

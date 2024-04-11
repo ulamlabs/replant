@@ -1,3 +1,4 @@
+export * from './FirstLogin';
 export * from './TopUsersSection';
 export * from './User';
 export * from './UsersList';

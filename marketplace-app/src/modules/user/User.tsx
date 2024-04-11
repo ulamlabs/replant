@@ -27,9 +27,9 @@ export const User: FC<Props> = ({ user }) => {
           <UserIcon className='w-9 h-9' />
         </div>
         <div>
-          <h3 className='text-sm font-semibold'>{user.sponsor.name}</h3>
+          <h3 className='text-sm font-semibold'>{user.sponsor?.name}</h3>
           <p className='text-neutral-400 text-xs font-normal'>
-            {user.sponsor.type === 'COMPANY'
+            {user.sponsor?.type === 'COMPANY'
               ? fmtMsg('company')
               : fmtMsg('individual')}
           </p>
@@ -64,9 +64,9 @@ export const User: FC<Props> = ({ user }) => {
           <div className='px-6 py-5 bg-zinc-100 rounded-t-3xl cursor-default flex items-center gap-2 dark:bg-neutral-900'>
             <UserIcon className='w-9 h-9' />
             <div>
-              <h3 className='text-base font-semibold'>{user.sponsor.name}</h3>
+              <h3 className='text-base font-semibold'>{user.sponsor?.name}</h3>
               <p className='text-neutral-400 text-sm font-normal'>
-                {user.sponsor.type === 'COMPANY'
+                {user.sponsor?.type === 'COMPANY'
                   ? fmtMsg('company')
                   : fmtMsg('individual')}
               </p>
