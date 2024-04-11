@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Close, Done, FindInPage } from 'common/icons';
+import { Check, Close, FindInPage } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { ReviewState } from '../types';
 
@@ -31,7 +31,7 @@ export const ReviewStatePill: React.FC<Props> = ({ state }) => {
       )}
       {state === 'APPROVED' && (
         <>
-          <Done
+          <Check
             overrideColor
             pathClassName='fill-white'
             svgClassName='h-3.5 w-3.5'

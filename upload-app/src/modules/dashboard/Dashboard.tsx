@@ -1,5 +1,5 @@
 import { LoaderBox } from 'common/components';
-import { Close, Done, FindInPage, Park } from 'common/icons';
+import { Check, Close, FindInPage, Park } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
 import { useSpecies } from 'modules/species';
@@ -46,10 +46,10 @@ export const Dashboard: React.FC = () => {
         <InfoBox
           title={fmtMsg('approvedTrees')}
           icon={
-            <Done
+            <Check
               overrideColor
               pathClassName='fill-white'
-              svgClassName='h-7 w-7'
+              svgClassName='h-6 w-6'
             />
           }
           isLoading={isLoadingSummary}
@@ -62,7 +62,7 @@ export const Dashboard: React.FC = () => {
             <Close
               overrideColor
               pathClassName='fill-white'
-              svgClassName='h-7 w-7'
+              svgClassName='h-6 w-6'
             />
           }
           isLoading={isLoadingSummary}

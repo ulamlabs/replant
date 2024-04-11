@@ -31,7 +31,7 @@ export const InfoBox: React.FC<Props> = ({
           {isLoading ? <Loader /> : value}
         </span>
       </div>
-      <div className='opacity-90'>{icon}</div>
+      <div className='opacity-60'>{icon}</div>
     </div>
   );
 };
