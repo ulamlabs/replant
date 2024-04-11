@@ -26,7 +26,9 @@ export const Input: FC<Props> = ({
 
   return (
     <div className='flex flex-col gap-2 text-sm md:text-base w-full'>
-      {label && <label className='text-left font-semibold'>{label}</label>}
+      {label && (
+        <label className='text-left font-semibold text-sm'>{label}</label>
+      )}
       <div
         className={clsx(
           'border px-5 py-3 md:py-5 md:px-7 w-full flex gap-2 rounded-2xl md:rounded-3xl cursor-text items-center bg-white dark:bg-neutral-750 hover:border-teal-200 hover:dark:border-neutral-700 hover:dark:bg-zinc-800',
@@ -59,7 +61,7 @@ export const Input: FC<Props> = ({
       {error && (
         <label
           className={
-            'text-left text-sm font-light text-red-400 dark:text-red-400'
+            'text-left text-xs font-light text-red-400 dark:text-red-400'
           }
         >
           {error}
