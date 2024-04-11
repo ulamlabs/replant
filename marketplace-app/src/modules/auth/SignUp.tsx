@@ -89,7 +89,7 @@ export const SignUp = () => {
   };
 
   return (
-    <div className='max-w-md m-auto flex flex-col -mt-12'>
+    <div className='max-w-md m-auto flex flex-col md:-mt-12'>
       <h2 className='text-2xl md:text-3xl font-bold mb-1 md:mb-3 '>
         {fmtMsg('hello')}
       </h2>

@@ -18,12 +18,12 @@ export const SignUpSuccessPage = () => {
   };
 
   return (
-    <div className='max-w-md m-auto flex flex-col gap-16'>
+    <div className='max-w-md m-auto flex flex-col gap-16 md:-mt-12'>
       <div>
-        <h2 className='text-2xl md:text-4xl font-bold mb-3 '>
+        <h2 className='text-2xl md:text-3xl font-bold mb-3 '>
           {fmtMsg('almostThere')}
         </h2>
-        <p className='text-neutral-400 text-sm md:text-lg font-normal mb-8'>
+        <p className='text-neutral-400 text-sm md:text-base font-normal mb-8'>
           {fmtMsg('weHaveJustSentAnEmailToVerifyYourEmailAddress')}
         </p>
       </div>
