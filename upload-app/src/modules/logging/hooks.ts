@@ -45,16 +45,16 @@ export const useLogLocationSucceeded = () => {
 const SLICE_SIZE = 100;
 
 export const useUploadLogWhenOnline = () => {
-  const mutation = useUserHistoryBulkMutation();
+  const { mutateAsync } = useUserHistoryBulkMutation();
 
   const uploadLog = useCallback(async () => {
     const log = await offlineDb.loadAllLogEntries();
     const logSlices = slicedArray(log, SLICE_SIZE);
     for (const slice of logSlices) {
-      await mutation.mutateAsync(slice);
+      await mutateAsync(slice);
       await offlineDb.deleteLogEntries(slice.map((item) => item.created_at));
     }
-  }, []);
+  }, [mutateAsync]);
 
   // Log upload requires authentication, so only pages that require user to be
   // authenticated should upload it. Otherwise, 401 error would occur and trigger
@@ -69,7 +69,7 @@ export const useUploadLogWhenOnline = () => {
     if (isOnline() && isLoggedIn) {
       uploadLog();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, uploadLog]);
 
   const handleOnline = useCallback(() => {
     if (!isLoggedIn) {
