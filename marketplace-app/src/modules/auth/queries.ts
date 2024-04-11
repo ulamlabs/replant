@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -6,6 +6,7 @@ import {
   RegisterPayload,
   RegisterResponse,
   ResendPayload,
+  VERIFY_EMAIL_URL,
   VerifyEmailPayload,
   postRegister,
   resendEmail,
@@ -37,10 +38,12 @@ export const useResendEmail = () => {
   return mutation;
 };
 
-export const useVerifyEmail = () => {
-  const mutation = useMutation<AxiosResponse, AxiosError, VerifyEmailPayload>({
-    mutationFn: (payload) => verifyEmail(payload),
+export const useVerifyEmail = (payload: VerifyEmailPayload) => {
+  const query = useQuery({
+    queryKey: ['POST', VERIFY_EMAIL_URL],
+    queryFn: () => verifyEmail(payload),
+    staleTime: 1000 * 60 * 10,
   });
 
-  return mutation;
+  return query;
 };

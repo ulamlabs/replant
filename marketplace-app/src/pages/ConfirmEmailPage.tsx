@@ -1,29 +1,16 @@
 import { LogIn, useVerifyEmail } from 'modules/auth';
 import { useFmtMsg } from 'modules/intl';
-import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export const ConfirmEmailPage = () => {
   const fmtMsg = useFmtMsg();
-
-  const mutateCalled = useRef(false);
-
-  const { mutate, isSuccess } = useVerifyEmail();
 
   const [searchParams] = useSearchParams();
 
   const uid = searchParams.get('uid') || '';
   const token = searchParams.get('token') || '';
 
-  useEffect(() => {
-    if (!mutateCalled.current) {
-      mutateCalled.current = true;
-      mutate({
-        uid,
-        token,
-      });
-    }
-  }, [uid, token, mutate]);
+  const { isSuccess } = useVerifyEmail({ uid, token });
 
   return (
     <div className='max-w-md m-auto flex flex-col'>

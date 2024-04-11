@@ -41,7 +41,7 @@ export const Input: FC<Props> = ({
           onChange={(e) => onChange(e.target.value)}
           value={value}
           placeholder={placeholder}
-          className='text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
+          className='text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full text-sm'
           type={showPassword ? 'text' : type}
         />
         {type === 'password' && (
