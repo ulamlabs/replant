@@ -1,5 +1,5 @@
 import { Summary, SummaryItem } from 'common/components';
-import { Image } from 'common/icons';
+import { ImageLine } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { useNewPlantStore } from '../store';
 
@@ -16,7 +16,7 @@ export const NewPlantSummary: React.FC = () => {
           {store.image ? (
             <img className='h-20 rounded' src={store.image.image} />
           ) : (
-            <Image svgClassName='opacity-90' />
+            <ImageLine svgClassName='opacity-90' />
           )}
         </div>
       </SummaryItem>

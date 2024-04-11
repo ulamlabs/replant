@@ -1,4 +1,4 @@
-import { KeyboardBackspace } from 'common/icons';
+import { West } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 
 type Props = {
@@ -14,7 +14,7 @@ export const BackButton: React.FC<Props> = ({ onClick }) => {
       }
       onClick={onClick}
     >
-      <KeyboardBackspace svgClassName='-ml-0.5' />
+      <West svgClassName='-ml-0.5' />
       {fmtMsg('back')}
     </button>
   );
