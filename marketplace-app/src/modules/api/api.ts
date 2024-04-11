@@ -1,4 +1,4 @@
-import { SponsorSimple, SponsorDetails, Paginated, Tree } from 'types';
+import { Paginated, SponsorDetails, SponsorSimple, Tree } from 'types';
 import { get } from './base-api';
 
 export type GetTreesParams = {

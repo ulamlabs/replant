@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Loader } from '.';
 
 type Props = {
   children: React.ReactNode;
@@ -6,12 +7,14 @@ type Props = {
   type?: 'primary' | 'secondary';
   onClick?: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
 };
 
 export const Button: React.FC<Props> = ({
   children,
   className,
   type = 'primary',
+  isLoading = false,
   onClick,
   disabled,
 }) => {
@@ -27,7 +30,11 @@ export const Button: React.FC<Props> = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {children}
+      {isLoading ? (
+        <Loader color={type === 'primary' ? '#FFFFFF' : '#C7AA94'} />
+      ) : (
+        children
+      )}
     </button>
   );
 };

@@ -18,7 +18,12 @@ function NavBar() {
 
   const { pathname } = useLocation();
 
-  const isAuthPath = ['/signup', '/login'].includes(pathname);
+  const isAuthPath = [
+    '/signup',
+    '/login',
+    '/signup-success',
+    '/email-confirm',
+  ].includes(pathname);
 
   useEffect(() => {
     setIsNavOpen(false);
@@ -33,7 +38,7 @@ function NavBar() {
   };
 
   return (
-    <nav className='mx-auto h-20 lg:h-28 py-4 lg:py-8 bg-opacity-90 backdrop-blur-xl fixed w-screen top-0 flex align-center justify-center'>
+    <nav className='mx-auto h-20 lg:h-24 py-5 lg:py-8 bg-opacity-90 backdrop-blur-xl fixed w-screen top-0 flex align-center justify-center z-20'>
       <div className='flex justify-between items-center max-w-[1728px] px-5 sm:px-16 lg:px-32 w-full'>
         <NavLink to='/'>
           <ReplantLogo />
