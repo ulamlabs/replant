@@ -59,7 +59,7 @@ export const Input: FC<Props> = ({
       {error && (
         <label
           className={
-            'text-left text-xs font-light text-red-400 dark:text-red-400'
+            'text-left text-sm font-light text-red-400 dark:text-red-400'
           }
         >
           {error}
