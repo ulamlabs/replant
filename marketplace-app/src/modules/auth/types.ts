@@ -26,6 +26,7 @@ export type VerifyEmailPayload = {
 
 export type LoginResponse = {
   email: string;
+  is_first_login: boolean;
 };
 
 export type LoginError = {
