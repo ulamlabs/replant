@@ -43,6 +43,7 @@ export const useVerifyEmail = (payload: VerifyEmailPayload) => {
     queryKey: ['POST', VERIFY_EMAIL_URL],
     queryFn: () => verifyEmail(payload),
     staleTime: 1000 * 60 * 10,
+    retry: false,
   });
 
   return query;
