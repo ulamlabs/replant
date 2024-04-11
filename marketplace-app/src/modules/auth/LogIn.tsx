@@ -81,7 +81,7 @@ export const LogIn = () => {
       <div className='flex flex-col gap-3 mt-6 md:mt-8'>
         <Button
           onClick={submit}
-          className='md:h-16 max-h-max'
+          className='md:h-16 max-h-max text-sm'
           isLoading={loginMutation.isPending}
         >
           {fmtMsg('logIn')}
