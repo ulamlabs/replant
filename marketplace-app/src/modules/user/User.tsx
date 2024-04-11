@@ -1,11 +1,10 @@
 import clsx from 'clsx';
-import { UserIcon } from 'common/components/icons/UserIcon';
 import { Logout } from 'modules/auth';
 import { useFmtMsg } from 'modules/intl';
 import NavItem from 'modules/navigation/components/NavItem';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserType } from '.';
+import { UserIcon, UserType } from '.';
 
 type Props = {
   user: UserType;
@@ -24,7 +23,7 @@ export const User: FC<Props> = ({ user }) => {
           onClick={() => navigate('profile')}
           className='h-full flex justify-center items-center'
         >
-          <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
+          <UserIcon className='w-9 h-9' />
         </div>
         <div>
           <h3 className='text-sm font-semibold'>{user.sponsor.name}</h3>
@@ -38,14 +37,14 @@ export const User: FC<Props> = ({ user }) => {
 
       <div
         className={
-          'w-12 h-12 relative rounded-full hidden lg:flex items-center bg-neutral-50 justify-center cursor-pointer z-20'
+          'w-12 h-12 relative rounded-full hidden lg:flex items-cente justify-center cursor-pointer z-20'
         }
       >
         <div
           onClick={() => setIsUserOpen((prev) => !prev)}
           className='w-full h-full flex justify-center items-center z-20 relative'
         >
-          <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
+          <UserIcon className='w-9 h-9' />
         </div>
         {isUserOpen && (
           <div
@@ -60,7 +59,7 @@ export const User: FC<Props> = ({ user }) => {
           )}
         >
           <div className='px-6 py-5 bg-zinc-100 rounded-t-3xl cursor-default flex items-center gap-2 dark:bg-neutral-900'>
-            <UserIcon overrideColors className='w-9 h-9 fill-neutral-400' />
+            <UserIcon className='w-9 h-9' />
             <div>
               <h3 className='text-sm font-semibold'>{user.sponsor.name}</h3>
               <p className='text-neutral-400 text-xs font-normal'>
