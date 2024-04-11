@@ -104,7 +104,7 @@ export const NFTSection = () => {
       )}
 
       {trees && (
-        <div className='grid overflow-y-hidden grid-rows-1 auto-rows-[0] gap-2 xl:gap-7 grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+        <div className='grid overflow-y-hidden grid-rows-1 auto-rows-[0] gap-4 xl:gap-7 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4'>
           {trees.results.map((tree) => (
             <TreeTile tree={tree} key={tree.nft_id} />
           ))}
