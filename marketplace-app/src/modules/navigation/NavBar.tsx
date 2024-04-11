@@ -35,7 +35,7 @@ function NavBar() {
 
   return (
     <nav className='mx-auto h-20 lg:h-24 py-5 lg:py-8 bg-opacity-90 backdrop-blur-xl fixed w-screen top-0 flex align-center justify-center z-20'>
-      <div className='flex justify-between items-center max-w-[1728px] px-5 sm:px-16 lg:px-32 w-full'>
+      <div className='flex justify-between items-center max-w-screen-2xl px-5 sm:px-16 lg:px-32 w-full'>
         <NavLink to='/'>
           <ReplantLogo />
         </NavLink>
