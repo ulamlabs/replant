@@ -4,5 +4,6 @@ export * from './Input';
 export * from './Loader';
 export * from './MailboxImage';
 export * from './SocialLink';
+export * from './Stepper';
 export * from './Switch';
 export * from './UsersListItem';
