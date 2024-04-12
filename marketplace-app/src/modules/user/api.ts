@@ -16,5 +16,5 @@ export const useUser = () =>
   useQuery<UserType, AxiosError>({
     queryKey: userQueryKey,
     queryFn: () => getUser(),
-    retryDelay: 1000 * 60 * 5,
+    retry: false,
   });

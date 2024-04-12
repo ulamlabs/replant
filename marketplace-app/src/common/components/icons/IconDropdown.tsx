@@ -14,8 +14,6 @@ export function IconDropdown({ className }: IconProps) {
       <path
         d='M11.6199 5.22095L7.81655 9.02428C7.36738 9.47345 6.63238 9.47345 6.18322 9.02428L2.37988 5.22095'
         stroke='#1D3E32'
-        stroke-linecap='round'
-        stroke-linejoin='round'
       />
     </svg>
   );
