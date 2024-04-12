@@ -1,5 +1,6 @@
 import { Stepper } from 'common/components';
 import { ReplantLogo } from 'common/components/ReplantLogo';
+import { CompassIcon } from 'common/components/icons/CompassIcon';
 import { IconExternalLink } from 'common/components/icons/IconExternalLink';
 import { useFmtMsg } from 'modules/intl';
 import { Wallet } from 'modules/wallet';
@@ -43,7 +44,7 @@ export const FirstLogin = () => {
             </p>
           </div>
           <div className='grid grid-cols-2 gap-3'>
-            <Wallet name='Compass' />
+            <Wallet name='Compass' img={<CompassIcon className='w-8 h-8' />} />
           </div>
         </div>
       </div>
