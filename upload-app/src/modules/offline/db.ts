@@ -47,6 +47,7 @@ const openDb = async () => {
           db.createObjectStore('trees', {
             keyPath: 'id',
           });
+        // eslint-disable-next-line no-fallthrough
         case 1:
           db.createObjectStore('logs', { keyPath: 'created_at' });
       }

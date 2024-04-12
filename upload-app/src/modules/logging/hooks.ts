@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useUserHistoryBulkMutation, useUserHistoryMutation } from './queries';
 import { HistoryEvent } from './types';
 import { getUserAgent } from './user-agent';
+import { slicedArray } from './utils';
 
 export const useLogLocationFailed = () => {
   const mutation = useUserHistoryMutation();
@@ -43,40 +44,32 @@ export const useLogLocationSucceeded = () => {
 
 const SLICE_SIZE = 100;
 
-const slicedArray = <T>(array: T[], sliceSize: number): T[][] => {
-  let slices: T[][] = [];
-  for (let i = 0; i <= array.length; i += sliceSize) {
-    slices.push(array.slice(i, i + sliceSize));
-  }
-  return slices;
-};
-
 export const useUploadLogWhenOnline = () => {
-  const mutation = useUserHistoryBulkMutation();
+  const { mutateAsync } = useUserHistoryBulkMutation();
 
   const uploadLog = useCallback(async () => {
     const log = await offlineDb.loadAllLogEntries();
     const logSlices = slicedArray(log, SLICE_SIZE);
     for (const slice of logSlices) {
-      await mutation.mutateAsync(slice);
+      await mutateAsync(slice);
       await offlineDb.deleteLogEntries(slice.map((item) => item.created_at));
     }
-  }, []);
+  }, [mutateAsync]);
 
+  // Log upload requires authentication, so only pages that require user to be
+  // authenticated should upload it. Otherwise, 401 error would occur and trigger
+  // a handler that could potentially disrupt the flow of pages that don't require
+  // authentication.
   const location = useLocation();
-  const isLoggedIn = [
-    '/dashboard',
-    '/new-plant',
-    '/user',
-    '/submissions',
-  ].includes(location.pathname); // VERY primitive solution, hopefully temporary
+  const routes = ['/dashboard', '/new-plant', '/user', '/submissions'];
+  const isLoggedIn = routes.includes(location.pathname);
 
   // initial upload on app startup
   useEffect(() => {
     if (isOnline() && isLoggedIn) {
       uploadLog();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, uploadLog]);
 
   const handleOnline = useCallback(() => {
     if (!isLoggedIn) {
