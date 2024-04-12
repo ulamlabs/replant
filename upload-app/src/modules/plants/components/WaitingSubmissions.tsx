@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import clsx from 'clsx';
 import { Alert, Button, LoaderBox } from 'common/components';
-import { OfflineIcon, UploadIcon } from 'common/icons';
+import { CloudOff, Upload2 } from 'common/icons';
 import { prettifyError, useInfiniteScrolling } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import {
@@ -65,7 +65,7 @@ export const WaitingSubmissions: React.FC = () => {
       {showUploadButton && (
         <div className='flex gap-4 items-center'>
           <Button
-            Icon={UploadIcon}
+            Icon={Upload2}
             disabled={!isOnline}
             size='md'
             onClick={upload}
@@ -74,10 +74,7 @@ export const WaitingSubmissions: React.FC = () => {
           </Button>
           {!isOnline && (
             <div className='flex gap-2 items-center text-sm'>
-              <OfflineIcon
-                pathClassName='fill-black dark:fill-white'
-                svgClassName='w-4 h-4 min-w-4 min-h-4'
-              />
+              <CloudOff svgClassName='w-4 h-4 min-w-4 min-h-4' />
               {fmtMsg('youAreOffline')}
             </div>
           )}

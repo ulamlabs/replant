@@ -19,7 +19,7 @@ export const InfoBox: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'p-2.5 rounded-xl flex gap-2 justify-between opacity-80',
+        'p-2.5 rounded-xl flex gap-2 justify-between opacity-90',
         className
       )}
     >
@@ -31,7 +31,7 @@ export const InfoBox: React.FC<Props> = ({
           {isLoading ? <Loader /> : value}
         </span>
       </div>
-      <div className='opacity-50'>{icon}</div>
+      <div className='opacity-60'>{icon}</div>
     </div>
   );
 };

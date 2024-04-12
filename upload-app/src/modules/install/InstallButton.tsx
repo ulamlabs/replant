@@ -1,5 +1,5 @@
 import { Button } from 'common/components';
-import { InstallIcon } from 'common/icons';
+import { InstallMobile } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ export const InstallButton: React.FC = () => {
 
   return (
     <Link to={'/how-to-install'}>
-      <Button Icon={InstallIcon} type='secondary' size='sm'>
+      <Button Icon={InstallMobile} type='secondary' size='sm'>
         {fmtMsg('install')}
       </Button>
     </Link>

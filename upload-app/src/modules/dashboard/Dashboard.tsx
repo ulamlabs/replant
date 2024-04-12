@@ -1,9 +1,9 @@
 import { LoaderBox } from 'common/components';
-import { CheckIcon, CrossIcon, DocumentIcon, TreeIcon } from 'common/icons';
+import { Check, Close, FindInPage, Park } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { PlantTile, usePlants, usePlantsSummary } from 'modules/plants';
 import { useSpecies } from 'modules/species';
-import { InfoBox } from './components';
+import { InfoBox } from './InfoBox';
 
 export const Dashboard: React.FC = () => {
   const fmtMsg = useFmtMsg();
@@ -19,28 +19,52 @@ export const Dashboard: React.FC = () => {
       <div className='grid grid-cols-2 gap-3 mb-5'>
         <InfoBox
           title={fmtMsg('addedTrees')}
-          icon={<TreeIcon />}
+          icon={
+            <Park
+              overrideColor
+              pathClassName='fill-white'
+              svgClassName='h-7 w-7'
+            />
+          }
           isLoading={isLoadingSummary}
           value={summary?.added_count}
           className={'bg-blue-400'}
         />
         <InfoBox
           title={fmtMsg('pendingTrees')}
-          icon={<DocumentIcon />}
+          icon={
+            <FindInPage
+              overrideColor
+              pathClassName='fill-white'
+              svgClassName='h-7 w-7'
+            />
+          }
           isLoading={isLoadingSummary}
           value={summary?.pending_review_count}
           className={'bg-bisque-400'}
         />
         <InfoBox
           title={fmtMsg('approvedTrees')}
-          icon={<CheckIcon />}
+          icon={
+            <Check
+              overrideColor
+              pathClassName='fill-white'
+              svgClassName='h-6 w-6'
+            />
+          }
           isLoading={isLoadingSummary}
           value={summary?.approved_count}
           className={'bg-green-400'}
         />
         <InfoBox
           title={fmtMsg('rejectedTrees')}
-          icon={<CrossIcon />}
+          icon={
+            <Close
+              overrideColor
+              pathClassName='fill-white'
+              svgClassName='h-6 w-6'
+            />
+          }
           isLoading={isLoadingSummary}
           value={summary?.rejected_count}
           className={'bg-red-400'}

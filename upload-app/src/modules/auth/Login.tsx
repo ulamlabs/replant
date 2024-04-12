@@ -1,7 +1,7 @@
 import poptechImg from 'assets/poptech.png';
 import { AxiosError } from 'axios';
 import { Alert, Button, Input, Section } from 'common/components';
-import { PadlockIcon, UserIcon } from 'common/icons';
+import { Lock, Person } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
@@ -79,11 +79,9 @@ export const Login: React.FC = () => {
           <Alert severity='error' text={getErrorText(loginMutation.error)} />
         )}
         <Input
+          Icon={Person}
           label={fmtMsg('login')}
           placeholder={fmtMsg('login')}
-          icon={
-            <UserIcon pathClassName='fill-gray-500' svgClassName='w-4 h-4' />
-          }
           value={login}
           onChange={(value) => {
             setLoginError('');
@@ -92,9 +90,9 @@ export const Login: React.FC = () => {
           error={loginError}
         />
         <Input
+          Icon={Lock}
           label={fmtMsg('password')}
           placeholder={fmtMsg('password')}
-          icon={<PadlockIcon />}
           value={password}
           type='password'
           error={passwordError}
