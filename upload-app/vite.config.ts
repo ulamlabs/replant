@@ -45,9 +45,35 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
+        screenshots: [
+          {
+            src: '/screenshot-dashboard.jpg',
+            sizes: '360x740',
+            type: 'image/jpeg',
+            form_factor: 'narrow',
+          },
+          {
+            src: '/screenshot-capture.jpg',
+            sizes: '360x740',
+            type: 'image/jpeg',
+            form_factor: 'narrow',
+          },
+          {
+            src: '/screenshot-dashboard-wide.jpg',
+            sizes: '1024x768',
+            type: 'image/jpeg',
+            form_factor: 'wide',
+          },
+          {
+            src: '/screenshot-capture-wide.jpg',
+            sizes: '1024x768',
+            type: 'image/jpeg',
+            form_factor: 'wide',
+          },
+        ],
       },
       workbox: {
-        globPatterns: ['**/*.{css,html,js,png,webp}'],
+        globPatterns: ['**/*.{css,html,jpg,js,png,webp}'],
       },
     }),
   ],
