@@ -18,7 +18,7 @@ export const LogInPage = () => {
       <Link to='/signup'>
         <Button
           type='secondary'
-          className='border-none md:h-16 max-h-max w-full text-sm'
+          className='border-none md:h-16 max-h-max w-full text-sm hover:bg-transparent hover:text-teal-600'
         >
           {fmtMsg('createAccount')}
         </Button>

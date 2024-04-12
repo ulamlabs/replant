@@ -107,7 +107,7 @@ export const SignUp = () => {
         onClick={submit}
         className='mt-6 md:mt-8 py-5 max-h-max text-sm'
       >
-        {fmtMsg('signIn')}
+        {fmtMsg('signUp')}
       </Button>
     </div>
   );
