@@ -73,10 +73,6 @@ export const LogIn = () => {
           onError(error) {
             openSnackbar(getErrorText(error), 'error');
           },
-          onSuccess() {
-            queryClient.removeQueries();
-            navigate('/');
-          },
           onSuccess(data) {
             queryClient.removeQueries();
             navigate('/', { state: { firstLogin: data.data.is_first_login } });

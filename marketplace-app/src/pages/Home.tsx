@@ -12,7 +12,7 @@ export const Home = () => {
     <>
       <NFTSection />
       <TopUsersSection />
-      {firstLogin && <FirstLogin />}
+      {!firstLogin && <FirstLogin />}
     </>
   );
 };
