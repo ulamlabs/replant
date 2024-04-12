@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { Button } from 'common/components';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
@@ -7,6 +8,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   LogInForm,
+  LoginError,
   useAuthStore,
   useLoginUser,
   validateEmail,
@@ -27,7 +29,18 @@ export const LogIn = () => {
     store.reset();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const submit = async () => {
+  const getErrorText = (error: AxiosError<LoginError>) => {
+    if (
+      error.response?.data.non_field_errors?.includes(
+        'Incorrect username or password.'
+      )
+    ) {
+      return fmtMsg('incorrectUsernameOrPassword');
+    }
+    return prettifyError(error);
+  };
+
+  const submit = () => {
     if (!store.email) {
       store.setEmailError(fmtMsg('fieldRequired'));
     }
@@ -51,28 +64,22 @@ export const LogIn = () => {
     }
 
     if (store.password && store.email) {
-      await loginMutation.mutateAsync(
+      loginMutation.mutate(
         {
           email: store.email,
           password: store.password,
         },
         {
           onError(error) {
-            if (
-              error.response?.data.non_field_errors?.includes(
-                'Incorrect username or password.'
-              )
-            ) {
-              openSnackbar(fmtMsg('incorrectUsernameOrPassword'), 'error');
-            } else {
-              openSnackbar(prettifyError(error), 'error');
-            }
+            openSnackbar(getErrorText(error), 'error');
+          },
+          onSuccess() {
+            queryClient.removeQueries();
+            navigate('/');
           },
         }
       );
     }
-    queryClient.removeQueries();
-    navigate('/');
   };
 
   return (

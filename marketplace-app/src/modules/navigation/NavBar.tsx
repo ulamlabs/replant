@@ -12,7 +12,7 @@ function NavBar() {
 
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const { data: user } = useUser();
+  const { data: user, isLoading } = useUser();
 
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ function NavBar() {
           toggleNav={toggleNav}
           open={isNavOpen}
         />
-        {!isAuthPath && (
+        {!isAuthPath && !isLoading && (
           <div className='items-center gap-10 hidden lg:flex'>
             <div className='flex gap-5 xl:gap-9 w-auto'>
               <NavItem to='/'>{fmtMsg('home')}</NavItem>

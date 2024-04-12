@@ -4,7 +4,8 @@ import { useFmtMsg } from 'modules/intl';
 import NavItem from 'modules/navigation/components/NavItem';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserIcon, UserType } from '.';
+import { UserType } from '.';
+import { UserDropdown, UserIcon } from './components';
 
 type Props = {
   user: UserType;
@@ -44,7 +45,9 @@ export const User: FC<Props> = ({ user }) => {
           onClick={() => setIsUserOpen((prev) => !prev)}
           className='w-full h-full flex justify-center items-center z-20 relative'
         >
-          <UserIcon className='w-9 h-9' />
+          <UserDropdown open={isUserOpen}>
+            <UserIcon />
+          </UserDropdown>
         </div>
         {isUserOpen && (
           <div
