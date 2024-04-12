@@ -99,7 +99,7 @@ export const SignUp = () => {
         {fmtMsg('hello')}
       </h2>
       <p className='text-neutral-400 text-sm md:text-base font-normal mb-4 md:mb-6'>
-        {fmtMsg('signInAndExploreTheReplantWorldsMarketplace')}
+        {fmtMsg('signUpAndExploreTheReplantWorldsMarketplace')}
       </p>
       <SignUpForm switchLabels={switchLabels} />
       <Button
