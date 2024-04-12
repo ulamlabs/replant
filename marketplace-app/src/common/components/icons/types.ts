@@ -1,4 +1,5 @@
 export type IconProps = {
   className?: string;
-  overrideColors?: boolean;
 };
+
+export type IconExtendProps = IconProps & { overrideColors?: boolean };

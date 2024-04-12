@@ -4,7 +4,7 @@ type Props = {
   className?: string;
 };
 
-export const CompassIcon: FC<Props> = ({ className }) => {
+export const IconCompass: FC<Props> = ({ className }) => {
   return (
     <svg
       width='32'
