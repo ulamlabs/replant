@@ -1,6 +1,5 @@
 import { Input } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
-import { Link } from 'react-router-dom';
 import { useAuthStore } from '.';
 
 export const LogInForm = () => {
@@ -32,12 +31,12 @@ export const LogInForm = () => {
         error={store.passwordError}
         type='password'
       />
-      <Link
+      {/* JUST HIDING TILL FEATURE DONE <Link
         className='text-xs font-light text-neutral-400 w-full -mt-1 md:-mt-3 hover:opacity-80'
         to={'/forgot-password'}
       >
         {fmtMsg('resetPassword')}
-      </Link>
+      </Link> */}
     </form>
   );
 };
