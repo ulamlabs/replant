@@ -26,7 +26,7 @@ export const Logout = () => {
     <Button
       isLoading={logoutMutation.isPending}
       type='secondary'
-      className='bg-transparent hover:!bg-red-50 border-none lg:!justify-end !text-red-400 dark:!text-red-800 min-h-16 px-6 py-5 !rounded-2xl !text-base !font-medium'
+      className='bg-transparent hover:!bg-red-50 dark:hover:!bg-red-800 dark:hover:!bg-opacity-30 border-none lg:!justify-end !text-red-400 dark:!text-red-800 min-h-16 px-6 py-5 !rounded-2xl !text-base !font-medium'
       onClick={logOut}
     >
       {fmtMsg('logOut')}
