@@ -45,7 +45,7 @@ function NavBar() {
           toggleNav={toggleNav}
           open={isNavOpen}
         />
-        {!isAuthPath && !isLoading && (
+        {!isAuthPath && (
           <div className='items-center gap-10 hidden lg:flex'>
             <div className='flex gap-5 xl:gap-9 w-auto'>
               <NavItem to='/'>{fmtMsg('home')}</NavItem>
@@ -54,20 +54,22 @@ function NavBar() {
               <NavItem to='planters'>{fmtMsg('planters')}</NavItem>
               <NavItem to='impact'>{fmtMsg('impact')}</NavItem>
             </div>
-            <div className='gap-2.5 flex'>
-              {user ? (
-                <User user={user} />
-              ) : (
-                <>
-                  <Link to='login'>
-                    <Button type='secondary'>{fmtMsg('logIn')}</Button>
-                  </Link>
-                  <Link to='signup'>
-                    <Button type='primary'>{fmtMsg('signUp')}</Button>
-                  </Link>
-                </>
-              )}
-            </div>
+            {!isLoading && (
+              <div className='gap-2.5 flex'>
+                {user ? (
+                  <User user={user} />
+                ) : (
+                  <>
+                    <Link to='login'>
+                      <Button type='secondary'>{fmtMsg('logIn')}</Button>
+                    </Link>
+                    <Link to='signup'>
+                      <Button type='primary'>{fmtMsg('signUp')}</Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
