@@ -11,9 +11,10 @@ export function TreeTile(props: TreeDetailsProps) {
       className='flex flex-col overflow-hidden cursor-pointer w-full'
       onClick={props.onClick}
     >
-      <div
-        style={{ backgroundImage: `url(${props.tree.image})` }}
-        className='w-full bg-cover bg-center self-stretch rounded-lg aspect-[0.8]'
+      <img
+        src={props.tree.image}
+        className='w-full bg-cover bg-center rounded-lg aspect-[3/4]'
+        alt={props.tree.botanical_name}
       />
       <div className='py-4'>
         <div className='font-medium text-sm md:text-lg max-w-full overflow-hidden text-ellipsis text-nowrap'>
