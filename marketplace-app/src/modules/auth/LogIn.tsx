@@ -73,9 +73,9 @@ export const LogIn = () => {
           onError(error) {
             openSnackbar(getErrorText(error), 'error');
           },
-          onSuccess() {
+          onSuccess(data) {
             queryClient.removeQueries();
-            navigate('/');
+            navigate('/', { state: { firstLogin: data.data.is_first_login } });
           },
         }
       );

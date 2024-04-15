@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { IconProps } from './types';
+import { IconExtendProps } from './types';
 
-export function IconThreads({ className, overrideColors }: IconProps) {
+export function IconThreads({ className, overrideColors }: IconExtendProps) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'

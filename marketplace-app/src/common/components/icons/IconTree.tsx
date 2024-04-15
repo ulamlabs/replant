@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { IconProps } from './types';
+import { IconExtendProps } from './types';
 
-export function IconTree({ className, overrideColors }: IconProps) {
+export function IconTree({ className, overrideColors }: IconExtendProps) {
   return (
     <svg
       className={clsx(

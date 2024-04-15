@@ -1,7 +1,8 @@
 import clsx from 'clsx';
-import { IconProps } from './types';
+import { FC } from 'react';
+import { IconExtendProps } from './types';
 
-export const UserIcon: React.FC<IconProps> = ({
+export const UserIcon: FC<IconExtendProps> = ({
   className,
   overrideColors,
 }) => {

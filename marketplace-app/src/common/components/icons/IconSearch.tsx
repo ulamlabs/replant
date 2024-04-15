@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { IconProps } from './types';
+import { IconExtendProps } from './types';
 
-export function IconSearch({ className, overrideColors }: IconProps) {
+export function IconSearch({ className, overrideColors }: IconExtendProps) {
   return (
     <svg
       className={clsx(
