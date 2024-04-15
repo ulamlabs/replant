@@ -11,7 +11,7 @@ export const IconMetaMask: FC<IconProps> = ({ className }) => {
       fill='none'
       className={className}
     >
-      <g clip-path='url(#clip0_1268_1421)'>
+      <g clipPath='url(#clip0_1268_1421)'>
         <path
           d='M31.2582 0.00012207L17.5273 10.8373L20.0807 4.45065L31.2582 0.00012207Z'
           fill='#E17726'
