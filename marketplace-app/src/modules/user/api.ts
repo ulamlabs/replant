@@ -16,5 +16,10 @@ export const useUser = () =>
   useQuery<UserType, AxiosError>({
     queryKey: userQueryKey,
     queryFn: () => getUser(),
-    retry: false,
+    retry: (failureCount, error: AxiosError) => {
+      if (error.response?.status === 401) {
+        return false; // do not retry, trigger error
+      }
+      return failureCount !== 3;
+    },
   });

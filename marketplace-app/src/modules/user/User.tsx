@@ -38,12 +38,12 @@ export const User: FC<Props> = ({ user }) => {
 
       <div
         className={
-          'w-12 h-12 relative rounded-full hidden lg:flex items-cente justify-center cursor-pointer z-20'
+          'w-12 h-12 relative rounded-full hidden lg:flex items-center justify-center cursor-pointer z-[2000]'
         }
       >
         <div
           onClick={() => setIsUserOpen((prev) => !prev)}
-          className='w-full h-full flex justify-center items-center z-20 relative'
+          className='w-full h-full flex justify-center items-center z-[2000] relative'
         >
           <UserDropdown open={isUserOpen}>
             <UserIcon />
@@ -52,7 +52,7 @@ export const User: FC<Props> = ({ user }) => {
         {isUserOpen && (
           <div
             onClick={() => setIsUserOpen(false)}
-            className='hidden md:block fixed top-0 left-0 w-screen h-screen z-10 cursor-default'
+            className='hidden md:block fixed top-0 left-0 w-screen h-screen cursor-default'
           />
         )}
         <div

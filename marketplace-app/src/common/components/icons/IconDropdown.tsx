@@ -1,19 +1,22 @@
 import clsx from 'clsx';
 import { IconProps } from './types';
 
-export function IconDropdown({ className }: IconProps) {
+export function IconDropdown({ className, overrideColors }: IconProps) {
   return (
     <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='14'
-      height='14'
-      viewBox='0 0 14 14'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
       fill='none'
-      className={clsx(className)}
+      xmlns='http://www.w3.org/2000/svg'
+      className={clsx(!overrideColors && 'stroke-green-900', className)}
     >
       <path
-        d='M11.6199 5.22095L7.81655 9.02428C7.36738 9.47345 6.63238 9.47345 6.18322 9.02428L2.37988 5.22095'
-        stroke='#1D3E32'
+        d='M19.9201 8.94995L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.94995'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );
