@@ -51,12 +51,10 @@ pub enum QueryMsg {
     Collection {},
     /// Return the commission rate
     CommissionRate {},
-    /// Return the list of NFTs for sale (optional account filter)
-    NftsForSale { account: Option<String> },
-    /// Return the price of the NFT
-    NftPrices { nft_id: Vec<String> },
-    /// Return the owner of the NFT
-    NftOwner { nft_id: String },
+    /// All NFTs for sale
+    AllNftsForSale {},
+    /// Return the list of NFTs for sale by account
+    NftsForSale { account: String },
 }
 
 #[cw_serde]

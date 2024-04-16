@@ -76,7 +76,8 @@ pub mod entry {
             QueryMsg::AllowedDenoms {  } => encode_query_response(&query::allowed_denoms(deps)?),
             QueryMsg::Collection {  } => encode_query_response(&query::collection(deps)?),
             QueryMsg::CommissionRate {  } => encode_query_response(&query::commission_rate(deps)?),
-            _ => unimplemented!(),
+            QueryMsg::AllNftsForSale {  } => encode_query_response(&query::all_nfts_for_sale(deps)?),
+            QueryMsg::NftsForSale { account } => encode_query_response(&query::nfts_for_sale(deps, &account)?),
         }
     }
 }
