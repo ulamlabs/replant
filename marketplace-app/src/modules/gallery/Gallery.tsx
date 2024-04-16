@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { IconMap, Loader, Pagination, ReplantLogo } from 'common/components';
+import { Loader, Pagination, ReplantLogo } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { MapButton } from './MapButton';
 import { SponsorSearchBox } from './SponsorSearchBox';
 import { SponsorSummary } from './SponsorSummary';
 import { TreesGrid } from './TreesGrid';
@@ -36,13 +36,7 @@ export function Gallery() {
       <div className='flex justify-between gap-10'>
         <ReplantLogo />
         <div className='flex gap-4 items-center'>
-          <Link
-            className='bg-gray-200 dark:bg-teal-700 flex gap-2 h-full hover:opacity-75 items-center px-4 sm:px-6 rounded-xl'
-            to='/map'
-          >
-            <IconMap />
-            <span className='hidden sm:inline'>{fmtMsg('map')}</span>
-          </Link>
+          <MapButton />
           <SponsorSearchBox onSearch={onSearch} />
         </div>
       </div>
