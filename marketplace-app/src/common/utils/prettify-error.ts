@@ -15,7 +15,7 @@ export const prettifyError = (err: AxiosError) => {
       return header;
     }
     if (typeof err.response.data === 'object') {
-      return header + prettifyJSON(err.response.data);
+      return prettifyJSON(err.response.data);
     }
     return header + err.response.data;
   }
@@ -27,22 +27,11 @@ export const prettifyError = (err: AxiosError) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const prettifyJSON = (obj: any) => {
   return Object.entries(obj)
-    .map(([key, items]) => {
-      if (!Array.isArray(items)) {
-        items = [items];
+    .map((items) => {
+      if (!Array.isArray(items[1])) {
+        items[1] = [items[1]];
       } // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (items as any[])
-        .map((item) => `${prettifyKey(key)}: ${item}`)
-        .join('\n');
+      return (items[1] as any[]).map((item) => item).join('\n');
     })
     .join('\n');
-};
-
-const prettifyKey = (key: string) => {
-  const words = key.split('_');
-  const firstWord = words[0];
-  const restWords = words.slice(1);
-  return [firstWord[0].toUpperCase() + firstWord.slice(1), ...restWords].join(
-    ' '
-  );
 };
