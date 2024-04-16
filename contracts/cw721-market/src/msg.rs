@@ -38,7 +38,7 @@ pub enum ExecuteMsg {
         denom: String,
     },
     SetCommisionRate {
-        rate: Uint64,
+        rate_per_mil: Uint64,
     },
     ReceiveNfts(Cw721MultiReceiveMsg),
 }
