@@ -1,4 +1,6 @@
 export * from './LogIn';
+export * from './LogInForm';
+export * from './Logout';
 export * from './SignUp';
 export * from './api';
 export * from './queries';

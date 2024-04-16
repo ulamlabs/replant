@@ -18,6 +18,7 @@ type AuthActions = {
   setEmailError: (val: string) => void;
   setPasswordError: (val: string) => void;
   toggleSwitchValue: () => void;
+  reset: () => void;
 };
 
 const initialValues = {
@@ -40,4 +41,5 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => ({
   setPasswordError: (passwordError) => set({ passwordError }),
   toggleSwitchValue: () =>
     set((state) => ({ switchValue: !state.switchValue })),
+  reset: () => set(initialValues),
 }));

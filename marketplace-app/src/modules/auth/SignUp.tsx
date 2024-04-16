@@ -1,6 +1,7 @@
 import { Button } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { openSnackbar } from 'modules/snackbar';
+import { useEffect } from 'react';
 import {
   useAuthStore,
   useRegisterUser,
@@ -13,6 +14,12 @@ export const SignUp = () => {
   const fmtMsg = useFmtMsg();
 
   const store = useAuthStore();
+
+  const reset = store.reset;
+
+  useEffect(() => {
+    reset();
+  }, [reset]);
 
   const switchLabels: [string, string] = [
     fmtMsg('company'),
@@ -94,7 +101,7 @@ export const SignUp = () => {
         {fmtMsg('hello')}
       </h2>
       <p className='text-neutral-400 text-sm md:text-base font-normal mb-4 md:mb-6'>
-        {fmtMsg('signInAndExploreTheReplantWorldsMarketplace')}
+        {fmtMsg('signUpAndExploreTheReplantWorldsMarketplace')}
       </p>
       <SignUpForm switchLabels={switchLabels} />
       <Button
@@ -102,7 +109,7 @@ export const SignUp = () => {
         onClick={submit}
         className='mt-6 md:mt-8 py-5 max-h-max text-sm'
       >
-        {fmtMsg('signIn')}
+        {fmtMsg('signUp')}
       </Button>
     </div>
   );

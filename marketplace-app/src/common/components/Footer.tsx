@@ -34,7 +34,7 @@ export function Footer() {
           />
         </div>
       </div>
-      <p className='text-neutral-400 dark:text-gray-200 text-base font-normal'>
+      <p className='text-neutral-400 dark:text-gray-200 text-sm font-normal'>
         Replant World Copyright © {new Date().getFullYear()}
       </p>
     </footer>

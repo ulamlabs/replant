@@ -12,7 +12,7 @@ function NavBar() {
 
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const { data: user } = useUser();
+  const { data: user, isLoading } = useUser();
 
   const navigate = useNavigate();
 
@@ -33,12 +33,8 @@ function NavBar() {
     setIsNavOpen((state) => !state);
   };
 
-  const logOut = () => {
-    // handle logout here
-  };
-
   return (
-    <nav className='mx-auto h-20 lg:h-24 py-5 lg:py-8 bg-opacity-90 backdrop-blur-xl fixed w-screen top-0 flex align-center justify-center z-20'>
+    <nav className='mx-auto h-20 lg:h-24 py-5 lg:py-8 bg-opacity-90 backdrop-blur-xl fixed w-screen top-0 flex align-center justify-center z-[2000]'>
       <div className='flex justify-between items-center max-w-[1728px] px-5 sm:px-16 lg:px-32 w-full'>
         <NavLink to='/'>
           <ReplantLogo />
@@ -48,7 +44,6 @@ function NavBar() {
           navigate={navigate}
           toggleNav={toggleNav}
           open={isNavOpen}
-          logOut={logOut}
         />
         {!isAuthPath && (
           <div className='items-center gap-10 hidden lg:flex'>
@@ -59,20 +54,22 @@ function NavBar() {
               <NavItem to='planters'>{fmtMsg('planters')}</NavItem>
               <NavItem to='impact'>{fmtMsg('impact')}</NavItem>
             </div>
-            <div className='gap-2.5 flex'>
-              {user ? (
-                <User user={user} />
-              ) : (
-                <>
-                  <Link to='login'>
-                    <Button type='secondary'>{fmtMsg('logIn')}</Button>
-                  </Link>
-                  <Link to='signup'>
-                    <Button type='primary'>{fmtMsg('signUp')}</Button>
-                  </Link>
-                </>
-              )}
-            </div>
+            {!isLoading && (
+              <div className='gap-2.5 flex'>
+                {user ? (
+                  <User user={user} />
+                ) : (
+                  <>
+                    <Link to='login'>
+                      <Button type='secondary'>{fmtMsg('logIn')}</Button>
+                    </Link>
+                    <Link to='signup'>
+                      <Button type='primary'>{fmtMsg('signUp')}</Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
