@@ -7,8 +7,6 @@ import { PixiOverlay } from './PixiOverlay';
 import { PixiOverlayContext } from './PixiOverlayContext';
 
 export function Map() {
-  const fmtMsg = useFmtMsg();
-
   return (
     <MapContainer
       center={[0, 0]}
@@ -21,17 +19,7 @@ export function Map() {
         [90, 180],
       ]}
     >
-      <div className='absolute top-2.5 right-2.5 z-[2000]'>
-        <Link
-          className='bg-gray-200 flex gap-2 h-full hover:opacity-85 items-center px-4 py-2 rounded-xl text-black'
-          to='/'
-        >
-          <IconHome overrideColors className='fill-black' />
-          <span className='hidden sm:inline text-base text-black'>
-            {fmtMsg('home')}
-          </span>
-        </Link>
-      </div>
+      <HomeButton />
       <LayersControl position='bottomleft'>
         <LayersControl.BaseLayer name='Streets'>
           <TileLayer
@@ -55,3 +43,19 @@ export function Map() {
     </MapContainer>
   );
 }
+
+const HomeButton: React.FC<Record<string, never>> = () => {
+  const fmtMsg = useFmtMsg();
+  return (
+    <Link
+      style={{ border: '2px solid rgba(0, 0, 0, 0.2)' }}
+      className='absolute bg-clip-padding bg-white flex gap-2 hover:opacity-95 items-center left-14 px-3 py-2 rounded top-2.5 z-[1000]'
+      to='/'
+    >
+      <IconHome overrideColors className='fill-black' />
+      <span className='hidden sm:inline text-base text-black'>
+        {fmtMsg('home')}
+      </span>
+    </Link>
+  );
+};
