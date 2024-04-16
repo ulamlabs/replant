@@ -13,19 +13,9 @@ import { SignUpForm } from './SignUpForm';
 export const SignUp = () => {
   const fmtMsg = useFmtMsg();
 
-  const {
-    reset,
-    name,
-    setNameError,
-    setEmailError,
-    setPasswordError,
-    email,
-    password,
-    nameError,
-    passwordError,
-    emailError,
-    switchValue,
-  } = useAuthStore();
+  const store = useAuthStore();
+
+  const reset = store.reset;
 
   useEffect(() => {
     reset();
@@ -39,41 +29,41 @@ export const SignUp = () => {
   const registerMutation = useRegisterUser();
 
   const submit = () => {
-    const nameTrimmed = name.trim();
+    const nameTrimmed = store.name.trim();
 
     if (!nameTrimmed) {
-      setNameError(fmtMsg('fieldRequired'));
+      store.setNameError(fmtMsg('fieldRequired'));
     }
 
-    if (!email) {
-      setEmailError(fmtMsg('fieldRequired'));
+    if (!store.email) {
+      store.setEmailError(fmtMsg('fieldRequired'));
     }
 
-    if (!password) {
-      setPasswordError(fmtMsg('fieldRequired'));
+    if (!store.password) {
+      store.setPasswordError(fmtMsg('fieldRequired'));
     }
 
-    if (!validatePassword(password)) {
-      setPasswordError(fmtMsg('wrongPasswordFormat'));
+    if (!validatePassword(store.password)) {
+      store.setPasswordError(fmtMsg('wrongPasswordFormat'));
       return;
     }
 
-    if (!validateEmail(email)) {
-      setEmailError(fmtMsg('wrongEmailFormat'));
+    if (!validateEmail(store.email)) {
+      store.setEmailError(fmtMsg('wrongEmailFormat'));
       return;
     }
 
-    if (nameError || passwordError || emailError) {
+    if (store.nameError || store.passwordError || store.emailError) {
       return;
     }
 
-    if (nameTrimmed && password && email) {
+    if (nameTrimmed && store.password && store.email) {
       registerMutation.mutate(
         {
           name: nameTrimmed,
-          email: email,
-          password: password,
-          type: switchValue ? 'COMPANY' : 'INDIVIDUAL',
+          email: store.email,
+          password: store.password,
+          type: store.switchValue ? 'COMPANY' : 'INDIVIDUAL',
         },
         {
           onError(error) {
@@ -82,15 +72,15 @@ export const SignUp = () => {
                 'A user with that email already exists.'
               )
             ) {
-              setEmailError(fmtMsg('userWithThatEmailAlreadyExists'));
+              store.setEmailError(fmtMsg('userWithThatEmailAlreadyExists'));
             } else if (error.response?.data?.email) {
-              setEmailError(fmtMsg('wrongEmailFormat'));
+              store.setEmailError(fmtMsg('wrongEmailFormat'));
             }
             if (error.response?.data.name) {
-              setNameError(fmtMsg('nameIsNotValid'));
+              store.setNameError(fmtMsg('nameIsNotValid'));
             }
             if (error.response?.data.password) {
-              setPasswordError(fmtMsg('passwordIsNotValid'));
+              store.setPasswordError(fmtMsg('passwordIsNotValid'));
             }
             if (
               error.response?.data.non_field_error?.includes(

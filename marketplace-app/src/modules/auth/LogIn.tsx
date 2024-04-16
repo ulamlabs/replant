@@ -24,10 +24,11 @@ export const LogIn = () => {
 
   const loginMutation = useLoginUser();
   const store = useAuthStore();
+  const reset = store.reset;
 
   useEffect(() => {
-    store.reset();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    reset();
+  }, [reset]);
 
   const getErrorText = (error: AxiosError<LoginError>) => {
     if (
