@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useClickAway, useDebounce } from '@uidotdev/usehooks';
-import { useFmtMsg } from 'modules/intl';
 import { IconSearch, IconX, Menu, MenuItem } from 'common/components';
+import { useFmtMsg } from 'modules/intl';
 import { useState } from 'react';
-import { SponsorSimple } from './types';
 import { autocompleteSponsors } from './api';
+import { SponsorSimple } from './types';
 
 type SponsorSearchBoxProps = {
   onSearch: (sponsor: SponsorSimple | null) => void;
@@ -36,7 +36,7 @@ export function SponsorSearchBox(props: SponsorSearchBoxProps) {
 
   return (
     <div
-      className='relative w-72 bg-gray-200 dark:bg-teal-700 rounded-xl flex items-center justify-end pr-3 h-14'
+      className='relative w-48 sm:w-72 bg-gray-200 dark:bg-teal-700 rounded-xl flex items-center justify-end pr-3 h-14'
       ref={ref}
     >
       <input

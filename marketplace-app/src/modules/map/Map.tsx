@@ -1,9 +1,14 @@
+import { IconHome } from 'common/components';
+import { useFmtMsg } from 'modules/intl';
 import { LayersControl, MapContainer, TileLayer } from 'react-leaflet';
+import { Link } from 'react-router-dom';
 import { MapMarkers } from './MapMarkers';
 import { PixiOverlay } from './PixiOverlay';
 import { PixiOverlayContext } from './PixiOverlayContext';
 
 export function Map() {
+  const fmtMsg = useFmtMsg();
+
   return (
     <MapContainer
       center={[0, 0]}
@@ -16,6 +21,17 @@ export function Map() {
         [90, 180],
       ]}
     >
+      <div className='absolute top-2.5 right-2.5 z-[2000]'>
+        <Link
+          className='bg-gray-200 flex gap-2 h-full hover:opacity-85 items-center px-4 py-2 rounded-xl text-black'
+          to='/'
+        >
+          <IconHome overrideColors className='fill-black' />
+          <span className='hidden sm:inline text-base text-black'>
+            {fmtMsg('home')}
+          </span>
+        </Link>
+      </div>
       <LayersControl position='bottomleft'>
         <LayersControl.BaseLayer name='Streets'>
           <TileLayer
