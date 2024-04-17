@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useFmtMsg } from 'modules/intl';
 import { Loader, Pagination, ReplantLogo } from 'common/components';
+import { useFmtMsg } from 'modules/intl';
+import { useEffect, useState } from 'react';
+import { MapButton } from './MapButton';
+import { SponsorSearchBox } from './SponsorSearchBox';
 import { SponsorSummary } from './SponsorSummary';
 import { TreesGrid } from './TreesGrid';
-import { SponsorSimple } from './types';
 import { getTrees } from './api';
-import { SponsorSearchBox } from './SponsorSearchBox';
+import { SponsorSimple } from './types';
 
 export function Gallery() {
   const fmtMsg = useFmtMsg();
@@ -34,7 +35,10 @@ export function Gallery() {
     <div className='p-2 pb-12 lg:px-20 lg:py-12 flex flex-col gap-10'>
       <div className='flex justify-between gap-10'>
         <ReplantLogo />
-        <SponsorSearchBox onSearch={onSearch} />
+        <div className='flex gap-4 items-center'>
+          <MapButton />
+          <SponsorSearchBox onSearch={onSearch} />
+        </div>
       </div>
 
       <div className='text-3xl text-center font-light'>

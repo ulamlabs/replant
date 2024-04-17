@@ -1,4 +1,5 @@
 import { LayersControl, MapContainer, TileLayer } from 'react-leaflet';
+import { HomeButton } from './HomeButton';
 import { MapMarkers } from './MapMarkers';
 import { PixiOverlay } from './PixiOverlay';
 import { PixiOverlayContext } from './PixiOverlayContext';
@@ -16,6 +17,7 @@ export function Map() {
         [90, 180],
       ]}
     >
+      <HomeButton />
       <LayersControl position='bottomleft'>
         <LayersControl.BaseLayer name='Streets'>
           <TileLayer

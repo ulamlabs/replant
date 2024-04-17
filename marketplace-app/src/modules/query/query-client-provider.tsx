@@ -1,5 +1,5 @@
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as ReactQuery from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { GC_TIME, SHORT_STALE_TIME } from './consts';
 
 const queryClient = new ReactQuery.QueryClient({
