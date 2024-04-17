@@ -103,20 +103,17 @@ def test_register_sponsor_invalid_email(api_client: APIClient):
     assert response.json() == {"email": ["Enter a valid email address."]}
 
 
-def test_register_sponsor_assert_password_validation(api_client: APIClient):
-    data = {**DEFAULT_DATA, "password": "abc"}
-    response = api_client.post("/api/auth/register-sponsor", data=data)
+def test_register_sponsor_assert_password_validation_called(
+    api_client: APIClient, mocker: MockerFixture
+):
+    validate_password_mock = mocker.patch(
+        "replant.api.utils.validate_password_in_serializer"
+    )
+    response = api_client.post("/api/auth/register-sponsor", data=DEFAULT_DATA)
 
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json() == {
-        "password": [
-            "This password is too short. It must contain at least 8 characters.",
-            "This password is too common.",
-            "This password must contain at least one of ('!', '@', '#', '$', '%', '^', '&', '*') special characters.",
-            "This password must contain at least 1 digit.",
-            "This password must contain at least 1 uppercase character.",
-        ]
-    }
+    assert response.status_code == status.HTTP_201_CREATED
+    validate_password_mock.assert_called_once_with("DifficultPassword8*", mocker.ANY)
+    assert validate_password_mock.call_args.args[1].email == "jon.snow@example.com"
 
 
 def test_register_sendgrid_error(api_client: APIClient, mocker: MockerFixture):

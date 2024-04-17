@@ -33,7 +33,7 @@ class Sponsor(models.Model):
     )
     contact_person_email = models.EmailField(unique=True)
     additional_info = models.TextField(blank=True)
-    bio = models.TextField(blank=True)
+    bio = models.CharField(max_length=500, blank=True)
     logo = models.ImageField(blank=True, upload_to=logo_upload_to)
 
     nft_ordered = models.PositiveIntegerField(
