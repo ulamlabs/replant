@@ -1,7 +1,7 @@
-import { DivIcon } from 'leaflet';
-import { Marker, useMap } from 'react-leaflet';
 import { abbreviateNumber } from 'js-abbreviation-number';
+import { DivIcon } from 'leaflet';
 import { memo } from 'react';
+import { Marker, useMap } from 'react-leaflet';
 import { TreesCluster } from './types';
 
 export type MapMarkerProps = {
@@ -17,7 +17,7 @@ function _ClusterMarker({ cluster, relativeSize }: MapMarkerProps) {
   const formattedNumber = abbreviateNumber(cluster.number_of_trees, 0);
 
   const cssClasses =
-    'absolute flex items-center justify-center rounded-2xl bg-white p-1 border-2 border-green-200 bg-green-100 h-6';
+    'absolute flex items-center justify-center rounded-2xl bg-white p-1 border-2 border-green-200 bg-green-100 h-6 text-black';
   const icon = new DivIcon({
     html: `<div class="${cssClasses}" style="transform: scale(${scale})"><img src="tree_icon.png" class="h-3 mr-1"><span>${formattedNumber}</span></div>`,
   });

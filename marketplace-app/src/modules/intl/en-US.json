@@ -22,5 +22,7 @@
   "iucnStatus.VU": "Vulnerable",
   "iucnStatus.NT": "Near threatened",
   "iucnStatus.LC": "Least concern",
-  "iucnStatus.DD": "Data deficient"
+  "iucnStatus.DD": "Data deficient",
+  "map": "Map",
+  "home": "Home"
 }
