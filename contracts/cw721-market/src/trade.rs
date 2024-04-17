@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
-use cosmwasm_std::{from_json, Addr, Coin, DepsMut, Empty, MessageInfo, Response, BankMsg, Uint128};
-use cw721_multi::Cw721MultiReceiveMsg;
+use cosmwasm_std::{from_json, to_json_binary, Addr, BankMsg, Coin, CosmosMsg, DepsMut, Empty, MessageInfo, Response, Uint128, WasmMsg};
+use cw721_multi::{Cw721MultiReceiveMsg, ExecuteMsg as Cw721MultiExecuteMsg, ExtensionMsg};
 use crate::state::{Ask, COLLECTION, COMMISION_PRECISION, COMMISSION_RATE, NFTS_FOR_SALE, NFTS_LISTED};
 use crate::ContractError;
 use crate::msg::ReceiveNftsData;
@@ -119,6 +119,51 @@ pub fn buy_nfts(deps: DepsMut, info: MessageInfo, ids: Vec<String>, allow_partia
         };
         response = response.add_message(msg);
     }
+
+    Ok(response)
+}
+
+
+pub fn withdraw_nfts(deps: DepsMut, info: MessageInfo, ids: Vec<String>) -> Result<Response, ContractError> {
+    let owner = info.sender;
+    let mut response = Response::new()
+        .add_attribute("action", "withdraw_nfts")
+        .add_attribute("sender", &owner);
+
+    let mut token_ids = Vec::with_capacity(ids.len());
+    
+
+    for token_id in ids.iter() {
+        match NFTS_FOR_SALE.load(deps.storage, token_id) {
+            Ok(ask) => {
+                if ask.owner != owner {
+                    return Err(ContractError::NotNftOwner {});
+                }
+                NFTS_FOR_SALE.remove(deps.storage, token_id);
+                NFTS_LISTED.remove(deps.storage, (&owner, token_id));
+                response = response.add_attribute("token_id", token_id);
+                token_ids.push(token_id.clone());
+            },
+            Err(_) => {
+                // Ignore NFTs that are not in the contract
+            }
+        }
+    }
+    let withdraw_msg: Cw721MultiExecuteMsg = Cw721MultiExecuteMsg::Extension { 
+        msg: ExtensionMsg::MultiTransfer { 
+            recipient: owner.to_string(), 
+            token_ids
+        } 
+    };
+    response = response.add_message(
+        CosmosMsg::Wasm(
+            WasmMsg::Execute { 
+                contract_addr: COLLECTION.load(deps.storage)?.to_string(), 
+                msg: to_json_binary(&withdraw_msg)?, 
+                funds: vec![], 
+            }
+        )
+    );
 
     Ok(response)
 }

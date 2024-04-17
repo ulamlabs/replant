@@ -68,7 +68,7 @@ pub mod entry {
             ExecuteMsg::SetCommisionRate { rate_per_mil } => admin::set_commission_rate(deps, info, rate_per_mil),
             ExecuteMsg::ReceiveNfts( msg ) => trade::receive_nfts(deps, info, msg),
             ExecuteMsg::BuyNfts { nft_ids, allow_partial } => trade::buy_nfts(deps, info, nft_ids, allow_partial),
-            _ => unimplemented!(),
+            ExecuteMsg::WithdrawNfts { nft_ids } => trade::withdraw_nfts(deps, info, nft_ids),
         }
     }
 

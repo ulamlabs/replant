@@ -23,11 +23,11 @@ pub enum ExecuteMsg {
     WithdrawNfts {
         nft_ids: Vec<String>,
     },
-    ChangePrices {
-        nft_ids: Vec<String>,
-        prices: Vec<u128>,
-        denoms: Vec<String>,
-    },
+    // ChangePrices {
+    //     nft_ids: Vec<String>,
+    //     prices: Vec<u128>,
+    //     denoms: Vec<String>,
+    // },
     /// Add a new denom to allowed list (admin only)
     AllowDenom {
         denom: String,

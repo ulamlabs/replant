@@ -36,4 +36,7 @@ pub enum ContractError {
 
     #[error("Commision rate too high")]
     InvalidCommissionRate {},
+
+    #[error("User is nto the owner of the NFT")]
+    NotNftOwner {},
 }

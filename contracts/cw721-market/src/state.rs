@@ -16,4 +16,5 @@ pub const COMMISSION_RATE: Item<u64> = Item::new("cr");
 pub const COLLECTION: Item<Addr> = Item::new("col");
 pub const ALLOWED_DENOMS: Map<&String, bool> = Map::new("ad");
 pub const NFTS_FOR_SALE: Map<&String, Ask> = Map::new("n4s");
+/// Mapping to gather all NFTS listed by a given account
 pub const NFTS_LISTED: Map<(&Addr, &String), Empty> = Map::new("nl");
