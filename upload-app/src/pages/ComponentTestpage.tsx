@@ -8,7 +8,7 @@ import {
   Summary,
   SummaryItem,
 } from 'common/components';
-import { LocationIcon } from 'common/icons';
+import { LocationOn } from 'common/icons';
 import { CountriesAutocomplete } from 'modules/countries';
 import { Layout } from 'modules/layout';
 
@@ -32,14 +32,14 @@ export const ComponentTestpage: React.FC = () => {
           Test sm secondary
         </Button>
         <Input
+          Icon={LocationOn}
           label={'Header test'}
           placeholder={'Test placeholder'}
-          icon={<LocationIcon />}
           onChange={() => {}}
         />
         <Input
+          Icon={LocationOn}
           placeholder={'Test placeholder'}
-          icon={<LocationIcon />}
           onChange={() => {}}
           value='Testowa wartość'
         />

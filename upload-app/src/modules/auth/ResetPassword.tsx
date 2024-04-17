@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { Alert, Button, Header, Input, Section } from 'common/components';
-import { PadlockIcon } from 'common/icons';
+import { Lock } from 'common/icons';
 import { prettifyError } from 'common/utils';
 import { useFmtMsg } from 'modules/intl';
 import { openSnackbar } from 'modules/snackbar';
@@ -76,9 +76,9 @@ export const ResetPassword: React.FC = () => {
           />
         )}
         <Input
+          Icon={Lock}
           label={fmtMsg('newPassword')}
           placeholder={fmtMsg('newPassword')}
-          icon={<PadlockIcon />}
           value={password}
           type='password'
           error={passwordError}
@@ -88,9 +88,9 @@ export const ResetPassword: React.FC = () => {
           }}
         />
         <Input
+          Icon={Lock}
           label={fmtMsg('confirmNewPassword')}
           placeholder={fmtMsg('confirmNewPassword')}
-          icon={<PadlockIcon />}
           value={confirmPassword}
           type='password'
           error={confirmPasswordError}

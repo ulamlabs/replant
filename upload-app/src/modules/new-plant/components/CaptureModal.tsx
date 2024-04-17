@@ -6,7 +6,7 @@ import {
   LoaderBox,
   Section,
 } from 'common/components';
-import { CameraIcon, CheckIcon, LocationIcon, RepeatIcon } from 'common/icons';
+import { CameraLine, Check, LocationOn, Repeat } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Layout } from 'modules/layout';
 import { useLogLocationFailed, useLogLocationSucceeded } from 'modules/logging';
@@ -88,7 +88,7 @@ export const CaptureModal: React.FC = () => {
               {store.tmpImage ? (
                 <>
                   <Button
-                    Icon={RepeatIcon}
+                    Icon={Repeat}
                     size='lg'
                     type='secondary'
                     onClick={() => store.setTmpImage(undefined)}
@@ -96,7 +96,7 @@ export const CaptureModal: React.FC = () => {
                     {fmtMsg('retake')}
                   </Button>
                   <Button
-                    Icon={CheckIcon}
+                    Icon={Check}
                     onClick={() => {
                       store.setImage(store.tmpImage);
                       store.closeCapture();
@@ -107,7 +107,7 @@ export const CaptureModal: React.FC = () => {
                 </>
               ) : (
                 <Button
-                  Icon={CameraIcon}
+                  Icon={CameraLine}
                   disabled={store.isCameraLoading}
                   onClick={capture}
                 >
@@ -141,7 +141,11 @@ export const CaptureModal: React.FC = () => {
             />
             {store.isGettingLocation && (
               <div className='flex gap-4 items-center justify-center'>
-                <LocationIcon svgClassName='w-6 h-6' />
+                <LocationOn
+                  overrideColor
+                  pathClassName='fill-gray-500'
+                  svgClassName='h-7 min-h-7 min-w-7 opacity-80 w-7'
+                />
                 <Loader />
               </div>
             )}

@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
 // this wrapper allows for using hooks that require provided contexts (with routing, query client, etc) to be available.
 const AppWithContexts: React.FC = () => {
-  useUploadLogWhenOnline();
+  useUploadLogWhenOnline(); // all pages that require authentication should be added to `routes` variable in useUploadLogWhenOnline.
 
   return (
     <Routes>

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { CheckIcon, CrossIcon, DocumentIcon } from 'common/icons';
+import { Check, Close, FindInPage } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { ReviewState } from '../types';
 
@@ -13,7 +13,7 @@ export const ReviewStatePill: React.FC<Props> = ({ state }) => {
   return (
     <div
       className={clsx(
-        'rounded-xl py-1 px-1.5 flex items-center gap-1 text-xs font-semibold leading-none text-white dark:text-white opacity-80',
+        'rounded-full py-1 px-2 flex items-center gap-1 text-sm font-semibold leading-none text-white dark:text-white opacity-90',
         state === 'PENDING' && 'bg-bisque-400',
         state === 'APPROVED' && 'bg-green-400',
         state === 'REJECTED' && 'bg-red-400'
@@ -21,19 +21,31 @@ export const ReviewStatePill: React.FC<Props> = ({ state }) => {
     >
       {state === 'PENDING' && (
         <>
-          <DocumentIcon svgClassName='h-2 w-auto' />
+          <FindInPage
+            overrideColor
+            pathClassName='fill-white'
+            svgClassName='h-3.5 w-3.5'
+          />
           <span>{fmtMsg('pending')}</span>
         </>
       )}
       {state === 'APPROVED' && (
         <>
-          <CheckIcon svgClassName='h-2 w-auto' />
+          <Check
+            overrideColor
+            pathClassName='fill-white'
+            svgClassName='h-3.5 w-3.5'
+          />
           <span>{fmtMsg('approved')}</span>
         </>
       )}
       {state === 'REJECTED' && (
         <>
-          <CrossIcon svgClassName='h-2 w-auto' />
+          <Close
+            overrideColor
+            pathClassName='fill-white'
+            svgClassName='h-3.5 w-3.5'
+          />
           <span>{fmtMsg('rejected')}</span>
         </>
       )}

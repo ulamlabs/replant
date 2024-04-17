@@ -1,6 +1,7 @@
 import { useAutocomplete } from '@mui/base/useAutocomplete';
 import clsx from 'clsx';
-import { ArrowDownIcon, LocationIcon } from 'common/icons';
+import { InputIcon } from 'common/components';
+import { ExpandLess, ExpandMore, LocationOn } from 'common/icons';
 import { useFmtMsg } from 'modules/intl';
 import { Country } from './api';
 
@@ -53,15 +54,17 @@ export const CountriesAutocomplete: React.FC<Props> = ({
             : 'border-black dark:border-white'
         )}
       >
-        <LocationIcon />
+        <InputIcon Icon={LocationOn} />
         <input
           {...getInputProps()}
           placeholder={fmtMsg('country')}
           className=' text-black dark:text-white placeholder-gray-500 border-0 bg-transparent focus:outline-none w-full'
         />
-        <ArrowDownIcon
-          svgClassName={clsx(!!groupedOptions.length && 'rotate-180')}
-        />
+        {groupedOptions.length ? (
+          <InputIcon Icon={ExpandLess} />
+        ) : (
+          <InputIcon Icon={ExpandMore} />
+        )}
       </div>
       {groupedOptions.length > 0 && (
         <ul
