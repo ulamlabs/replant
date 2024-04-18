@@ -42,9 +42,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "image",
-                    models.ImageField(
-                        upload_to=replant.models.tree.Tree.image_upload_to
-                    ),
+                    models.ImageField(upload_to=replant.models.tree.image_upload_to),
                 ),
                 ("latitude", models.DecimalField(decimal_places=6, max_digits=9)),
                 ("longitude", models.DecimalField(decimal_places=6, max_digits=9)),

@@ -3,7 +3,6 @@ from decimal import Decimal as D
 from uuid import UUID
 
 import pytest
-from django.core.files.uploadedfile import SimpleUploadedFile
 from model_bakery import baker
 from pytest_mock import MockerFixture
 from rest_framework import status
@@ -141,7 +140,7 @@ def test_list_trees_unauthorized(api_client: APIClient):
 def test_create_tree_ok(
     user_client: APIClient,
     user: User,
-    image: SimpleUploadedFile,
+    image_b64: str,
     mocker: MockerFixture,
 ):
     mocker.patch(
@@ -162,7 +161,7 @@ def test_create_tree_ok(
     )
     data = {
         "assigned_species_id": assigned_jackfruit.id,
-        "image": image,
+        "image": image_b64,
         "latitude": "-1.422354",
         "longitude": "120.237897",
         "captured_at": "2023-12-31T23:00:00Z",
@@ -200,11 +199,11 @@ def test_create_tree_ok(
 
 def test_create_tree_assigned_species_doesnt_exists(
     user_client: APIClient,
-    image: SimpleUploadedFile,
+    image_b64: str,
 ):
     data = {
         "assigned_species_id": 9999999,
-        "image": image,
+        "image": image_b64,
         "latitude": "-1.422354",
         "longitude": "120.237897",
         "captured_at": "2023-12-31T23:00:00Z",
@@ -221,7 +220,7 @@ def test_create_tree_assigned_species_doesnt_exists(
 def test_create_tree_different_planting_organization(
     user_client: APIClient,
     user: User,
-    image: SimpleUploadedFile,
+    image_b64: str,
 ):
     jackfruit = baker.make(
         Species,
@@ -235,7 +234,7 @@ def test_create_tree_different_planting_organization(
     )
     data = {
         "assigned_species_id": 9999999,
-        "image": image,
+        "image": image_b64,
         "latitude": "-1.422354",
         "longitude": "120.237897",
         "captured_at": "2023-12-31T23:00:00Z",
@@ -252,7 +251,7 @@ def test_create_tree_different_planting_organization(
 def test_create_tree_different_country(
     user_client: APIClient,
     user: User,
-    image: SimpleUploadedFile,
+    image_b64: str,
 ):
     jackfruit = baker.make(
         Species,
@@ -267,7 +266,7 @@ def test_create_tree_different_country(
     )
     data = {
         "assigned_species_id": 9999999,
-        "image": image,
+        "image": image_b64,
         "latitude": "-1.422354",
         "longitude": "120.237897",
         "captured_at": "2023-12-31T23:00:00Z",
@@ -284,7 +283,7 @@ def test_create_tree_different_country(
 def test_create_tree_tree_already_uploaded(
     user_client: APIClient,
     user: User,
-    image: SimpleUploadedFile,
+    image_b64: str,
     mocker: MockerFixture,
 ):
     mocker.patch(
@@ -306,7 +305,7 @@ def test_create_tree_tree_already_uploaded(
     baker.make(Tree, created_by=user, captured_at="2023-12-31T23:00:00Z")
     data = {
         "assigned_species_id": assigned_jackfruit.id,
-        "image": image,
+        "image": image_b64,
         "latitude": "-1.422354",
         "longitude": "120.237897",
         "captured_at": "2023-12-31T23:00:00Z",

@@ -70,7 +70,7 @@ def user_client(user: User, api_client: APIClient):
 
 
 @pytest.fixture
-def image():
+def image_b64():
     image = Image.new("1", size=(1, 1), color=0)
 
     in_memory_file = BytesIO()

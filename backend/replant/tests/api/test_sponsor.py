@@ -28,7 +28,12 @@ def test_sponsors_list(user_client: APIClient):
 
 
 def test_sponsors_retrieve_no_trees(user_client: APIClient):
-    sponsor = baker.make(Sponsor, name="Foo")
+    sponsor = baker.make(
+        Sponsor,
+        name="Foo",
+        bio="lorem ipsum",
+        logo="c8302c9252744cdc831c45fea17ce36b.jpeg",
+    )
 
     response = user_client.get(f"/api/sponsors/{sponsor.id}/")
     assert response.status_code == status.HTTP_200_OK
@@ -38,6 +43,8 @@ def test_sponsors_retrieve_no_trees(user_client: APIClient):
         "species": 0,
         "total_trees_cost_usd": 0,
         "trees": 0,
+        "bio": "lorem ipsum",
+        "logo": "http://testserver/django-files/c8302c9252744cdc831c45fea17ce36b.jpeg",
     }
 
 
@@ -96,4 +103,6 @@ def test_sponsors_retrieve_with_trees(user_client: APIClient):
         "species": 2,
         "total_trees_cost_usd": 30,
         "trees": 3,
+        "bio": "",
+        "logo": None,
     }

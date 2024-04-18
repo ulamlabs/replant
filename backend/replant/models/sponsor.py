@@ -1,3 +1,4 @@
+import uuid
 from decimal import Decimal as D
 from enum import auto
 
@@ -15,6 +16,11 @@ def validate_sei_address(address: str):
         raise ValidationError(str(e))
 
 
+def logo_upload_to(model: models.Model, filename: str) -> str:
+    _, ext = filename.rsplit(".", 1)
+    return f"sponsor_logos/{uuid.uuid4().hex}.{ext}"
+
+
 class Sponsor(models.Model):
     class Type(models.TextChoices):
         COMPANY = auto()
@@ -27,6 +33,8 @@ class Sponsor(models.Model):
     )
     contact_person_email = models.EmailField(unique=True)
     additional_info = models.TextField(blank=True)
+    bio = models.CharField(max_length=500, blank=True)
+    logo = models.ImageField(blank=True, upload_to=logo_upload_to)
 
     nft_ordered = models.PositiveIntegerField(
         verbose_name="NFT ordered",
