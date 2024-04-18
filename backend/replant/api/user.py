@@ -1,4 +1,5 @@
 from drf_extra_fields.fields import Base64ImageField
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import exceptions, serializers, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -79,6 +80,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return user
 
 
+@extend_schema_view(put=extend_schema(request=UserUpdateSerializer))
 class UserView(views.APIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
