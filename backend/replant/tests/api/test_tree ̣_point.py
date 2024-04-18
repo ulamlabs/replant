@@ -32,15 +32,15 @@ def test_listing_tree_points(user_client: APIClient):
         tile_index=1001,
     )
 
-    response = user_client.get("/api/tree_points")
+    response = user_client.get("/api/tree-points")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == ["index param must be provided"]
 
-    response = user_client.get("/api/tree_points?index=1002")
+    response = user_client.get("/api/tree-points?index=1002")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == []
 
-    response = user_client.get("/api/tree_points?index=1000")
+    response = user_client.get("/api/tree-points?index=1000")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == [
         {

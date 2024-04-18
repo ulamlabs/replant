@@ -16,7 +16,7 @@ def test_nft_listing_single(user_client: APIClient):
         image="image-url",
     )
 
-    response = user_client.get("/api/nfts/")
+    response = user_client.get("/api/nfts")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "count": 1,
@@ -76,21 +76,21 @@ def test_nft_listing_filtering(user_client: APIClient):
         nft_id=4,
     )
 
-    response = user_client.get("/api/nfts/")
+    response = user_client.get("/api/nfts")
     assert response.status_code == status.HTTP_200_OK
     nft_ids = [tree["nft_id"] for tree in response.json()["results"]]
     assert nft_ids == [3, 2, 1]
 
-    response = user_client.get("/api/nfts/", {"sponsor": sponsor.id})
+    response = user_client.get("/api/nfts", {"sponsor": sponsor.id})
     assert response.status_code == status.HTTP_200_OK
     nft_ids = [tree["nft_id"] for tree in response.json()["results"]]
     assert nft_ids == [2, 1]
 
-    response = user_client.get("/api/nfts/", {"sponsor": other_sponsor.id})
+    response = user_client.get("/api/nfts", {"sponsor": other_sponsor.id})
     assert response.status_code == status.HTTP_200_OK
     nft_ids = [tree["nft_id"] for tree in response.json()["results"]]
     assert nft_ids == [3]
 
     # Not existing sponsor.
-    response = user_client.get("/api/nfts/", {"sponsor": 123123})
+    response = user_client.get("/api/nfts", {"sponsor": 123123})
     assert response.status_code == status.HTTP_400_BAD_REQUEST

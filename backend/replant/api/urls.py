@@ -16,13 +16,13 @@ from .nft import NftView
 from .sponsor import SponsorView
 from .status import StatusView
 from .tree import TreeView
+from .tree_cluster import TreeClustersView
 from .tree_point import TreePointsView
 from .tree_summary import TreeSummaryView
-from .trees_cluster import TreesClustersView
 from .user import UserView
 from .user_history import UserHistoryView
 
-router = routers.SimpleRouter()
+router = routers.SimpleRouter(trailing_slash=False)
 
 router.register("sponsors", SponsorView)
 router.register("nfts", NftView)
@@ -44,8 +44,8 @@ urlpatterns = [
     path("countries", CountryView.as_view()),
     path("trees", TreeView.as_view()),
     path("trees/summary", TreeSummaryView.as_view()),
-    path("trees_clusters", TreesClustersView.as_view()),
-    path("tree_points", TreePointsView.as_view()),
+    path("tree-clusters", TreeClustersView.as_view()),
+    path("tree-points", TreePointsView.as_view()),
     path("status", StatusView.as_view()),
     path("user", UserView.as_view()),
     path("user-history", UserHistoryView.as_view()),

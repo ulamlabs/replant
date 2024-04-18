@@ -1,10 +1,11 @@
 from django.db import models
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import exceptions, generics, serializers
 
 from replant.models import TreesCluster
 
 
-class TreesClusterSerializer(serializers.ModelSerializer):
+class TreeClusterSerializer(serializers.ModelSerializer):
     class Meta:
         model = TreesCluster
         fields = (
@@ -16,8 +17,16 @@ class TreesClusterSerializer(serializers.ModelSerializer):
         )
 
 
-class TreesClustersView(generics.ListAPIView):
-    serializer_class = TreesClusterSerializer
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[
+            OpenApiParameter(name="zoom", type=int, required=True),
+            OpenApiParameter(name="index", type=int, required=True),
+        ]
+    )
+)
+class TreeClustersView(generics.ListAPIView):
+    serializer_class = TreeClusterSerializer
     queryset = TreesCluster.objects.all()
     pagination_class = None
 

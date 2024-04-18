@@ -19,13 +19,13 @@ export type AutocompleteSponsorsParams = {
 };
 
 export function autocompleteSponsors(params: AutocompleteSponsorsParams) {
-  return get<Paginated<SponsorSimple>>('sponsors/', {
+  return get<Paginated<SponsorSimple>>('sponsors', {
     params,
   }).then((response) => response.data);
 }
 
 export function getSponsor(sponsorId: number) {
-  return get<SponsorDetails>(`sponsors/${sponsorId}/`).then(
+  return get<SponsorDetails>(`sponsors/${sponsorId}`).then(
     (response) => response.data
   );
 }

@@ -11,7 +11,7 @@ export type Tile = {
 };
 
 export function getTreePoints(params: Tile) {
-  return get<TreePoint[]>('tree_points', { params }).then(
+  return get<TreePoint[]>('tree-points', { params }).then(
     (response) => response.data
   );
 }
@@ -21,7 +21,7 @@ export type TileWithZoom = Tile & {
 };
 
 export function getTreesClusters(params: TileWithZoom) {
-  return get<TreesCluster[]>('trees_clusters', { params }).then(
+  return get<TreesCluster[]>('tree-clusters', { params }).then(
     (response) => response.data
   );
 }

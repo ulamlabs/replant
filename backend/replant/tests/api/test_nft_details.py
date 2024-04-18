@@ -16,7 +16,7 @@ def test_nft_details(user_client: APIClient):
         image="image-url",
     )
 
-    response = user_client.get("/api/nfts/123/")
+    response = user_client.get("/api/nfts/123")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "botanical_name": tree.species.botanical_name,

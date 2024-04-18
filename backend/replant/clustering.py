@@ -188,6 +188,7 @@ def _merge_close_clusters(
     while clusters:
         cluster = clusters[len(clusters) - 1]
         to_merge = []
+        # TODO: Don't compare with self in first iteration
         for i in reversed(range(len(clusters))):
             other_cluster = clusters[i]
             if _distance(cluster, other_cluster) < min_distance:

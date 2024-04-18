@@ -18,7 +18,7 @@ def randomize_latlon(lat: float, lon: float, spread: float) -> Point:
 
 
 def get_green_mask() -> tuple[Image.Image, list[float]]:
-    logger.info("Builing green areas mask...")
+    logger.info("Building green areas mask...")
     image_path = Path(__file__).parent.parent / "assets" / "blue-marble.png"
     image = Image.open(image_path)
     data = image.getdata()
