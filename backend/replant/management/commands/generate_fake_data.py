@@ -1,12 +1,15 @@
 import logging
 import os
 import random
+import time
 
 import djclick as click
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from model_bakery import baker
 
+from replant import clustering
 from replant.models import (
     AssignedSpecies,
     Country,
@@ -16,6 +19,8 @@ from replant.models import (
     Tree,
     User,
 )
+
+from .utils import random_coords
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +65,12 @@ TREES_BULK_SIZE = 5000
     help="Minting state of the trees",
 )
 @click.option(
+    "--planting-areas",
+    type=int,
+    default=0,
+    help="Number of planting areas for trees. If 0, the trees will be placed randomly",
+)
+@click.option(
     "--clear",
     is_flag=True,
     help="Clear the data before generating new data",
@@ -68,22 +79,26 @@ def generate_fake_data(
     organizations: int,
     sponsors: int,
     trees: int,
-    users: int,
+    planters: int,
     review_state: str,
     minting_state: str,
+    planting_areas: int,
     clear: bool,
 ):
     assert settings.DEBUG, "Can generate fake data only in debug mode"
 
+    t0 = time.time()
+
     if clear:
         clear_data()
 
-    create_planters(users)
+    create_planters(planters)
     create_organizations(organizations)
     create_sponsors(sponsors)
-    create_trees(trees, review_state, minting_state)
+    create_trees(trees, review_state, minting_state, planting_areas)
 
-    logger.info("Done.")
+    t1 = time.time()
+    logger.info(f"Done in {t1 - t0:.2f}s")
 
 
 def clear_data():
@@ -114,6 +129,7 @@ def create_organizations(quantity: int):
         return
     logger.info(f"Creating {quantity} planting organizations...")
     admin = User.objects.filter(is_superuser=True).first()
+    assert admin
     baker.make(PlantingOrganization, quantity, created_by=admin, name=baker.seq("Org"))
 
 
@@ -122,7 +138,6 @@ def create_sponsors(quantity: int):
         return
 
     logger.info(f"Creating {quantity} sponsors...")
-    admin = User.objects.filter(is_superuser=True).first()
 
     sponsors: list[Sponsor] = []
     for i in range(quantity):
@@ -132,7 +147,6 @@ def create_sponsors(quantity: int):
 
         sponsor = baker.prepare(
             Sponsor,
-            created_by=admin,
             name=f"Sponsor{i + 1}",
             wallet_address=f"Address{i + 1}",
             nft_ordered=nft_ordered,
@@ -143,7 +157,9 @@ def create_sponsors(quantity: int):
     Sponsor.objects.bulk_create(sponsors)
 
 
-def create_trees(quantity: int, review_state: str, minting_state: str):
+def create_trees(
+    quantity: int, review_state: str, minting_state: str, planting_areas_quantity: int
+):
     logger.info(f"Creating {quantity} trees...")
 
     organization_ids = PlantingOrganization.objects.values_list("id", flat=True)
@@ -163,6 +179,8 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
     if minting_state == Tree.MintingState.MINTED:
         nft_id = Tree.objects.aggregate(models.Max("nft_id"))["nft_id__max"] or 0
 
+    point_roller = random_coords.get_point_roller(max_positions=planting_areas_quantity)
+
     trees: list[Tree] = []
     total_trees = 0
     saved_trees = 0
@@ -170,13 +188,20 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
         if nft_id is not None:
             nft_id += 1
 
+        latitude, longitude = point_roller.roll()
+
+        latitude, longitude = random_coords.randomize_latlon(
+            latitude, longitude, spread=max(random.random(), 0.1) / 100
+        )
+
         tree = Tree(
             planting_organization_id=random.choice(organization_ids),
             review_state=review_state,
             minting_state=minting_state,
             image=random.choice(images),
-            latitude=random_coordinate(),
-            longitude=random_coordinate(),
+            latitude=latitude,
+            longitude=longitude,
+            tile_index=clustering.get_tree_tile_index(latitude, longitude),
             country_id=random.choice(countries_ids),
             species_id=random.choice(species_ids),
             is_native=False,
@@ -188,6 +213,7 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
                 if minting_state == Tree.MintingState.MINTED
                 else None
             ),
+            captured_at=timezone.now(),
         )
         trees.append(tree)
 
@@ -197,7 +223,3 @@ def create_trees(quantity: int, review_state: str, minting_state: str):
             saved_trees += len(trees)
             Tree.objects.bulk_create(trees)
             trees = []
-
-
-def random_coordinate():
-    return random.randrange(-180 * 10**4, 180 * 10**4) / 10**4

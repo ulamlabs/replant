@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { Paginate, Paginated } from 'types';
 
 type PaginationProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paginated: Paginated<any>;
   onPaginated: (paginate: Paginate) => void;
 };

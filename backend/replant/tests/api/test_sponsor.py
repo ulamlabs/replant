@@ -9,20 +9,20 @@ def test_sponsors_list(user_client: APIClient):
     sponsor_a = baker.make(Sponsor, name="Foo")
     sponsor_b = baker.make(Sponsor, name="Foobar")
 
-    response = user_client.get("/api/sponsors/", {"search": "foo"})
+    response = user_client.get("/api/sponsors", {"search": "foo"})
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["results"] == [
         {"id": sponsor_a.id, "name": "Foo"},
         {"id": sponsor_b.id, "name": "Foobar"},
     ]
 
-    response = user_client.get("/api/sponsors/", {"search": "fooBAR"})
+    response = user_client.get("/api/sponsors", {"search": "fooBAR"})
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["results"] == [
         {"id": sponsor_b.id, "name": "Foobar"},
     ]
 
-    response = user_client.get("/api/sponsors/", {"search": "non-existing"})
+    response = user_client.get("/api/sponsors", {"search": "non-existing"})
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["results"] == []
 
@@ -35,7 +35,7 @@ def test_sponsors_retrieve_no_trees(user_client: APIClient):
         logo="c8302c9252744cdc831c45fea17ce36b.jpeg",
     )
 
-    response = user_client.get(f"/api/sponsors/{sponsor.id}/")
+    response = user_client.get(f"/api/sponsors/{sponsor.id}")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "id": sponsor.id,
@@ -95,7 +95,7 @@ def test_sponsors_retrieve_with_trees(user_client: APIClient):
         planting_cost_usd=5,
     )
 
-    response = user_client.get(f"/api/sponsors/{sponsor.id}/")
+    response = user_client.get(f"/api/sponsors/{sponsor.id}")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "id": sponsor.id,

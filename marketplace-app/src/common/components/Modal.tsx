@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
-import { IconX } from './icons/IconX';
+
+import { IconX } from './icons';
 
 type ModalProps = PropsWithChildren & {
   title: string;
@@ -11,7 +12,8 @@ type ModalProps = PropsWithChildren & {
 export function Modal(props: ModalProps) {
   const modal = (
     <div
-      className='w-full h-dvh flex items-center justify-center absolute top-0 left-0 bg-black bg-opacity-50 z-10'
+      // Need the z-index to be higher than Leaflet
+      className='w-full h-dvh flex items-center justify-center absolute top-0 left-0 bg-black bg-opacity-50 z-[2000]'
       onClick={() => props.onClose()}
     >
       <div
