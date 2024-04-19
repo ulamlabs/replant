@@ -119,3 +119,39 @@ Examples:
 - 🗑️ - removing stuff
 
 Avoid commits in the form of `CR fixes`. Either make the messages meaningful or squash the commits before merging to keep the history clear.
+
+# Infrastructure
+
+The infrastructure is build on Digital Ocean using [k8s](https://kubernetes.io/docs/tasks/tools/) and [helm](https://helm.sh/docs/intro/install/). There is no build in secret manager in DO so at this stage of the project we keep the secrets locally in `helm/envs/dev/secrets.yaml` and `helm/envs/prod/secrets.yaml`. Before deployment you should create these files with appropriate values
+```yaml
+vars:
+  SECRET_KEY: ...
+  DATABASE_URL: ...
+  SEI_ADMIN_MNEMONIC: ...
+  AWS_ACCESS_KEY_ID: ...
+  AWS_SECRET_ACCESS_KEY: ...
+  NFT_STORAGE_API_KEY: ...
+  SENDGRID_API_KEY: ...
+```
+
+To connect to DO use [doctl](https://docs.digitalocean.com/reference/doctl/how-to/install/). Set up kubernetes config using
+```
+doctl kubernetes cluster kubeconfig save <use_your_cluster_name>
+```
+and login to DO registry with
+```
+doctl registry login
+```
+After doing the initial setup you can build all images locally using
+```
+make build
+```
+and then push the images to the registry and deploy with
+```
+make release
+```
+The default environment is `dev`. If you want to deploy a different environment for example `prod` you should set up k8s config for this env and in this context build and release with `ENV=prod`
+```
+make build ENV=prod
+make release ENV=prod
+```
