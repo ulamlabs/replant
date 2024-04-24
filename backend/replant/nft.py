@@ -9,6 +9,7 @@ from typing import Callable, Sequence, TypeVar
 from cosmpy.aerial.exceptions import BroadcastError
 from cosmpy.aerial.wallet import LocalWallet
 from django.db import models
+from django.utils import timezone
 from PIL import Image
 
 import env
@@ -265,6 +266,7 @@ def _mint_nfts(trees: Sequence[Tree]) -> tuple[str, Sequence[Tree]]:
     Tree.objects.filter(id__in=tree_ids).update(
         minting_state=Tree.MintingState.MINTED,
         nft_mint_tx=tx.tx_hash,
+        minted_at=timezone.now(),
     )
 
     # Wait for account sequence to update.
