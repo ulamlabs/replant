@@ -80,13 +80,18 @@ class Tree(TrackableModel):
         validators=[MinValueValidator(0)],
     )
     sponsor = models.ForeignKey(
-        "replant.Sponsor", null=True, blank=True, on_delete=models.PROTECT
+        "replant.Sponsor",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name="nfts",
     )
 
     nft_id = models.PositiveIntegerField(
         unique=True, null=True, blank=True, db_index=True, verbose_name="NFT ID"
     )
     nft_mint_tx = models.CharField(max_length=64, default="", blank=True)
+    minted_at = models.DateTimeField(null=True)
 
     objects: TreeManager = TreeManager()
 
