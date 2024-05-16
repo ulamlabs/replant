@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { Loader, Pagination, ReplantLogo } from 'common/components';
 import { useFmtMsg } from 'modules/intl';
 import { useEffect, useState } from 'react';
-import { MapButton } from './MapButton';
 import { SponsorSearchBox } from './SponsorSearchBox';
 import { SponsorSummary } from './SponsorSummary';
 import { TreesGrid } from './TreesGrid';
@@ -36,7 +35,7 @@ export function Gallery() {
       <div className='flex justify-between gap-10'>
         <ReplantLogo />
         <div className='flex gap-4 items-center'>
-          <MapButton />
+          {/* Disabled for now <MapButton /> */}
           <SponsorSearchBox onSearch={onSearch} />
         </div>
       </div>
