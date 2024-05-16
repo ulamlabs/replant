@@ -1,6 +1,6 @@
 [package]
-name = "cw721-multi"
-version = "0.2.0"
+name = "cw721-market"
+version = "0.1.0"
 authors = ["Lukasz Ptak <lukasz@ulam.io>"]
 edition = "2021"
 
@@ -14,11 +14,15 @@ backtraces = ["cosmwasm-std/backtraces"]
 library = []
 
 [dev-dependencies]
+cw721-multi = { path = "../cw721-multi", features = [] }
 test-utils = { path = "../../test-utils" }
 
 [dependencies]
 cosmwasm-schema = "1.5.3"
 cosmwasm-std = "1.5.3"
 cw-ownable = "0.5.1"
+cw-storage-plus = "1.2.0"
 cw2 = "1.1.2"
-cw721-base = { version = "0.18.0", features = ["library"] }
+cw721-multi = { path = "../cw721-multi", features = ["library"] }
+thiserror = "1.0.*"
+

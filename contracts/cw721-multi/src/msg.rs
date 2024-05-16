@@ -1,6 +1,8 @@
 use cosmwasm_schema::{cw_serde, schemars::JsonSchema, serde::{de::DeserializeOwned, Serialize}};
-use cosmwasm_std::CustomMsg;
+use cosmwasm_std::{to_json_binary, Binary, CosmosMsg, CustomMsg, StdResult, WasmMsg};
 use std::fmt::Debug;
+
+use crate::types::TypeT;
 
 #[cw_serde]
 pub struct MintMsg<T> {
@@ -24,6 +26,42 @@ pub enum ExtensionMsg<T> {
         recipient: String,
         token_ids: Vec<String>,
     },
+    MultiSend {
+        contract: String,
+        token_ids: Vec<String>,
+        msg: String,
+    },
+}
+
+#[cw_serde]
+pub enum ReceiverExecuteMsg {
+    ReceiveNfts(Cw721MultiReceiveMsg),
+}
+
+#[cw_serde]
+pub struct Cw721MultiReceiveMsg {
+    pub sender: String,
+    pub token_ids: Vec<String>,
+    pub msg: String,
+}
+
+impl Cw721MultiReceiveMsg {
+    pub fn into_binary(self) -> StdResult<Binary> {
+        let msg = ReceiverExecuteMsg::ReceiveNfts(self);
+        to_json_binary(&msg)
+    }
+
+    pub fn into_cosmos_msg(self, contract_addr: String) -> StdResult<CosmosMsg> {
+        Ok(
+            CosmosMsg::Wasm(WasmMsg::Execute {
+                contract_addr,
+                msg: self.into_binary()?,
+                funds: vec![],
+            })
+        )
+    }
 }
 
 impl<T: Serialize + DeserializeOwned + Clone + JsonSchema + PartialEq + Debug> CustomMsg for ExtensionMsg<T> {}
+
+pub type ExecuteMsg = cw721_base::ExecuteMsg<cw721_base::Extension, ExtensionMsg<TypeT>>;
