@@ -3,7 +3,10 @@ from typing import NotRequired, TypedDict
 from cosmpy.aerial.client import LedgerClient, SubmittedTx, Wallet
 from cosmpy.aerial.contract import LedgerContract
 from cosmpy.crypto.address import Address
+from replant.sdk.patch import patch_ParseDict
 
+
+patch_ParseDict()
 
 class MintInfo(TypedDict):
     """Minted NFT metadata"""
