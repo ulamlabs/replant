@@ -51,9 +51,14 @@ AWS_S3_ENDPOINT_URL: Final[str] = os.getenv("AWS_S3_ENDPOINT_URL", "")
 AWS_S3_CUSTOM_DOMAIN: Final[str] = os.getenv("AWS_S3_CUSTOM_DOMAIN", "")
 
 NFT_STORAGE_API_URL: Final[str] = os.getenv(
-    "NFT_STORAGE_API_URL", "https://api.nft.storage"
+    "NFT_STORAGE_API_URL", "https://s3.filebase.com"
 )
-NFT_STORAGE_API_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")
+NFT_STORAGE_BUCKET_NAME: Final[str] = os.getenv("NFT_STORAGE_BUCKET_NAME", "replant")
+NFT_STORAGE_ACCESS_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")
+NFT_STORAGE_SECRET_ACCESS_KEY: Final[str] = os.getenv(
+    "NFT_STORAGE_SECRET_ACCESS_KEY", ""
+)
+
 
 # Sendgrid
 
