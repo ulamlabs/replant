@@ -65,7 +65,7 @@ class UploadResponse(BaseModel):
 @dataclass
 class FileDto:
     file_name: str
-    content: io.StringIO | io.BytesIO
+    content: io.BytesIO
 
 
 @retry(delay=1, backoff=2, tries=3)

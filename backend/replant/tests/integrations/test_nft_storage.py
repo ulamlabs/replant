@@ -5,7 +5,7 @@ import pytest
 from PIL import Image
 
 from replant.integrations import nft_storage
-from replant.tests.integrations.consts import SUCCESS_FILEBASE_UPLOAD_RESPONE
+from replant.tests.integrations.consts import SUCCESS_FILEBASE_UPLOAD_IMAGE_RESPONSE
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def test_filebase_upload(
     # mocks
     mock_s3 = mock.MagicMock()
     mock_boto_client.return_value = mock_s3
-    mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_RESPONE
+    mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_IMAGE_RESPONSE
 
     # when
     response = nft_storage.filebase_upload(
@@ -35,5 +35,5 @@ def test_filebase_upload(
 
     # then
     assert response == nft_storage.UploadResponse.model_validate(
-        SUCCESS_FILEBASE_UPLOAD_RESPONE
+        SUCCESS_FILEBASE_UPLOAD_IMAGE_RESPONSE
     )

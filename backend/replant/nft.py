@@ -184,17 +184,14 @@ def _upload_images(trees: Sequence[Tree]):
 
 
 def _upload_metadatas(trees: Sequence[Tree]):
-    streams: dict[str, io.BytesIO | io.StringIO] = {}
-
     for tree in trees:
         assert tree.nft_id
         metadata = _get_nft_metadata(tree)
-        stream = io.StringIO(json.dumps(metadata))
-        streams[f"{tree.nft_id}.json"] = stream
-
-    cid = nft_storage.upload(streams, content_type="application/json")
-
-    for tree in trees:
+        stream = io.BytesIO(json.dumps(metadata).encode())
+        upload_response = nft_storage.filebase_upload(
+            file=nft_storage.FileDto(file_name=f"{tree.nft_id}.json", content=stream)
+        )
+        cid = upload_response.metadata.headers.cid
         tree.metadata_cid = cid
 
     Tree.objects.bulk_update(trees, ["metadata_cid"])
