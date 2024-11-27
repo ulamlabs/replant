@@ -260,9 +260,7 @@ LOGGING = {
             "formatter": (
                 "json"
                 if env.KUBERNETES_SERVICE_HOST
-                else "simple"
-                if env.NO_COLOR
-                else "colored"
+                else "simple" if env.NO_COLOR else "colored"
             ),
         },
     },

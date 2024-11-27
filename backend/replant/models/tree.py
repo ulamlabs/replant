@@ -46,6 +46,10 @@ class Tree(TrackableModel):
         MINTED = auto()
         FAILED = auto()
 
+    # class Storage(models.TextChoices):
+    #     NFT_STORAGE = auto()
+    #     FILEBASE = auto()
+
     review_state = FSMField(
         choices=ReviewState.choices, default=ReviewState.PENDING, db_index=True
     )
@@ -53,6 +57,7 @@ class Tree(TrackableModel):
     minting_state = FSMField(
         choices=MintingState.choices, default=MintingState.PENDING, db_index=True
     )
+
     image = models.ImageField(upload_to=image_upload_to)
     image_cid = models.URLField(
         max_length=128, default="", blank=True, verbose_name="image CID"
@@ -60,6 +65,8 @@ class Tree(TrackableModel):
     metadata_cid = models.URLField(
         max_length=128, default="", blank=True, verbose_name="metadata CID"
     )
+    # nft_storage = models.CharField(max_length=32, choices=Storage.choices, default=Storage.NFT_STORAGE)
+
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     tile_index = models.PositiveIntegerField(db_index=True)
@@ -108,6 +115,8 @@ class Tree(TrackableModel):
 
 
 def ipfs_url(cid: str, nft_id: int, extension: str) -> str:
+    # TODO: make it conditional based on nft_storage value
+    # https://ipfs.filebase.io/ipfs/{cid}
     if cid:
         return f"https://{cid}.ipfs.nftstorage.link/{nft_id}.{extension}"
     return ""

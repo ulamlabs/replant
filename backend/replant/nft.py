@@ -164,8 +164,6 @@ def _generate_nft_id(trees: Sequence[Tree]):
 
 
 def _upload_images(trees: Sequence[Tree]):
-    streams: dict[str, io.BytesIO | io.StringIO] = {}
-
     for tree in trees:
         assert tree.nft_id
         assert tree.image.file
@@ -177,12 +175,10 @@ def _upload_images(trees: Sequence[Tree]):
         image.save(stream, "PNG")
         stream.seek(0)
 
-        streams[f"{tree.nft_id}.png"] = stream
-
-    cid = nft_storage.upload(streams, content_type="image/png")
-
-    for tree in trees:
-        tree.image_cid = cid
+        upload_response = nft_storage.filebase_upload(
+            file=nft_storage.FileDto(file_name=f"{tree.nft_id}.png", content=stream)
+        )
+        tree.image_cid = upload_response.metadata.headers.cid
 
     Tree.objects.bulk_update(trees, ["image_cid"])
 

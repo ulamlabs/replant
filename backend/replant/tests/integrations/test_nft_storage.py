@@ -5,14 +5,11 @@ import pytest
 from PIL import Image
 
 from replant.integrations import nft_storage
-from replant.tests.integrations.consts import (
-    SUCCESS_FILEBASE_UPLOAD_RESPONE,
-    SUCCESS_LIST_OBJECTS_RESPONSE,
-)
+from replant.tests.integrations.consts import SUCCESS_FILEBASE_UPLOAD_RESPONE
 
 
 @pytest.fixture
-def image() -> io.BytesIO:
+def image_to_upload() -> io.BytesIO:
     size = (800, 600)
     storage = io.BytesIO()
     img = Image.new("RGB", size)
@@ -21,35 +18,22 @@ def image() -> io.BytesIO:
     return storage
 
 
-class TestFilebaseUpload:
-    @mock.patch("boto3.client")
-    def test_filebase_upload_success(
-        self, mock_boto_client: mock.MagicMock, image: io.BytesIO
-    ) -> None:
-        # mocks
-        mock_s3 = mock.MagicMock()
-        mock_boto_client.return_value = mock_s3
-        mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_RESPONE
+@mock.patch("boto3.client")
+def test_filebase_upload(
+    mock_boto_client: mock.MagicMock,
+    image_to_upload: io.BytesIO,
+) -> None:
+    # mocks
+    mock_s3 = mock.MagicMock()
+    mock_boto_client.return_value = mock_s3
+    mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_RESPONE
 
-        # when
-        responses = nft_storage.filebase_upload(files={"test_file.png": image})
+    # when
+    response = nft_storage.filebase_upload(
+        file=nft_storage.FileDto(file_name="test_file.png", content=image_to_upload)
+    )
 
-        # then
-        assert responses == [
-            nft_storage.UploadResponse.model_validate(SUCCESS_FILEBASE_UPLOAD_RESPONE)
-        ]
-
-    @mock.patch("boto3.client")
-    def test_list_objects(self, mock_boto_client: mock.MagicMock) -> None:
-        # mocks
-        mock_s3 = mock.MagicMock()
-        mock_boto_client.return_value = mock_s3
-        mock_s3.list_objects.return_value = SUCCESS_LIST_OBJECTS_RESPONSE
-
-        # when
-        list_response = nft_storage.list_objects()
-
-        # then
-        assert list_response == nft_storage.ListObjectsResponse.model_validate(
-            SUCCESS_LIST_OBJECTS_RESPONSE
-        )
+    # then
+    assert response == nft_storage.UploadResponse.model_validate(
+        SUCCESS_FILEBASE_UPLOAD_RESPONE
+    )

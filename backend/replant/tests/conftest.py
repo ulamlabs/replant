@@ -1,7 +1,9 @@
 import base64
+import pathlib
 from io import BytesIO
 
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
 from model_bakery import baker
 from PIL import Image
 from rest_framework.test import APIClient
@@ -77,3 +79,15 @@ def image_b64():
     image.save(in_memory_file, format="png")
 
     return base64.b64encode(in_memory_file.getvalue()).decode()
+
+
+@pytest.fixture
+def image_path() -> pathlib.Path:
+    return pathlib.Path(__file__).parent / "images/1x1_image.png"
+
+
+@pytest.fixture
+def simple_uploaded_file(image_path: pathlib.Path) -> SimpleUploadedFile:
+    return SimpleUploadedFile(
+        name="image.jpg", content=image_path.read_bytes(), content_type="image/png"
+    )

@@ -1,4 +1,5 @@
 import io
+from dataclasses import dataclass
 
 import boto3
 import requests
@@ -61,38 +62,21 @@ class UploadResponse(BaseModel):
     metadata: UploadResponseMetadata = Field(alias="ResponseMetadata")
 
 
+@dataclass
+class FileDto:
+    file_name: str
+    content: io.StringIO | io.BytesIO
+
+
 @retry(delay=1, backoff=2, tries=3)
-def filebase_upload(files: dict[str, io.StringIO | io.BytesIO]) -> list[UploadResponse]:
+def filebase_upload(file: FileDto) -> UploadResponse:
     s3 = boto3.client(
         service_name="s3",
         endpoint_url=env.NFT_STORAGE_API_URL,
         aws_access_key_id=env.NFT_STORAGE_ACCESS_KEY,
         aws_secret_access_key=env.NFT_STORAGE_SECRET_ACCESS_KEY,
     )
-    responses: list[UploadResponse] = []
-    for filename, file in files.items():
-        upload_resposne = s3.put_object(
-            Body=file, Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=filename
-        )
-        responses.append(UploadResponse.model_validate(upload_resposne))
-    return responses
-
-
-class ObjectContent(BaseModel):
-    etag: str = Field(alias="ETag")
-    key: str = Field(alias="Key")
-
-
-class ListObjectsResponse(BaseModel):
-    contents: list[ObjectContent] = Field(alias="Contents")
-
-
-def list_objects() -> ListObjectsResponse:
-    s3 = boto3.client(
-        service_name="s3",
-        endpoint_url=env.NFT_STORAGE_API_URL,
-        aws_access_key_id=env.NFT_STORAGE_ACCESS_KEY,
-        aws_secret_access_key=env.NFT_STORAGE_SECRET_ACCESS_KEY,
+    upload_resposne = s3.put_object(
+        Body=file.content, Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=file.file_name
     )
-    list_response = s3.list_objects(Bucket=env.NFT_STORAGE_BUCKET_NAME)
-    return ListObjectsResponse.model_validate(list_response)
+    return UploadResponse.model_validate(upload_resposne)
