@@ -12,3 +12,5 @@ vars:
   AWS_S3_ENDPOINT_URL: https://syd1.digitaloceanspaces.com
   AWS_S3_CUSTOM_DOMAIN: trees.images.replantworld.io
   FROM_EMAIL: noreply@replantworld.io
+  NFT_STORAGE_BUCKET_NAME: replant
+  NFT_STORAGE_API_URL: https://s3.filebase.com

@@ -9,3 +9,5 @@ vars:
   AWS_S3_CUSTOM_DOMAIN: dev.trees.images.replantworld.ulam.pro
   SEI_NFT_ADDRESS: sei1lxsu3g5zsgrrgwgd2d7qplscye2ngyfpq2nm9hmh2h8rjrt8yj9qtdv2vc
   FROM_EMAIL: noreply-dev@replantworld.ulam.pro
+  NFT_STORAGE_BUCKET_NAME: replanttest
+  NFT_STORAGE_API_URL: https://s3.filebase.com
