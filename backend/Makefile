@@ -5,4 +5,4 @@ format_all:
 	poetry run mypy .
 
 test:
-	poetry run pytest -m "not live_request"
+	poetry run pytest -n auto -m "not live_request"

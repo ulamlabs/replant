@@ -175,6 +175,7 @@ def _upload_images(trees: Sequence[Tree]):
         image.save(stream, "PNG")
         stream.seek(0)
 
+        # TODO: Make it async to speed up the process.
         upload_response = nft_storage.filebase_upload(
             file=nft_storage.FileDto(file_name=f"{tree.nft_id}.png", content=stream)
         )
@@ -188,6 +189,8 @@ def _upload_metadatas(trees: Sequence[Tree]):
         assert tree.nft_id
         metadata = _get_nft_metadata(tree)
         stream = io.BytesIO(json.dumps(metadata).encode())
+
+        # TODO: Make it async to speed up the process.
         upload_response = nft_storage.filebase_upload(
             file=nft_storage.FileDto(file_name=f"{tree.nft_id}.json", content=stream)
         )

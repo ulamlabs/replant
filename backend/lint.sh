@@ -26,12 +26,12 @@ case "$1" in
   ;;
 esac
 
+echo "Type checking..."
+${cmd_prefix} mypy .
 echo "Formatting..."
 ${cmd_prefix} black . $black_flags
 ${cmd_prefix} isort . $isort_flags
 echo "Linting..."
 ${cmd_prefix} flake8
-echo "Type checking..."
-${cmd_prefix} mypy .
 echo "Checking migrations..."
 ${cmd_prefix} python manage.py makemigrations --dry-run --no-input --check
