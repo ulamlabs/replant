@@ -82,12 +82,13 @@ def image_b64():
 
 
 @pytest.fixture
-def image_path() -> pathlib.Path:
-    return pathlib.Path(__file__).parent / "images/1x1_image.png"
+def images_path() -> pathlib.Path:
+    return pathlib.Path(__file__).parent / "images"
 
 
 @pytest.fixture
-def simple_uploaded_file(image_path: pathlib.Path) -> SimpleUploadedFile:
+def simple_uploaded_file(images_path: pathlib.Path) -> SimpleUploadedFile:
+    red_image = images_path / "red.png"
     return SimpleUploadedFile(
-        name="image.jpg", content=image_path.read_bytes(), content_type="image/png"
+        name="red.png", content=red_image.read_bytes(), content_type="image/png"
     )

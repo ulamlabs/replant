@@ -180,6 +180,7 @@ def _upload_images(trees: Sequence[Tree]):
             file=nft_storage.FileDto(file_name=f"{tree.nft_id}.png", content=stream)
         )
         tree.image_cid = upload_response.metadata.headers.cid
+        # TODO: pin image to IPFS
 
     Tree.objects.bulk_update(trees, ["image_cid"])
 
@@ -196,6 +197,7 @@ def _upload_metadatas(trees: Sequence[Tree]):
         )
         cid = upload_response.metadata.headers.cid
         tree.metadata_cid = cid
+        # TODO: pin metadata to IPFS
 
     Tree.objects.bulk_update(trees, ["metadata_cid"])
 

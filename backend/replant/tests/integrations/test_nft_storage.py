@@ -30,7 +30,7 @@ def test_filebase_upload(
 
     # when
     response = nft_storage.filebase_upload(
-        file=nft_storage.FileDto(file_name="test_file.png", content=image_to_upload)
+        file=nft_storage.FileDto(file_name="red.png", content=image_to_upload)
     )
 
     # then
