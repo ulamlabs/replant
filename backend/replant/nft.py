@@ -163,7 +163,7 @@ def _generate_nft_id(trees: Sequence[Tree]):
     Tree.objects.bulk_update(to_update, ["nft_id"])
 
 
-def _upload_images(trees: Sequence[Tree]):
+def _upload_images(trees: Sequence[Tree]) -> None:
     for tree in trees:
         assert tree.nft_id
         assert tree.image.file
@@ -176,11 +176,13 @@ def _upload_images(trees: Sequence[Tree]):
         stream.seek(0)
 
         # TODO: Make it async to speed up the process.
-        upload_response = nft_storage.filebase_upload(
-            file=nft_storage.FileDto(file_name=f"{tree.nft_id}.png", content=stream)
+        uploaded_file_summary = nft_storage.upload_file(
+            dto=nft_storage.FileDto(
+                file_name=f"{tree.nft_id}.png",
+                content=stream,
+            )
         )
-        tree.image_cid = upload_response.metadata.headers.cid
-        # TODO: pin image to IPFS
+        tree.image_cid = uploaded_file_summary.cid
 
     Tree.objects.bulk_update(trees, ["image_cid"])
 
@@ -192,12 +194,10 @@ def _upload_metadatas(trees: Sequence[Tree]):
         stream = io.BytesIO(json.dumps(metadata).encode())
 
         # TODO: Make it async to speed up the process.
-        upload_response = nft_storage.filebase_upload(
-            file=nft_storage.FileDto(file_name=f"{tree.nft_id}.json", content=stream)
+        uploaded_file_summary = nft_storage.upload_file(
+            dto=nft_storage.FileDto(file_name=f"{tree.nft_id}.json", content=stream),
         )
-        cid = upload_response.metadata.headers.cid
-        tree.metadata_cid = cid
-        # TODO: pin metadata to IPFS
+        tree.metadata_cid = uploaded_file_summary.cid
 
     Tree.objects.bulk_update(trees, ["metadata_cid"])
 

@@ -2,6 +2,7 @@ import io
 from dataclasses import dataclass
 
 import boto3
+import requests
 from pydantic import BaseModel, Field
 from retry import retry
 
@@ -29,7 +30,7 @@ class FileDto:
 
 
 @retry(delay=1, backoff=2, tries=3)
-def filebase_upload(file: FileDto) -> UploadResponse:
+def filebase_upload(dto: FileDto) -> UploadResponse:
     s3 = boto3.client(
         service_name="s3",
         endpoint_url=env.NFT_STORAGE_API_URL,
@@ -37,6 +38,43 @@ def filebase_upload(file: FileDto) -> UploadResponse:
         aws_secret_access_key=env.NFT_STORAGE_SECRET_ACCESS_KEY,
     )
     upload_resposne = s3.put_object(
-        Body=file.content, Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=file.file_name
+        Body=dto.content, Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=dto.file_name
     )
     return UploadResponse.model_validate(upload_resposne)
+
+
+@dataclass
+class PinObjectDto:
+    cid: str
+    name: str
+
+
+class PinResponse(BaseModel):
+    request_id: str = Field(alias="requestid")
+
+
+@retry(delay=1, backoff=2, tries=3)
+def pin_file_to_ipfs(dto: PinObjectDto) -> PinResponse:
+    r = requests.post(
+        url=env.IPFS_PINNING_SERVICE_URL,
+        headers={
+            "Authorization": f"Bearer {env.FILEBASE_IPFS_PINNINGS_SERVICE_ACCESS_TOKEN}"
+        },
+        data={"cid": dto.cid, "name": dto.name},
+    )
+    r.raise_for_status()
+    return PinResponse.model_validate(r.json())
+
+
+@dataclass
+class UploadedFileSummary:
+    cid: str
+    pin_request_id: str
+
+
+def upload_file(dto: FileDto) -> UploadedFileSummary:
+    upload_response = filebase_upload(dto=dto)
+    cid = upload_response.metadata.headers.cid
+
+    pin_response = pin_file_to_ipfs(dto=PinObjectDto(cid=cid, name=dto.file_name))
+    return UploadedFileSummary(cid=cid, pin_request_id=pin_response.request_id)

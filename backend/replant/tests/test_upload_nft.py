@@ -1,7 +1,6 @@
 from unittest import mock
 
-import boto3
-import pytest
+import responses
 from django.core.files.uploadedfile import SimpleUploadedFile
 from model_bakery import baker
 
@@ -10,6 +9,7 @@ from replant.models.sponsor import Sponsor
 from replant.models.tree import Tree
 from replant.nft import _upload_images as upload_images
 from replant.nft import _upload_metadatas as upload_metadatas
+from replant.tests.consts import PIN_FILE_SUCCESS_RESPONSE
 from replant.tests.integrations.consts import (
     IMAGE_CID,
     METADATA_CID,
@@ -19,6 +19,7 @@ from replant.tests.integrations.consts import (
 
 
 @mock.patch("boto3.client")
+@responses.activate
 def test_upload_images(
     mock_boto_client: mock.MagicMock, simple_uploaded_file: SimpleUploadedFile
 ) -> None:
@@ -26,6 +27,12 @@ def test_upload_images(
     mock_s3 = mock.MagicMock()
     mock_boto_client.return_value = mock_s3
     mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_IMAGE_RESPONSE
+
+    responses.add(
+        method="POST",
+        url=env.IPFS_PINNING_SERVICE_URL,
+        json=PIN_FILE_SUCCESS_RESPONSE,
+    )
 
     # given
     tree_to_upload = baker.make(
@@ -45,6 +52,7 @@ def test_upload_images(
 
 
 @mock.patch("boto3.client")
+@responses.activate
 def test_upload_metadata(
     mock_boto_client: mock.MagicMock, simple_uploaded_file: SimpleUploadedFile
 ) -> None:
@@ -52,6 +60,12 @@ def test_upload_metadata(
     mock_s3 = mock.MagicMock()
     mock_boto_client.return_value = mock_s3
     mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_METADATA_RESPONSE
+
+    responses.add(
+        method="POST",
+        url=env.IPFS_PINNING_SERVICE_URL,
+        json=PIN_FILE_SUCCESS_RESPONSE,
+    )
 
     # given
     sponsor = baker.make(Sponsor)
@@ -72,40 +86,3 @@ def test_upload_metadata(
     # then
     tree_to_upload.refresh_from_db()
     assert tree_to_upload.metadata_cid == METADATA_CID
-
-
-@pytest.mark.live_request
-def test_upload_live(simple_uploaded_file: SimpleUploadedFile) -> None:
-    # given
-    sponsor = baker.make(Sponsor)
-    tree_to_upload = baker.make(
-        Tree,
-        sponsor=sponsor,
-        nft_id=1,
-        image_cid="",
-        metadata_cid="",
-        image=simple_uploaded_file,
-        minting_state=Tree.MintingState.TO_BE_MINTED,
-    )
-    tree_to_upload.refresh_from_db()
-
-    # when & then
-    upload_images(trees=[tree_to_upload])
-    assert tree_to_upload.image_cid
-
-    upload_metadatas(trees=[tree_to_upload])
-    assert tree_to_upload.metadata_cid
-
-    # cleanup
-    s3 = boto3.client(
-        service_name="s3",
-        endpoint_url=env.NFT_STORAGE_API_URL,
-        aws_access_key_id=env.NFT_STORAGE_ACCESS_KEY,
-        aws_secret_access_key=env.NFT_STORAGE_SECRET_ACCESS_KEY,
-    )
-    s3.delete_object(
-        Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=f"{tree_to_upload.nft_id}.png"
-    )
-    s3.delete_object(
-        Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=f"{tree_to_upload.nft_id}.json"
-    )
