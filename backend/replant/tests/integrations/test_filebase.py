@@ -11,8 +11,8 @@ from model_bakery import baker
 from PIL import Image
 
 import env
-from replant.integrations import nft_storage
-from replant.integrations.nft_storage import (
+from replant.integrations import filebase
+from replant.integrations.filebase import (
     FileDto,
     PinObjectDto,
     PinResponse,
@@ -47,12 +47,12 @@ def test_filebase_upload(
     mock_s3.put_object.return_value = SUCCESS_FILEBASE_UPLOAD_IMAGE_RESPONSE
 
     # when
-    response = nft_storage.filebase_upload(
-        dto=nft_storage.FileDto(file_name="red.png", content=image_to_upload)
+    response = filebase.upload_to_bucket(
+        dto=filebase.FileDto(file_name="red.png", content=image_to_upload)
     )
 
     # then
-    assert response == nft_storage.UploadResponse.model_validate(
+    assert response == filebase.UploadResponse.model_validate(
         SUCCESS_FILEBASE_UPLOAD_IMAGE_RESPONSE
     )
 

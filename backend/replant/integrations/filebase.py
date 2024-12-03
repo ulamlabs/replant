@@ -30,17 +30,17 @@ class FileDto:
 
 
 @retry(delay=1, backoff=2, tries=3)
-def filebase_upload(dto: FileDto) -> UploadResponse:
+def upload_to_bucket(dto: FileDto) -> UploadResponse:
     s3 = boto3.client(
         service_name="s3",
         endpoint_url=env.NFT_STORAGE_API_URL,
         aws_access_key_id=env.NFT_STORAGE_ACCESS_KEY,
         aws_secret_access_key=env.NFT_STORAGE_SECRET_ACCESS_KEY,
     )
-    upload_resposne = s3.put_object(
+    upload_response = s3.put_object(
         Body=dto.content, Bucket=env.NFT_STORAGE_BUCKET_NAME, Key=dto.file_name
     )
-    return UploadResponse.model_validate(upload_resposne)
+    return UploadResponse.model_validate(upload_response)
 
 
 @dataclass
@@ -73,7 +73,7 @@ class UploadedFileSummary:
 
 
 def upload_file(dto: FileDto) -> UploadedFileSummary:
-    upload_response = filebase_upload(dto=dto)
+    upload_response = upload_to_bucket(dto=dto)
     cid = upload_response.metadata.headers.cid
 
     pin_response = pin_file_to_ipfs(dto=PinObjectDto(cid=cid, name=dto.file_name))

@@ -5,7 +5,7 @@ from replant.models.tree import Tree as TreeModel
 
 def asign_already_minted_trees_to_nft_storage(apps, schema_editor):
     Tree = apps.get_model("replant", "Tree")
-    Tree.objects.filter(minting_state=TreeModel.MintingState.MINTED).update(nft_storage=TreeModel.Storage.NFT_STORAGE)
+    Tree.objects.filter(minting_state=TreeModel.MintingState.MINTED).update(storage_provider=TreeModel.StorageProvider.NFT_STORAGE)
 
 class Migration(migrations.Migration):
 

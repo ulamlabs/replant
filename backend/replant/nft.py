@@ -13,7 +13,7 @@ from django.utils import timezone
 from PIL import Image
 
 import env
-from replant.integrations import nft_storage
+from replant.integrations import filebase
 from replant.models import History, Species, Tree
 from replant.sdk import CW721Client, MintInfo, get_sei_client
 
@@ -176,8 +176,8 @@ def _upload_images(trees: Sequence[Tree]) -> None:
         stream.seek(0)
 
         # TODO: Make it async to speed up the process.
-        uploaded_file_summary = nft_storage.upload_file(
-            dto=nft_storage.FileDto(
+        uploaded_file_summary = filebase.upload_file(
+            dto=filebase.FileDto(
                 file_name=f"{tree.nft_id}.png",
                 content=stream,
             )
@@ -194,8 +194,8 @@ def _upload_metadatas(trees: Sequence[Tree]):
         stream = io.BytesIO(json.dumps(metadata).encode())
 
         # TODO: Make it async to speed up the process.
-        uploaded_file_summary = nft_storage.upload_file(
-            dto=nft_storage.FileDto(file_name=f"{tree.nft_id}.json", content=stream),
+        uploaded_file_summary = filebase.upload_file(
+            dto=filebase.FileDto(file_name=f"{tree.nft_id}.json", content=stream),
         )
         tree.metadata_cid = uploaded_file_summary.cid
 

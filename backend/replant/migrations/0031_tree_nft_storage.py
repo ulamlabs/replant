@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name="tree",
-            name="nft_storage",
+            name="storage_provider",
             field=models.CharField(
                 choices=[("NFT_STORAGE", "Nft Storage"), ("FILEBASE", "Filebase")],
                 default="FILEBASE",

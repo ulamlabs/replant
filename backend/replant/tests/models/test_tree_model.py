@@ -12,14 +12,14 @@ class TestTreeModel:
             nft_id=1,
             image_cid="123",
             metadata_cid="456",
-            nft_storage=Tree.Storage.NFT_STORAGE,
+            storage_provider=Tree.StorageProvider.NFT_STORAGE,
         )
         filebase_tree = baker.make(
             Tree,
             nft_id=2,
             image_cid="789",
             metadata_cid="012",
-            nft_storage=Tree.Storage.FILEBASE,
+            storage_provider=Tree.StorageProvider.FILEBASE,
         )
 
         # when & then

@@ -48,7 +48,7 @@ class Tree(TrackableModel):
         MINTED = auto()
         FAILED = auto()
 
-    class Storage(models.TextChoices):
+    class StorageProvider(models.TextChoices):
         NFT_STORAGE = auto()
         FILEBASE = auto()
 
@@ -67,8 +67,8 @@ class Tree(TrackableModel):
     metadata_cid = models.URLField(
         max_length=128, default="", blank=True, verbose_name="metadata CID"
     )
-    nft_storage = models.CharField(
-        max_length=32, choices=Storage.choices, default=Storage.FILEBASE
+    storage_provider = models.CharField(
+        max_length=32, choices=StorageProvider.choices, default=StorageProvider.FILEBASE
     )
 
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
@@ -111,24 +111,24 @@ class Tree(TrackableModel):
 
     @property
     def ipfs_image_url(self) -> str:
-        match self.nft_storage:
-            case Tree.Storage.NFT_STORAGE:
+        match self.storage_provider:
+            case Tree.StorageProvider.NFT_STORAGE:
                 return ipfs_nft_storage_url(
                     cid=self.image_cid, nft_id=self.nft_id, extension="png"
                 )
-            case Tree.Storage.FILEBASE:
+            case Tree.StorageProvider.FILEBASE:
                 return ipfs_filebase_url(cid=self.image_cid)
             case _:
                 raise Exception
 
     @property
     def ipfs_metadata_url(self) -> str:
-        match self.nft_storage:
-            case Tree.Storage.NFT_STORAGE:
+        match self.storage_provider:
+            case Tree.StorageProvider.NFT_STORAGE:
                 return ipfs_nft_storage_url(
                     cid=self.metadata_cid, nft_id=self.nft_id, extension="json"
                 )
-            case Tree.Storage.FILEBASE:
+            case Tree.StorageProvider.FILEBASE:
                 return ipfs_filebase_url(cid=self.metadata_cid)
             case _:
                 raise Exception
