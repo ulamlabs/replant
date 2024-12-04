@@ -51,9 +51,22 @@ AWS_S3_ENDPOINT_URL: Final[str] = os.getenv("AWS_S3_ENDPOINT_URL", "")
 AWS_S3_CUSTOM_DOMAIN: Final[str] = os.getenv("AWS_S3_CUSTOM_DOMAIN", "")
 
 NFT_STORAGE_API_URL: Final[str] = os.getenv(
-    "NFT_STORAGE_API_URL", "https://api.nft.storage"
+    "NFT_STORAGE_API_URL", "https://s3.filebase.com"
 )
-NFT_STORAGE_API_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")
+IPFS_PINNING_SERVICE_URL: Final[str] = os.getenv(
+    "IPFS_PINNING_SERVICE_URL", "https://api.filebase.io/v1/ipfs/pins"
+)
+NFT_STORAGE_BUCKET_NAME: Final[str] = os.getenv(
+    "NFT_STORAGE_BUCKET_NAME", "replanttest"
+)
+NFT_STORAGE_ACCESS_KEY: Final[str] = os.getenv("NFT_STORAGE_API_KEY", "")
+NFT_STORAGE_SECRET_ACCESS_KEY: Final[str] = os.getenv(
+    "NFT_STORAGE_SECRET_ACCESS_KEY", ""
+)
+FILEBASE_IPFS_PINNINGS_SERVICE_ACCESS_TOKEN: Final[str] = os.getenv(
+    "FILEBASE_IPFS_PINNINGS_SERVICE_ACCESS_TOKEN", ""
+)
+
 
 # Sendgrid
 

@@ -13,7 +13,7 @@ from django.utils import timezone
 from PIL import Image
 
 import env
-from replant.integrations import nft_storage
+from replant.integrations import filebase
 from replant.models import History, Species, Tree
 from replant.sdk import CW721Client, MintInfo, get_sei_client
 
@@ -163,9 +163,7 @@ def _generate_nft_id(trees: Sequence[Tree]):
     Tree.objects.bulk_update(to_update, ["nft_id"])
 
 
-def _upload_images(trees: Sequence[Tree]):
-    streams: dict[str, io.BytesIO | io.StringIO] = {}
-
+def _upload_images(trees: Sequence[Tree]) -> None:
     for tree in trees:
         assert tree.nft_id
         assert tree.image.file
@@ -177,29 +175,29 @@ def _upload_images(trees: Sequence[Tree]):
         image.save(stream, "PNG")
         stream.seek(0)
 
-        streams[f"{tree.nft_id}.png"] = stream
-
-    cid = nft_storage.upload(streams, content_type="image/png")
-
-    for tree in trees:
-        tree.image_cid = cid
+        # TODO: Make it async to speed up the process.
+        uploaded_file_summary = filebase.upload_file(
+            dto=filebase.FileDto(
+                file_name=f"{tree.nft_id}.png",
+                content=stream,
+            )
+        )
+        tree.image_cid = uploaded_file_summary.cid
 
     Tree.objects.bulk_update(trees, ["image_cid"])
 
 
 def _upload_metadatas(trees: Sequence[Tree]):
-    streams: dict[str, io.BytesIO | io.StringIO] = {}
-
     for tree in trees:
         assert tree.nft_id
         metadata = _get_nft_metadata(tree)
-        stream = io.StringIO(json.dumps(metadata))
-        streams[f"{tree.nft_id}.json"] = stream
+        stream = io.BytesIO(json.dumps(metadata).encode())
 
-    cid = nft_storage.upload(streams, content_type="application/json")
-
-    for tree in trees:
-        tree.metadata_cid = cid
+        # TODO: Make it async to speed up the process.
+        uploaded_file_summary = filebase.upload_file(
+            dto=filebase.FileDto(file_name=f"{tree.nft_id}.json", content=stream),
+        )
+        tree.metadata_cid = uploaded_file_summary.cid
 
     Tree.objects.bulk_update(trees, ["metadata_cid"])
 

@@ -34,6 +34,10 @@ sendgrid = "^6.11.0"
 django-mjml = "^1.2"
 opensimplex = "^0.4.5"
 scikit-learn = "^1.4.1.post1"
+boto3-stubs = {extras = ["essential"], version = "^1.35.69"}
+pydantic = "^2.10.1"
+types-protobuf = "^5.28.3.20241030"
+responses = "^0.25.3"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.0.0"
@@ -62,6 +66,9 @@ DJANGO_SETTINGS_MODULE = "replant.settings"
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore:The django.utils.baseconv module is deprecated",
+]
+markers = [
+    "live_request: marks tests that call external services"
 ]
 
 [tool.black]

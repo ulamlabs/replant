@@ -7,6 +7,8 @@ from django.db import models
 from django.db.models import Count
 from django_fsm import FSMField
 
+from replant.consts import FILEBASE_IPFS_STORAGE_URL, NFT_STORAGE_URL
+
 from .utils import TrackableModel
 
 if TYPE_CHECKING:
@@ -46,6 +48,10 @@ class Tree(TrackableModel):
         MINTED = auto()
         FAILED = auto()
 
+    class StorageProvider(models.TextChoices):
+        NFT_STORAGE = auto()
+        FILEBASE = auto()
+
     review_state = FSMField(
         choices=ReviewState.choices, default=ReviewState.PENDING, db_index=True
     )
@@ -53,6 +59,7 @@ class Tree(TrackableModel):
     minting_state = FSMField(
         choices=MintingState.choices, default=MintingState.PENDING, db_index=True
     )
+
     image = models.ImageField(upload_to=image_upload_to)
     image_cid = models.URLField(
         max_length=128, default="", blank=True, verbose_name="image CID"
@@ -60,6 +67,10 @@ class Tree(TrackableModel):
     metadata_cid = models.URLField(
         max_length=128, default="", blank=True, verbose_name="metadata CID"
     )
+    storage_provider = models.CharField(
+        max_length=32, choices=StorageProvider.choices, default=StorageProvider.FILEBASE
+    )
+
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     tile_index = models.PositiveIntegerField(db_index=True)
@@ -99,15 +110,37 @@ class Tree(TrackableModel):
         return str(self.pk)
 
     @property
-    def ipfs_image_url(self):
-        return ipfs_url(self.image_cid, self.nft_id, "png")
+    def ipfs_image_url(self) -> str:
+        match self.storage_provider:
+            case Tree.StorageProvider.NFT_STORAGE:
+                return ipfs_nft_storage_url(
+                    cid=self.image_cid, nft_id=self.nft_id, extension="png"
+                )
+            case Tree.StorageProvider.FILEBASE:
+                return ipfs_filebase_url(cid=self.image_cid)
+            case _:
+                raise Exception
 
     @property
-    def ipfs_metadata_url(self):
-        return ipfs_url(self.metadata_cid, self.nft_id, "json")
+    def ipfs_metadata_url(self) -> str:
+        match self.storage_provider:
+            case Tree.StorageProvider.NFT_STORAGE:
+                return ipfs_nft_storage_url(
+                    cid=self.metadata_cid, nft_id=self.nft_id, extension="json"
+                )
+            case Tree.StorageProvider.FILEBASE:
+                return ipfs_filebase_url(cid=self.metadata_cid)
+            case _:
+                raise Exception
 
 
-def ipfs_url(cid: str, nft_id: int, extension: str) -> str:
+def ipfs_nft_storage_url(cid: str | None, nft_id: int, extension: str) -> str:
     if cid:
-        return f"https://{cid}.ipfs.nftstorage.link/{nft_id}.{extension}"
+        return NFT_STORAGE_URL.format(cid=cid, nft_id=nft_id, extension=extension)
+    return ""
+
+
+def ipfs_filebase_url(cid: str | None) -> str:
+    if cid:
+        return FILEBASE_IPFS_STORAGE_URL.format(cid=cid)
     return ""
