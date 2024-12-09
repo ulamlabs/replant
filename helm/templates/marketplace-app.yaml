@@ -6,7 +6,7 @@ metadata:
     app: {{ .Values.env }}-marketplace-app
     release: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.pods.replicas.marketplaceApp }}
   strategy:
     type: RollingUpdate
     rollingUpdate:

@@ -6,7 +6,7 @@ metadata:
     app: {{ .Values.env }}-mint-forever
     release: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.pods.replicas.mintForever }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
