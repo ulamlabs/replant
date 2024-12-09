@@ -6,7 +6,7 @@ metadata:
     app: {{ .Values.env }}-upload-app
     release: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.pods.replicas.uploadApp }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
