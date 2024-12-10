@@ -7,6 +7,7 @@ import { SponsorSummary } from './SponsorSummary';
 import { TreesGrid } from './TreesGrid';
 import { getTrees } from './api';
 import { SponsorSimple } from './types';
+import { MapButton } from './MapButton';
 
 export function Gallery() {
   const fmtMsg = useFmtMsg();
@@ -35,7 +36,7 @@ export function Gallery() {
       <div className='flex justify-between gap-10'>
         <ReplantLogo />
         <div className='flex gap-4 items-center'>
-          {/* Disabled for now <MapButton /> */}
+          <MapButton />
           <SponsorSearchBox onSearch={onSearch} />
         </div>
       </div>
