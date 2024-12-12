@@ -33,6 +33,9 @@ cw721 = CW721Client(client, env.SEI_NFT_ADDRESS)
 admin = LocalWallet.from_mnemonic(env.SEI_ADMIN_MNEMONIC, "sei")
 
 
+SIZE_PER_ROUND = 50
+
+
 def mint_scheduled_nfts():
     trees = list(
         Tree.objects.filter(
@@ -43,7 +46,9 @@ def mint_scheduled_nfts():
             "country",
             "created_by",
             "sponsor",
-        )
+        )[
+            :SIZE_PER_ROUND
+        ]
     )
 
     if len(trees) == 0:

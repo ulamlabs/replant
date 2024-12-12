@@ -20,5 +20,5 @@ pods:
     backend: 1
     uploadApp: 1
     marketplaceApp: 1
-    mintForever: 1
+    mintForever: true
     clusterTrees: true
